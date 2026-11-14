@@ -11,7 +11,7 @@
 | Feedbacks en **Triage** | 80 | Du 1er février au 11 avril 2027. Répartis en 28 tickets de support (Zendesk), 24 e-mails et 28 messages du feedback chat. 15 sont en anglais. Chacun est relié à son client par une demande client (`customer_needs`) |
 | Backlog | 30 issues | États Backlog, Todo, In Progress, In Review, Done et Canceled. 26 sont dérivées du vrai backlog de saxobeat (`source_metadata.origin`) |
 | Demandes clients historiques | 28 | Antérieures au 1er février, rattachées aux issues du backlog |
-| Clients | 60 | 10 comptes Business (cabinets d'outplacement, écoles, coachs) avec ARR, dont 2 à risque et 1 perdu ; 50 candidats (32 Free, 18 Plus) |
+| Clients | 60 | 10 comptes Business (cabinets d'outplacement, écoles, coachs) avec ARR, dont 2 à risque et 1 perdu ; 50 candidats (29 Free, 21 Plus) |
 | Contexte | – | 3 objectifs (initiatives), 6 projets, des cycles de 2 semaines, une équipe de 8 personnes, une capacité de 20 points par cycle (`workspace_meta`) |
 
 ### Schéma

@@ -10,6 +10,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-14 | Première analyse du brief (`docs/analyse/01-analyse-initiale.md`) | Claude Code | Relue par Vlad ; décisions Q1 à Q7 arbitrées par lui |
 | 2026-11-14 | Lecture et synthèse de la documentation saxobeat (PRD lus par l'agent principal, 33 cycles synthétisés par un sous-agent) | Claude Code | Faits cités avec leur fichier source dans `cycles/001/intent.md` ; relecture par Vlad à faire |
 | 2026-11-14 | Spec du jeu de données (schéma, pièges, critères) | Claude Code | Modèle Linear vérifié par recherche web (objets Customer et CustomerNeed) ; spec soumise à l'approbation de Vlad |
+| 2026-11-14 | Rédaction des 80 feedbacks (3 sous-agents en parallèle, un par canal) | Claude Code (sous-agents) | Faits imposés par une matrice écrite avant ; fusion par script contrôlé ; recherche de fuites ; 11 tests ; 5 textes lus par l'agent principal ; 10 soumis à Vlad |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -26,3 +27,5 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Décisions** : saxobeat projeté au printemps 2027 (Free / Plus / B2B) pour coller au brief ; lot Q2 à Q7 validé ; intent du cycle 001 fermé.
 - **Choix de conception** : les feedbacks entrent dans la file Triage de Linear, reliés à leur client (mécanique réelle des « Customer Requests »). 9 types de pièges sont injectés pour tester l'agent, et la vérité terrain reste hors de la base.
 - **Option écartée** : génération par gabarits (Faker), jugée trop artificielle, et génération par LLM au build (pas de clé, non déterministe).
+- **Construction du jeu de données** : matrice d'allocation d'abord (qui écrit quoi, avec quels pièges), textes ensuite. L'IA rédige ; elle ne choisit ni les faits ni les réponses attendues.
+- **Ce que la vérification a attrapé** : 19 étiquettes P9 oubliées dans mes propres annotations (la règle est désormais calculée et testée), 2 dates incohérentes, une répartition par canal hors tolérance, et 3 incohérences d'offre signalées par les sous-agents rédacteurs. Leçon : ce qui peut se calculer à partir des données ne doit pas être annoté à la main.

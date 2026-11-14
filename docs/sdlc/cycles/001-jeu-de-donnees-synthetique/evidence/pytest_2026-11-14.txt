@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /home/user/po-assist/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/po-assist
+configfile: pyproject.toml
+collecting ... collected 11 items
+
+tests/test_dataset.py::test_build_is_deterministic_and_committed_db_is_current PASSED [  9%]
+tests/test_dataset.py::test_schema_and_integrity PASSED                  [ 18%]
+tests/test_dataset.py::test_feedbacks PASSED                             [ 27%]
+tests/test_dataset.py::test_backlog PASSED                               [ 36%]
+tests/test_dataset.py::test_customers PASSED                             [ 45%]
+tests/test_dataset.py::test_context PASSED                               [ 54%]
+tests/test_dataset.py::test_languages PASSED                             [ 63%]
+tests/test_dataset.py::test_traps PASSED                                 [ 72%]
+tests/test_dataset.py::test_p9_matches_data PASSED                       [ 81%]
+tests/test_dataset.py::test_ground_truth PASSED                          [ 90%]
+tests/test_dataset.py::test_fiction_and_privacy PASSED                   [100%]
+
+============================== 11 passed in 0.15s ==============================

@@ -15,9 +15,9 @@ Thin, ordered, each verifiable alone. Each slice names the acceptance criteria i
 | 2 | Espace de travail (équipe, utilisateurs, états, étiquettes, initiatives, projets, sprints, métadonnées) et 60 clients | `data/seed/workspace.json`, `data/seed/customers.json` | Construction OK ; comptages | 5, 6, 10 | done |
 | 3 | Backlog : 30 issues, commentaires, demandes clients historiques, origine saxobeat | `data/seed/backlog.json` | Construction OK ; états, priorités, ≥ 20 origines saxobeat | 4, 5 | done |
 | 4 | Matrice d'allocation des 80 feedbacks (canal, date, client, langue, type, thèmes, cible, pièges) : le squelette de la vérité terrain | `data/ground_truth.json` (squelette) | Répartitions conformes ; chaque piège ≥ 2 ; cibles existantes | 3, 7, 8, 9 | done |
-| 5 | Rédaction des 80 feedbacks à partir de la matrice (3 sous-agents en parallèle, un par canal), puis relecture et fusion par l'agent principal | `data/seed/feedbacks.json`, `data/ground_truth.json` (complété) | Chaque texte respecte sa ligne de matrice (relecture) ; construction OK | 3, 7, 9 | in progress |
-| 6 | Tests automatisés et documentation des données | `tests/test_dataset.py`, `data/README.md`, `data/linear.db` | `uv run pytest` vert ; deux constructions → même SHA-256 | 1 à 11 | todo |
-| 7 | Vérification et relecture par Vlad de 10 feedbacks (graine fixe) | `verify.md`, `evidence/` | Verdict de Vlad | 12 | todo |
+| 5 | Rédaction des 80 feedbacks à partir de la matrice (3 sous-agents en parallèle, un par canal), puis relecture et fusion par l'agent principal | `data/seed/feedbacks.json`, `data/ground_truth.json` (complété) | Chaque texte respecte sa ligne de matrice (relecture) ; construction OK | 3, 7, 9 | done |
+| 6 | Tests automatisés et documentation des données | `tests/test_dataset.py`, `data/README.md`, `data/linear.db` | `uv run pytest` vert ; deux constructions → même SHA-256 | 1 à 11 | done |
+| 7 | Vérification et relecture par Vlad de 10 feedbacks (graine fixe) | `verify.md`, `evidence/` | Verdict de Vlad | 12 | in progress |
 
 ## Order and dependencies
 
@@ -49,3 +49,6 @@ Thin, ordered, each verifiable alone. Each slice names the acceptance criteria i
 | 2026-11-14 | 3 | 30 issues (12/4/4/2/5/3 par état), 28 demandes historiques, 26 origines saxobeat. **Échec rattrapé** : 2 demandes datées avant la création de leur client ; corrigé et ajouté comme test |
 | 2026-11-14 | 4 | Matrice de 80 lignes. **Échecs rattrapés** : répartition par canal hors tolérance (chat 35, support 23) → 7 feedbacks changés de canal ; 1 feedback antérieur à son client → date décalée ; **19 étiquettes P9 manquantes dans mes propres annotations** → P9 désormais calculé à partir des données, et un test vérifie la règle |
 | 2026-11-14 | 5 | 3 sous-agents lancés en parallèle (support, e-mail, chat), avec la matrice comme consigne contraignante |
+| 2026-11-14 | 5 | Les 3 sous-agents rendent 28 + 24 + 28 textes valides. Ils signalent 3 incohérences d'offre dans mes données (corrigées) et des recoupements voulus (P1/P9). Fusion par script, avec contrôle des identifiants, des champs et de la langue ; aucune fuite des notes de matrice dans les textes |
+| 2026-11-14 | 6 | 11 tests verts du premier coup après la fusion ; base de 292 Ko |
+| 2026-11-14 | 7 | Échantillon de 10 feedbacks tiré (graine 2027) et soumis à Vlad |
