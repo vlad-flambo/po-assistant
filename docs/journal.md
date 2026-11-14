@@ -1,0 +1,21 @@
+# Journal de démarche
+
+Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypothèses, étapes, impasses, et usage de l'IA avec la façon dont chaque production a été vérifiée.
+
+## Registre de l'usage de l'IA
+
+| Date | Tâche déléguée | Outil | Vérification humaine |
+|---|---|---|---|
+| 2026-11-14 | Transcription du brief PDF en Markdown | Claude Code | À confirmer par Vlad : relecture face au PDF |
+| 2026-11-14 | Première analyse du brief (`docs/analyse/01-analyse-initiale.md`) | Claude Code | Relue par Vlad ; décisions Q1 à Q7 arbitrées par lui |
+| 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
+
+## Journal
+
+### 2026-11-14 (samedi)
+
+- **Lecture du brief** : 3 blocs obligatoires (Comprendre, Arbitrer, Formaliser) ; 60 % de la note hors code ; aucune donnée fournie.
+- **Hypothèses posées par Vlad** : PO sous Linear, intégration simulée sur SQLite, base commitée, données dérivées de saxobeat.
+- **Choix de méthode** : cycles `ai-sdlc` (intent → spec → plan → build → verify → learn) pour garder une trace décision par décision.
+- **Obstacle** : le dépôt `Vlad-Flambo/saxobeat` n'est pas accessible depuis la session cloud. En attente d'un accès ou d'une description.
+- **Point d'attention** : des indices (non vérifiés) suggèrent que saxobeat est un outil de recherche d'emploi, alors que le brief parle d'une plateforme de gestion de projet. Arbitrage demandé (cycle 001, Q1).

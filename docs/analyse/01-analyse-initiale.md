@@ -178,14 +178,23 @@
 
 ---
 
-## 7. Décisions ouvertes à arbitrer (Vlad)
+## 7. Décisions (arbitrées par Vlad le 2026-11-14)
 
-| # | Question | Recommandation |
-|---|---|---|
-| Q1 | Date de restitution et temps disponible ? | À préciser : conditionne le périmètre des approfondissements |
-| Q2 | Interface : web app, Streamlit, CLI ou Slack ? | Web app légère (chat + vues) |
-| Q3 | Langue de l'agent et des données : FR, EN ou les deux ? | FR (jury francophone), corpus partiellement bilingue |
-| Q4 | Frameworks de priorisation à couvrir ? | RICE + MoSCoW ; WSJF en option |
-| Q5 | Intégration réelle à un outil (Jira, Linear) ? | Non pour le MVP ; export CSV / Markdown |
-| Q6 | Piloter le projet avec le skill `ai-sdlc` ? | Oui : produit directement la trace attendue au titre de la Démarche |
-| Q7 | Pilotage du plan : Kanban (flux continu) ou Gantt (jalons datés) ? | Kanban si la date est souple ; Gantt si la restitution est fixée |
+| # | Question | Recommandation | Décision |
+|---|---|---|---|
+| Q1 | Date de restitution et temps disponible ? | À préciser | **Lundi 16/11 au soir** |
+| Q2 | Interface ? | Web app légère (chat + vues) | **Oui** |
+| Q3 | Langue de l'agent et des données ? | FR, corpus partiellement bilingue | **Oui** |
+| Q4 | Frameworks de priorisation ? | RICE + MoSCoW ; WSJF en option | **Oui** |
+| Q5 | Intégration réelle à un outil ? | Non ; export CSV / Markdown | **Oui** : Linear est simulé, branché sur SQLite |
+| Q6 | Piloter avec le skill `ai-sdlc` ? | Oui | **Oui** : `docs/sdlc/` |
+| Q7 | Kanban ou Gantt ? | Selon la date | **Tableau de bord des cycles `ai-sdlc`** (`docs/sdlc/BOARD.md`) |
+
+### Hypothèses de travail ajoutées (Vlad, 2026-11-14)
+
+- Le PO utilise **Linear** ; emails, tickets et commentaires s'y déversent tous.
+- **Pas de vraie intégration** : l'agent fait comme s'il était connecté à Linear, mais lit une **base SQLite**.
+- Le jeu de données synthétique est **dérivé du projet GitHub `Vlad-Flambo/saxobeat`**.
+- Les données étant fictives, la **base SQLite est commitée sur GitHub**.
+
+Suivi détaillé : `docs/sdlc/cycles/001-jeu-de-donnees-synthetique/decisions.md`.
