@@ -1,0 +1,50 @@
+Database: postgresql database saxobeat-prod1 on a remote server
+Candidate 1: 200 inbox jobs read (1.0 MB of posting text), floor 35
+  compared with the stored scores: 44 rise above the floor, 0 fall below it
+  of which the glossary alone: 44 rise above, 0 fall below
+  en          44 jobs: 0 rise, 0 fall
+  fr         125 jobs: 43 rise, 0 fall
+  unknown     31 jobs: 1 rise, 0 fall
+    36079 fr   61.3 ->  85.9  Consultant Senior ou Manager - IA, IA générative & (EY)
+    35749 en   38.5 ->  60.8  Executive Assistant to VP, Cloud & VP, Product (Mistral AI)
+    36094 fr   54.9 ->  75.6  Consultant Senior ou Manager AI Engineer - secteur (EY)
+    36096 fr   42.1 ->  61.4  Consultant(e) Senior, Manager en transformation in (EY)
+    36076 fr   36.8 ->  56.1  Consultant Expérimenté en Stratégie - EY Parthenon (EY)
+    36080 fr   42.1 ->  61.4  Consultant Senior ou Manager spécialisés en projet (EY)
+    36091 fr   41.6 ->  60.6  Consultants Seniors en Stratégie & Transformation  (EY)
+    36089 fr   25.5 ->  43.9  Auditeur Financier Expérimenté - Trésorerie - Pari (EY)
+    35714 fr   24.2 ->  40.7  Consultant Confirmé Direction Financière - Banque  (PwC)
+    36019 fr   24.4 ->  40.8  Scientifique en calcul IA/ML – Fabrication et opér (Accenture)
+Candidate 3: 200 inbox jobs read (0.8 MB of posting text), floor 35
+  compared with the stored scores: 1 rise above the floor, 0 fall below it
+  of which the glossary alone: 1 rise above, 0 fall below
+  en          34 jobs: 1 rise, 0 fall
+  fr         115 jobs: 0 rise, 0 fall
+  unknown     51 jobs: 0 rise, 0 fall
+    35995 en   10.3 ->  14.1  ITB Trainee, Assistant Sales – Banks Origination ( (Crédit Agricole CIB)
+    36256 en   31.3 ->  34.5  Website Product Manager - Growth (Qonto)
+    36252 en   32.7 ->  35.8  Senior Product Manager - Risk & Compliance (Qonto)
+    35989 en   26.7 ->  29.7  AXA Health Business - Senior Project Manager - EB  (AXA)
+    36248 en    8.1 ->  11.0  Workplace Intern (Qonto)
+    36155 en   24.3 ->  27.1  Strategic Partnerships Executive (Papernest)
+    35997 en   28.6 ->  31.3  Senior Manager, AML Compliance M/F (CA Indosuez)
+    36245 en   31.0 ->  33.4  Senior Compensation and Benefits Manager (Qonto)
+    36254 en   28.2 ->  30.6  Design Ops Manager (Qonto)
+    36258 en   25.9 ->  28.1  Operations Tooling Engineer (Qonto)
+Candidate 4: 200 inbox jobs read (0.8 MB of posting text), floor 35
+  compared with the stored scores: 0 rise above the floor, 0 fall below it
+  of which the glossary alone: 0 rise above, 0 fall below
+  en          34 jobs: 0 rise, 0 fall
+  fr         115 jobs: 0 rise, 0 fall
+  unknown     51 jobs: 0 rise, 0 fall
+    35947 fr   10.0 ->  10.0  Stage - 6 mois - Conception et automatisation de C (Alstom)
+    35985 en   30.0 ->  30.0  Account Technology Specialist - Healthcare (Microsoft)
+    35987 fr   10.0 ->  10.0  STAGE - PMO Digital Sovereignty (AXA)
+    35989 en   34.0 ->  34.0  AXA Health Business - Senior Project Manager - EB  (AXA)
+    35991 fr   10.0 ->  10.0  Chargé d'études statistiques (F/H) - Stage (AXA)
+    35992 fr   10.0 ->  10.0  Actuaire/Développeur python (F/H) - stage (AXA)
+    35993 fr   30.0 ->  30.0  Data Analyst H/F (LCL)
+    35994 fr   30.0 ->  30.0  Chargé d'appui commercial Middle Office INTERFIMO  (LCL)
+    35995 en   15.0 ->  15.0  ITB Trainee, Assistant Sales – Banks Origination ( (Crédit Agricole CIB)
+    35996 fr   30.0 ->  30.0  VIE - Contrôleur de Gestion M/F (CACEIS)
+Nothing was written.

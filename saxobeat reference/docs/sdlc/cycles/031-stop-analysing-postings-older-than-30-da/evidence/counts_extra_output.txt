@@ -1,0 +1,27 @@
+Pager usage is off.
+== undated jobs by week of import (first_seen_at), and how many of them are visible new views of candidate 1 / 3
+ week_of_import | undated_jobs | visible_new_c1 | visible_new_c3 
+----------------+--------------+----------------+----------------
+ 2026-10-05     |         2342 |            212 |           2171
+ 2026-10-12     |          359 |             24 |            336
+ 2026-10-19     |          285 |             29 |            253
+ 2026-10-26     |          157 |             24 |            141
+(4 rows)
+
+== the oldest and newest import date in the whole database
+         oldest_import         |         newest_import         
+-------------------------------+-------------------------------
+ 2026-09-29 11:02:52.493328+00 | 2026-10-28 09:39:31.977725+00
+(1 row)
+
+== dated visible new views by how old they are, candidate 1 (days since posted, as of the dump)
+ bucket | views 
+--------+-------
+      1 |   107
+      2 |   199
+      3 |   552
+      4 |   308
+      5 |   176
+      6 |     1
+(6 rows)
+

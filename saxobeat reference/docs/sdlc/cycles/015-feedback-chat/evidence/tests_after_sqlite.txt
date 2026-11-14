@@ -1,0 +1,6 @@
+HEAD c0fa74a plus uncommitted slices 6-7; SQLite (DATABASE_URL empty); run 2026-10-30T10:19:34+01:00
+uncommitted code paths from other sessions at the time:  M locale/fr/LC_MESSAGES/django.mo  M locale/fr/LC_MESSAGES/django.po 
+    warnings.warn(pytest.PytestUnhandledThreadExceptionWarning(msg))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1264 passed, 497 warnings in 48.02s

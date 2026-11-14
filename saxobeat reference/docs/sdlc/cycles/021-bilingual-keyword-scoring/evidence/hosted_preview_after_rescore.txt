@@ -1,0 +1,11 @@
+Database: postgresql database saxobeat-prod1 on a remote server
+Candidate 1: 400 inbox jobs read (2.4 MB of posting text), floor 35
+  compared with the stored scores: 0 rise above the floor, 0 fall below it
+  of which the glossary alone: 135 rise above, 0 fall below
+  en          50 jobs: 0 rise, 0 fall
+  fr         319 jobs: 0 rise, 0 fall
+  unknown     31 jobs: 0 rise, 0 fall
+    35576 fr   39.7 ->  39.7  Business Analyst / Consultant fonctionnel ServiceN (Onepoint)
+    34994 fr   33.0 ->  33.0  Développeur Salesforce - Rennes (Capgemini)
+    35533 fr   31.8 ->  31.8  Consultant en Architecture d’entreprise F/H (Onepoint)
+Nothing was written.

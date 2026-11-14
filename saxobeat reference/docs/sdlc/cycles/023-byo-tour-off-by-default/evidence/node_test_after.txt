@@ -1,0 +1,14 @@
+ok   1  first visit: the tutorial is open
+ok   2a closing with the info button closes it
+ok   2b the next page loads it closed
+ok   3  after the "screening" button the next page loads it closed
+ok   3  after the "cheatsheet" button the next page loads it closed
+ok   3  after the "followup" button the next page loads it closed
+ok   4a seen: loads closed
+ok   4b the info button opens it
+ok   4c opening by hand keeps the flag
+ok   4d tapping again closes it
+ok   4e a reload still loads it closed
+ok   5a blocked storage: loads closed
+ok   5b blocked storage: tapping does not throw
+13/13 passed
