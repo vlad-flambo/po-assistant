@@ -1,0 +1,1645 @@
+{
+  "_meta": {
+    "usage": "Vérité terrain réservée aux évaluations de l'agent (cycles 003 à 005). Ne jamais charger dans data/linear.db ni montrer à l'agent.",
+    "reference_date": "2027-04-12",
+    "targets": "SAX-n = issue existante du backlog ; NEW:<slug> = l'agent devrait proposer une nouvelle issue (plusieurs feedbacks partagent le même slug quand ils expriment le même besoin).",
+    "p9_rule": "P9 est calculé : le client a déjà un feedback antérieur dans la file ou une demande historique dans le backlog."
+  },
+  "themes": {
+    "T1": "Pertinence et explication du score",
+    "T2": "Couverture des sources",
+    "T3": "Irritants d'interface, fonctions difficiles à trouver",
+    "T4": "Mode standard en retard sur le mode power",
+    "T5": "Suivi des candidatures (relances, republications, agenda)",
+    "T6": "Mobile",
+    "T7": "Fiabilité et performance",
+    "T8": "Notifications et e-mails",
+    "T9": "Délai et transparence de l'analyse IA",
+    "T10": "Besoins Business (cabinets, écoles, coachs)",
+    "T11": "Conversion Free → Plus, compréhension de l'offre",
+    "T12": "Facturation et compte"
+  },
+  "traps": {
+    "P1": "Doublon formulé différemment d'un besoin déjà exprimé",
+    "P2": "Plusieurs demandes dans un même message",
+    "P3": "Bug présenté comme une demande, ou l'inverse",
+    "P4": "Besoin contradictoire entre B2C et B2B",
+    "P5": "Signal de churn d'un compte Business",
+    "P6": "Bruit ou éloge sans demande",
+    "P7": "Demande déjà livrée (Done) ou refusée (Canceled)",
+    "P8": "Feedback vague, sans demande actionnable",
+    "P9": "Client qui revient (déjà vu dans la file ou le backlog)"
+  },
+  "feedbacks": [
+    {
+      "identifier": "SAX-201",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-110",
+          "summary": "Importer les alertes LinkedIn dans saxobeat"
+        }
+      ],
+      "traps": [],
+      "notes": "Parcours idée. Elle recopie à la main ses alertes LinkedIn chaque matin. Valeur : « chaque jour ». Aujourd'hui : « je recopie les liens un par un »."
+    },
+    {
+      "identifier": "SAX-202",
+      "language": "fr",
+      "type": "question",
+      "themes": [
+        "T11"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-126",
+          "summary": "Comprendre/lever la limite de 20 offres par jour de l'offre Free"
+        }
+      ],
+      "traps": [
+        "P3"
+      ],
+      "notes": "Ticket intitulé « BUG inbox bloquée ». Il ne voit plus de nouvelles offres après 20 dans la journée. C'est en réalité la limite Free, qu'il ne connaît pas (aucun message ne l'explique)."
+    },
+    {
+      "identifier": "SAX-203",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-122",
+          "summary": "Inviter les candidats en masse par import CSV"
+        },
+        {
+          "target": "SAX-123",
+          "summary": "Vue de suivi des candidats par conseiller"
+        }
+      ],
+      "traps": [
+        "P2",
+        "P9"
+      ],
+      "notes": "E-mail de la responsable des opérations de Transitio Conseil. Deux demandes : importer la liste des candidats d'un coup (60 en cours) ; voir l'activité de chaque candidat par conseiller. Ton cordial, contexte du démarrage du partenariat."
+    },
+    {
+      "identifier": "SAX-204",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T1"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-103",
+          "summary": "Expliquer ce qui manque au profil pour une offre"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Parcours avis sur la page offre. Valeur 3/5. Ce qui marche : les offres de banques. À changer : comprendre pourquoi une offre a 48 et ce qui manque."
+    },
+    {
+      "identifier": "SAX-205",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-emails-spam",
+          "summary": "E-mails transactionnels (réinitialisation, invitation, résultats) classés en spam ou non reçus"
+        }
+      ],
+      "traps": [],
+      "notes": "Elle n'a jamais reçu l'e-mail de réinitialisation du mot de passe ; elle l'a finalement trouvé dans les spams iCloud au bout de 2 jours."
+    },
+    {
+      "identifier": "SAX-206",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-110",
+          "summary": "Importer les alertes Indeed"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Relance en anglais : il avait déjà demandé en janvier la prise en charge des alertes Indeed. Les postes qu'il vise (product, Londres/Paris) sont surtout sur Indeed."
+    },
+    {
+      "identifier": "SAX-207",
+      "language": "fr",
+      "type": "praise",
+      "themes": [],
+      "sentiment": "positive",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P6"
+      ],
+      "notes": "Parcours avis, valeur 5/5. Il a décroché 2 entretiens grâce aux offres Capgemini qu'il ne voyait nulle part ailleurs. Rien à changer."
+    },
+    {
+      "identifier": "SAX-208",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T1"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-102",
+          "summary": "Recalculer les scores existants après le correctif bilingue / un changement de profil"
+        }
+      ],
+      "traps": [
+        "P7",
+        "P9"
+      ],
+      "notes": "Toutes ses offres en français ont des scores bas (25-35) alors qu'elle est bilingue. Le correctif bilingue est livré depuis le 29/01 (SAX-101) mais ses anciennes offres n'ont pas été recalculées."
+    },
+    {
+      "identifier": "SAX-209",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-124",
+          "summary": "Export de reporting mensuel pour les financeurs de l'outplacement"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Le directeur des opérations de Cap Rebond Partners rappelle le besoin de reporting mensuel pour les entreprises qui financent l'accompagnement (déjà exprimé en décembre). Demande un calendrier."
+    },
+    {
+      "identifier": "SAX-210",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T6"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-113",
+          "summary": "Changer le statut d'une candidature dans le Pipeline sur téléphone"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Ticket : sur iPhone, impossible de déplacer une candidature d'une colonne à l'autre du Pipeline au doigt ; elle doit attendre d'être sur son ordinateur. Elle l'avait déjà signalé en janvier."
+    },
+    {
+      "identifier": "SAX-211",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-115",
+          "summary": "Rappel par e-mail quand une relance est due"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Parcours idée. Un rappel quand il faut relancer un recruteur. Valeur : chaque semaine. Aujourd'hui : un tableur à côté."
+    },
+    {
+      "identifier": "SAX-212",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T9"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-116",
+          "summary": "Notification quand l'analyse IA est prête"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Courte demande en anglais : être prévenue quand l'analyse IA promise « sous 24 h » est prête, elle oublie de revenir vérifier."
+    },
+    {
+      "identifier": "SAX-213",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-115",
+          "summary": "Rappel par e-mail quand une relance est due"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Parcours idée. Abonné Plus. Il a raté une relance importante. Valeur : « je ne peux pas m'en passer ». Aujourd'hui : « rien, j'oublie »."
+    },
+    {
+      "identifier": "SAX-214",
+      "language": "fr",
+      "type": "question",
+      "themes": [
+        "T4"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-105",
+          "summary": "Modifier ses villes de recherche en mode standard"
+        }
+      ],
+      "traps": [
+        "P7"
+      ],
+      "notes": "Il vise désormais La Défense et veut ajouter cette ville à sa recherche ; il ne trouve pas où. (C'est possible depuis le 11/02 dans Réglages.)"
+    },
+    {
+      "identifier": "SAX-215",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-doublons-inbox",
+          "summary": "Même offre affichée plusieurs fois dans l'Inbox (dédoublonnage entre sources)"
+        }
+      ],
+      "traps": [],
+      "notes": "La même offre apparaît 3 fois dans son Inbox (site de l'employeur, Welcome to the Jungle, Adzuna), avec 3 scores différents."
+    },
+    {
+      "identifier": "SAX-216",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-123",
+          "summary": "Vue de suivi des candidats par conseiller"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Une consultante senior de Mobilis RH : pour le comité hebdo, ils doivent savoir où en est chaque candidat sans lui demander de captures d'écran. Formulation différente du même besoin."
+    },
+    {
+      "identifier": "SAX-217",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T3"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-106",
+          "summary": "Bouton visible pour bloquer un employeur"
+        }
+      ],
+      "traps": [],
+      "notes": "Parcours idée, page offre. Un bouton visible pour ne plus voir une entreprise (elle a cherché longtemps). Valeur : nice to have."
+    },
+    {
+      "identifier": "SAX-218",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-109",
+          "summary": "Ajouter les cabinets de conseil comme sources (Accenture, BCG)"
+        }
+      ],
+      "traps": [],
+      "notes": "Idea path, in English. Add consulting firms like Accenture and BCG; she targets strategy consulting roles. Value: every week."
+    },
+    {
+      "identifier": "SAX-219",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T12",
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-paiement-3ds",
+          "summary": "Paiement de l'abonnement Plus bloqué (3D Secure)"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Paiement de Plus refusé : la fenêtre 3D Secure de sa banque ne s'affiche pas sur téléphone, il a essayé 3 fois."
+    },
+    {
+      "identifier": "SAX-220",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T1",
+        "T2",
+        "T5"
+      ],
+      "sentiment": "positive",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-103",
+          "summary": "Voir les compétences manquantes pour une offre"
+        },
+        {
+          "target": "SAX-110",
+          "summary": "Importer les alertes APEC"
+        },
+        {
+          "target": "NEW:sync-calendrier",
+          "summary": "Ajouter les entretiens à son agenda (Google, Outlook)"
+        }
+      ],
+      "traps": [
+        "P2",
+        "P9"
+      ],
+      "notes": "Long e-mail d'un abonné Plus enthousiaste avec 3 suggestions numérotées : compétences manquantes, alertes APEC, entretiens dans Google Agenda."
+    },
+    {
+      "identifier": "SAX-221",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T3"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P8"
+      ],
+      "notes": "Parcours avis, valeur 2/5. Ce qui marche : « bof ». À changer : « c'est pas très intuitif, plein de trucs ». Aucun élément précis."
+    },
+    {
+      "identifier": "SAX-222",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "SAX-124",
+          "summary": "Export de reporting pour les financeurs"
+        },
+        {
+          "target": "SAX-123",
+          "summary": "Suivi de l'activité des candidats accompagnés"
+        }
+      ],
+      "traps": [
+        "P2",
+        "P5",
+        "P9"
+      ],
+      "notes": "La déléguée générale de l'association Rebond Cadres IDF : sans reporting pour leurs financeurs ni suivi des personnes accompagnées, le bureau ne renouvellera pas l'abonnement fin mars."
+    },
+    {
+      "identifier": "SAX-223",
+      "language": "en",
+      "type": "question",
+      "themes": [
+        "T11"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-119",
+          "summary": "Voir ses contacts chez un employeur (fonction réservée à Plus)"
+        }
+      ],
+      "traps": [
+        "P7"
+      ],
+      "notes": "In English: she read about 'see who you know at a company' but can't find it. (It exists, but only in Plus; she is Free.)"
+    },
+    {
+      "identifier": "SAX-224",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T6",
+        "T9"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-108",
+          "summary": "Replier par défaut l'explication de la carte IA"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Parcours problème, page offre, téléphone. La carte IA prend tout l'écran, il faut défiler longtemps pour voir l'offre. Impact : me ralentit. Fréquence : à chaque fois."
+    },
+    {
+      "identifier": "SAX-225",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-112",
+          "summary": "Rattacher une offre republiée à la candidature existante"
+        }
+      ],
+      "traps": [],
+      "notes": "Une offre à laquelle elle a postulé il y a 3 semaines revient comme « nouvelle » ; elle demande que l'appli le détecte."
+    },
+    {
+      "identifier": "SAX-226",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-130",
+          "summary": "Suppression de compte qui expire"
+        }
+      ],
+      "traps": [
+        "P3"
+      ],
+      "notes": "Ancien utilisateur : « Pouvez-vous ajouter la possibilité de supprimer mon compte ? » — en fait le bouton existe mais tourne dans le vide puis affiche une erreur. Il invoque le RGPD."
+    },
+    {
+      "identifier": "SAX-227",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-110",
+          "summary": "Importer les alertes APEC"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Parcours idée. Les offres cadres sont sur l'APEC et il reçoit les alertes par mail ; les avoir dans saxobeat. Valeur : chaque semaine."
+    },
+    {
+      "identifier": "SAX-228",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "SAX-123",
+          "summary": "Tableau de suivi des candidats par conseiller"
+        },
+        {
+          "target": "SAX-124",
+          "summary": "Export de reporting mensuel"
+        }
+      ],
+      "traps": [
+        "P2",
+        "P5",
+        "P9"
+      ],
+      "notes": "Le directeur général de Cap Rebond Partners (120 sièges) : le renouvellement de mai dépend de deux choses, le tableau de suivi par consultant et le reporting mensuel. Ton ferme, mentionne un concurrent qui le propose."
+    },
+    {
+      "identifier": "SAX-229",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-emails-spam",
+          "summary": "E-mail d'invitation non reçu (Outlook)"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Il n'a jamais reçu l'e-mail d'invitation envoyé par son école (adresse Outlook) ; rien dans les spams non plus."
+    },
+    {
+      "identifier": "SAX-230",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T1",
+        "T4"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-102",
+          "summary": "Recalculer l'Inbox après modification des mots-clés"
+        }
+      ],
+      "traps": [],
+      "notes": "Parcours problème, Réglages. Elle a changé ses mots-clés mais les scores de l'Inbox ne bougent pas. Impact : me ralentit."
+    },
+    {
+      "identifier": "SAX-231",
+      "language": "en",
+      "type": "bug",
+      "themes": [
+        "T6"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-android-layout",
+          "summary": "Mise en page cassée sur Android : boutons du bas masqués"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Support ticket in English: on Android Chrome the buttons at the bottom of the Inbox overlap the navigation bar, she can't tap 'dismiss'. Screenshot mentioned."
+    },
+    {
+      "identifier": "SAX-232",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-125",
+          "summary": "Connexion SSO Microsoft pour les comptes Business"
+        }
+      ],
+      "traps": [
+        "P3",
+        "P9"
+      ],
+      "notes": "Ticket de la DSI de l'Institut Vauban : « le bouton Se connecter avec Microsoft ne fonctionne pas ». Il n'y a pas de tel bouton : c'est une demande de SSO."
+    },
+    {
+      "identifier": "SAX-233",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T1"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-103",
+          "summary": "Voir les compétences manquantes pour une offre"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Idea path in English: show which skills I'm missing for a job, so I know whether to apply. Value: every day."
+    },
+    {
+      "identifier": "SAX-234",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T5",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "SAX-115",
+          "summary": "Rappel par e-mail quand une relance est due"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Deuxième message de cet abonné Plus : toujours pas de rappel, il a encore raté une relance ; il envisage de résilier Plus si rien ne bouge."
+    },
+    {
+      "identifier": "SAX-235",
+      "language": "fr",
+      "type": "question",
+      "themes": [
+        "T11"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-126",
+          "summary": "Comprendre la limite de 20 offres par jour"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P3"
+      ],
+      "notes": "« Bug ? Je ne vois que 20 offres par jour alors qu'il y en a plus. » Même incompréhension de la limite Free que d'autres."
+    },
+    {
+      "identifier": "SAX-236",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-123",
+          "summary": "Pouvoir masquer certaines candidatures à son conseiller"
+        }
+      ],
+      "traps": [
+        "P4"
+      ],
+      "notes": "Parcours idée. Candidate accompagnée par un cabinet : elle ne veut pas que son conseiller voie toutes ses candidatures (certaines hors du projet défini avec lui). Tension avec le tableau de suivi demandé par les cabinets."
+    },
+    {
+      "identifier": "SAX-237",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-122",
+          "summary": "Inviter les candidats en masse par import CSV"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Talentéo Partners : 40 nouveaux candidats arrivent en avril ; l'import CSV promis est-il prêt ? Sinon, une demi-journée de saisie."
+    },
+    {
+      "identifier": "SAX-238",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:sync-calendrier",
+          "summary": "Ajouter les entretiens à Google Agenda"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Parcours idée, page Entretiens. Ajouter ses entretiens dans Google Agenda. Valeur : chaque semaine."
+    },
+    {
+      "identifier": "SAX-239",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T12"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "NEW:bug-double-prelevement",
+          "summary": "Abonnement Plus prélevé deux fois"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Abonné Plus prélevé deux fois ce mois-ci (2 × 12 €). Demande le remboursement, sinon il arrête."
+    },
+    {
+      "identifier": "SAX-240",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T9"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-120",
+          "summary": "Tenir le délai de 24 h de l'analyse IA"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Ticket : la carte IA affiche « Analyse sous 24 h » depuis 3 jours sur 5 offres ; elle doit décider vite pour l'une d'elles."
+    },
+    {
+      "identifier": "SAX-241",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T1",
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-103",
+          "summary": "Expliquer le score"
+        },
+        {
+          "target": "NEW:salaire-teletravail",
+          "summary": "Afficher fourchette de salaire et politique de télétravail sur les cartes"
+        }
+      ],
+      "traps": [
+        "P2"
+      ],
+      "notes": "In English, from the head of programmes at Passerelle Executive: their senior executives want salary range and remote policy at a glance, and to understand why a job scores high."
+    },
+    {
+      "identifier": "SAX-242",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-doublons-inbox",
+          "summary": "Offres en double dans l'Inbox"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Même offre en double dans l'Inbox (une fois « Paris », une fois « Paris 9e »). Deuxième ticket de ce client."
+    },
+    {
+      "identifier": "SAX-243",
+      "language": "fr",
+      "type": "praise",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "positive",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P6",
+        "P9"
+      ],
+      "notes": "Parcours avis, Pipeline, valeur 5/5. Le passage automatique en « sans réponse » après un mois est super pratique. Rien à changer."
+    },
+    {
+      "identifier": "SAX-244",
+      "language": "en",
+      "type": "noise",
+      "themes": [],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P6",
+        "P9"
+      ],
+      "notes": "Two lines in English: please unsubscribe me from all your emails, I found a job. (Ancien abonné Plus.)"
+    },
+    {
+      "identifier": "SAX-245",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-109",
+          "summary": "Ajouter les ESN et cabinets de conseil (Sopra Steria, Capgemini Invent)"
+        }
+      ],
+      "traps": [],
+      "notes": "Parcours idée. Ajouter les ESN et cabinets (Sopra Steria, Capgemini Invent). Valeur : je ne peux pas m'en passer."
+    },
+    {
+      "identifier": "SAX-246",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10",
+        "T12"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "SAX-127",
+          "summary": "Factures avec nom de société et numéro de TVA"
+        },
+        {
+          "target": "SAX-123",
+          "summary": "Suivre l'activité des clients coachés"
+        }
+      ],
+      "traps": [
+        "P2",
+        "P5"
+      ],
+      "notes": "La fondatrice d'Atelier Carrières (12 sièges) : factures inutilisables en compta (pas de TVA ni nom de société) et « trop cher pour ce que c'est » sans suivi des personnes coachées ; envisage d'arrêter."
+    },
+    {
+      "identifier": "SAX-247",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:sync-calendrier",
+          "summary": "Synchroniser les entretiens avec Outlook"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Parcours idée. Synchroniser ses entretiens avec son agenda Outlook. Valeur : nice to have."
+    },
+    {
+      "identifier": "SAX-248",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:vue-trajet",
+          "summary": "Afficher le temps de trajet domicile-travail"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Il habite en grande couronne ; il aimerait voir le temps de trajet en RER pour chaque offre avant de postuler."
+    },
+    {
+      "identifier": "SAX-249",
+      "language": "en",
+      "type": "bug",
+      "themes": [
+        "T6"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-android-layout",
+          "summary": "Boutons masqués par la barre de navigation Android"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Problem path, Inbox, phone (Pixel). The bottom buttons are hidden behind the navigation bar. Second message from this user."
+    },
+    {
+      "identifier": "SAX-250",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-emails-spam",
+          "summary": "E-mails de résultats IA classés en spam"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Les e-mails « votre analyse IA est prête » arrivent dans ses spams (Gmail) depuis une semaine."
+    },
+    {
+      "identifier": "SAX-251",
+      "language": "fr",
+      "type": "praise",
+      "themes": [],
+      "sentiment": "positive",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P6"
+      ],
+      "notes": "Parcours avis, valeur 5/5. « Super appli, bien mieux que de checker 10 sites. » Rien à changer."
+    },
+    {
+      "identifier": "SAX-252",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:notes-partagees",
+          "summary": "Notes partagées entre conseiller et candidat"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Transitio Conseil : leurs consultants aimeraient laisser des notes sur une offre, visibles par le candidat (conseils, contacts)."
+    },
+    {
+      "identifier": "SAX-253",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T1",
+        "T4"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-102",
+          "summary": "Bouton de recalcul des scores en mode standard"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Parcours problème. En mode standard il n'y a pas de bouton pour recalculer les scores après avoir modifié ses mots-clés (il a vu une capture d'un ami en mode power)."
+    },
+    {
+      "identifier": "SAX-254",
+      "language": "en",
+      "type": "question",
+      "themes": [
+        "T11",
+        "T12"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:resiliation-plus",
+          "summary": "Résilier l'abonnement Plus facilement"
+        }
+      ],
+      "traps": [],
+      "notes": "In English: how do I cancel my Plus subscription? I can't find it in Settings."
+    },
+    {
+      "identifier": "SAX-255",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T1"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:salaire-teletravail",
+          "summary": "Filtrer par salaire et jours de télétravail"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Idea path in English: filter jobs by salary range and number of remote days. Value: every day."
+    },
+    {
+      "identifier": "SAX-256",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10",
+        "T8"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-115",
+          "summary": "Récapitulatif hebdomadaire par e-mail envoyé aux candidats"
+        }
+      ],
+      "traps": [
+        "P4"
+      ],
+      "notes": "Responsable pédagogique de l'École Kepler : leurs étudiants doivent recevoir un récapitulatif chaque lundi, obligatoire. Tension avec les candidats qui veulent moins d'e-mails."
+    },
+    {
+      "identifier": "SAX-257",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P8"
+      ],
+      "notes": "« L'appli est hyper lente. » Aucun détail : quelle page, quel appareil, quand."
+    },
+    {
+      "identifier": "SAX-258",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T6"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-113",
+          "summary": "Changer le statut d'une candidature dans le Pipeline sur téléphone"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Ticket : sur son téléphone Android elle n'arrive pas à faire glisser une carte du Pipeline vers « Entretien »."
+    },
+    {
+      "identifier": "SAX-259",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-112",
+          "summary": "Rattacher une offre republiée à la candidature"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Abonnée Plus : a repostulé par erreur à une offre republiée. Formulation différente du besoin de SAX-112."
+    },
+    {
+      "identifier": "SAX-260",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T3"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-106",
+          "summary": "Bouton visible pour bloquer un employeur"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Parcours idée. « Où est-ce qu'on bloque une boîte ? J'ai 30 offres d'une ESN qui ne m'intéresse pas. »"
+    },
+    {
+      "identifier": "SAX-261",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:preferences-emails",
+          "summary": "Choisir finement les e-mails reçus (tout couper sauf les entretiens)"
+        }
+      ],
+      "traps": [
+        "P4"
+      ],
+      "notes": "Elle reçoit trop d'e-mails (son école l'a inscrite) ; elle veut tout couper sauf les rappels d'entretien."
+    },
+    {
+      "identifier": "SAX-262",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10",
+        "T12"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-127",
+          "summary": "Factures avec SIRET et TVA"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Coach indépendante (Horizon Coaching) : sa facture doit porter son SIRET et son numéro de TVA, sinon son comptable la refuse."
+    },
+    {
+      "identifier": "SAX-263",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-110",
+          "summary": "Importer les alertes LinkedIn et Indeed"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "E-mail court : est-ce que saxobeat peut récupérer les offres de ses alertes LinkedIn et Indeed ? Elle les reçoit tous les jours."
+    },
+    {
+      "identifier": "SAX-264",
+      "language": "en",
+      "type": "bug",
+      "themes": [
+        "T9"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-120",
+          "summary": "Tenir le délai de 24 h de l'analyse IA"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "In English: AI analysis 'pending' for 4 days on 12 jobs. Paying Plus user; third contact overall."
+    },
+    {
+      "identifier": "SAX-265",
+      "language": "en",
+      "type": "improvement",
+      "themes": [
+        "T1"
+      ],
+      "sentiment": "positive",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-103",
+          "summary": "Expliquer le score"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Opinion path in English, value 4/5. What works: the inbox and the sources. What to change: explain the score (why 62 and not 80)."
+    },
+    {
+      "identifier": "SAX-266",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T5",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "SAX-115",
+          "summary": "Rappel par e-mail quand une relance est due"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Troisième message : il résilie son abonnement Plus, toujours pas de rappels de relance, « je retourne à mon tableur »."
+    },
+    {
+      "identifier": "SAX-267",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T10",
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-codes-invitation",
+          "summary": "Codes d'invitation qui expirent avant l'inscription des étudiants"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Le service carrières de l'Institut Vauban : la moitié des étudiants n'ont pas pu s'inscrire, le code d'invitation avait expiré (7 jours)."
+    },
+    {
+      "identifier": "SAX-268",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-123",
+          "summary": "Pouvoir masquer certaines candidatures à son conseiller"
+        }
+      ],
+      "traps": [
+        "P4",
+        "P9"
+      ],
+      "notes": "Parcours idée, 2e message : pouvoir rendre certaines candidatures privées vis-à-vis de son conseiller. Valeur : je ne peux pas m'en passer."
+    },
+    {
+      "identifier": "SAX-269",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "negative",
+      "churn_risk": true,
+      "requests": [
+        {
+          "target": "SAX-123",
+          "summary": "Tableau de suivi des candidats par conseiller"
+        }
+      ],
+      "traps": [
+        "P5",
+        "P9"
+      ],
+      "notes": "Suite à un appel : sans tableau de suivi livré avant le comité du 15 mai, Cap Rebond ne renouvelle pas (120 sièges, 36 k€). Troisième message."
+    },
+    {
+      "identifier": "SAX-270",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T11"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-126",
+          "summary": "Essai gratuit de Plus"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Parcours idée. Pouvoir essayer Plus une ou deux semaines avant de payer. Valeur : nice to have."
+    },
+    {
+      "identifier": "SAX-271",
+      "language": "en",
+      "type": "bug",
+      "themes": [
+        "T7"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-doublons-inbox",
+          "summary": "Offres en double dans l'Inbox"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "In English: same job listed twice in my inbox, once from the company site and once from Welcome to the Jungle."
+    },
+    {
+      "identifier": "SAX-272",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T6",
+        "T9"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-116",
+          "summary": "Notification sur le téléphone quand l'analyse IA est prête"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Parcours idée. Être notifiée sur son téléphone quand l'analyse IA est prête. Valeur : chaque semaine."
+    },
+    {
+      "identifier": "SAX-273",
+      "language": "fr",
+      "type": "noise",
+      "themes": [],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P6",
+        "P9"
+      ],
+      "notes": "Réponse automatique d'absence d'une consultante de Mobilis RH à la newsletter : absente jusqu'au 19 avril."
+    },
+    {
+      "identifier": "SAX-274",
+      "language": "fr",
+      "type": "improvement",
+      "themes": [
+        "T3"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [],
+      "traps": [
+        "P8",
+        "P9"
+      ],
+      "notes": "Parcours avis, valeur 2/5. Ce qui marche : « je sais pas ». À changer : « c'est compliqué ». Rien d'exploitable."
+    },
+    {
+      "identifier": "SAX-275",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T7",
+        "T8"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:bug-emails-spam",
+          "summary": "E-mail de confirmation non reçu (Hotmail)"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Pas reçu l'e-mail de confirmation après l'inscription (adresse Hotmail) ; a dû demander un nouveau lien 3 fois."
+    },
+    {
+      "identifier": "SAX-276",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-109",
+          "summary": "Ajouter Accenture comme source"
+        }
+      ],
+      "traps": [
+        "P1"
+      ],
+      "notes": "Parcours idée. Ajouter les offres Accenture. Valeur : chaque semaine."
+    },
+    {
+      "identifier": "SAX-277",
+      "language": "fr",
+      "type": "feature_request",
+      "themes": [
+        "T11"
+      ],
+      "sentiment": "positive",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-129",
+          "summary": "Candidature automatique aux offres les mieux notées"
+        }
+      ],
+      "traps": [
+        "P7",
+        "P9"
+      ],
+      "notes": "Très content du produit ; propose que l'appli postule automatiquement aux offres au-dessus de 80. (Refusé par principe produit, SAX-129.)"
+    },
+    {
+      "identifier": "SAX-278",
+      "language": "fr",
+      "type": "question",
+      "themes": [
+        "T10"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-122",
+          "summary": "Inviter les candidats en masse par import CSV"
+        }
+      ],
+      "traps": [
+        "P9"
+      ],
+      "notes": "Transitio : où en est l'import CSV ? 25 candidats arrivent lundi prochain. Troisième contact de ce compte."
+    },
+    {
+      "identifier": "SAX-279",
+      "language": "en",
+      "type": "feature_request",
+      "themes": [
+        "T5"
+      ],
+      "sentiment": "neutral",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "NEW:vue-trajet",
+          "summary": "Afficher le temps de trajet depuis son domicile"
+        }
+      ],
+      "traps": [
+        "P1",
+        "P9"
+      ],
+      "notes": "Short email in English: could saxobeat show the commute time from home for each job? He lives far from central Paris."
+    },
+    {
+      "identifier": "SAX-280",
+      "language": "fr",
+      "type": "bug",
+      "themes": [
+        "T1"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "requests": [
+        {
+          "target": "SAX-121",
+          "summary": "Scores durablement bas malgré des entretiens obtenus (calibrage)"
+        }
+      ],
+      "traps": [],
+      "notes": "Ticket : ses scores ne dépassent jamais 40 alors qu'il décroche des entretiens sur ces offres ; il ne fait plus confiance au score."
+    }
+  ]
+}
