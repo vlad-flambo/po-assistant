@@ -5,6 +5,7 @@ Each line is one action: `- [ ] [owner|claude|both] <date, optional> text`. Tick
 - [x] [owner] 2026-11-14 Donner l'accès au dépôt Vlad-Flambo/saxobeat (Claude GitHub App ou reconnexion GitHub), ou décrire saxobeat en quelques lignes (fait : documentation ajoutée dans `saxobeat reference/`)
 - [x] [owner] 2026-11-14 Répondre à Q1 : rôle de saxobeat dans le jeu de données
 - [x] [claude] 2026-11-14 Lire la documentation saxobeat (PRD, concurrence, 33 cycles)
-- [ ] [owner] 2026-11-14 Répondre à Q8 : horizon fictif de saxobeat (aujourd'hui ou projeté en startup SaaS)
-- [ ] [claude] 2026-11-14 Poser ensuite Q2, Q3, Q4, Q5 et Q7 (lot de recommandations à accepter)
+- [x] [owner] 2026-11-14 Répondre à Q8 : horizon fictif de saxobeat (aujourd'hui ou projeté en startup SaaS)
+- [x] [claude] 2026-11-14 Poser ensuite Q2, Q3, Q4, Q5 et Q7 (lot de recommandations à accepter)
+- [ ] [owner] 2026-11-14 Accepter ou amender le lot Q2, Q3, Q4, Q5, Q7, puis confirmer le but et la mesure de succès (gate de l'intent)
 - [ ] [claude] 2026-11-14 Rédiger spec.md (schéma SQLite façon Linear, pièges, vérité terrain)

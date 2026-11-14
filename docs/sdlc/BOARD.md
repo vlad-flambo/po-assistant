@@ -1,6 +1,6 @@
 # Cycle board
 
-Generated 2026-11-14 21:46 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
+Generated 2026-11-14 21:50 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
 
 Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
@@ -8,11 +8,10 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
 **Your move**
 
-- 001 Jeu de données synthétique: Répondre à Q8 : horizon fictif de saxobeat (aujourd'hui ou projeté en startup SaaS) (due 2026-11-14)
+- 001 Jeu de données synthétique: Accepter ou amender le lot Q2, Q3, Q4, Q5, Q7, puis confirmer le but et la mesure de succès (gate de l'intent) (due 2026-11-14)
 
 **My move (the agent)**
 
-- 001 Jeu de données synthétique: Poser ensuite Q2, Q3, Q4, Q5 et Q7 (lot de recommandations à accepter) (due 2026-11-14)
 - 001 Jeu de données synthétique: Rédiger spec.md (schéma SQLite façon Linear, pièges, vérité terrain) (due 2026-11-14)
 - 002 Socle agent et faux connecteur Linear: Démarrer l'intent après la validation de la spec du cycle 001
 - 007 Restitution documentation et démo: Tenir docs/journal.md à jour à chaque étape (registre de l'usage de l'IA inclus)

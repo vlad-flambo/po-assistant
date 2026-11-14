@@ -44,3 +44,11 @@ Ces décisions de cadrage valent pour tout le projet ; les cycles suivants y ren
 - **Decision:** saxobeat est le produit que gère le PO fictif (réponse à Q1). Les PRD, l'étude de concurrence et les 33 cycles sdlc de saxobeat fournissent le contexte de l'application et les exemples à partir desquels on construit feedbacks, clients et backlog.
 - **Why:** consigne de Vlad du 2026-11-14 ; un produit réel et documenté rend le jeu de données crédible et défendable devant le jury.
 - **Consequences:** le code source n'est pas nécessaire. L'écart avec le brief (« plateforme de gestion de projet ») est à assumer dans la présentation ; la manière de le présenter est tranchée par Q8.
+
+## D7. Horizon fictif : saxobeat au printemps 2027
+- **Date:** 2026-11-14
+- **Context:** saxobeat est aujourd'hui une alpha gratuite (2 à 4 candidats actifs) ; le brief décrit une startup SaaS.
+- **Options considered:** saxobeat tel qu'il est aujourd'hui ; projection fictive datée.
+- **Decision:** projection « saxobeat, printemps 2027 » : quelques milliers de candidats, une offre Free et une offre Plus (12 €/mois), une offre B2B naissante (outplacement, écoles, coachs).
+- **Why:** choix de Vlad, sur recommandation : on colle au brief, on a du volume pour faire apparaître des tendances et des segments à pondérer dans RICE.
+- **Consequences:** tout ce qui est projeté est signalé comme fictif dans les données et dans la présentation. Les noms de clients sont inventés ; aucune vraie entreprise n'apparaît comme cliente.
