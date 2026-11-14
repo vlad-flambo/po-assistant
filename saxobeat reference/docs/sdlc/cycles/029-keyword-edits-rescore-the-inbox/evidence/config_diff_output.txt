@@ -1,0 +1,12 @@
+C:\Users\Vladimir Stoyanov\code\saxobeat\docs\sdlc\cycles\029-keyword-edits-rescore-the-inbox\evidence\config_diff.py:9: SyntaxWarning: invalid escape sequence '\.'
+  if l.startswith("\."): break
+28 Oct c1 pv 4 kw_weight 0.7
+29 Oct c1 pv 5 kw_weight 0.7
+include 40 -> 56
+ added {'LLM': 3.0, 'GenAI': 3.0, 'hybrid': 2.0, 'remote': 2.0, 'scaleup': 2.0, 'platform': 2.0, 'scale-up': 2.0, 'team lead': 2.0, 'AI Builder': 4.0, 'leadership': 2.0, 'AI Delivery': 5.0, 'global team': 2.0, 'hypergrowth': 2.0, 'AI Enablement': 3.0, 'Product Owner': 3.0, 'client-facing': 2.0, 'customer care': 3.0, 'international': 2.0, 'manage a team': 2.0, 'multi-country': 2.0, 'télétravail': 2.0, 'Chief of Staff': 4.0, 'Head of Product': 4.0, 'Product Builder': 3.0, 'Product Manager': 5.0, 'AI Adoption Lead': 4.0, 'AI Delivery Lead': 4.0, 'AI Product Owner': 3.0, 'Revenue Strategy': 3.0, 'AI Transformation': 5.0, 'AI Program Manager': 3.0, 'Head of Operations': 4.0, 'product management': 2.0, 'Head of AI Delivery': 4.0, 'Head of GTM Systems': 3.0, 'responsable produit': 4.0, 'AI Transformation Lead': 4.0, 'Implementation Manager': 3.0, 'Responsable Projets IA': 3.0, 'Senior Product Manager': 4.0, 'VP Customer Operations': 4.0, 'stakeholder management': 2.0, 'Delivery Lead Data & IA': 3.0, 'Product Operations Lead': 4.0, 'Head of AI Transformation': 4.0, 'Head of Customer Operations': 4.0, 'Strategy and Operations Lead': 4.0, 'directeur des opérations clients': 4.0}
+ removed {'ai': 4.0, 'ia': 3.0, 'gtm': 3.0, 'llm': 3.0, 'ops': 4.0, 'saas': 3.0, 'genai': 3.0, 'agentic': 3.0, 'builder': 4.0, 'product': 4.0, 'scale up': 3.0, 'strategy': 4.0, 'paiements': 3.0, 'automation': 3.0, 'stratégie': 3.0, 'product ops': 4.0, 'orchestration': 3.0, 'product owner': 4.0, 'time to value': 4.0, 'automatisation': 3.0, 'chief of staff': 4.0, 'implémentation': 4.0, 'operating model': 4.0, 'product manager': 5.0, 'program management': 3.0, 'revenue operations': 3.0, 'business operations': 4.0, 'opérations clients': 5.0, 'strategy operations': 4.0, 'professional services': 4.0, 'services professionnels': 4.0, 'regulated financial services': 4.0}
+ reweighted {'banking': (3.0, 2.0), 'fintech': (4.0, 2.0), 'payments': (3.0, 2.0), 'core banking': (5.0, 4.0), 'implementation': (4.0, 3.0), 'customer success': (4.0, 3.0)}
+exclude 10 -> 15
+ added {'quota': 2.0, 'sales target': 2.0, 'frequent travel': 2.0, 'objectifs commerciaux': 2.0, 'déplacements fréquents': 2.0}
+ removed {}
+ reweighted {}

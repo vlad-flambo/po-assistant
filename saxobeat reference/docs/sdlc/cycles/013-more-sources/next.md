@@ -1,0 +1,66 @@
+# Next: cycle 013
+
+Each line is one action: `- [ ] [owner|claude|both] <date, optional> text`. Tick it when it is done, add new ones as the cycle moves. This file is what the cycle board shows as "what next?".
+
+- [x] [owner] Answer Q1 in intent.md (answered 2026-10-30: employers, VC boards, aggregators; alert e-mails out to cycle 018)
+- [ ] [claude] List each source's terms and robots rules in evidence/
+- [x] [owner] 2026-10-30 Answer Q3 in intent.md: the three employers as whole-list sources? (answered: yes)
+- [x] [owner] 2026-10-30 Accept my recommended answers to Q4 (park Capgemini if no feed) and Q5 (order Saegus, Accenture, Capgemini)?
+- [x] [claude] Read the terms of Accenture, Capgemini and Saegus and record them in evidence/ (done 2026-10-30: none forbids automation; all restrict reproduction)
+- [x] [owner] 2026-10-30 Decide Q1 and Q2 (done: Q1 answered, Q2 moved to cycle 018)
+- [x] [owner] 2026-10-30 Answer Q6 in intent.md (answered: yes, as recommended)
+- [x] [owner] 2026-10-30 Confirm the goal and the redrafted success measure in intent.md (confirmed; intent gate complete)
+- [x] [owner] 2026-10-30 Read spec.md (13 criteria, employers step) and approve it (approved; criteria 2 and 3 amended before the plan, see spec)
+- [x] [owner] 2026-10-30 Read plan.md (13 slices) and approve the slices (approved)
+- [x] [claude] Slices 1-3 (local copy, `employer_recheck` with 13 tests, the run: ok 228, suspect 8, empty 13, missing 3)
+- [x] [claude] 2026-11-03 Slices 4 and 5 done by my recommendations (live look at the 24; six wrong boards found; lists corrected). Was: [owner] slice 4: read evidence/recheck_2026-10-30.md (24 lines) and say per line: correct, accept, or live look (my recommendations are in the table)
+- [ ] [claude] Slice 5 after your answer: live look at the empty/suspect boards (at most 5 jobs each; I state the request count first)
+- [x] [claude] Slice 6, Saegus (done: 3-job fixture test, live read 16 jobs in Paris; seeded switched off)
+- [x] [claude] Slice 7, Accenture trial (done: 10 jobs stored once each over two runs; a currency bug found on Postgres and fixed with tests)
+- [x] [claude] Slice 8, Capgemini (done: its open job-search JSON found; new `capgemini` adapter, 9 tests, Postgres rehearsal, full suite 1,303 pass)
+- [x] [claude] Slice 9, the 18 priority-A employers (done: 8 sources seeded off, 10 listed with a reason; a discovery crash fixed; full suite 1,314 pass)
+- [ ] [owner] 2026-10-30 Read Finastra's and SWIFT's terms of use in a browser (my fetch tool got HTTP 403) before enabling those two sources; Fenergo's too if you like (evidence/priority_a_verdicts_2026-10-30.md)
+- [x] [claude] Slice 10, assemble and dry-run (done: `--dry-run`/`--only`, hosted script tested on the scratch copy; Amundi was a duplicate and is dropped)
+- [x] [owner] 2026-10-30 Go for slice 11 (done: 111 requests; ten sources ok)
+- [x] [owner] 2026-10-30 Accept the Neon figure of slice 11 and say which sources to enable (accepted; Backbase, Fenergo, SWIFT stay off: decisions.md D1)
+- [ ] [owner] Slice 12, step 1: take a manual Neon snapshot of prod1 (the way back; Neon restores prod1 only about 6 hours otherwise)
+- [ ] [owner] Slice 12, step 2: run the dry run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\seed_hosted_sources.ps1`, read what it lists (existing sources for these employers; 10 would be created, all off) and tell me what it printed, without any address
+- [ ] [owner] Slice 12, step 3: the write, `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\seed_hosted_sources.ps1 -Apply -SnapshotTaken`: expect `10 sources added`, then one difference `jobs_source`, then `0 sources added`
+- [ ] [owner] Slice 12, step 4: on the Sources page switch on, in this order, after a by-hand runner pass each (runbook `001-local-db-replica/evidence/restart_runbook.md`: read Neon before and after): first Saegus, Murex, Payhawk, Checkout.com, Accenture; then Capgemini (the big one: 13 pages, about 405 jobs); Finastra only after reading its terms of use in a browser. Backbase, Fenergo and SWIFT stay off
+- [ ] [claude] Slice 4 and 5 still wait for the owner's review of `evidence/recheck_2026-10-30.md` (24 employers); slice 13 (the one-week reading) starts after the first full run
+- [ ] [owner] 2026-11-02 No up-to-date local copy of prod1 exists (checked: the local `saxobeat` database was last written 2026-10-22, the clones 2026-10-09, the newest dump is 2026-10-29; the runner writes straight to the hosted database). So step 2 (the dry run, which only reads the source names) is the way to see the hosted sources; run it while the runner is working, it writes nothing
+- [x] [owner] 2026-11-03 Feedback #3 (consulting employers): Q7 answered, it is step 2 of cycle 013
+- [x] [owner] 2026-11-03 Accept my recommended answers to Q8 (the 25 unknown consulting rows, B first) and Q9 (a verdict each; the weekly new-jobs count) in intent.md Step 2
+- [x] [owner] 2026-11-03 Read step2-consulting.md and approve it (approved)
+- [x] [claude] Slice 14, duplicates first (done: 5 of 28 need no new source; 23 remain)
+- [x] [claude] Slice 15, BCG (done: the example job is in its list; source seeded off, tested, rehearsed on Postgres)
+- [x] [claude] Slice 16, batch B (done: EY a source with a place-word filter; McKinsey blocked; Deloitte no feed; Sia needs an adapter)
+- [x] [claude] Slice 17, batch C first half (done: 0 sources, 8 listed; HCLTech readable but no France jobs)
+- [x] [claude] Slice 18, batch C second half (done: 3 sources, Onepoint and PwC x2, seeded off; 7 listed)
+- [ ] [owner] 2026-11-03 Decide on Onepoint (its terms forbid "extraction" of the Site's content without authorization; the jobs are on a Workday-hosted site, bots not mentioned) and read PwC's legal notice (carrieres.pwc.fr/fr/legal.html) in a browser, before either is enabled; details in evidence/consulting_batch_c2_2026-11-03.md
+- [x] [claude] Slices 19 and 20 (step 2: seed rehearsed with `-Step`; BCG and EY measured: +0.03 MB a pass, +2.1 MB once, 108 requests)
+- [ ] [owner] 2026-11-03 Accept the step 2 Neon figure (BCG and EY: +0.03 MB a pass, +2.1 MB once) and say which to enable (I recommend both); Onepoint and PwC wait for your terms decisions. Then slice 21: `seed_hosted_sources.ps1 -Step 2` (dry run first), see evidence/seed_dry_run_step2.md
+- [ ] [owner] 2026-11-03 In the hosted step (slice 12 or 21), switch OFF these six sources on the Sources page (not delete): Energy Pool (smartrecruiters), Publicis Groupe (smartrecruiters), Trade Republic (greenhouse), Esker (teamtailor), Uber (smartrecruiters), EssilorLuxottica (smartrecruiters). Why, and what I changed in the lists: evidence/recheck_live_2026-11-03.md; tell me if you disagree with any
+- [x] [owner] 2026-11-03 Neon snapshot of prod1 taken; [claude] dry run `-Step all` run at the owner's request: 15 would be created, 0 present; hosted has 331 sources; the six to switch off are all present and on (evidence/hosted_dry_run_2026-11-03.md)
+- [x] [claude] 2026-11-03 The write, run at the owner's request: 15 sources added (all off), only `jobs_source` changed (331 to 346), re-run adds 0 (evidence/hosted_write_2026-11-03.md)
+- [x] [claude] 2026-11-03 The six wrong sources switched off and batch 1 (Saegus, Murex, Payhawk, Checkout.com, Accenture) switched on, at the owner's request: enabled 329 to 328 (evidence/hosted_write_2026-11-03.md)
+- [x] [owner] 2026-11-03 The by-hand runner pass ran: 335 runs (331 ok, 4 errors), 533 new jobs, the five batch-1 sources all ok (309 new jobs); Neon: transfer 0.22 GB month to date, storage 0.54 GB, history 0.04 GB, compute 1.23 CU-hrs (evidence/hosted_write_2026-11-03.md)
+- [x] [owner] 2026-11-03 Storage explained: the dashboard's 0.54 GB is prod1 plus fallback1, so double prod1 is normal (was: open Neon, Monitoring, Storage and tell me the breakdown (root branch / other branches / history) and whether any banner warns about the 0.5 GB limit: the dashboard says 0.54 GB, the database itself is 260 MB. I hold the Capgemini switch-on until we know)
+- [ ] [claude] 2026-11-03 Then: switch on Capgemini (about 405 jobs, 13 pages a run), later BCG and EY; the one-week reading (slice 13) counts from this first full run (2026-11-03)
+- [ ] [owner] 2026-11-03 Two sources are failing and worth a look: Doctolib (greenhouse board 404 since 2 November) and Papernest (404 once); I can switch Doctolib off or find its new board if you say so
+- [x] [claude] 2026-11-03 Capgemini switched on (id 342, daily): enabled 328 to 329 (evidence/hosted_write_2026-11-03.md)
+- [x] [owner] 2026-11-03 Second by-hand pass: Capgemini ok (397 fetched, 387 new), 600 new jobs, 2 errors (Papernest, Doctolib: boards gone); Neon transfer 0.22 to 0.26 GB, compute 1.66 CU-hrs
+- [x] [claude] 2026-11-03 BCG (id 351) and EY (id 352) switched on at the owner's "you can enable the other sources": enabled 329 to 331
+- [x] [owner] 2026-11-03 "Yes, all of them": the remaining seven new sources switched on (Onepoint, PwC, PwC Campus, Finastra, SWIFT, Fenergo, Backbase); enabled 331 to 338; decisions.md D2
+- [x] [claude] 2026-11-03 Doctolib and Papernest: the new boards found and created (Doctolib on Ashby `doctolib`, 149 jobs, 55 in Paris; Papernest on Workday wd502), the old two switched off; enabled 340 to 338 (evidence/hosted_write_2026-11-03.md)
+- [x] [owner] 2026-11-04 Third by-hand pass ran: 336 runs, all ok, 477 new jobs, every new source stored its jobs (Neon reading not given; optional)
+- [x] [claude] 2026-11-04 EY's max_jobs corrected to 200 (it caps the whole list, not only new pages); the four data/ lists updated (covered 259, unsupported 39, unknown 295)
+- [ ] [owner] 2026-11-04 Optional: the Neon reading after this pass (the Workday sources and Doctolib read for the first time); and whether you switched Valiantys (lever) off yourself (I did not)
+- [x] [claude] 2026-11-04 verify.md drafted: 22 criterion rows (13 + S2.1 to S2.9), 15 pass, 1 accepted, 4 partial, 2 pending; the board refreshed
+- [x] [claude] 2026-11-10 The one-week readings (13 and S2.9) read on the hosted database: 2,016 new jobs in Paris / Ile-de-France since 2026-11-03, 1,052 (52.2 %) from the cycle's sources, 967 (48.0 %) from consulting sources; includes the first-pass backlog (evidence/weekly_reading_2026-11-10.md)
+- [ ] [owner] 2026-11-10 Give the verdict in verify.md (22 criteria: 17 pass, 1 accepted, 4 partial; the partials are terms not read for Finastra, SWIFT, Fenergo and PwC, Onepoint's clause, Onepoint and PwC not measured, consulting-only list counts): accepted, or sent back
+- [ ] [claude] After the verdict: write learn.md (findings: US ZIP codes read as Paris, `max_jobs` meanings, Qonto moved boards silently, a board that goes empty stays "ok", WelcomeKit gone; destination of each), then close the cycle
+- [ ] [owner] Optional, weekly: the next reading on 2026-11-17 (first steady week) and the Neon figures; whether you switched Valiantys (lever) off yourself (I did not)
+- [x] [claude] 2026-11-04 Batch of 24 French fintechs: 6 already present (skipped), 3 new sources (Epsor, Kaiko, Marble) + Qonto on Ashby (its Lever board is empty), 10 WTTJ slugs for the WelcomeKit group, 5 listed as unsupported; seed, list and tests done, suite 1,443 pass (evidence/batch_fr_fintech_2026-11-04.md)
+- [x] [claude] 2026-11-04 The hosted write of that batch, at the owner's "Yes, do it": 4 sources created ON (359-362), `Qonto (lever)` off, 10 slugs added to WTTJ source 103; enabled 338 to 341
+- [x] [owner] 2026-11-04 The by-hand pass read the 4 new sources and the longer WTTJ list: "seems to work fine"

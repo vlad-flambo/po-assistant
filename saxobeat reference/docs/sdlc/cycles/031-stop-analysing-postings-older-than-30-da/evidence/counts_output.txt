@@ -1,0 +1,63 @@
+Pager usage is off.
+== 1. stored limits per candidate (jobs_config.filters.max_age_days), visible new views, and the views the NEW rule (30 days) would hide
+ candidate |    name    | stored_limit | visible_new | dated_older_than_30 | undated_imported_over_30_days_ago | undated_total 
+-----------+------------+--------------+-------------+---------------------+-----------------------------------+---------------
+         1 | vlad       | 60           |        1632 |                 485 |                                 0 |           289
+         3 | Proto Type | 60           |        8781 |                1742 |                                 0 |          2901
+(2 rows)
+
+== 2. the same, visible views that carry a score (what the inbox shows and the AI could pick)
+ candidate | scored_visible_new | scored_and_past_30_days 
+-----------+--------------------+-------------------------
+         1 |               1632 |                     485
+         3 |               8771 |                    1738
+(2 rows)
+
+== 3. all jobs in the database: how many have no posting date at all, and the age of their import date
+ jobs  | undated | undated_over_30_days | undated_over_60_days 
+-------+---------+----------------------+----------------------
+ 31968 |    3143 |                    0 |                    0
+(1 row)
+
+== 4. the new nightly age-out, as a SELECT with EXPLAIN ANALYZE for the candidate with most views (nothing is updated)
+                                                                                                              QUERY PLAN                                                                                                              
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Join  (cost=1322.95..3846.38 rows=2086 width=8) (actual time=0.801..11.213 rows=485 loops=1)
+   Hash Cond: (j.id = cj.job_id)
+   ->  Seq Scan on jobs_job j  (cost=0.00..2495.36 rows=10692 width=8) (actual time=0.014..9.212 rows=17588 loops=1)
+         Filter: ((posted_at < ('2026-10-29 09:06:00+00'::timestamp with time zone - '30 days'::interval)) OR ((posted_at IS NULL) AND (first_seen_at < ('2026-10-29 09:06:00+00'::timestamp with time zone - '30 days'::interval))))
+         Rows Removed by Filter: 14380
+   ->  Hash  (cost=1244.99..1244.99 rows=6237 width=16) (actual time=0.742..0.744 rows=1632 loops=1)
+         Buckets: 8192  Batches: 1  Memory Usage: 141kB
+         ->  Bitmap Heap Scan on jobs_candidatejob cj  (cost=103.82..1244.99 rows=6237 width=16) (actual time=0.110..0.585 rows=1632 loops=1)
+               Recheck Cond: ((candidate_id = 1) AND ((status)::text = 'new'::text) AND ((hidden_reason)::text = ''::text))
+               Filter: (NOT keep_visible)
+               Rows Removed by Filter: 2
+               Heap Blocks: exact=269
+               ->  Bitmap Index Scan on jobs_candid_candida_480b10_idx  (cost=0.00..102.27 rows=6238 width=0) (actual time=0.079..0.080 rows=1634 loops=1)
+                     Index Cond: ((candidate_id = 1) AND ((status)::text = 'new'::text) AND ((hidden_reason)::text = ''::text))
+ Planning Time: 0.186 ms
+ Execution Time: 11.273 ms
+(16 rows)
+
+   ... and the old one (dated only), for comparison
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Join  (cost=1322.95..3686.44 rows=2079 width=8) (actual time=0.824..11.984 rows=485 loops=1)
+   Hash Cond: (j.id = cj.job_id)
+   ->  Seq Scan on jobs_job j  (cost=0.00..2335.52 rows=10656 width=8) (actual time=0.010..9.786 rows=17588 loops=1)
+         Filter: (posted_at < ('2026-10-29 09:06:00+00'::timestamp with time zone - '30 days'::interval))
+         Rows Removed by Filter: 14380
+   ->  Hash  (cost=1244.99..1244.99 rows=6237 width=16) (actual time=0.775..0.777 rows=1632 loops=1)
+         Buckets: 8192  Batches: 1  Memory Usage: 141kB
+         ->  Bitmap Heap Scan on jobs_candidatejob cj  (cost=103.82..1244.99 rows=6237 width=16) (actual time=0.079..0.607 rows=1632 loops=1)
+               Recheck Cond: ((candidate_id = 1) AND ((status)::text = 'new'::text) AND ((hidden_reason)::text = ''::text))
+               Filter: (NOT keep_visible)
+               Rows Removed by Filter: 2
+               Heap Blocks: exact=269
+               ->  Bitmap Index Scan on jobs_candid_candida_480b10_idx  (cost=0.00..102.27 rows=6238 width=0) (actual time=0.048..0.049 rows=1634 loops=1)
+                     Index Cond: ((candidate_id = 1) AND ((status)::text = 'new'::text) AND ((hidden_reason)::text = ''::text))
+ Planning Time: 0.173 ms
+ Execution Time: 12.028 ms
+(16 rows)
+

@@ -1,0 +1,23 @@
+Database: postgresql database saxobeat-prod1 on a remote server
+Candidate 1: 2980 inbox jobs read (16.6 MB of posting text), floor 35
+  compared with the stored scores: 624 rise above the floor, 11 fall below it
+  of which the glossary alone: 636 rise above, 0 fall below
+  en         989 jobs: 18 rise, 11 fall
+  fr        1814 jobs: 604 rise, 0 fall
+  unknown    177 jobs: 2 rise, 0 fall
+    11040 fr   31.4 ->  77.4  GESTIONNAIRE OPERATIONS CLIENTS H/F - CDD (CNP Assurances)
+    28253 fr   28.2 ->  69.5  Data Scientist - Intelligence Artificielle Générat (Rothschild & Co)
+    20855 fr   32.4 ->  71.7  Data Officer (DM Funds) H/F (CACEIS)
+    20631 fr   31.4 ->  69.6  Actuaire produits - Assurance Vie Individuelle (F/ (AXA)
+    20582 fr   31.1 ->  68.6  Chargé de gestion vie et relations clients F/H (AXA)
+    14663 fr   38.4 ->  71.9  Chef de Projet Implémentation et Accompagnement Cl (La Banque Postale)
+    20904 en   35.4 ->  66.8  Business Manager M/F (CACEIS)
+    31124 en   35.4 ->  66.5  Investment Professional Associate - Paris (JPMorgan Chase)
+    35000 fr   26.6 ->  57.2  Industrial Sparring Partner (ISP) - Defense & Indu (Capgemini Engineering)
+    34839 fr   26.8 ->  53.6  Consultant(e) Cybersécurité - Paiement - Services  (Sopra Steria)
+    33500 fr   31.3 ->  57.8  Key Accounts Deployment Lead (Skello)
+    25324 en   51.5 ->  77.7  VP Product, Cloud & Inference (Mistral AI)
+    35463 fr   41.6 ->  67.5  Consultant Senior & Manager Business Analyst Servi (EY)
+    29671 fr   41.1 ->  66.8  Ingénieur IA - Services Financiers – Ile-de-France (Sopra Steria)
+    36079 fr   61.3 ->  85.9  Consultant Senior ou Manager - IA, IA générative & (EY)
+Nothing was written.

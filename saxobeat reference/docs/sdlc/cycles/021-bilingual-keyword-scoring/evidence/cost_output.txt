@@ -1,0 +1,6 @@
+42 objects imported automatically (use -v 2 for details).
+
+sample: 1000 postings of candidate 1, 221 employers, 6.1 MB of text
+glossary off: scoring 1,000 postings   9.36 s | boilerplate counts  57.84 s in 2 statements (1 counting queries) over 56 terms | text model  0.01 s
+glossary on : scoring 1,000 postings  11.62 s | boilerplate counts 127.82 s in 2 statements (1 counting queries) over 218 terms | text model  0.07 s
+ratio scoring on/off: 1.24 (limit 1.5) | boilerplate counts on/off: 2.21 | terms 56 -> 218

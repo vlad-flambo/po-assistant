@@ -1,0 +1,12 @@
+Render → saxobeat → Events, read by the owner on 2026-10-29.
+
+Deploys: 4fa860f (Blocked employers, 2026-10-28 18:01), ff08c0c (E-mail, 2026-10-28 18:33),
+and today's push d1718a0 (cycle 014's fixes, no migration): "Deployed Oct 29, 2026 at 3:53:05 PM GMT+1".
+(At first the owner did not see d1718a0 in the list; a second look found it.)
+
+Migration lines from the 28 October deploy log (pasted by the owner):
+
+  Applying jobs.0037_impersonation... OK
+  Applying jobs.0038_candidate_mode... OK
+  Applying jobs.0039_blocked_employers... OK
+  Applying jobs.0040_email... OK
