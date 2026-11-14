@@ -37,3 +37,10 @@ Ces décisions de cadrage valent pour tout le projet ; les cycles suivants y ren
 - **Date:** 2026-11-14
 - **Decision:** échéance lundi 16/11 au soir ; interface web légère ; FR + une part d'EN ; RICE + MoSCoW (WSJF en option) ; pas de vraie intégration Jira/Linear, export Markdown/CSV ; pilotage en cycles ai-sdlc, suivis par le tableau de bord du skill (`docs/sdlc/BOARD.md`).
 - **Why:** recommandations de `docs/analyse/01-analyse-initiale.md` §7 acceptées par Vlad.
+
+## D6. La documentation de saxobeat sert de contexte produit et de base d'exemples (complète D4)
+- **Date:** 2026-11-14
+- **Context:** le dépôt `Vlad-Flambo/saxobeat` reste inaccessible depuis la session ; Vlad a ajouté sa documentation dans `saxobeat reference/docs/`.
+- **Decision:** saxobeat est le produit que gère le PO fictif (réponse à Q1). Les PRD, l'étude de concurrence et les 33 cycles sdlc de saxobeat fournissent le contexte de l'application et les exemples à partir desquels on construit feedbacks, clients et backlog.
+- **Why:** consigne de Vlad du 2026-11-14 ; un produit réel et documenté rend le jeu de données crédible et défendable devant le jury.
+- **Consequences:** le code source n'est pas nécessaire. L'écart avec le brief (« plateforme de gestion de projet ») est à assumer dans la présentation ; la manière de le présenter est tranchée par Q8.

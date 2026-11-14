@@ -8,6 +8,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 |---|---|---|---|
 | 2026-11-14 | Transcription du brief PDF en Markdown | Claude Code | À confirmer par Vlad : relecture face au PDF |
 | 2026-11-14 | Première analyse du brief (`docs/analyse/01-analyse-initiale.md`) | Claude Code | Relue par Vlad ; décisions Q1 à Q7 arbitrées par lui |
+| 2026-11-14 | Lecture et synthèse de la documentation saxobeat (PRD lus par l'agent principal, 33 cycles synthétisés par un sous-agent) | Claude Code | Faits cités avec leur fichier source dans `cycles/001/intent.md` ; relecture par Vlad à faire |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -19,3 +20,5 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Choix de méthode** : cycles `ai-sdlc` (intent → spec → plan → build → verify → learn) pour garder une trace décision par décision.
 - **Obstacle** : le dépôt `Vlad-Flambo/saxobeat` n'est pas accessible depuis la session cloud. En attente d'un accès ou d'une description.
 - **Point d'attention** : des indices (non vérifiés) suggèrent que saxobeat est un outil de recherche d'emploi, alors que le brief parle d'une plateforme de gestion de projet. Arbitrage demandé (cycle 001, Q1).
+- **Déblocage** : Vlad ajoute la documentation de saxobeat (`saxobeat reference/`), qui remplace l'accès au code. La branche `main` ayant divergé, elle a été fusionnée dans la branche de travail (pas de réécriture d'historique).
+- **Constat** : saxobeat est un suivi de recherche d'emploi (alpha, 10 à 30 candidats), pas une plateforme de gestion de projet. Il faut décider comment le présenter (Q8 du cycle 001).
