@@ -1,0 +1,1117 @@
+{
+  "issues": [
+    {
+      "identifier": "SAX-101",
+      "title": "Score : les offres en français sont sous-notées",
+      "description": "Une offre rédigée en français obtient un score nettement plus bas qu'une offre équivalente en anglais, car les mots-clés du profil sont dans la langue du CV.\n\nCorrectif : glossaire bilingue (~130 concepts) et similarité ajustée selon la langue de l'offre.\n\nMesure avant correctif : score moyen 27,9 pour les offres FR contre 39,7 pour les offres EN sur un même profil.",
+      "state_id": "st_done",
+      "priority": 1,
+      "estimate": 5,
+      "assignee_id": "usr_ines",
+      "creator_id": "usr_camille",
+      "project_id": "prj_score",
+      "cycle_id": "cyc_2",
+      "created_at": "2026-11-16T10:00:00Z",
+      "updated_at": "2027-01-29T17:00:00Z",
+      "completed_at": "2027-01-29T17:00:00Z",
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 021 (bilingual keyword scoring), feedback #4"
+      },
+      "labels": [
+        "lbl_bug",
+        "lbl_mod_page_offre",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-102",
+      "title": "Recalculer l'Inbox après une modification des mots-clés (aussi en mode standard)",
+      "description": "Aujourd'hui, modifier ses mots-clés ne change les scores que des nouvelles offres. L'Inbox existante garde les anciens scores, et le bouton « Recalculer » n'existe qu'en mode power.\n\nAttendu : tout changement de mots-clés ou de poids relance le calcul des scores de l'Inbox, en arrière-plan, pour tous les modes.",
+      "state_id": "st_progress",
+      "priority": 2,
+      "estimate": 5,
+      "assignee_id": "usr_ines",
+      "creator_id": "usr_camille",
+      "project_id": "prj_score",
+      "cycle_id": "cyc_8",
+      "created_at": "2026-12-03T10:00:00Z",
+      "updated_at": "2027-04-09T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 029 (keyword edits rescore the inbox)"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_reglages",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_102_1",
+          "customer_id": "cus_b2c_47",
+          "body": "J'ai changé mes mots-clés mais l'Inbox n'a pas bougé.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-12T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-103",
+      "title": "Explication du score : ce qui matche, ce qui manque, verdict",
+      "description": "Afficher sur chaque offre une explication en un coup d'œil : compétences trouvées (« 22 sur 31 »), intitulé et séniorité compatibles, mots-clés manquants, et un verdict (« À postuler », « À regarder », « Peu pertinent »).\n\nC'est notre différenciant face aux concurrents dont le score IA est opaque.",
+      "state_id": "st_todo",
+      "priority": 2,
+      "estimate": 8,
+      "assignee_id": "usr_hugo",
+      "creator_id": "usr_camille",
+      "project_id": "prj_score",
+      "cycle_id": "cyc_8",
+      "created_at": "2026-12-10T10:00:00Z",
+      "updated_at": "2027-03-30T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat PRD_competitive_features F1, COMPETITION §7 #1"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_page_offre",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_103_1",
+          "customer_id": "cus_b2c_06",
+          "body": "Je ne comprends pas pourquoi certaines offres ont 45 et d'autres 70, il faudrait voir ce qui manque.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-20T11:00:00Z"
+        },
+        {
+          "id": "need_103_2",
+          "customer_id": "cus_b2c_09",
+          "body": "Le score c'est bien mais j'aimerais savoir quelles compétences me manquent pour un poste.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-08T11:00:00Z"
+        },
+        {
+          "id": "need_103_3",
+          "customer_id": "cus_b2b_07",
+          "body": "Nos candidats cadres veulent comprendre le score avant de lui faire confiance.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-27T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-104",
+      "title": "Ne plus analyser les offres publiées il y a plus de 30 jours",
+      "description": "Le filtre d'âge passe de 60 à 30 jours, pour toutes les sources (y compris les sites carrières). Les offres masquées ne sont ni scorées ni envoyées à l'analyse IA.",
+      "state_id": "st_done",
+      "priority": 3,
+      "estimate": 2,
+      "assignee_id": "usr_thomas",
+      "creator_id": "usr_camille",
+      "project_id": "prj_sources",
+      "cycle_id": "cyc_1",
+      "created_at": "2026-11-09T10:00:00Z",
+      "updated_at": "2027-01-15T17:00:00Z",
+      "completed_at": "2027-01-15T17:00:00Z",
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 031"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_inbox",
+        "lbl_mod_sources",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-105",
+      "title": "Modifier ses villes de recherche en mode standard",
+      "description": "Les villes choisies à l'inscription ne pouvaient plus être modifiées qu'en mode power. Elles sont désormais modifiables par tous dans Réglages, comme en mode power.",
+      "state_id": "st_done",
+      "priority": 2,
+      "estimate": 3,
+      "assignee_id": "usr_hugo",
+      "creator_id": "usr_camille",
+      "project_id": "prj_score",
+      "cycle_id": "cyc_3",
+      "created_at": "2026-11-23T10:00:00Z",
+      "updated_at": "2027-02-11T17:00:00Z",
+      "completed_at": "2027-02-11T17:00:00Z",
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 030"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_reglages",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-106",
+      "title": "Bloquer un employeur avec une icône, et gérer la liste dans Entreprises",
+      "description": "Le blocage d'un employeur existe mais passe par un lien texte peu visible, et la liste des employeurs bloqués est rangée dans Réglages.\n\nAttendu : une icône « bloquer » sur la carte et la page offre ; la liste et le déblocage dans la page Entreprises.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 3,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2026-11-30T10:00:00Z",
+      "updated_at": "2026-11-30T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 016 (« I find the interface un-intuitive »)"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_entreprises",
+        "lbl_mod_page_offre",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_106_1",
+          "customer_id": "cus_b2c_28",
+          "body": "J'ai mis 10 minutes à trouver comment bloquer une entreprise.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-22T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-107",
+      "title": "Supprimer l'aide sur les raccourcis clavier dans l'Inbox",
+      "description": "Retour : « remove the shortcuts explanation, takes too much space and limited value ».\n\nÉcarté : l'aide n'apparaît plus que sur ordinateur et se replie après la première utilisation.",
+      "state_id": "st_canceled",
+      "priority": 4,
+      "estimate": 1,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2026-11-02T10:00:00Z",
+      "updated_at": "2026-11-04T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": "2026-11-04T17:00:00Z",
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 017 (dismissed), feedback #1"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [
+        {
+          "id": "com_107_1",
+          "user_id": "usr_camille",
+          "body": "Écarté : l'aide ne s'affiche plus que sur ordinateur et se replie après usage. On ne la supprime pas, elle aide les nouveaux utilisateurs.",
+          "created_at": "2026-11-04T15:00:00Z"
+        }
+      ],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-108",
+      "title": "Carte IA : explication « comment ça marche » repliée par défaut",
+      "description": "Le bloc d'explication de la carte IA est toujours déplié, ce qui fait défiler l'offre sur téléphone (« It's not very practical »).\n\nAttendu : replié par défaut, dépliable d'un tap, l'état est mémorisé.",
+      "state_id": "st_review",
+      "priority": 3,
+      "estimate": 2,
+      "assignee_id": "usr_lea",
+      "creator_id": "usr_camille",
+      "project_id": "prj_mobile",
+      "cycle_id": "cyc_8",
+      "created_at": "2026-12-15T10:00:00Z",
+      "updated_at": "2027-04-09T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 023, feedback #5"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_ia",
+        "lbl_mod_page_offre",
+        "lbl_mod_mobile",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-109",
+      "title": "Ajouter les cabinets de conseil comme sources (Capgemini, Accenture, BCG…)",
+      "description": "Les cabinets de conseil recrutent beaucoup en Île-de-France et ne sont pas couverts. Capgemini est branché (397 offres au premier passage) ; reste Accenture, BCG, Saegus et les cabinets moyens.\n\nContrainte : lire robots.txt et les conditions d'utilisation avant chaque source ; pas de contournement anti-bot.",
+      "state_id": "st_progress",
+      "priority": 2,
+      "estimate": 8,
+      "assignee_id": "usr_thomas",
+      "creator_id": "usr_camille",
+      "project_id": "prj_sources",
+      "cycle_id": "cyc_8",
+      "created_at": "2026-11-05T10:00:00Z",
+      "updated_at": "2027-04-09T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 013, feedback #3 (« I can't do without it »)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_sources",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-110",
+      "title": "Importer les alertes e-mail (LinkedIn, APEC, Welcome to the Jungle, Indeed)",
+      "description": "Ces plateformes n'ont pas d'API ; leurs alertes e-mail sont la seule voie légale. L'utilisateur transfère ou dépose ses alertes, des parseurs par expéditeur en extraient les offres.\n\nGros chantier : un parseur par plateforme, formats qui changent sans prévenir.",
+      "state_id": "st_backlog",
+      "priority": 2,
+      "estimate": 13,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_sources",
+      "cycle_id": null,
+      "created_at": "2026-11-12T10:00:00Z",
+      "updated_at": "2026-11-12T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 018, PRD §5 (alert emails)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_sources",
+        "lbl_mod_emails",
+        "lbl_seg_b2c"
+      ],
+      "comments": [
+        {
+          "id": "com_110_1",
+          "user_id": "usr_thomas",
+          "body": "Estimation 13 : un parseur par expéditeur, et les formats changent. Proposition : commencer par LinkedIn seul (5 points).",
+          "created_at": "2026-11-20T15:00:00Z"
+        }
+      ],
+      "customer_needs": [
+        {
+          "id": "need_110_1",
+          "customer_id": "cus_b2c_01",
+          "body": "J'aimerais que mes alertes LinkedIn arrivent directement dans saxobeat, je reçois 5 mails par jour que je trie à la main.",
+          "priority": 1,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-04T11:00:00Z"
+        },
+        {
+          "id": "need_110_2",
+          "customer_id": "cus_b2c_12",
+          "body": "Est-ce que vous pouvez lire les alertes APEC ? C'est là que sont les postes cadres.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-17T11:00:00Z"
+        },
+        {
+          "id": "need_110_3",
+          "customer_id": "cus_b2b_01",
+          "body": "Nos candidats cadres utilisent tous l'APEC et LinkedIn ; sans ces offres, saxobeat ne couvre qu'une partie de leur marché.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-12T11:00:00Z"
+        },
+        {
+          "id": "need_110_4",
+          "customer_id": "cus_b2c_31",
+          "body": "Please support Indeed job alerts, most of the roles I want are posted there.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-20T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-111",
+      "title": "Rejet automatique d'une candidature après un mois sans réponse",
+      "description": "Une candidature restée à « Postulé » plus de 30 jours passe en « Sans réponse » (rejet présumé), avec une étiquette et un encart explicatif. Le candidat peut annuler.",
+      "state_id": "st_done",
+      "priority": 3,
+      "estimate": 3,
+      "assignee_id": "usr_hugo",
+      "creator_id": "usr_camille",
+      "project_id": "prj_relances",
+      "cycle_id": "cyc_4",
+      "created_at": "2026-12-01T10:00:00Z",
+      "updated_at": "2027-02-25T17:00:00Z",
+      "completed_at": "2027-02-25T17:00:00Z",
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 019"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_pipeline",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-112",
+      "title": "Offre republiée après candidature : la rattacher à la candidature existante",
+      "description": "Quand un employeur republie une offre à laquelle le candidat a déjà postulé, elle réapparaît comme nouvelle dans l'Inbox.\n\nAttendu : la détecter, l'afficher comme « republiée » et la rattacher à la candidature au lieu de la proposer à nouveau.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 5,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2026-12-18T10:00:00Z",
+      "updated_at": "2026-12-18T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 022"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_inbox",
+        "lbl_mod_pipeline",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_112_1",
+          "customer_id": "cus_b2c_34",
+          "body": "Une offre à laquelle j'ai postulé est revenue comme nouvelle dans l'Inbox, j'ai failli repostuler.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-10T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-113",
+      "title": "Pipeline sur téléphone : changer le statut d'une candidature par un geste",
+      "description": "Le Pipeline s'affiche en colonnes côte à côte ; déplacer une carte demande un glisser-déposer à la souris, impossible au doigt.\n\nAttendu : vue liste par statut sur téléphone, changement de statut par balayage ou menu.",
+      "state_id": "st_todo",
+      "priority": 3,
+      "estimate": 5,
+      "assignee_id": "usr_lea",
+      "creator_id": "usr_camille",
+      "project_id": "prj_mobile",
+      "cycle_id": "cyc_8",
+      "created_at": "2026-12-07T10:00:00Z",
+      "updated_at": "2027-03-30T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 010, PRD_mobile §7.3"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_pipeline",
+        "lbl_mod_mobile",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_113_1",
+          "customer_id": "cus_b2c_15",
+          "body": "Sur téléphone je n'arrive pas à déplacer une candidature dans le pipeline.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-22T11:00:00Z"
+        },
+        {
+          "id": "need_113_2",
+          "customer_id": "cus_b2c_37",
+          "body": "Pipeline inutilisable sur mobile.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-30T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-114",
+      "title": "Tester l'application sur de vrais téléphones (Safari iOS, Chrome Android)",
+      "description": "L'interface mobile n'a été testée qu'en simulation. Mettre en place un banc Playwright + une passe manuelle sur 2 appareils réels avant chaque mise en production.",
+      "state_id": "st_progress",
+      "priority": 2,
+      "estimate": 3,
+      "assignee_id": "usr_sarah",
+      "creator_id": "usr_camille",
+      "project_id": "prj_mobile",
+      "cycle_id": "cyc_8",
+      "created_at": "2027-01-11T10:00:00Z",
+      "updated_at": "2027-04-09T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 005"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_mobile",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-115",
+      "title": "Rappels de relance par e-mail et résumé hebdomadaire",
+      "description": "Envoyer un e-mail quand une relance est due (candidature + 7 jours) et un résumé hebdomadaire (nouvelles offres, relances, entretiens à venir). Désactivable par type.",
+      "state_id": "st_backlog",
+      "priority": 2,
+      "estimate": 8,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_relances",
+      "cycle_id": null,
+      "created_at": "2026-11-19T10:00:00Z",
+      "updated_at": "2026-11-19T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 009, PRD_users_and_emails R2"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_emails",
+        "lbl_mod_pipeline",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_115_1",
+          "customer_id": "cus_b2c_03",
+          "body": "Un rappel par mail quand je dois relancer serait top, je n'ouvre pas l'appli tous les jours.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-11T11:00:00Z"
+        },
+        {
+          "id": "need_115_2",
+          "customer_id": "cus_b2c_20",
+          "body": "Résumé hebdo par e-mail svp",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-12-29T11:00:00Z"
+        },
+        {
+          "id": "need_115_3",
+          "customer_id": "cus_b2b_07",
+          "body": "Nos conseillers voudraient que leurs candidats reçoivent un récapitulatif chaque lundi.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-18T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-116",
+      "title": "Notification push quand l'analyse IA est prête",
+      "description": "L'analyse IA arrive « sous 24 h », mais le candidat ne le sait que s'il ouvre l'application. Notification push via l'application installée (PWA).",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 5,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_relances",
+      "cycle_id": null,
+      "created_at": "2026-12-21T10:00:00Z",
+      "updated_at": "2026-12-21T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat PRD_ai_backoffice R4"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_ia",
+        "lbl_mod_mobile",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-117",
+      "title": "Recherche plein texte dans l'Inbox et les archives",
+      "description": "La recherche actuelle ne porte que sur l'intitulé et l'employeur. Chercher aussi dans la description, les notes et les offres archivées.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 5,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2026-11-26T10:00:00Z",
+      "updated_at": "2026-11-26T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat backlog.md (full-text search)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_117_1",
+          "customer_id": "cus_b2c_18",
+          "body": "Impossible de retrouver une offre archivée dont je me souviens juste d'un mot de la description.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-04T11:00:00Z"
+        },
+        {
+          "id": "need_117_2",
+          "customer_id": "cus_b2c_44",
+          "body": "Une vraie recherche dans les offres, svp.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-29T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-118",
+      "title": "Onboarding : démarrer avec un intitulé de poste, sans CV",
+      "description": "L'import du CV est la première étape et fait abandonner une partie des inscrits (CV pas à jour, sur un autre appareil). Permettre de démarrer avec un intitulé de poste et une ville, et d'ajouter le CV plus tard.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 5,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2027-01-20T10:00:00Z",
+      "updated_at": "2027-01-20T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027 (O2 activation) ; saxobeat PRD_ai_backoffice §7"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_onboarding",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-119",
+      "title": "Contacts : demander une recommandation à un contact chez l'employeur",
+      "description": "À partir de l'export LinkedIn du candidat (Connections.csv), afficher qui il connaît chez l'employeur et proposer un message de demande de recommandation. Réservé à Plus.",
+      "state_id": "st_done",
+      "priority": 3,
+      "estimate": 5,
+      "assignee_id": "usr_hugo",
+      "creator_id": "usr_camille",
+      "project_id": "prj_plus",
+      "cycle_id": "cyc_3",
+      "created_at": "2026-11-14T10:00:00Z",
+      "updated_at": "2027-02-12T17:00:00Z",
+      "completed_at": "2027-02-12T17:00:00Z",
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat PRD_competitive_features F9, COMPETITION §7 #8"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_entreprises",
+        "lbl_mod_page_offre",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-120",
+      "title": "Analyse IA : lancer l'agent automatiquement pour tenir les 24 h",
+      "description": "Les packs d'analyse IA sont encore lancés à la main. Les jours de forte charge, la promesse « sous 24 h » n'est pas tenue. Lancer l'agent automatiquement, avec un garde-fou de coût.",
+      "state_id": "st_backlog",
+      "priority": 2,
+      "estimate": 8,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2027-01-05T10:00:00Z",
+      "updated_at": "2027-01-05T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 027, PRD_ai_backoffice R3"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_ia",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-121",
+      "title": "Calibrage du score : qu'un 50 ait le même sens pour tous les candidats",
+      "description": "Un CV riche en mots-clés gonfle tous les scores. Suivre par candidat la part d'offres au-dessus de 50 et l'accord entre l'analyse IA et le score, puis recalibrer périodiquement.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 8,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_score",
+      "cycle_id": null,
+      "created_at": "2026-12-29T10:00:00Z",
+      "updated_at": "2026-12-29T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 008, PRD_ai_backoffice R1"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_ia",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_121_1",
+          "customer_id": "cus_b2c_26",
+          "body": "Mon amie a des scores à 80 partout et moi jamais au-dessus de 50, c'est bizarre.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-24T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-122",
+      "title": "Console Business : inviter des candidats en masse (import CSV)",
+      "description": "Un conseiller doit aujourd'hui inviter ses candidats un par un. Import d'un CSV (nom, e-mail, conseiller référent), envoi des invitations, suivi des comptes activés.",
+      "state_id": "st_progress",
+      "priority": 2,
+      "estimate": 5,
+      "assignee_id": "usr_sarah",
+      "creator_id": "usr_camille",
+      "project_id": "prj_console",
+      "cycle_id": "cyc_8",
+      "created_at": "2027-01-18T10:00:00Z",
+      "updated_at": "2027-04-09T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027 (offre Business) ; saxobeat cycle 033 (codes d'invitation)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_console_b2b",
+        "lbl_seg_b2b"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_122_1",
+          "customer_id": "cus_b2b_01",
+          "body": "Inviter 60 candidats un par un nous a pris une demi-journée.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-12T11:00:00Z"
+        },
+        {
+          "id": "need_122_2",
+          "customer_id": "cus_b2b_07",
+          "body": "Il nous faut un import CSV pour les invitations.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-25T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-123",
+      "title": "Console Business : tableau de suivi des candidats par conseiller",
+      "description": "Vue par conseiller : ses candidats, leur activité (dernière connexion, offres triées, candidatures, entretiens), les candidats inactifs depuis plus de 10 jours.",
+      "state_id": "st_todo",
+      "priority": 2,
+      "estimate": 8,
+      "assignee_id": "usr_sarah",
+      "creator_id": "usr_camille",
+      "project_id": "prj_console",
+      "cycle_id": "cyc_8",
+      "created_at": "2027-01-19T10:00:00Z",
+      "updated_at": "2027-03-30T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027 (offre Business) ; saxobeat cycle 024 (console) et PRD_users_and_emails §6 (voir comme un candidat)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_console_b2b",
+        "lbl_seg_b2b"
+      ],
+      "comments": [
+        {
+          "id": "com_123_1",
+          "user_id": "usr_sarah",
+          "body": "Maquettes validées avec Cap Rebond et Transitio. On démarre au cycle 8.",
+          "created_at": "2027-03-29T15:00:00Z"
+        }
+      ],
+      "customer_needs": [
+        {
+          "id": "need_123_1",
+          "customer_id": "cus_b2b_02",
+          "body": "Nos consultants doivent pouvoir voir l'avancement de leurs candidats sans leur demander des captures d'écran.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2026-12-14T11:00:00Z"
+        },
+        {
+          "id": "need_123_2",
+          "customer_id": "cus_b2b_05",
+          "body": "Vue de suivi par conseiller indispensable pour nos comités hebdo.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-06T11:00:00Z"
+        },
+        {
+          "id": "need_123_3",
+          "customer_id": "cus_b2b_03",
+          "body": "Le service carrières veut voir quels étudiants ne se connectent plus.",
+          "priority": 0,
+          "source_type": "email",
+          "created_at": "2027-01-21T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-124",
+      "title": "Console Business : export du reporting pour les clients du cabinet",
+      "description": "Les cabinets d'outplacement rendent compte à l'entreprise qui paie l'accompagnement. Export mensuel (PDF et CSV) : candidatures, entretiens, retours à l'emploi, par candidat et agrégé.",
+      "state_id": "st_backlog",
+      "priority": 2,
+      "estimate": 5,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_console",
+      "cycle_id": null,
+      "created_at": "2027-01-22T10:00:00Z",
+      "updated_at": "2027-01-22T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027 (offre Business)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_console_b2b",
+        "lbl_seg_b2b"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_124_1",
+          "customer_id": "cus_b2b_02",
+          "body": "Nous devons rendre un reporting mensuel aux entreprises qui financent l'outplacement.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2026-12-14T11:00:00Z"
+        },
+        {
+          "id": "need_124_2",
+          "customer_id": "cus_b2b_09",
+          "body": "Sans reporting exportable, difficile de justifier l'outil auprès de nos financeurs.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-13T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-125",
+      "title": "SSO Google Workspace et Microsoft pour les comptes Business",
+      "description": "Les écoles et les grands cabinets veulent que leurs conseillers se connectent avec leur compte professionnel.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 8,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_console",
+      "cycle_id": null,
+      "created_at": "2027-01-26T10:00:00Z",
+      "updated_at": "2027-01-26T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027 (offre Business)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_console_b2b",
+        "lbl_mod_reglages",
+        "lbl_seg_b2b"
+      ],
+      "comments": [],
+      "customer_needs": [
+        {
+          "id": "need_125_1",
+          "customer_id": "cus_b2b_03",
+          "body": "Notre DSI exige une connexion via Microsoft pour les comptes du personnel.",
+          "priority": 1,
+          "source_type": "email",
+          "created_at": "2027-01-21T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-126",
+      "title": "Paywall : faire essayer Plus 14 jours avant de bloquer",
+      "description": "Aujourd'hui l'Inbox Free se bloque à 20 offres par jour sans explication. Proposer un essai Plus de 14 jours, et montrer ce que Plus apporte au moment où la limite est atteinte.",
+      "state_id": "st_todo",
+      "priority": 2,
+      "estimate": 5,
+      "assignee_id": "usr_camille",
+      "creator_id": "usr_camille",
+      "project_id": "prj_plus",
+      "cycle_id": "cyc_8",
+      "created_at": "2027-02-15T10:00:00Z",
+      "updated_at": "2027-03-30T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027 (O1 conversion) ; COMPETITION §6.5"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_facturation",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [
+        {
+          "id": "com_126_1",
+          "user_id": "usr_camille",
+          "body": "Priorité du cycle 8 pour l'objectif de conversion.",
+          "created_at": "2027-03-30T15:00:00Z"
+        }
+      ],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-127",
+      "title": "Facture au nom de la société, avec numéro de TVA intracommunautaire",
+      "description": "Les factures ne portent que le nom de la personne. Les coachs indépendants et les cabinets ont besoin du nom de la société, de l'adresse et du numéro de TVA.",
+      "state_id": "st_backlog",
+      "priority": 3,
+      "estimate": 3,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": "prj_plus",
+      "cycle_id": null,
+      "created_at": "2027-01-28T10:00:00Z",
+      "updated_at": "2027-01-28T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "projection 2027"
+      },
+      "labels": [
+        "lbl_improvement",
+        "lbl_mod_facturation",
+        "lbl_seg_b2b"
+      ],
+      "comments": [],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-128",
+      "title": "Remplir automatiquement les formulaires de candidature (autofill)",
+      "description": "Pré-remplir les formulaires des sites carrières (Workday, Greenhouse…) avec le profil du candidat, qui clique lui-même sur Envoyer.\n\nReporté : coût de construction très élevé (un connecteur par système), à revoir après la conversion.",
+      "state_id": "st_canceled",
+      "priority": 4,
+      "estimate": 13,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2026-11-21T10:00:00Z",
+      "updated_at": "2026-12-02T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": "2026-12-02T17:00:00Z",
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat COMPETITION §7 #18 (L, later)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_page_offre",
+        "lbl_seg_b2c"
+      ],
+      "comments": [
+        {
+          "id": "com_128_1",
+          "user_id": "usr_camille",
+          "body": "Reporté : trop coûteux (un connecteur par système de recrutement). On en reparle après l'objectif de conversion.",
+          "created_at": "2026-12-02T15:00:00Z"
+        }
+      ],
+      "customer_needs": []
+    },
+    {
+      "identifier": "SAX-129",
+      "title": "Postuler automatiquement aux offres au-dessus d'un score",
+      "description": "Demande récurrente : envoyer automatiquement une candidature aux offres les mieux notées.\n\nRefusé : contraire au principe du produit (« pas d'auto-candidature »), au sens du marché (Greenhouse, LinkedIn restreignent l'automatisation) et à la qualité des candidatures.",
+      "state_id": "st_canceled",
+      "priority": 4,
+      "estimate": 13,
+      "assignee_id": null,
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": null,
+      "created_at": "2026-11-08T10:00:00Z",
+      "updated_at": "2026-11-10T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": "2026-11-10T17:00:00Z",
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat COMPETITION §1 et §7 (« Not worth copying »)"
+      },
+      "labels": [
+        "lbl_feature",
+        "lbl_mod_inbox",
+        "lbl_seg_b2c"
+      ],
+      "comments": [
+        {
+          "id": "com_129_1",
+          "user_id": "usr_camille",
+          "body": "Refusé, et on assume : pas d'auto-candidature, c'est un principe produit. À expliquer dans la FAQ.",
+          "created_at": "2026-11-10T15:00:00Z"
+        }
+      ],
+      "customer_needs": [
+        {
+          "id": "need_129_1",
+          "customer_id": "cus_b2c_06",
+          "body": "Ce serait génial que l'appli postule toute seule aux offres à plus de 80.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2026-11-28T11:00:00Z"
+        },
+        {
+          "id": "need_129_2",
+          "customer_id": "cus_b2c_42",
+          "body": "Auto-apply would save me hours.",
+          "priority": 0,
+          "source_type": "feedback_chat",
+          "created_at": "2027-01-05T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "identifier": "SAX-130",
+      "title": "Supprimer un compte expire au bout de 40 secondes",
+      "description": "La suppression d'un compte avec beaucoup d'offres vues (36 000) déclenche 73 000 requêtes et expire. Correctif : suppression en masse (33 requêtes, 0,6 s).",
+      "state_id": "st_review",
+      "priority": 1,
+      "estimate": 3,
+      "assignee_id": "usr_thomas",
+      "creator_id": "usr_camille",
+      "project_id": null,
+      "cycle_id": "cyc_8",
+      "created_at": "2027-01-14T10:00:00Z",
+      "updated_at": "2027-04-09T17:00:00Z",
+      "completed_at": null,
+      "canceled_at": null,
+      "source_type": "internal",
+      "source_metadata": {
+        "origin": "saxobeat cycle 032"
+      },
+      "labels": [
+        "lbl_bug",
+        "lbl_mod_console_b2b",
+        "lbl_mod_reglages",
+        "lbl_seg_b2c"
+      ],
+      "comments": [
+        {
+          "id": "com_130_1",
+          "user_id": "usr_thomas",
+          "body": "PR prête, en relecture.",
+          "created_at": "2027-04-09T15:00:00Z"
+        }
+      ],
+      "customer_needs": []
+    }
+  ]
+}
