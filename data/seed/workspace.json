@@ -1,0 +1,525 @@
+{
+  "workspace_meta": {
+    "workspace_name": "saxobeat",
+    "disclaimer": "Données entièrement fictives, générées pour un test technique. saxobeat est un vrai projet personnel ; sa projection au printemps 2027 (offres Free/Plus/Business, clients, équipe, chiffres) est inventée. Toute ressemblance avec des personnes ou des entreprises existantes serait fortuite.",
+    "reference_date": "2027-04-12",
+    "period_start": "2027-02-01",
+    "period_end": "2027-04-11",
+    "product": "saxobeat : suivi de recherche d'emploi. Collecte les offres sur les sites carrières des employeurs et les agrégateurs, les dédoublonne, leur donne un score explicable (mots-clés + similarité + séniorité) et suit les candidatures (Inbox, Pipeline, Entretiens). Web app pensée pour le téléphone, en français et en anglais, centrée sur Paris et l'Île-de-France.",
+    "plans": {
+      "free": {
+        "price_eur_month": 0,
+        "description": "Inbox limitée à 20 offres par jour, pas d'analyse IA"
+      },
+      "plus": {
+        "price_eur_month": 12,
+        "description": "Inbox illimitée, analyse IA sous 24 h, relances, contacts"
+      },
+      "business": {
+        "price_eur_seat_month": 25,
+        "description": "Pour les cabinets d'outplacement, écoles et coachs : console conseiller, sièges candidats, reporting"
+      }
+    },
+    "metrics_snapshot": {
+      "active_candidates": 3400,
+      "plus_subscribers": 210,
+      "plus_share_pct": 6.2,
+      "b2b_accounts": 9,
+      "b2b_arr_eur": 144600,
+      "date": "2027-04-11"
+    },
+    "team_capacity_points_per_cycle": 20,
+    "velocity_last_cycles": [
+      18,
+      22,
+      19,
+      21
+    ],
+    "estimate_scale": "Fibonacci (1, 2, 3, 5, 8, 13), en points",
+    "priority_scale": "0 aucune, 1 urgente, 2 haute, 3 moyenne, 4 basse (convention Linear)",
+    "customer_profiles": {
+      "cus_b2b_01": "Cabinet d'outplacement",
+      "cus_b2b_02": "Cabinet d'outplacement",
+      "cus_b2b_03": "École (service carrières)",
+      "cus_b2b_04": "Coach indépendant",
+      "cus_b2b_05": "Cabinet d'outplacement",
+      "cus_b2b_06": "Collectif de coachs",
+      "cus_b2b_07": "Cabinet d'outplacement",
+      "cus_b2b_08": "École (bootcamp)",
+      "cus_b2b_09": "Association d'accompagnement",
+      "cus_b2b_10": "Outplacement cadres dirigeants"
+    }
+  },
+  "teams": [
+    {
+      "id": "team_sax",
+      "key": "SAX",
+      "name": "saxobeat"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr_camille",
+      "name": "Camille Moreau",
+      "display_name": "camille",
+      "email": "camille@saxobeat.example",
+      "role": "po",
+      "active": 1
+    },
+    {
+      "id": "usr_hugo",
+      "name": "Hugo Lefèvre",
+      "display_name": "hugo",
+      "email": "hugo@saxobeat.example",
+      "role": "dev",
+      "active": 1
+    },
+    {
+      "id": "usr_ines",
+      "name": "Inès Benali",
+      "display_name": "ines",
+      "email": "ines@saxobeat.example",
+      "role": "dev",
+      "active": 1
+    },
+    {
+      "id": "usr_thomas",
+      "name": "Thomas Nguyen",
+      "display_name": "thomas",
+      "email": "thomas@saxobeat.example",
+      "role": "dev",
+      "active": 1
+    },
+    {
+      "id": "usr_sarah",
+      "name": "Sarah Kowalski",
+      "display_name": "sarah",
+      "email": "sarah@saxobeat.example",
+      "role": "dev",
+      "active": 1
+    },
+    {
+      "id": "usr_lea",
+      "name": "Léa Fontaine",
+      "display_name": "lea",
+      "email": "lea@saxobeat.example",
+      "role": "design",
+      "active": 1
+    },
+    {
+      "id": "usr_julien",
+      "name": "Julien Mercier",
+      "display_name": "julien",
+      "email": "julien@saxobeat.example",
+      "role": "support",
+      "active": 1
+    },
+    {
+      "id": "usr_amina",
+      "name": "Amina Diallo",
+      "display_name": "amina",
+      "email": "amina@saxobeat.example",
+      "role": "support",
+      "active": 1
+    },
+    {
+      "id": "usr_int_zendesk",
+      "name": "Zendesk",
+      "display_name": "zendesk",
+      "email": "zendesk@saxobeat.example",
+      "role": "integration",
+      "active": 1
+    },
+    {
+      "id": "usr_int_email",
+      "name": "Email intake",
+      "display_name": "email-intake",
+      "email": "email-intake@saxobeat.example",
+      "role": "integration",
+      "active": 1
+    },
+    {
+      "id": "usr_int_chat",
+      "name": "Feedback chat",
+      "display_name": "feedback-chat",
+      "email": "feedback-chat@saxobeat.example",
+      "role": "integration",
+      "active": 1
+    }
+  ],
+  "workflow_states": [
+    {
+      "id": "st_triage",
+      "team_id": "team_sax",
+      "name": "Triage",
+      "type": "triage",
+      "position": 0
+    },
+    {
+      "id": "st_backlog",
+      "team_id": "team_sax",
+      "name": "Backlog",
+      "type": "backlog",
+      "position": 1
+    },
+    {
+      "id": "st_todo",
+      "team_id": "team_sax",
+      "name": "Todo",
+      "type": "unstarted",
+      "position": 2
+    },
+    {
+      "id": "st_progress",
+      "team_id": "team_sax",
+      "name": "In Progress",
+      "type": "started",
+      "position": 3
+    },
+    {
+      "id": "st_review",
+      "team_id": "team_sax",
+      "name": "In Review",
+      "type": "started",
+      "position": 4
+    },
+    {
+      "id": "st_done",
+      "team_id": "team_sax",
+      "name": "Done",
+      "type": "completed",
+      "position": 5
+    },
+    {
+      "id": "st_canceled",
+      "team_id": "team_sax",
+      "name": "Canceled",
+      "type": "canceled",
+      "position": 6
+    },
+    {
+      "id": "st_duplicate",
+      "team_id": "team_sax",
+      "name": "Duplicate",
+      "type": "canceled",
+      "position": 7
+    }
+  ],
+  "labels": [
+    {
+      "id": "lbl_type",
+      "name": "Type",
+      "color": "#6B7280",
+      "parent_id": null
+    },
+    {
+      "id": "lbl_module",
+      "name": "Module",
+      "color": "#6B7280",
+      "parent_id": null
+    },
+    {
+      "id": "lbl_canal",
+      "name": "Canal",
+      "color": "#6B7280",
+      "parent_id": null
+    },
+    {
+      "id": "lbl_segment",
+      "name": "Segment",
+      "color": "#6B7280",
+      "parent_id": null
+    },
+    {
+      "id": "lbl_bug",
+      "name": "Bug",
+      "color": "#EB5757",
+      "parent_id": "lbl_type"
+    },
+    {
+      "id": "lbl_feature",
+      "name": "Feature",
+      "color": "#BB87FC",
+      "parent_id": "lbl_type"
+    },
+    {
+      "id": "lbl_improvement",
+      "name": "Improvement",
+      "color": "#4EA7FC",
+      "parent_id": "lbl_type"
+    },
+    {
+      "id": "lbl_mod_inbox",
+      "name": "Inbox",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_page_offre",
+      "name": "Page offre",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_pipeline",
+      "name": "Pipeline",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_entretiens",
+      "name": "Entretiens",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_entreprises",
+      "name": "Entreprises",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_insights",
+      "name": "Insights",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_reglages",
+      "name": "Réglages",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_onboarding",
+      "name": "Onboarding",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_sources",
+      "name": "Sources",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_ia",
+      "name": "IA",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_emails",
+      "name": "E-mails",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_mobile",
+      "name": "Mobile",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_console_b2b",
+      "name": "Console Business",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_mod_facturation",
+      "name": "Facturation",
+      "color": "#26B5CE",
+      "parent_id": "lbl_module"
+    },
+    {
+      "id": "lbl_canal_support",
+      "name": "Support",
+      "color": "#F2C94C",
+      "parent_id": "lbl_canal"
+    },
+    {
+      "id": "lbl_canal_email",
+      "name": "E-mail",
+      "color": "#F2C94C",
+      "parent_id": "lbl_canal"
+    },
+    {
+      "id": "lbl_canal_chat",
+      "name": "Feedback chat",
+      "color": "#F2C94C",
+      "parent_id": "lbl_canal"
+    },
+    {
+      "id": "lbl_seg_b2c",
+      "name": "B2C",
+      "color": "#4CB782",
+      "parent_id": "lbl_segment"
+    },
+    {
+      "id": "lbl_seg_b2b",
+      "name": "B2B",
+      "color": "#4CB782",
+      "parent_id": "lbl_segment"
+    }
+  ],
+  "initiatives": [
+    {
+      "id": "ini_conversion",
+      "name": "O1 · Conversion Free → Plus",
+      "description": "Faire passer la part d'abonnés Plus de 6 % à 9 % des candidats actifs d'ici fin juin 2027. Levier : la valeur perçue (analyse IA, relances, contacts) et un paywall compréhensible.",
+      "target_date": "2027-06-30",
+      "status": "active"
+    },
+    {
+      "id": "ini_activation",
+      "name": "O2 · Activation et rétention",
+      "description": "70 % des nouveaux inscrits trient au moins 10 offres dans leurs 7 premiers jours ; onboarding terminé en moins de 4 minutes ; confiance dans le score (4 utilisateurs sur 5 le jugent clair).",
+      "target_date": "2027-06-30",
+      "status": "active"
+    },
+    {
+      "id": "ini_b2b",
+      "name": "O3 · Lancement de l'offre Business",
+      "description": "Passer de 10 à 15 comptes Business payants (cabinets d'outplacement, écoles, coachs) et garder 100 % des comptes pilotes. Prérequis : console conseiller utilisable et reporting.",
+      "target_date": "2027-06-30",
+      "status": "active"
+    }
+  ],
+  "projects": [
+    {
+      "id": "prj_score",
+      "name": "Score explicable v2",
+      "description": "Rendre le score juste et compréhensible : bilingue, recalcul après changement des mots-clés, explication « ce qui matche / ce qui manque ».",
+      "state": "started",
+      "initiative_id": "ini_activation",
+      "lead_id": "usr_ines",
+      "start_date": "2027-01-04",
+      "target_date": "2027-05-23"
+    },
+    {
+      "id": "prj_mobile",
+      "name": "Expérience mobile",
+      "description": "Trier, lire et agir sur une offre depuis le téléphone sans friction ; tests sur de vrais appareils.",
+      "state": "started",
+      "initiative_id": "ini_activation",
+      "lead_id": "usr_lea",
+      "start_date": "2027-02-01",
+      "target_date": "2027-05-09"
+    },
+    {
+      "id": "prj_sources",
+      "name": "Couverture des sources",
+      "description": "Plus d'employeurs lus directement (conseil, banques, fintechs) et import des alertes e-mail.",
+      "state": "started",
+      "initiative_id": "ini_activation",
+      "lead_id": "usr_thomas",
+      "start_date": "2027-01-04",
+      "target_date": "2027-06-20"
+    },
+    {
+      "id": "prj_plus",
+      "name": "Offre Plus et paywall",
+      "description": "Rendre la valeur de Plus visible au bon moment, simplifier l'abonnement et la facturation.",
+      "state": "started",
+      "initiative_id": "ini_conversion",
+      "lead_id": "usr_camille",
+      "start_date": "2027-02-15",
+      "target_date": "2027-06-06"
+    },
+    {
+      "id": "prj_relances",
+      "name": "Relances et notifications",
+      "description": "Ne plus laisser une candidature s'endormir : rappels, résumé hebdomadaire, notifications push.",
+      "state": "planned",
+      "initiative_id": "ini_conversion",
+      "lead_id": "usr_hugo",
+      "start_date": "2027-04-12",
+      "target_date": "2027-06-20"
+    },
+    {
+      "id": "prj_console",
+      "name": "Console conseiller (Business)",
+      "description": "Donner aux cabinets, écoles et coachs une vue sur leurs candidats : invitations en masse, suivi, reporting exportable.",
+      "state": "started",
+      "initiative_id": "ini_b2b",
+      "lead_id": "usr_sarah",
+      "start_date": "2027-01-18",
+      "target_date": "2027-05-30"
+    }
+  ],
+  "cycles": [
+    {
+      "id": "cyc_1",
+      "team_id": "team_sax",
+      "number": 1,
+      "name": "Cycle 1",
+      "starts_at": "2027-01-04",
+      "ends_at": "2027-01-17"
+    },
+    {
+      "id": "cyc_2",
+      "team_id": "team_sax",
+      "number": 2,
+      "name": "Cycle 2",
+      "starts_at": "2027-01-18",
+      "ends_at": "2027-01-31"
+    },
+    {
+      "id": "cyc_3",
+      "team_id": "team_sax",
+      "number": 3,
+      "name": "Cycle 3",
+      "starts_at": "2027-02-01",
+      "ends_at": "2027-02-14"
+    },
+    {
+      "id": "cyc_4",
+      "team_id": "team_sax",
+      "number": 4,
+      "name": "Cycle 4",
+      "starts_at": "2027-02-15",
+      "ends_at": "2027-02-28"
+    },
+    {
+      "id": "cyc_5",
+      "team_id": "team_sax",
+      "number": 5,
+      "name": "Cycle 5",
+      "starts_at": "2027-03-01",
+      "ends_at": "2027-03-14"
+    },
+    {
+      "id": "cyc_6",
+      "team_id": "team_sax",
+      "number": 6,
+      "name": "Cycle 6",
+      "starts_at": "2027-03-15",
+      "ends_at": "2027-03-28"
+    },
+    {
+      "id": "cyc_7",
+      "team_id": "team_sax",
+      "number": 7,
+      "name": "Cycle 7",
+      "starts_at": "2027-03-29",
+      "ends_at": "2027-04-11"
+    },
+    {
+      "id": "cyc_8",
+      "team_id": "team_sax",
+      "number": 8,
+      "name": "Cycle 8",
+      "starts_at": "2027-04-12",
+      "ends_at": "2027-04-25"
+    },
+    {
+      "id": "cyc_9",
+      "team_id": "team_sax",
+      "number": 9,
+      "name": "Cycle 9",
+      "starts_at": "2027-04-26",
+      "ends_at": "2027-05-09"
+    }
+  ]
+}

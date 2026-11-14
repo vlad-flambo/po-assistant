@@ -148,4 +148,4 @@ Each one must be checkable in `verify.md`.
 - Le canal « avis sur les stores d'applications » (saxobeat n'a pas d'application native).
 
 ## Gate
-- [ ] Owner approved this spec
+- [x] Owner approved this spec (« Go », Vlad, 2026-11-14)

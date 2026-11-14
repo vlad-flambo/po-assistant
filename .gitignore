@@ -1,3 +1,8 @@
 
 # ai-sdlc: the live board's data files (regenerated from docs/sdlc)
 docs/sdlc/board-data/
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
