@@ -8,7 +8,7 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
 | **Run Python / scripts with** | `uv run python` for project code (uv 0.11 installed); `python3` (3.13) for the ai-sdlc scripts |
 | **Shell** | bash (Linux cloud container) |
 | **Tests** | none yet (to be set by cycle 002: `uv run pytest`) |
-| **Secrets live in** | untracked `.env` at the repo root (gitignored). Variable names: `ANTHROPIC_API_KEY`. Not set in this container on 2026-11-14 |
+| **Secrets live in** | aucun : pas d'API LLM (décision 002-D1, 2026-11-16). L'IA passe par un skill Claude Code et un échange de fichiers |
 | **Hosts and irreversible actions** | No hosted service. Push to GitHub only on branch `claude/optimistic-brown-avbf17`. No real Linear API call, ever (the integration is simulated) |
 | **Project memory / status note** | `docs/sdlc/BOARD.md` + `docs/journal.md` (process log for the jury, see cycle 007) |
 | **Stack** | not on house-stack (no house-stack skill in this environment). Python, SQLite (tier 1, file committed to the repo), Claude API, light web UI |

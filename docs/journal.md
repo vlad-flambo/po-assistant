@@ -29,3 +29,8 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Option écartée** : génération par gabarits (Faker), jugée trop artificielle, et génération par LLM au build (pas de clé, non déterministe).
 - **Construction du jeu de données** : matrice d'allocation d'abord (qui écrit quoi, avec quels pièges), textes ensuite. L'IA rédige ; elle ne choisit ni les faits ni les réponses attendues.
 - **Ce que la vérification a attrapé** : 19 étiquettes P9 oubliées dans mes propres annotations (la règle est désormais calculée et testée), 2 dates incohérentes, une répartition par canal hors tolérance, et 3 incohérences d'offre signalées par les sous-agents rédacteurs. Leçon : ce qui peut se calculer à partir des données ne doit pas être annoté à la main.
+
+### 2026-11-16 (lundi)
+
+- **Pivot d'architecture (Vlad)** : pas d'API Anthropic. L'IA passe par un skill Claude Code qui traite des payloads exportés par l'application, puis l'application importe la réponse. C'est le modèle déjà en production sur saxobeat (« le fichier est le skill »).
+- **Conséquence** : pas de chat dans l'interface. Le PO valide entre chaque étape, et la vérification à l'import devient le garde-fou principal.
