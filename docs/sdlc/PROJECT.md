@@ -9,13 +9,13 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
 | **Shell** | bash (Linux cloud container) |
 | **Tests** | `uv run pytest` (11 tests verts au 2026-11-14, jeu de données) |
 | **Secrets live in** | aucun : pas d'API LLM (décision 002-D1, 2026-11-16). L'IA passe par un skill Claude Code et un échange de fichiers |
-| **Hosts and irreversible actions** | No hosted service. Push to GitHub only on branch `claude/optimistic-brown-avbf17`. No real Linear API call, ever (the integration is simulated) |
+| **Hosts and irreversible actions** | No hosted service. Push to GitHub on `main` only (Vlad, 2026-11-16). No real Linear API call, ever (the integration is simulated) |
 | **Project memory / status note** | `docs/sdlc/BOARD.md` + `docs/journal.md` (process log for the jury, see cycle 007) |
 | **Stack** | not on house-stack (no house-stack skill in this environment). Python, SQLite (tier 1, file committed to the repo), skill Claude Code via échange de fichiers (pas d'API), interface web légère |
 | **Product docs that a cycle updates** | `README.md`, `docs/analyse/`, `docs/adr/` (technical decisions), `docs/journal.md` |
 | **Board data folder** | `docs/sdlc/board-data` (gitignored) |
 | **Live board** | none yet: `BOARD.md` is the board until one is created |
-| **Commit / push rules** | commit only our own paths; push to `claude/optimistic-brown-avbf17` at the end of each step the owner validates |
+| **Commit / push rules** | commit only our own paths; work and push on `main` only, from 2026-11-16 (Vlad : « que main à partir de maintenant ») |
 
 ## Notes for this project
 

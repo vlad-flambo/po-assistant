@@ -21,7 +21,7 @@
 | 9 | Vérité terrain complète et isolée | pass | `test_ground_truth` : 80 entrées, cibles valides (issues existantes ou `NEW:<slug>`), aucune demande pour le bruit et le vague ; le script de construction ne lit pas le fichier |
 | 10 | Fiction et confidentialité | pass | `test_fiction_and_privacy` : toutes les adresses et domaines en `.example` ; mention « fictives » ; aucun terme personnel issu de `saxobeat reference/` (liste de termes interdits) |
 | 11 | Tests verts | pass | `uv run pytest tests/test_dataset.py` : 11 passed in 0.15s ([evidence/pytest_2026-11-14.txt](evidence/pytest_2026-11-14.txt)) |
-| 12 | Relecture de 10 feedbacks par Vlad | pending | Échantillon (graine 2027) : [evidence/echantillon_relecture.md](evidence/echantillon_relecture.md) — SAX-202, 211, 214, 224, 242, 245, 252, 260, 274, 275 |
+| 12 | Relecture de 10 feedbacks par Vlad | accepted | « échantillon relu, approuvé » (Vlad, 2026-11-16). | Échantillon (graine 2027) : [evidence/echantillon_relecture.md](evidence/echantillon_relecture.md) — SAX-202, 211, 214, 224, 242, 245, 252, 260, 274, 275 |
 
 ## Tests
 - `uv run pytest tests/test_dataset.py` : 11 tests, tous verts.
@@ -39,5 +39,5 @@
 - Numéros de tickets ZD : une inversion d'ordre le 25 mars (SAX-257 et SAX-258). Sans effet, conservée.
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-16 : « échantillon relu, approuvé »)
 - [ ] Sent back (what, to which stage)

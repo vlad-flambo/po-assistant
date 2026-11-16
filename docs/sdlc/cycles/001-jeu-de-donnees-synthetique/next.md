@@ -12,5 +12,5 @@ Each line is one action: `- [ ] [owner|claude|both] <date, optional> text`. Tick
 - [x] [owner] 2026-11-14 Approuver spec.md (12 critères d'acceptation, 9 pièges)
 - [x] [claude] 2026-11-14 Rédiger plan.md (tranches : schéma + script, workspace et clients, backlog, feedbacks, vérité terrain, tests)
 - [x] [claude] 2026-11-14 Construire le jeu de données (tranches 1 à 6), tests verts
-- [ ] [owner] 2026-11-15 Relire les 10 feedbacks de evidence/echantillon_relecture.md et rendre le verdict (critère 12)
-- [ ] [claude] Après le verdict : learn.md, puis ouvrir l'intent du cycle 002
+- [x] [owner] 2026-11-15 Relire les 10 feedbacks de evidence/echantillon_relecture.md et rendre le verdict (critère 12)
+- [x] [claude] Après le verdict : learn.md, puis ouvrir l'intent du cycle 002

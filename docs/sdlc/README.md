@@ -53,7 +53,7 @@ docs/sdlc/
 
 | Cycle | Imp. | Topic | Stage |
 |-------|------|-------|-------|
-| 001 | 5 | jeu de données synthétique | Intent: started 2026-11-14 |
+| 001 | 5 | jeu de données synthétique | Closed 2026-11-16 (verify accepted, learn done) |
 | 002 | 5 | socle agent et faux connecteur Linear | Intent: started 2026-11-14 |
 | 003 | 4 | bloc A comprendre les feedbacks | Intent: started 2026-11-14 |
 | 004 | 4 | bloc B arbitrer la priorisation | Intent: started 2026-11-14 |
