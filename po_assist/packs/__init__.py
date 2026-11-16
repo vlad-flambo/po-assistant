@@ -3,5 +3,7 @@ et comment vérifier un résultat avant import."""
 from __future__ import annotations
 
 from .analyse import AnalysePack
+from .priorisation import PriorisationPack
+from .redaction import RedactionPack
 
-PACKS = {p.name: p for p in [AnalysePack()]}
+PACKS = {p.name: p for p in [AnalysePack(), PriorisationPack(), RedactionPack()]}

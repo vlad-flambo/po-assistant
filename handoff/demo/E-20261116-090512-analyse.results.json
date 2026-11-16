@@ -1,0 +1,1787 @@
+{
+  "schema": "po-assist.results.v1",
+  "export_id": "E-20261116-090512-analyse",
+  "pack": "analyse",
+  "agent": "claude-code / po-agent",
+  "results": [
+    {
+      "task": "T-001",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente (Plus) recopie chaque matin à la main ses alertes LinkedIn et voudrait les importer directement dans l'Inbox.",
+        "requests": [
+          {
+            "summary": "Importer automatiquement les offres des alertes LinkedIn dans l'Inbox",
+            "target": "SAX-110",
+            "target_status_note": null,
+            "quote": "pouvoir importer mes alertes linkedin direct dans l'inbox, la je recopie tout a la main chaque matin"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le cabinet Transitio Conseil (Business, 18 000 € d'ARR, 60 sièges), qui démarre son partenariat, veut importer ses 60 candidats en une fois et suivre leur activité par conseiller.",
+        "requests": [
+          {
+            "summary": "Importer la liste des candidats en une seule fois à partir d'un fichier Excel ou CSV",
+            "target": "SAX-122",
+            "target_status_note": null,
+            "quote": "Serait-il possible d'importer la liste en une seule fois, par exemple à partir d'un fichier Excel ou CSV ?"
+          },
+          {
+            "summary": "Consulter l'activité de chaque candidat regroupée par conseiller (offres consultées, candidatures, entretiens)",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "Nous aimerions pouvoir consulter l'activité de chaque candidat, regroupée par conseiller"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T11",
+          "T3"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Free croit à un bug car son Inbox s'arrête chaque jour vers 20 offres, alors que c'est la limite de l'offre Free, affichée sans explication.",
+        "requests": [
+          {
+            "summary": "Comprendre, au moment où l'Inbox s'arrête, que la limite de 20 offres par jour de l'offre Free est atteinte et ce que Plus apporte",
+            "target": "SAX-126",
+            "target_status_note": null,
+            "quote": "Et ca recommence chaque jour, toujours vers 20 offres ca s'arrete."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "La cliente apprécie les nombreuses offres de banques et voudrait comprendre pourquoi une offre obtient 48 et ce qui manque pour que le score monte.",
+        "requests": [
+          {
+            "summary": "Comprendre pourquoi une offre a tel score et ce qui manque pour qu'il monte",
+            "target": "SAX-103",
+            "target_status_note": null,
+            "quote": "comprendre pk une offre a 48 et ce qui manque pour que ca monte"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7",
+          "T12"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente n'a reçu l'e-mail de réinitialisation du mot de passe que dans ses spams iCloud, deux jours après, et n'a pas pu accéder à son compte entre-temps.",
+        "requests": [
+          {
+            "summary": "Recevoir les e-mails du service (réinitialisation du mot de passe) dans la boîte de réception et non dans les spams",
+            "target": "NEW:delivrabilite-emails",
+            "target_status_note": null,
+            "quote": "merci de faire en sorte que vos e-mails arrivent normalement"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-006",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client relance sa demande de janvier, restée sans réponse : il recopie à la main les liens de ses alertes Indeed et demande si leur import est prévu.",
+        "requests": [
+          {
+            "summary": "Importer automatiquement les offres des alertes e-mail Indeed dans l'Inbox",
+            "target": "SAX-110",
+            "target_status_note": null,
+            "quote": "I get the Indeed alert e-mails every morning and then copy the interesting links into saxobeat by hand"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-007",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "praise",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client a décroché deux entretiens grâce aux offres Capgemini qu'il ne trouvait nulle part ailleurs.",
+        "requests": [],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-008",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Cap Rebond Partners (Business, 36 000 € d'ARR, 120 sièges, client à risque) relance sur le reporting mensuel pour les entreprises financeurs, compilé à la main aujourd'hui, et demande un calendrier.",
+        "requests": [
+          {
+            "summary": "Produire un reporting mensuel (candidatures, entretiens, retours à l'emploi) pour les entreprises qui financent l'accompagnement",
+            "target": "SAX-124",
+            "target_status_note": null,
+            "quote": "Pourriez-vous nous indiquer si ce reporting est prévu et, le cas échéant, dans quel calendrier ?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-009",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente Plus, bilingue, voit toutes ses offres en français notées 25-35 contre 70-80 pour les équivalentes en anglais, y compris des offres présentes depuis des semaines.",
+        "requests": [
+          {
+            "summary": "Obtenir un score juste pour les offres rédigées en français",
+            "target": "SAX-101",
+            "target_status_note": "SAX-101 est livré (glossaire bilingue) : informer la cliente et vérifier que les offres déjà présentes dans son Inbox ont bien été recalculées.",
+            "quote": "Toutes mes offres rédigées en français ont des scores entre 25 et 35, sans exception."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-010",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T6",
+          "T5"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente, qui l'avait déjà signalé en janvier, ne peut toujours pas déplacer une candidature d'une colonne à l'autre du Pipeline au doigt sur iPhone.",
+        "requests": [
+          {
+            "summary": "Changer le statut d'une candidature depuis le téléphone, sans glisser-déposer à la souris",
+            "target": "SAX-113",
+            "target_status_note": null,
+            "quote": "impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-011",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5",
+          "T8"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client voudrait un rappel quand il faut relancer un recruteur ; il utilise aujourd'hui un tableur à côté.",
+        "requests": [
+          {
+            "summary": "Être rappelé quand une relance de recruteur est due",
+            "target": "SAX-115",
+            "target_status_note": null,
+            "quote": "Un rappel quand il faut relancer un recruteur"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-012",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T9",
+          "T8"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La cliente oublie de revenir voir l'analyse IA promise sous 24 h et voudrait être notifiée (e-mail ou push) quand elle est prête.",
+        "requests": [
+          {
+            "summary": "Être notifié (push ou e-mail) quand l'analyse IA d'une offre est prête",
+            "target": "SAX-116",
+            "target_status_note": null,
+            "quote": "Could you send me a notification when the AI analysis is ready?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-013",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5",
+          "T8"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Plus, déjà signalé à risque, a manqué une relance importante et voudrait être prévenu quand il doit relancer quelqu'un.",
+        "requests": [
+          {
+            "summary": "Être prévenu quand une relance est due",
+            "target": "SAX-115",
+            "target_status_note": null,
+            "quote": "etre prevenu quand je dois relancer qqn. jai loupé une relance importante"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-014",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client veut ajouter La Défense à sa recherche et ne trouve pas où modifier ses villes.",
+        "requests": [
+          {
+            "summary": "Ajouter une ville (La Défense) à sa recherche",
+            "target": "SAX-105",
+            "target_status_note": "Déjà livré (SAX-105) : les villes de recherche se modifient dans Réglages, y compris en mode standard ; l'indiquer au client.",
+            "quote": "je voudrais l'ajouter à ma recherche, mais je ne trouve pas où le faire"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-015",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7",
+          "T1"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente voit la même offre trois fois dans son Inbox (site employeur, Welcome to the Jungle, Adzuna) avec trois scores différents, ce qui nuit à sa confiance dans les scores.",
+        "requests": [
+          {
+            "summary": "Ne voir qu'une fois une même offre publiée sur plusieurs sources, avec un score unique",
+            "target": "NEW:dedoublonnage-offres-multi-sources",
+            "target_status_note": null,
+            "quote": "une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-016",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client a longtemps cherché comment ne plus voir une entreprise et voudrait un bouton bien visible.",
+        "requests": [
+          {
+            "summary": "Bloquer un employeur avec un bouton bien visible",
+            "target": "SAX-106",
+            "target_status_note": null,
+            "quote": "un bouton bien visible pour ne plus voir une entreprise, j'ai cherché longtemps"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-017",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Mobilis RH (Business, 13 500 € d'ARR, 45 sièges) prépare son comité hebdo avec des captures d'écran des candidats et voudrait voir directement où en est chacun depuis l'espace conseiller.",
+        "requests": [
+          {
+            "summary": "Voir depuis l'espace conseiller où en est chaque candidat (candidatures, relances, entretiens)",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "de voir directement où en est chaque candidat (candidatures en cours, relances, entretiens prévus) sans avoir à le solliciter"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-018",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client vise le conseil en stratégie et voudrait que les cabinets comme Accenture et BCG soient couverts ; il consulte leurs sites carrières lui-même.",
+        "requests": [
+          {
+            "summary": "Couvrir les offres des cabinets de conseil (Accenture, BCG)",
+            "target": "SAX-109",
+            "target_status_note": null,
+            "quote": "add consulting firms like accenture and bcg, im targeting strategy consulting roles"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-019",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T12",
+          "T6"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client n'arrive pas à payer l'abonnement Plus depuis son téléphone Android : la fenêtre 3D Secure ne s'affiche jamais et le paiement échoue.",
+        "requests": [
+          {
+            "summary": "Pouvoir payer l'abonnement Plus depuis un téléphone avec la validation 3D Secure",
+            "target": "NEW:paiement-3d-secure-mobile",
+            "target_status_note": null,
+            "quote": "La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-020",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1",
+          "T2",
+          "T5"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client Plus, très satisfait du bloc « pourquoi ce score », propose trois idées : voir les compétences manquantes, recevoir les alertes APEC dans l'Inbox et synchroniser ses entretiens avec Google Agenda.",
+        "requests": [
+          {
+            "summary": "Voir sur la page d'une offre les compétences demandées qui manquent au candidat",
+            "target": "SAX-103",
+            "target_status_note": null,
+            "quote": "ce serait génial de voir clairement les compétences demandées que je n'ai pas"
+          },
+          {
+            "summary": "Recevoir les offres des alertes e-mail APEC directement dans l'Inbox, scorées comme les autres",
+            "target": "SAX-110",
+            "target_status_note": null,
+            "quote": "j'aimerais que ces offres arrivent directement dans ma Inbox saxobeat, scorées comme les autres"
+          },
+          {
+            "summary": "Ajouter automatiquement les entretiens dans Google Agenda",
+            "target": "NEW:synchro-agenda-entretiens",
+            "target_status_note": null,
+            "quote": "j'aimerais qu'il apparaisse automatiquement dans mon Google Agenda, avec le nom de l'entreprise et le lien vers la cheat sheet"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-021",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "L'association Rebond Cadres IDF (Business, 6 000 € d'ARR, 30 sièges, statut churned) annonce ne pas renouveler fin mars faute de reporting pour ses financeurs et de suivi simple des personnes accompagnées.",
+        "requests": [
+          {
+            "summary": "Produire un reporting d'activité pour les financeurs (collectivités, fondations)",
+            "target": "SAX-124",
+            "target_status_note": null,
+            "quote": "nous n'avons aucun moyen de produire un reporting pour nos financeurs (collectivités et fondations)"
+          },
+          {
+            "summary": "Suivre simplement l'avancement des personnes accompagnées",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "nous ne pouvons pas suivre de manière simple l'avancement des personnes que nous accompagnons"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-022",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T3"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Plus trouve l'Inbox peu intuitive et chargée, sans préciser ce qui le gêne.",
+        "requests": [],
+        "follow_up_question": "Qu'est-ce qui vous semble peu intuitif dans l'Inbox : quels éléments sont de trop, ou quelle action avez-vous du mal à faire ?"
+      }
+    },
+    {
+      "task": "T-023",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T11",
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La cliente Free cherche la fonction « voir qui je connais dans l'entreprise » sans la trouver ; elle existe mais est réservée à Plus.",
+        "requests": [
+          {
+            "summary": "Voir qui on connaît chez un employeur",
+            "target": "SAX-119",
+            "target_status_note": "Déjà livré (SAX-119) mais réservé à Plus : expliquer à la cliente Free où trouver la fonction et qu'elle fait partie de l'offre Plus.",
+            "quote": "I read about a feature that lets you see who you know at a company"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-024",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T6",
+          "T3"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Sur téléphone, la carte IA prend tout l'écran et oblige le client à défiler longtemps pour voir l'offre.",
+        "requests": [
+          {
+            "summary": "Replier l'explication de la carte IA pour voir l'offre sans défiler sur téléphone",
+            "target": "SAX-108",
+            "target_status_note": null,
+            "quote": "la carte IA prend tout l'ecran, faut defiler super longtemps pour voir l'offre"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-025",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La cliente voit revenir comme « nouvelle » une offre à laquelle elle a déjà postulé (probablement republiée) et voudrait être prévenue qu'elle a déjà candidaté.",
+        "requests": [
+          {
+            "summary": "Détecter une offre republiée après candidature et signaler la candidature existante",
+            "target": "SAX-112",
+            "target_status_note": null,
+            "quote": "Est-ce que l'appli pourrait détecter ce genre de cas et me prévenir que j'ai déjà candidaté"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-026",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T12",
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "Le client, qui n'utilise plus le service, ne peut pas supprimer son compte (la suppression tourne puis échoue) et exige l'effacement de ses données au titre du RGPD avec confirmation écrite.",
+        "requests": [
+          {
+            "summary": "Pouvoir supprimer son compte sans erreur",
+            "target": "SAX-130",
+            "target_status_note": null,
+            "quote": "J'ai cliqué sur \"Supprimer mon compte\" dans les réglages, ça tourne dans le vide pendant un long moment"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-027",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client lit à part les alertes e-mail APEC pour les offres cadres et voudrait les retrouver dans saxobeat.",
+        "requests": [
+          {
+            "summary": "Importer les offres des alertes e-mail APEC dans saxobeat",
+            "target": "SAX-110",
+            "target_status_note": null,
+            "quote": "je recois les alertes par mail. ce serait top de les avoir dans saxobeat"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-028",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "Le directeur général de Cap Rebond Partners (Business, 36 000 € d'ARR, 120 sièges, client à risque) conditionne le renouvellement de mai au suivi par consultant et au reporting mensuel, qu'un concurrent propose déjà.",
+        "requests": [
+          {
+            "summary": "Tableau de suivi par consultant de l'avancement de tous les candidats de son portefeuille",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "Le premier est un tableau de suivi par consultant"
+          },
+          {
+            "summary": "Reporting mensuel destiné aux entreprises qui financent l'accompagnement",
+            "target": "SAX-124",
+            "target_status_note": null,
+            "quote": "Le second est le reporting mensuel destiné aux entreprises qui financent l'accompagnement de nos candidats."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-029",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7",
+          "T10"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client n'a jamais reçu sur son adresse Outlook l'invitation saxobeat envoyée par son école, même dans les spams.",
+        "requests": [
+          {
+            "summary": "Recevoir les e-mails d'invitation envoyés par son école",
+            "target": "NEW:delivrabilite-emails",
+            "target_status_note": null,
+            "quote": "mon école m'a envoyé une invitation pour saxobeat sur mon adresse Outlook mais je n'ai jamais rien reçu"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-030",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T1",
+          "T4"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "En mode standard, le client a modifié ses mots-clés mais les scores de son Inbox ne changent pas.",
+        "requests": [
+          {
+            "summary": "Recalculer les scores de l'Inbox après une modification des mots-clés",
+            "target": "SAX-102",
+            "target_status_note": null,
+            "quote": "jai changé mes mots clés mais les scores dans l'inbox bougent pas"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-031",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T6"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Sur Android (Chrome), les boutons du bas de l'Inbox passent sous la barre de navigation du téléphone : la cliente Plus ne peut pas écarter d'offre, ce qui rend le tri sur mobile presque impossible.",
+        "requests": [
+          {
+            "summary": "Pouvoir toucher les boutons du bas de l'Inbox sur Android sans qu'ils soient masqués par la barre de navigation",
+            "target": "NEW:boutons-inbox-masques-android",
+            "target_status_note": null,
+            "quote": "the buttons at the bottom of the Inbox overlap with the phone's navigation bar"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-032",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10",
+          "T12"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La DSI de l'Institut Vauban Business School (Business, 24 000 € d'ARR, 300 sièges) signale que la connexion Microsoft ne marche pas, alors que leur politique impose les comptes Microsoft 365 (Entra ID), ce qui relève du SSO non encore livré.",
+        "requests": [
+          {
+            "summary": "Se connecter avec les comptes professionnels Microsoft 365 (Entra ID) de l'établissement",
+            "target": "SAX-125",
+            "target_status_note": null,
+            "quote": "Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID)"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-033",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5",
+          "T8"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "Le client Plus (à risque) a encore raté une relance faute de rappel et annonce qu'il résiliera si rien ne bouge d'ici quelques semaines.",
+        "requests": [
+          {
+            "summary": "Être rappelé quand une relance arrive à échéance",
+            "target": "SAX-115",
+            "target_status_note": null,
+            "quote": "toujours aucun rappel quand une relance arrive à échéance"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-034",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client voudrait voir quelles compétences lui manquent pour une offre afin de décider s'il postule.",
+        "requests": [
+          {
+            "summary": "Voir les compétences manquantes pour une offre",
+            "target": "SAX-103",
+            "target_status_note": null,
+            "quote": "show which skills im missing for a job, so i know if i should apply or not"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-035",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10",
+          "T5"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le candidat accompagné par un cabinet voudrait que son conseiller ne voie pas les candidatures hors du projet défini ensemble.",
+        "requests": [
+          {
+            "summary": "Choisir quelles candidatures sont visibles par son conseiller",
+            "target": "NEW:masquer-candidatures-au-conseiller",
+            "target_status_note": null,
+            "quote": "que mon conseiller du cabinet voie pas toutes mes candidatures"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-036",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T11"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Free croit à un bug parce qu'il ne voit que 20 offres par jour, ce qui est la limite de son offre.",
+        "requests": [
+          {
+            "summary": "Comprendre la limite de 20 offres par jour de l'offre Free et ce que Plus apporte",
+            "target": "SAX-126",
+            "target_status_note": null,
+            "quote": "Je ne vois que 20 offres par jour alors qu'il y en a plus"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-037",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client recopie ses entretiens à la main dans Google Agenda et voudrait les y ajouter directement.",
+        "requests": [
+          {
+            "summary": "Ajouter automatiquement les entretiens dans Google Agenda",
+            "target": "NEW:synchro-agenda-entretiens",
+            "target_status_note": null,
+            "quote": "ajouter mes entretiens dans google agenda"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-038",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Talentéo Partners (Business, 24 000 € d'ARR, 80 sièges) accueille 40 candidats début avril et demande si l'import CSV promis sera prêt d'ici là.",
+        "requests": [
+          {
+            "summary": "Importer les candidats d'une promotion par fichier CSV",
+            "target": "SAX-122",
+            "target_status_note": null,
+            "quote": "vous nous aviez indiqué qu'un import CSV des candidats était prévu"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-039",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T12"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "Le client Plus (à risque) a été prélevé deux fois ce mois-ci et menace d'arrêter son abonnement s'il n'est pas remboursé rapidement.",
+        "requests": [
+          {
+            "summary": "Ne pas être prélevé deux fois pour l'abonnement, et être remboursé du doublon",
+            "target": "NEW:double-prelevement-abonnement",
+            "target_status_note": null,
+            "quote": "J'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-040",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1",
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Passerelle Executive (Business, 15 000 € d'ARR, 25 sièges) relaie deux attentes de ses cadres dirigeants : voir salaire et politique de télétravail d'un coup d'œil, et comprendre pourquoi une offre est bien notée.",
+        "requests": [
+          {
+            "summary": "Voir la fourchette de salaire et la politique de télétravail sans ouvrir l'offre",
+            "target": "NEW:salaire-teletravail-offres",
+            "target_status_note": null,
+            "quote": "they want to see the salary range and the remote working policy at a glance"
+          },
+          {
+            "summary": "Comprendre pourquoi une offre obtient un score élevé",
+            "target": "SAX-103",
+            "target_status_note": null,
+            "quote": "they want to understand why a job scores high"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-041",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T9",
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Pour 5 offres de la cliente Plus, l'analyse IA reste affichée « sous 24 h » depuis 3 jours, alors qu'elle en a besoin pour répondre vite à une offre.",
+        "requests": [
+          {
+            "summary": "Recevoir l'analyse IA dans le délai promis de 24 h",
+            "target": "SAX-120",
+            "target_status_note": null,
+            "quote": "la carte IA affiche « Analyse sous 24 h » depuis 3 jours"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-042",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Free signale pour la deuxième fois une offre en double dans son Inbox (lieu « Paris » et « Paris 9e » pour la même annonce) et commence à s'agacer.",
+        "requests": [
+          {
+            "summary": "Ne voir qu'une fois une même annonce, même si son lieu est libellé différemment",
+            "target": "NEW:dedoublonnage-offres-multi-sources",
+            "target_status_note": null,
+            "quote": "une fois avec le lieu « Paris » et une fois « Paris 9e ». C'est exactement la même annonce"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-043",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "praise",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client Plus trouve très pratique le passage automatique des candidatures en « Sans réponse » après un mois.",
+        "requests": [],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-044",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "noise",
+        "themes": [],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client, qui a trouvé un emploi, demande à être désabonné de tous les e-mails.",
+        "requests": [],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-045",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client consulte à la main les sites carrières des ESN et cabinets (Sopra Steria, Capgemini Invent) et voudrait qu'ils soient couverts.",
+        "requests": [
+          {
+            "summary": "Couvrir les offres des ESN et cabinets de conseil (Sopra Steria, Capgemini Invent)",
+            "target": "SAX-109",
+            "target_status_note": null,
+            "quote": "ajouter les ESN et cabinets, genre sopra steria, capgemini invent"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-046",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client voudrait synchroniser ses entretiens avec son agenda Outlook.",
+        "requests": [
+          {
+            "summary": "Synchroniser les entretiens avec son agenda (Outlook)",
+            "target": "NEW:synchro-agenda-entretiens",
+            "target_status_note": null,
+            "quote": "synchro des entretiens avec mon agenda outlook"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-047",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10",
+          "T12"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "La fondatrice d'Atelier Carrières (Business, 3 600 € d'ARR, 12 sièges, client à risque) envisage sérieusement d'arrêter : factures non conformes (sans TVA ni nom de société), prix jugé trop élevé et aucun suivi des personnes accompagnées.",
+        "requests": [
+          {
+            "summary": "Recevoir des factures conformes au nom de la société, avec la TVA",
+            "target": "SAX-127",
+            "target_status_note": null,
+            "quote": "Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société."
+          },
+          {
+            "summary": "Suivre l'avancement des personnes accompagnées (qui avance, qui décroche)",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "Je n'ai aucun moyen de suivre les personnes que j'accompagne : je ne sais pas qui avance, qui décroche"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-048",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T6"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Sur son Pixel, les boutons du bas de l'Inbox sont masqués par la barre de navigation, ce qui ralentit le client à chaque fois.",
+        "requests": [
+          {
+            "summary": "Pouvoir toucher les boutons du bas de l'Inbox sur Android sans qu'ils soient masqués par la barre de navigation",
+            "target": "NEW:boutons-inbox-masques-android",
+            "target_status_note": null,
+            "quote": "the buttons at the bottom are hidden behind the navigation bar on my pixel"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-049",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client Plus, qui habite en grande couronne, voudrait voir pour chaque offre le temps de trajet en RER depuis chez lui avant de postuler.",
+        "requests": [
+          {
+            "summary": "Voir sur chaque offre le temps de trajet en transports depuis son domicile",
+            "target": "NEW:temps-de-trajet-offre",
+            "target_status_note": null,
+            "quote": "Ce serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-050",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7",
+          "T8"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Depuis une semaine, les e-mails « votre analyse IA est prête » arrivent dans les spams Gmail de la cliente Plus, qui les rate.",
+        "requests": [
+          {
+            "summary": "Recevoir les e-mails « analyse IA prête » dans la boîte de réception et non dans les spams",
+            "target": "NEW:delivrabilite-emails",
+            "target_status_note": null,
+            "quote": "les e-mails « votre analyse IA est prête » arrivent dans mes spams Gmail"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-051",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Transitio Conseil (Business, 18 000 € d'ARR, 60 sièges) voudrait que ses consultants puissent laisser sur une offre une note visible par le candidat.",
+        "requests": [
+          {
+            "summary": "Permettre au conseiller de laisser une note sur une offre, visible par le candidat",
+            "target": "NEW:notes-conseiller-sur-offre",
+            "target_status_note": null,
+            "quote": "ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-052",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "praise",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client trouve l'application bien meilleure que de consulter dix sites.",
+        "requests": [],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-053",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T4",
+          "T1"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Free (à risque) ne trouve pas en mode standard le bouton pour recalculer les scores après modification des mots-clés, qu'un ami a en mode power.",
+        "requests": [
+          {
+            "summary": "Recalculer les scores après une modification des mots-clés, aussi en mode standard",
+            "target": "SAX-102",
+            "target_status_note": null,
+            "quote": "en mode standard y a pas de bouton pour recalculer les scores apres avoir modifié mes mots clés"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-054",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T12",
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": true,
+        "summary": "Le client Plus veut résilier son abonnement et ne trouve pas comment le faire dans Réglages.",
+        "requests": [
+          {
+            "summary": "Trouver facilement comment résilier son abonnement Plus dans Réglages",
+            "target": "NEW:resilier-plus-depuis-reglages",
+            "target_status_note": null,
+            "quote": "how do I cancel my Plus subscription? I can't find it anywhere in Settings"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-055",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10",
+          "T8"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "L'École Kepler du Numérique (Business, 9 000 € d'ARR, 150 sièges) veut que chaque étudiant reçoive un récapitulatif hebdomadaire le lundi, imposé par l'école sans possibilité de le couper.",
+        "requests": [
+          {
+            "summary": "Envoyer à chaque candidat un récapitulatif hebdomadaire (nouvelles offres, candidatures en attente, relances)",
+            "target": "SAX-115",
+            "target_status_note": null,
+            "quote": "chacun de nos étudiants reçoive un récapitulatif de sa recherche chaque lundi matin"
+          },
+          {
+            "summary": "Permettre à l'école d'imposer le récapitulatif hebdomadaire à toute une promotion, sans désactivation possible par l'étudiant",
+            "target": "NEW:recap-hebdo-impose-par-l-etablissement",
+            "target_status_note": null,
+            "quote": "que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-056",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1",
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client ouvre chaque offre pour vérifier salaire et télétravail et voudrait filtrer par fourchette de salaire et nombre de jours de télétravail.",
+        "requests": [
+          {
+            "summary": "Filtrer les offres par fourchette de salaire et nombre de jours de télétravail",
+            "target": "NEW:salaire-teletravail-offres",
+            "target_status_note": null,
+            "quote": "filter jobs by salary range and number of remote days"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-057",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T6",
+          "T5"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Sur Android, le client n'arrive pas à faire glisser une carte du Pipeline vers « Entretien ».",
+        "requests": [
+          {
+            "summary": "Changer le statut d'une candidature depuis le téléphone, sans glisser-déposer",
+            "target": "SAX-113",
+            "target_status_note": null,
+            "quote": "je n'arrive pas a faire glisser une carte du Pipeline vers « Entretien »"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-058",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client trouve l'application très lente, sans plus de précision.",
+        "requests": [],
+        "follow_up_question": "Sur quelle page ou quelle action l'application est-elle lente, sur quel appareil et navigateur, et depuis quand ?"
+      }
+    },
+    {
+      "task": "T-059",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente Plus a postulé deux fois à la même offre republiée, que saxobeat lui a reproposée, et voudrait être avertie quand une offre correspond à une candidature déjà envoyée.",
+        "requests": [
+          {
+            "summary": "Être averti quand une offre correspond à une candidature déjà envoyée",
+            "target": "SAX-112",
+            "target_status_note": null,
+            "quote": "Est-ce que vous pourriez m'avertir quand une offre correspond à une candidature que j'ai déjà envoyée ?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-060",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T8"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente, inscrite par son école, reçoit trop d'e-mails et voudrait tout couper sauf les rappels d'entretien.",
+        "requests": [
+          {
+            "summary": "Choisir par type les e-mails reçus (garder les rappels d'entretien, couper le reste)",
+            "target": "NEW:preferences-emails-par-type",
+            "target_status_note": null,
+            "quote": "Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-061",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T3"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La cliente ne trouve pas comment bloquer une entreprise et écarte une à une 30 offres d'une ESN qui ne l'intéresse pas.",
+        "requests": [
+          {
+            "summary": "Bloquer facilement un employeur pour ne plus voir ses offres",
+            "target": "SAX-106",
+            "target_status_note": null,
+            "quote": "Où est-ce qu'on bloque une boite ? j'ai 30 offres d'une ESN qui m'interesse pas"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-062",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client reçoit chaque jour ses alertes LinkedIn et Indeed par e-mail et voudrait que saxobeat en récupère les offres.",
+        "requests": [
+          {
+            "summary": "Importer les offres des alertes e-mail LinkedIn et Indeed",
+            "target": "SAX-110",
+            "target_status_note": null,
+            "quote": "est ce que saxobeat peut recuperer les offres de mes alertes LinkedIn et Indeed ?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-063",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T12"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La coach indépendante Horizon Coaching (Business, 1 500 € d'ARR, 5 sièges) a vu sa facture refusée par son comptable faute de SIRET et de numéro de TVA, et ne trouve pas où les saisir.",
+        "requests": [
+          {
+            "summary": "Faire figurer le SIRET et le numéro de TVA intracommunautaire sur les factures",
+            "target": "SAX-127",
+            "target_status_note": null,
+            "quote": "elle ne mentionne ni mon numéro SIRET ni mon numéro de TVA intracommunautaire"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-064",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T9",
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Plus, qui écrit pour la troisième fois, attend depuis 4 jours l'analyse IA de 12 offres alors qu'elle est promise sous 24 h et principale raison de son abonnement.",
+        "requests": [
+          {
+            "summary": "Recevoir l'analyse IA dans le délai promis de 24 h",
+            "target": "SAX-120",
+            "target_status_note": null,
+            "quote": "The AI analysis has been 'pending' for 4 days now on 12 jobs."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-065",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5",
+          "T8"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "Le client Plus (à risque), après deux signalements sans suite, résilie son abonnement faute de rappels de relance et retourne à son tableur.",
+        "requests": [
+          {
+            "summary": "Être rappelé quand une relance est due",
+            "target": "SAX-115",
+            "target_status_note": null,
+            "quote": "Je vous ai signalé à deux reprises qu'il n'y avait aucun rappel pour les relances"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-066",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "La cliente apprécie l'Inbox et la couverture des sources, et voudrait comprendre pourquoi une offre a 62 et pas 80.",
+        "requests": [
+          {
+            "summary": "Comprendre pourquoi une offre obtient tel score",
+            "target": "SAX-103",
+            "target_status_note": null,
+            "quote": "explain the score. why 62 and not 80?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-067",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "L'Institut Vauban Business School (Business, 24 000 € d'ARR, 300 sièges) signale en urgence que la moitié de ses étudiants n'ont pas pu s'inscrire car le code d'invitation expire au bout de 7 jours.",
+        "requests": [
+          {
+            "summary": "Permettre aux invités de s'inscrire après 7 jours (validité plus longue ou renvoi de l'invitation)",
+            "target": "NEW:prolonger-validite-invitations",
+            "target_status_note": null,
+            "quote": "le code d'invitation avait expiré, au bout de 7 jours"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-068",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10",
+          "T5"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le candidat accompagné, qui l'a déjà demandé, voudrait mettre certaines candidatures en privé pour que son conseiller ne les voie pas.",
+        "requests": [
+          {
+            "summary": "Choisir quelles candidatures sont visibles par son conseiller",
+            "target": "NEW:masquer-candidatures-au-conseiller",
+            "target_status_note": null,
+            "quote": "pouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-069",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "negative",
+        "churn_risk": true,
+        "summary": "Le directeur général de Cap Rebond Partners (Business, 36 000 € d'ARR, 120 sièges, client à risque) confirme qu'ils ne renouvelleront pas si le tableau de suivi par consultant n'est pas livré avant le comité du 15 mai, et demande un calendrier précis.",
+        "requests": [
+          {
+            "summary": "Tableau de suivi par consultant livré et utilisable avant le 15 mai",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "Si le tableau de suivi par consultant n'est pas livré et utilisable par nos équipes avant cette date, nous ne renouvellerons pas."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-070",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T11"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client Free voudrait essayer Plus une ou deux semaines avant de payer ; en attendant il reste en gratuit.",
+        "requests": [
+          {
+            "summary": "Essayer Plus une ou deux semaines avant de payer",
+            "target": "SAX-126",
+            "target_status_note": null,
+            "quote": "essayer plus 1 ou 2 semaines avant de payer"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-071",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T9",
+          "T8"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client Plus revient vérifier l'application de temps en temps et voudrait une notification sur son téléphone quand l'analyse IA est prête.",
+        "requests": [
+          {
+            "summary": "Recevoir une notification sur le téléphone quand l'analyse IA est prête",
+            "target": "SAX-116",
+            "target_status_note": null,
+            "quote": "une notif sur mon tel quand l'analyse IA est prete"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-072",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "La cliente voit la même offre deux fois dans son Inbox (site de l'employeur et Welcome to the Jungle).",
+        "requests": [
+          {
+            "summary": "Ne voir qu'une fois une même offre publiée sur plusieurs sources",
+            "target": "NEW:dedoublonnage-offres-multi-sources",
+            "target_status_note": null,
+            "quote": "once from the company's own site and once from Welcome to the Jungle"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-073",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T3"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client trouve l'Inbox compliquée, sans préciser ce qui le gêne.",
+        "requests": [],
+        "follow_up_question": "Qu'est-ce qui vous paraît compliqué dans l'Inbox : comprendre les offres et les scores, trier, ou trouver une fonction précise ?"
+      }
+    },
+    {
+      "task": "T-074",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "noise",
+        "themes": [],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Réponse automatique d'absence de la consultante de Mobilis RH, sans demande.",
+        "requests": [],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-075",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente n'a pas reçu l'e-mail de confirmation d'inscription sur son adresse Hotmail et a dû redemander le lien trois fois.",
+        "requests": [
+          {
+            "summary": "Recevoir l'e-mail de confirmation d'inscription du premier coup",
+            "target": "NEW:delivrabilite-emails",
+            "target_status_note": null,
+            "quote": "Après mon inscription je n'ai pas reçu l'e-mail de confirmation (adresse Hotmail)."
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-076",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client voudrait que les offres d'Accenture soient ajoutées.",
+        "requests": [
+          {
+            "summary": "Couvrir les offres d'Accenture",
+            "target": "SAX-109",
+            "target_status_note": null,
+            "quote": "[Idée] ajouter les offres accenture"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-077",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Transitio Conseil (Business, 18 000 € d'ARR, 60 sièges) relance pour la troisième fois sur l'import CSV : 25 candidats arrivent lundi et la cliente demande une date ou une solution.",
+        "requests": [
+          {
+            "summary": "Importer les nouveaux candidats par CSV plutôt qu'un par un",
+            "target": "SAX-122",
+            "target_status_note": null,
+            "quote": "25 nouveaux candidats arrivent lundi prochain et je préférerais éviter de les créer un par un"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-078",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client, ravi de la justesse des scores qui lui ont valu 2 entretiens, propose que l'application postule automatiquement aux offres notées au-dessus de 80.",
+        "requests": [
+          {
+            "summary": "Postuler automatiquement aux offres au-dessus d'un score",
+            "target": "SAX-129",
+            "target_status_note": "Refusé (SAX-129) : pas d'auto-candidature, contraire au principe du produit et aux règles des plateformes ; rappeler la décision au client.",
+            "quote": "est-ce que l'appli pourrait postuler automatiquement aux offres qui ont un score au-dessus de 80 ?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-079",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T5"
+        ],
+        "sentiment": "neutral",
+        "churn_risk": false,
+        "summary": "Le client Plus, qui habite loin du centre de Paris, voudrait voir le temps de trajet depuis chez lui pour chaque offre.",
+        "requests": [
+          {
+            "summary": "Voir sur chaque offre le temps de trajet depuis son domicile",
+            "target": "NEW:temps-de-trajet-offre",
+            "target_status_note": null,
+            "quote": "Could saxobeat show the commute time from my home for each job?"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-080",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "improvement",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Les scores du client ne dépassent jamais 40 alors qu'il décroche des entretiens sur ces offres ; il ne fait plus confiance au score.",
+        "requests": [
+          {
+            "summary": "Avoir des scores calibrés qui reflètent la pertinence réelle des offres",
+            "target": "SAX-121",
+            "target_status_note": null,
+            "quote": "Mes scores ne dépassent jamais 40. Jamais. Pourtant je décroche des entretiens sur ces offres-là"
+          }
+        ],
+        "follow_up_question": null
+      }
+    }
+  ]
+}

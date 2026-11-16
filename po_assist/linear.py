@@ -130,3 +130,15 @@ class LinearClient:
             for lab in labels or []:
                 self.conn.execute("INSERT OR IGNORE INTO issue_labels (issue_id, label_id) VALUES (?, ?)", (ident, lab))
         return ident
+
+    def add_comment(self, identifier: str, body: str, user_id: str = "usr_camille") -> str:
+        issue = self.issue(identifier)
+        if not issue:
+            raise ValueError(f"Issue inconnue : {identifier}")
+        n = self.conn.execute("SELECT COUNT(*) FROM comments").fetchone()[0] + 1
+        cid = f"com_po_{n}"
+        with self.conn:
+            self.conn.execute("INSERT INTO comments (id, issue_id, user_id, body, created_at) VALUES (?,?,?,?,?)",
+                              (cid, issue["id"], user_id, body, self._now()))
+        return cid
+

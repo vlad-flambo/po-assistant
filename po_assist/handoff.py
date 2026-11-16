@@ -70,7 +70,8 @@ def export(pack_name: str, *, linear: LinearClient | None = None, store: Store |
     linear = linear or LinearClient()
     store = store or Store()
     pending = {t["subject"] for t in store.open_tasks(pack_name)}
-    items = [it for it in pack.items(linear, store) if it["subject"] not in pending or subjects]
+    all_items = pack.items(linear, store, subjects) if pack_name == "redaction" else pack.items(linear, store)
+    items = [it for it in all_items if it["subject"] not in pending or subjects]
     if subjects:
         items = [it for it in items if it["subject"] in set(subjects)]
     if limit:
@@ -265,3 +266,38 @@ def status(*, linear: LinearClient | None = None, store: Store | None = None) ->
                               "exported": len(pending),
                               "done": len(store.subjects_done(pack.kind))}
     return out
+
+
+def register_pack(pack_path: Path, *, store: Store | None = None) -> str:
+    """Enregistre un pack produit ailleurs (ex. handoff/demo/) pour pouvoir en importer les résultats."""
+    store = store or Store()
+    doc = json.loads(Path(pack_path).read_text(encoding="utf-8"))
+    if doc.get("schema") != PACK_SCHEMA:
+        raise ValueError(f"{pack_path} n'est pas un pack {PACK_SCHEMA}")
+    eid = doc["export_id"]
+    if not store.conn.execute("SELECT 1 FROM exports WHERE id = ?", (eid,)).fetchone():
+        with store.conn:
+            store.conn.execute("INSERT INTO exports VALUES (?,?,?,?,?,?)", (eid, doc["pack"], doc["exported_at"],
+                               Path(pack_path).name, doc["task_count"], doc["instructions_version"]))
+            store.conn.executemany("INSERT INTO tasks VALUES (?,?,?,?,?,?,?)",
+                                   [(eid, t["task"], t["kind"], t["subject"], "exported", None, doc["exported_at"])
+                                    for t in doc["tasks"]])
+    return eid
+
+
+def load_demo(*, store: Store | None = None, linear: LinearClient | None = None, upto: str | None = None) -> list[str]:
+    """Rejoue les résultats pré-calculés de handoff/demo/ dans l'ordre analyse → priorisation → rédaction."""
+    store = store or Store()
+    demo = config.ROOT / "handoff" / "demo"
+    msgs = []
+    for pack in ["analyse", "priorisation", "redaction"]:
+        for pf in sorted(demo.glob(f"*-{pack}.pack.json")):
+            register_pack(pf, store=store)
+            rf = pf.with_name(pf.name.replace(".pack.json", ".results.json"))
+            if rf.exists():
+                pv = check(rf, linear=linear, store=store)
+                msgs.append(f"{rf.name} : {apply(pv, store=store)}")
+        if pack == upto:
+            break
+    return msgs
+

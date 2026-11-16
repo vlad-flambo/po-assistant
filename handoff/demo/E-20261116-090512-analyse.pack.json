@@ -1,0 +1,2398 @@
+{
+  "schema": "po-assist.pack.v1",
+  "export_id": "E-20261116-090512-analyse",
+  "pack": "analyse",
+  "instructions_version": 1,
+  "exported_at": "2026-11-16T09:05:12Z",
+  "reference_date": "2027-04-12",
+  "results_file": "E-20261116-090512-analyse.results.json",
+  "task_count": 80,
+  "agent_brief": "Tu es l'agent IA de PO Assist. Tu assistes Camille, Product Owner de saxobeat (un SaaS de suivi de recherche d'emploi),\nqui travaille dans Linear. Ce fichier est un lot de travail (« pack ») exporté par l'application : il contient tout ce dont\ntu as besoin. Tu joues le rôle qu'aurait une API de modèle de langage : tu lis les tâches, tu produis un résultat structuré\npar tâche, et l'application l'importe après vérification.\n\nRègles :\n1. Traite les tâches dans l'ordre, par paquets d'environ 20, sans en sauter. Si une tâche est impossible, renvoie-la avec\n   \"skipped\" et la raison, plutôt que d'inventer.\n2. N'invente jamais un fait, un chiffre, un client ou une demande qui n'est pas dans le fichier. Les citations (\"quote\")\n   sont copiées mot pour mot depuis le texte de la tâche : l'application vérifie qu'elles s'y trouvent.\n3. Respecte exactement le format de sortie décrit dans \"output_format\" (types, valeurs autorisées). Un résultat hors\n   format est refusé à l'import.\n4. Écris un seul fichier JSON, à côté de ce pack, nommé exactement comme indiqué dans \"results_file\". Si la session\n   risque de s'arrêter, écris les résultats déjà faits : un fichier partiel est importé, le reste repartira au prochain export.\n5. Avant de finir, relis la \"checklist\". Puis donne au PO un compte rendu en 3 lignes : nombre de tâches traitées,\n   ignorées, et ce qui t'a semblé incertain.\n6. Ne lis aucun autre fichier du dépôt pour répondre (en particulier pas data/ground_truth.json) : tout le contexte utile est ici.\n",
+  "instructions": "Pack « analyse » : pour chaque feedback (ticket de support, e-mail ou message du feedback chat), produis une analyse\nstructurée qui aide le PO à comprendre ce que veulent les clients et à le relier au backlog.\n\nPour chaque tâche :\n1. type : bug (le produit ne fait pas ce qu'il est censé faire), feature_request (une capacité nouvelle),\n   improvement (changer une capacité existante), question (le client demande comment ou pourquoi, y compris quand il\n   prend une limite de son offre pour un bug), praise (éloge sans demande), noise (hors sujet : réponse automatique,\n   désabonnement, spam). Classe selon la réalité décrite, pas selon les mots du client : « pouvez-vous ajouter X » pour\n   une fonction qui existe mais plante est un bug ; « bug : je ne vois que 20 offres » sur l'offre Free est une question.\n2. themes : 1 à 3 thèmes du catalogue (context.themes), du plus au moins important. Liste vide pour praise et noise\n   si aucun thème ne s'applique.\n3. sentiment : negative, neutral ou positive.\n4. churn_risk : true si le client annonce ou laisse clairement entendre qu'il pourrait partir, résilier ou ne pas\n   renouveler. Regarde aussi context et l'entrée customer (statut, ARR) pour juger de la gravité dans \"summary\".\n5. summary : une phrase en français, du point de vue du PO (« Le client … »).\n6. requests : une entrée par besoin distinct exprimé (un e-mail peut en contenir plusieurs ; un éloge ou un message\n   vague n'en contient aucun). Pour chacune :\n   - summary : le besoin en une phrase, formulé comme un besoin utilisateur, en français ;\n   - target : l'identifiant de l'issue du backlog (context.backlog) qui couvre ce besoin, même si elle est Done ou\n     Canceled ; sinon \"NEW:<slug>\" (kebab-case, sans accents) pour proposer une nouvelle issue. Réutilise exactement le\n     même slug pour le même besoin d'un feedback à l'autre : c'est ainsi que l'application compte les demandes ;\n   - target_status_note : si la cible est Done ou Canceled, une phrase pour le PO (déjà livré : informer le client ;\n     refusé : rappeler la décision) ; sinon null ;\n   - quote : un extrait copié mot pour mot du texte du feedback (5 à 25 mots) qui justifie la demande.\n7. follow_up_question : si le feedback est trop vague pour en tirer une demande, la question à poser au client ;\n   sinon null.\n",
+  "output_format": {
+    "description": "Un objet par tâche, dans le champ output du fichier de résultats.",
+    "fields": {
+      "type": "une valeur parmi ['bug', 'feature_request', 'improvement', 'question', 'praise', 'noise']",
+      "themes": "liste de 0 à 3 identifiants de context.themes (ex. [\"T1\", \"T6\"])",
+      "sentiment": "une valeur parmi ['negative', 'neutral', 'positive']",
+      "churn_risk": "booléen",
+      "summary": "chaîne, une phrase",
+      "requests": "liste d'objets {summary, target, target_status_note, quote}",
+      "follow_up_question": "chaîne ou null"
+    },
+    "example": {
+      "type": "feature_request",
+      "themes": [
+        "T2"
+      ],
+      "sentiment": "negative",
+      "churn_risk": false,
+      "summary": "La cliente recopie chaque matin ses alertes LinkedIn à la main et voudrait les retrouver dans l'Inbox.",
+      "requests": [
+        {
+          "summary": "Importer automatiquement les offres des alertes LinkedIn dans l'Inbox",
+          "target": "SAX-110",
+          "target_status_note": null,
+          "quote": "je recopie tout a la main chaque matin"
+        }
+      ],
+      "follow_up_question": null
+    }
+  },
+  "results_envelope": {
+    "schema": "po-assist.results.v1",
+    "export_id": "E-20261116-090512-analyse",
+    "pack": "analyse",
+    "agent": "<nom de l'agent>",
+    "results": [
+      {
+        "task": "T-001",
+        "kind": "feedback_analysis",
+        "output": "<objet décrit dans output_format>"
+      },
+      {
+        "task": "T-002",
+        "kind": "feedback_analysis",
+        "skipped": "<raison>"
+      }
+    ]
+  },
+  "context": {
+    "product": "saxobeat : suivi de recherche d'emploi. Collecte les offres sur les sites carrières des employeurs et les agrégateurs, les dédoublonne, leur donne un score explicable (mots-clés + similarité + séniorité) et suit les candidatures (Inbox, Pipeline, Entretiens). Web app pensée pour le téléphone, en français et en anglais, centrée sur Paris et l'Île-de-France.",
+    "plans": {
+      "business": {
+        "description": "Pour les cabinets d'outplacement, écoles et coachs : console conseiller, sièges candidats, reporting",
+        "price_eur_seat_month": 25
+      },
+      "free": {
+        "description": "Inbox limitée à 20 offres par jour, pas d'analyse IA",
+        "price_eur_month": 0
+      },
+      "plus": {
+        "description": "Inbox illimitée, analyse IA sous 24 h, relances, contacts",
+        "price_eur_month": 12
+      }
+    },
+    "reference_date": "2027-04-12",
+    "themes": {
+      "T1": "Pertinence et explication du score",
+      "T2": "Couverture des sources (employeurs, agrégateurs, alertes)",
+      "T3": "Irritants d'interface, fonctions difficiles à trouver",
+      "T4": "Mode standard en retard sur le mode power",
+      "T5": "Suivi des candidatures (relances, republications, agenda, trajets)",
+      "T6": "Mobile (téléphone, gestes, mise en page)",
+      "T7": "Fiabilité et performance (bugs, lenteurs, doublons, e-mails non reçus)",
+      "T8": "Notifications et e-mails (rappels, résumés, préférences)",
+      "T9": "Délai et transparence de l'analyse IA",
+      "T10": "Besoins Business (cabinets d'outplacement, écoles, coachs : console, invitations, reporting)",
+      "T11": "Conversion Free → Plus, compréhension de l'offre",
+      "T12": "Facturation et compte"
+    },
+    "backlog": [
+      {
+        "identifier": "SAX-107",
+        "title": "Supprimer l'aide sur les raccourcis clavier dans l'Inbox",
+        "state": "Canceled",
+        "project": null,
+        "labels": [
+          "Improvement",
+          "Inbox",
+          "B2C"
+        ],
+        "description": "Retour : « remove the shortcuts explanation, takes too much space and limited value ».\n\nÉcarté : l'aide n'apparaît plus que sur ordinateur et se replie après la première utilisation.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-109",
+        "title": "Ajouter les cabinets de conseil comme sources (Capgemini, Accenture, BCG…)",
+        "state": "In Progress",
+        "project": "Couverture des sources",
+        "labels": [
+          "Feature",
+          "Sources",
+          "B2C"
+        ],
+        "description": "Les cabinets de conseil recrutent beaucoup en Île-de-France et ne sont pas couverts. Capgemini est branché (397 offres au premier passage) ; reste Accenture, BCG, Saegus et les cabinets moyens.\n\nContrainte : lire robots.txt et les conditions d'utilisation avant chaque source ; pas de contournement anti-bot.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-129",
+        "title": "Postuler automatiquement aux offres au-dessus d'un score",
+        "state": "Canceled",
+        "project": null,
+        "labels": [
+          "Feature",
+          "Inbox",
+          "B2C"
+        ],
+        "description": "Demande récurrente : envoyer automatiquement une candidature aux offres les mieux notées.\n\nRefusé : contraire au principe du produit (« pas d'auto-candidature »), au sens du marché (Greenhouse, LinkedIn restreignent l'automatisation) et à la qualité des candidatures.",
+        "customer_requests": 2
+      },
+      {
+        "identifier": "SAX-104",
+        "title": "Ne plus analyser les offres publiées il y a plus de 30 jours",
+        "state": "Done",
+        "project": "Couverture des sources",
+        "labels": [
+          "Improvement",
+          "Inbox",
+          "Sources",
+          "B2C"
+        ],
+        "description": "Le filtre d'âge passe de 60 à 30 jours, pour toutes les sources (y compris les sites carrières). Les offres masquées ne sont ni scorées ni envoyées à l'analyse IA.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-110",
+        "title": "Importer les alertes e-mail (LinkedIn, APEC, Welcome to the Jungle, Indeed)",
+        "state": "Backlog",
+        "project": "Couverture des sources",
+        "labels": [
+          "Feature",
+          "E-mails",
+          "Sources",
+          "B2C"
+        ],
+        "description": "Ces plateformes n'ont pas d'API ; leurs alertes e-mail sont la seule voie légale. L'utilisateur transfère ou dépose ses alertes, des parseurs par expéditeur en extraient les offres.\n\nGros chantier : un parseur par plateforme, formats qui changent sans prévenir.",
+        "customer_requests": 4
+      },
+      {
+        "identifier": "SAX-119",
+        "title": "Contacts : demander une recommandation à un contact chez l'employeur",
+        "state": "Done",
+        "project": "Offre Plus et paywall",
+        "labels": [
+          "Feature",
+          "Entreprises",
+          "Page offre",
+          "B2C"
+        ],
+        "description": "À partir de l'export LinkedIn du candidat (Connections.csv), afficher qui il connaît chez l'employeur et proposer un message de demande de recommandation. Réservé à Plus.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-101",
+        "title": "Score : les offres en français sont sous-notées",
+        "state": "Done",
+        "project": "Score explicable v2",
+        "labels": [
+          "Bug",
+          "Inbox",
+          "Page offre",
+          "B2C"
+        ],
+        "description": "Une offre rédigée en français obtient un score nettement plus bas qu'une offre équivalente en anglais, car les mots-clés du profil sont dans la langue du CV.\n\nCorrectif : glossaire bilingue (~130 concepts) et similarité ajustée selon la langue de l'offre.\n\nMesure avant correctif : score moyen 27,9 pour les offres FR contre 39,7 pour les offres EN sur un même profil.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-115",
+        "title": "Rappels de relance par e-mail et résumé hebdomadaire",
+        "state": "Backlog",
+        "project": "Relances et notifications",
+        "labels": [
+          "Feature",
+          "E-mails",
+          "Pipeline",
+          "B2C"
+        ],
+        "description": "Envoyer un e-mail quand une relance est due (candidature + 7 jours) et un résumé hebdomadaire (nouvelles offres, relances, entretiens à venir). Désactivable par type.",
+        "customer_requests": 3
+      },
+      {
+        "identifier": "SAX-128",
+        "title": "Remplir automatiquement les formulaires de candidature (autofill)",
+        "state": "Canceled",
+        "project": null,
+        "labels": [
+          "Feature",
+          "Page offre",
+          "B2C"
+        ],
+        "description": "Pré-remplir les formulaires des sites carrières (Workday, Greenhouse…) avec le profil du candidat, qui clique lui-même sur Envoyer.\n\nReporté : coût de construction très élevé (un connecteur par système), à revoir après la conversion.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-105",
+        "title": "Modifier ses villes de recherche en mode standard",
+        "state": "Done",
+        "project": "Score explicable v2",
+        "labels": [
+          "Improvement",
+          "Réglages",
+          "B2C"
+        ],
+        "description": "Les villes choisies à l'inscription ne pouvaient plus être modifiées qu'en mode power. Elles sont désormais modifiables par tous dans Réglages, comme en mode power.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-117",
+        "title": "Recherche plein texte dans l'Inbox et les archives",
+        "state": "Backlog",
+        "project": null,
+        "labels": [
+          "Feature",
+          "Inbox",
+          "B2C"
+        ],
+        "description": "La recherche actuelle ne porte que sur l'intitulé et l'employeur. Chercher aussi dans la description, les notes et les offres archivées.",
+        "customer_requests": 2
+      },
+      {
+        "identifier": "SAX-106",
+        "title": "Bloquer un employeur avec une icône, et gérer la liste dans Entreprises",
+        "state": "Backlog",
+        "project": null,
+        "labels": [
+          "Improvement",
+          "Entreprises",
+          "Page offre",
+          "B2C"
+        ],
+        "description": "Le blocage d'un employeur existe mais passe par un lien texte peu visible, et la liste des employeurs bloqués est rangée dans Réglages.\n\nAttendu : une icône « bloquer » sur la carte et la page offre ; la liste et le déblocage dans la page Entreprises.",
+        "customer_requests": 1
+      },
+      {
+        "identifier": "SAX-111",
+        "title": "Rejet automatique d'une candidature après un mois sans réponse",
+        "state": "Done",
+        "project": "Relances et notifications",
+        "labels": [
+          "Feature",
+          "Pipeline",
+          "B2C"
+        ],
+        "description": "Une candidature restée à « Postulé » plus de 30 jours passe en « Sans réponse » (rejet présumé), avec une étiquette et un encart explicatif. Le candidat peut annuler.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-102",
+        "title": "Recalculer l'Inbox après une modification des mots-clés (aussi en mode standard)",
+        "state": "In Progress",
+        "project": "Score explicable v2",
+        "labels": [
+          "Improvement",
+          "Inbox",
+          "Réglages",
+          "B2C"
+        ],
+        "description": "Aujourd'hui, modifier ses mots-clés ne change les scores que des nouvelles offres. L'Inbox existante garde les anciens scores, et le bouton « Recalculer » n'existe qu'en mode power.\n\nAttendu : tout changement de mots-clés ou de poids relance le calcul des scores de l'Inbox, en arrière-plan, pour tous les modes.",
+        "customer_requests": 1
+      },
+      {
+        "identifier": "SAX-113",
+        "title": "Pipeline sur téléphone : changer le statut d'une candidature par un geste",
+        "state": "Todo",
+        "project": "Expérience mobile",
+        "labels": [
+          "Improvement",
+          "Mobile",
+          "Pipeline",
+          "B2C"
+        ],
+        "description": "Le Pipeline s'affiche en colonnes côte à côte ; déplacer une carte demande un glisser-déposer à la souris, impossible au doigt.\n\nAttendu : vue liste par statut sur téléphone, changement de statut par balayage ou menu.",
+        "customer_requests": 2
+      },
+      {
+        "identifier": "SAX-103",
+        "title": "Explication du score : ce qui matche, ce qui manque, verdict",
+        "state": "Todo",
+        "project": "Score explicable v2",
+        "labels": [
+          "Feature",
+          "Page offre",
+          "B2C"
+        ],
+        "description": "Afficher sur chaque offre une explication en un coup d'œil : compétences trouvées (« 22 sur 31 »), intitulé et séniorité compatibles, mots-clés manquants, et un verdict (« À postuler », « À regarder », « Peu pertinent »).\n\nC'est notre différenciant face aux concurrents dont le score IA est opaque.",
+        "customer_requests": 3
+      },
+      {
+        "identifier": "SAX-108",
+        "title": "Carte IA : explication « comment ça marche » repliée par défaut",
+        "state": "In Review",
+        "project": "Expérience mobile",
+        "labels": [
+          "Improvement",
+          "IA",
+          "Mobile",
+          "Page offre",
+          "B2C"
+        ],
+        "description": "Le bloc d'explication de la carte IA est toujours déplié, ce qui fait défiler l'offre sur téléphone (« It's not very practical »).\n\nAttendu : replié par défaut, dépliable d'un tap, l'état est mémorisé.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-112",
+        "title": "Offre republiée après candidature : la rattacher à la candidature existante",
+        "state": "Backlog",
+        "project": null,
+        "labels": [
+          "Feature",
+          "Inbox",
+          "Pipeline",
+          "B2C"
+        ],
+        "description": "Quand un employeur republie une offre à laquelle le candidat a déjà postulé, elle réapparaît comme nouvelle dans l'Inbox.\n\nAttendu : la détecter, l'afficher comme « republiée » et la rattacher à la candidature au lieu de la proposer à nouveau.",
+        "customer_requests": 1
+      },
+      {
+        "identifier": "SAX-116",
+        "title": "Notification push quand l'analyse IA est prête",
+        "state": "Backlog",
+        "project": "Relances et notifications",
+        "labels": [
+          "Feature",
+          "IA",
+          "Mobile",
+          "B2C"
+        ],
+        "description": "L'analyse IA arrive « sous 24 h », mais le candidat ne le sait que s'il ouvre l'application. Notification push via l'application installée (PWA).",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-121",
+        "title": "Calibrage du score : qu'un 50 ait le même sens pour tous les candidats",
+        "state": "Backlog",
+        "project": "Score explicable v2",
+        "labels": [
+          "Improvement",
+          "IA",
+          "Inbox",
+          "B2C"
+        ],
+        "description": "Un CV riche en mots-clés gonfle tous les scores. Suivre par candidat la part d'offres au-dessus de 50 et l'accord entre l'analyse IA et le score, puis recalibrer périodiquement.",
+        "customer_requests": 1
+      },
+      {
+        "identifier": "SAX-120",
+        "title": "Analyse IA : lancer l'agent automatiquement pour tenir les 24 h",
+        "state": "Backlog",
+        "project": null,
+        "labels": [
+          "Improvement",
+          "IA",
+          "B2C"
+        ],
+        "description": "Les packs d'analyse IA sont encore lancés à la main. Les jours de forte charge, la promesse « sous 24 h » n'est pas tenue. Lancer l'agent automatiquement, avec un garde-fou de coût.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-114",
+        "title": "Tester l'application sur de vrais téléphones (Safari iOS, Chrome Android)",
+        "state": "In Progress",
+        "project": "Expérience mobile",
+        "labels": [
+          "Improvement",
+          "Mobile",
+          "B2C"
+        ],
+        "description": "L'interface mobile n'a été testée qu'en simulation. Mettre en place un banc Playwright + une passe manuelle sur 2 appareils réels avant chaque mise en production.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-130",
+        "title": "Supprimer un compte expire au bout de 40 secondes",
+        "state": "In Review",
+        "project": null,
+        "labels": [
+          "Bug",
+          "Console Business",
+          "Réglages",
+          "B2C"
+        ],
+        "description": "La suppression d'un compte avec beaucoup d'offres vues (36 000) déclenche 73 000 requêtes et expire. Correctif : suppression en masse (33 requêtes, 0,6 s).",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-122",
+        "title": "Console Business : inviter des candidats en masse (import CSV)",
+        "state": "In Progress",
+        "project": "Console conseiller (Business)",
+        "labels": [
+          "Feature",
+          "Console Business",
+          "B2B"
+        ],
+        "description": "Un conseiller doit aujourd'hui inviter ses candidats un par un. Import d'un CSV (nom, e-mail, conseiller référent), envoi des invitations, suivi des comptes activés.",
+        "customer_requests": 2
+      },
+      {
+        "identifier": "SAX-123",
+        "title": "Console Business : tableau de suivi des candidats par conseiller",
+        "state": "Todo",
+        "project": "Console conseiller (Business)",
+        "labels": [
+          "Feature",
+          "Console Business",
+          "B2B"
+        ],
+        "description": "Vue par conseiller : ses candidats, leur activité (dernière connexion, offres triées, candidatures, entretiens), les candidats inactifs depuis plus de 10 jours.",
+        "customer_requests": 3
+      },
+      {
+        "identifier": "SAX-118",
+        "title": "Onboarding : démarrer avec un intitulé de poste, sans CV",
+        "state": "Backlog",
+        "project": null,
+        "labels": [
+          "Improvement",
+          "Onboarding",
+          "B2C"
+        ],
+        "description": "L'import du CV est la première étape et fait abandonner une partie des inscrits (CV pas à jour, sur un autre appareil). Permettre de démarrer avec un intitulé de poste et une ville, et d'ajouter le CV plus tard.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-124",
+        "title": "Console Business : export du reporting pour les clients du cabinet",
+        "state": "Backlog",
+        "project": "Console conseiller (Business)",
+        "labels": [
+          "Feature",
+          "Console Business",
+          "B2B"
+        ],
+        "description": "Les cabinets d'outplacement rendent compte à l'entreprise qui paie l'accompagnement. Export mensuel (PDF et CSV) : candidatures, entretiens, retours à l'emploi, par candidat et agrégé.",
+        "customer_requests": 2
+      },
+      {
+        "identifier": "SAX-125",
+        "title": "SSO Google Workspace et Microsoft pour les comptes Business",
+        "state": "Backlog",
+        "project": "Console conseiller (Business)",
+        "labels": [
+          "Feature",
+          "Console Business",
+          "Réglages",
+          "B2B"
+        ],
+        "description": "Les écoles et les grands cabinets veulent que leurs conseillers se connectent avec leur compte professionnel.",
+        "customer_requests": 1
+      },
+      {
+        "identifier": "SAX-127",
+        "title": "Facture au nom de la société, avec numéro de TVA intracommunautaire",
+        "state": "Backlog",
+        "project": "Offre Plus et paywall",
+        "labels": [
+          "Improvement",
+          "Facturation",
+          "B2B"
+        ],
+        "description": "Les factures ne portent que le nom de la personne. Les coachs indépendants et les cabinets ont besoin du nom de la société, de l'adresse et du numéro de TVA.",
+        "customer_requests": 0
+      },
+      {
+        "identifier": "SAX-126",
+        "title": "Paywall : faire essayer Plus 14 jours avant de bloquer",
+        "state": "Todo",
+        "project": "Offre Plus et paywall",
+        "labels": [
+          "Feature",
+          "Facturation",
+          "Inbox",
+          "B2C"
+        ],
+        "description": "Aujourd'hui l'Inbox Free se bloque à 20 offres par jour sans explication. Proposer un essai Plus de 14 jours, et montrer ce que Plus apporte au moment où la limite est atteinte.",
+        "customer_requests": 0
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "task": "T-001",
+      "kind": "feedback_analysis",
+      "subject": "SAX-201",
+      "input": {
+        "identifier": "SAX-201",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-01T08:00:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_05",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Idée] pouvoir importer mes alertes linkedin direct dans l'inbox, la je…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\npouvoir importer mes alertes linkedin direct dans l'inbox, la je recopie tout a la main chaque matin\n\n**Est-ce que cela vous serait utile ?**\nJe m'en servirais tous les jours\n\n**Que faites-vous aujourd'hui à la place ?**\nje recopie les liens un par un\n\n**À quelle fréquence en auriez-vous besoin ?**\nTous les jours\n\n**Autre chose à ajouter ?**\nfranchement c'est long et ca me saoule",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "feedback_analysis",
+      "subject": "SAX-203",
+      "input": {
+        "identifier": "SAX-203",
+        "channel": "email",
+        "received_at": "2027-02-02T11:26:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_01",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 18000,
+          "seats": 60
+        },
+        "title": "Démarrage du partenariat : import des candidats et suivi par conseiller",
+        "text": "Bonjour,\n\nJe me permets de vous écrire à la suite du lancement de notre partenariat. Nous sommes ravis de démarrer avec saxobeat, et les premiers retours de nos consultants sont encourageants.\n\nPour que la mise en place se passe au mieux, nous aurions deux besoins :\n\nD'abord, nous avons actuellement 60 candidats en cours d'accompagnement. Les créer un par un dans la console prendrait beaucoup de temps à nos équipes. Serait-il possible d'importer la liste en une seule fois, par exemple à partir d'un fichier Excel ou CSV ?\n\nEnsuite, chacun de nos conseillers suit un portefeuille de candidats. Nous aimerions pouvoir consulter l'activité de chaque candidat, regroupée par conseiller : offres consultées, candidatures envoyées, entretiens à venir. Cela nous permettrait de préparer nos points d'équipe sans multiplier les échanges.\n\nJe reste à votre disposition pour en discuter lors d'un rendez-vous si cela vous semble plus simple.\n\nBien cordialement,\n\nClaire Dubreuil\nResponsable des opérations\nTransitio Conseil",
+        "details": {
+          "subject": "Démarrage du partenariat : import des candidats et suivi par conseiller"
+        }
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "feedback_analysis",
+      "subject": "SAX-202",
+      "input": {
+        "identifier": "SAX-202",
+        "channel": "support_ticket",
+        "received_at": "2027-02-02T15:13:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_02",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "BUG inbox bloquée",
+        "text": "Bonjour,\n\nmon inbox est bloquée. Ce matin j'ai traité une vingtaine d'offres et après plus rien, aucune nouvelle offre alors que je vois bien qu'il y en a de nouvelles sur les sites des boites qui m'interessent. J'ai rafraichi, deconnecté/reconnecté, rien a faire. Et ca recommence chaque jour, toujours vers 20 offres ca s'arrete.\n\nAucun message d'erreur, rien. C'est super genant je suis en pleine recherche. Vous pouvez regarder svp ?\n\nJulien",
+        "details": {
+          "device": "Android / Chrome",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "feedback_analysis",
+      "subject": "SAX-204",
+      "input": {
+        "identifier": "SAX-204",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-03T18:39:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_09",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Avis] les offres de banques, y en a plein et des bonnes",
+        "text": "**De quoi s'agit-il ?**\nCette page\n\n**Est-ce utile pour vous ?**\nUtile\n\n**Qu'est-ce qui marche bien pour vous ?**\nles offres de banques, y en a plein et des bonnes\n\n**Que changeriez-vous ?**\ncomprendre pk une offre a 48 et ce qui manque pour que ca monte",
+        "details": {
+          "path": "opinion",
+          "page": "job",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "feedback_analysis",
+      "subject": "SAX-205",
+      "input": {
+        "identifier": "SAX-205",
+        "channel": "support_ticket",
+        "received_at": "2027-02-04T14:52:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_13",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Jamais reçu le mail de réinitialisation du mot de passe",
+        "text": "Bonjour,\n\nJ'ai demandé à réinitialiser mon mot de passe et je n'ai jamais reçu l'e-mail. Je viens de le retrouver dans les spams de ma boîte iCloud... deux jours après. Pendant ce temps je ne pouvais plus accéder à mon compte.\n\nC'est quand même pénible, merci de faire en sorte que vos e-mails arrivent normalement.\n\nMélanie Carré",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-006",
+      "kind": "feedback_analysis",
+      "subject": "SAX-206",
+      "input": {
+        "identifier": "SAX-206",
+        "channel": "email",
+        "received_at": "2027-02-05T10:05:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_31",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Following up: Indeed job alerts",
+        "text": "Hi there,\n\nJust following up on my message from January about supporting Indeed alerts. I haven't heard back, so I thought I'd ask again.\n\nI'm looking for product roles in London and Paris, and honestly most of what I find is on Indeed. Right now I get the Indeed alert e-mails every morning and then copy the interesting links into saxobeat by hand, which kind of defeats the point of having everything in one place.\n\nIs this on your roadmap at all? Even a rough idea of timing would help.\n\nThanks,\nJames",
+        "details": {
+          "subject": "Following up: Indeed job alerts"
+        }
+      }
+    },
+    {
+      "task": "T-007",
+      "kind": "feedback_analysis",
+      "subject": "SAX-207",
+      "input": {
+        "identifier": "SAX-207",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-05T17:18:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_22",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Avis] jai decroché 2 entretiens grace aux offres capgemini que je voyais…",
+        "text": "**De quoi s'agit-il ?**\nInbox\n\n**Est-ce utile pour vous ?**\nJe ne peux pas m'en passer\n\n**Qu'est-ce qui marche bien pour vous ?**\njai decroché 2 entretiens grace aux offres capgemini que je voyais nulle part ailleurs\n\n**Que changeriez-vous ?**\nrien",
+        "details": {
+          "path": "opinion",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-008",
+      "kind": "feedback_analysis",
+      "subject": "SAX-209",
+      "input": {
+        "identifier": "SAX-209",
+        "channel": "email",
+        "received_at": "2027-02-08T09:44:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_02",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "at_risk",
+          "arr_eur": 36000,
+          "seats": 120
+        },
+        "title": "Reporting mensuel pour les entreprises financeurs : calendrier ?",
+        "text": "Bonjour,\n\nJe reviens vers vous au sujet du reporting mensuel dont nous vous avions parlé en décembre.\n\nPour rappel, l'accompagnement de nos candidats est financé par leurs anciens employeurs, qui attendent chaque mois un point de situation : nombre de candidatures, entretiens obtenus, retours à l'emploi. Aujourd'hui, nos consultants compilent ces informations à la main à partir de saxobeat, ce qui leur prend plusieurs heures en fin de mois.\n\nPourriez-vous nous indiquer si ce reporting est prévu et, le cas échéant, dans quel calendrier ? Nous avons besoin de cette visibilité pour organiser le travail de nos équipes dans les prochains mois.\n\nJe vous remercie par avance de votre retour.\n\nCordialement,\n\nStéphane Marchal\nDirecteur des opérations\nCap Rebond Partners",
+        "details": {
+          "subject": "Reporting mensuel pour les entreprises financeurs : calendrier ?"
+        }
+      }
+    },
+    {
+      "task": "T-009",
+      "kind": "feedback_analysis",
+      "subject": "SAX-208",
+      "input": {
+        "identifier": "SAX-208",
+        "channel": "support_ticket",
+        "received_at": "2027-02-08T13:31:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_03",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Scores très bas sur toutes les offres en français",
+        "text": "Bonjour,\n\nToutes mes offres rédigées en français ont des scores entre 25 et 35, sans exception. Pourtant je suis bilingue (mon CV le dit clairement) et ce sont exactement les postes que je vise. Les offres en anglais équivalentes sont à 70-80.\n\nC'est le cas de toutes les offres en français de mon Inbox, y compris celles qui y sont depuis plusieurs semaines. Du coup je dois tout relire à la main, ce qui est un peu le contraire de pourquoi je paie Plus.\n\nPouvez-vous regarder ?\nMerci,\nSophie Lambert",
+        "details": {
+          "device": "Mac / Chrome",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-010",
+      "kind": "feedback_analysis",
+      "subject": "SAX-210",
+      "input": {
+        "identifier": "SAX-210",
+        "channel": "support_ticket",
+        "received_at": "2027-02-09T16:57:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_15",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Pipeline sur iPhone : toujours impossible de déplacer une candidature",
+        "text": "Bonjour,\n\nJe l'avais déjà signalé en janvier mais rien n'a changé : sur iPhone, impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt. La carte ne bouge pas, ou la page défile à la place.\n\nDu coup je dois attendre d'être sur mon ordi le soir pour mettre à jour mes candidatures, alors que c'est justement en sortant d'un entretien que j'ai envie de le faire.\n\nMerci de me tenir au courant cette fois.\nFatou",
+        "details": {
+          "device": "iPhone 13 / Safari",
+          "via": "mobile_app"
+        }
+      }
+    },
+    {
+      "task": "T-011",
+      "kind": "feedback_analysis",
+      "subject": "SAX-211",
+      "input": {
+        "identifier": "SAX-211",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-10T12:10:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_26",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Idée] Un rappel quand il faut relancer un recruteur",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nUn rappel quand il faut relancer un recruteur\n\n**Est-ce que cela vous serait utile ?**\nJe m'en servirais toutes les semaines\n\n**Que faites-vous aujourd'hui à la place ?**\nun tableur a coté\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines",
+        "details": {
+          "path": "idea",
+          "page": "pipeline",
+          "device": "desktop",
+          "mode": "power"
+        }
+      }
+    },
+    {
+      "task": "T-012",
+      "kind": "feedback_analysis",
+      "subject": "SAX-212",
+      "input": {
+        "identifier": "SAX-212",
+        "channel": "email",
+        "received_at": "2027-02-11T08:23:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_34",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Notification when the AI analysis is ready?",
+        "text": "Hello,\n\nCould you send me a notification when the AI analysis is ready? It says \"within 24 hours\" but I always forget to come back and check. An e-mail or a push would be great.\n\nThanks!\nAnna",
+        "details": {
+          "subject": "Notification when the AI analysis is ready?"
+        }
+      }
+    },
+    {
+      "task": "T-013",
+      "kind": "feedback_analysis",
+      "subject": "SAX-213",
+      "input": {
+        "identifier": "SAX-213",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-12T15:36:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_12",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "at_risk"
+        },
+        "title": "[Idée] etre prevenu quand je dois relancer qqn. jai loupé une relance…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\netre prevenu quand je dois relancer qqn. jai loupé une relance importante\n\n**Est-ce que cela vous serait utile ?**\nJe ne peux pas m'en passer\n\n**Que faites-vous aujourd'hui à la place ?**\nrien, j'oublie\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines\n\n**Autre chose à ajouter ?**\nun peu decu sur ce coup la",
+        "details": {
+          "path": "idea",
+          "page": "pipeline",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-014",
+      "kind": "feedback_analysis",
+      "subject": "SAX-214",
+      "input": {
+        "identifier": "SAX-214",
+        "channel": "support_ticket",
+        "received_at": "2027-02-15T11:49:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_04",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Ajouter La Défense à ma recherche",
+        "text": "Bonjour, je cherche maintenant aussi sur La Défense et je voudrais l'ajouter à ma recherche, mais je ne trouve pas où le faire. Vous pouvez m'indiquer ? Merci. Karim",
+        "details": {
+          "device": "Windows / Edge",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-015",
+      "kind": "feedback_analysis",
+      "subject": "SAX-215",
+      "input": {
+        "identifier": "SAX-215",
+        "channel": "support_ticket",
+        "received_at": "2027-02-15T18:02:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_19",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "La même offre 3 fois dans mon inbox ??",
+        "text": "Bonjour\n\nj'ai la même offre 3 fois dans mon Inbox : une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna. Même poste, même boîte, même texte. Et le pire c'est que les 3 n'ont pas le même score (62, 48 et 71). Lequel je dois croire ?\n\nÇa encombre l'inbox et ça ne donne pas confiance dans les scores.\n\nInes",
+        "details": {
+          "device": "iPhone 14 / Safari",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-016",
+      "kind": "feedback_analysis",
+      "subject": "SAX-217",
+      "input": {
+        "identifier": "SAX-217",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-16T10:28:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_23",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Idée] un bouton bien visible pour ne plus voir une entreprise, j'ai cherché…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nun bouton bien visible pour ne plus voir une entreprise, j'ai cherché longtemps\n\n**Est-ce que cela vous serait utile ?**\nUn plus\n\n**À quelle fréquence en auriez-vous besoin ?**\nUne fois par mois",
+        "details": {
+          "path": "idea",
+          "page": "job",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-017",
+      "kind": "feedback_analysis",
+      "subject": "SAX-216",
+      "input": {
+        "identifier": "SAX-216",
+        "channel": "email",
+        "received_at": "2027-02-16T14:15:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_05",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 13500,
+          "seats": 45
+        },
+        "title": "Comité hebdo : savoir où en est chaque candidat",
+        "text": "Bonjour,\n\nChaque lundi, nous tenons un comité où nous passons en revue la situation de tous les candidats que nous accompagnons. Pour le préparer, nous devons aujourd'hui demander à chacun de nous envoyer des captures d'écran de son pipeline. C'est fastidieux pour eux, peu fiable pour nous, et certains oublient tout simplement de le faire.\n\nSerait-il possible, depuis notre espace conseiller, de voir directement où en est chaque candidat (candidatures en cours, relances, entretiens prévus) sans avoir à le solliciter ?\n\nMerci d'avance pour votre retour.\n\nBien à vous,\n\nNathalie Bonnet\nConsultante senior\nMobilis RH",
+        "details": {
+          "subject": "Comité hebdo : savoir où en est chaque candidat"
+        }
+      }
+    },
+    {
+      "task": "T-018",
+      "kind": "feedback_analysis",
+      "subject": "SAX-218",
+      "input": {
+        "identifier": "SAX-218",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-17T17:41:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_32",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idea] add consulting firms like accenture and bcg, im targeting strategy…",
+        "text": "**What would you like to be able to do?**\nadd consulting firms like accenture and bcg, im targeting strategy consulting roles\n\n**How useful would that be to you?**\nI'd use it every week\n\n**What do you do today instead?**\nchecking their career pages myself\n\n**How often would you need it?**\nEvery week",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-019",
+      "kind": "feedback_analysis",
+      "subject": "SAX-219",
+      "input": {
+        "identifier": "SAX-219",
+        "channel": "support_ticket",
+        "received_at": "2027-02-18T13:54:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_18",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Paiement Plus refusé",
+        "text": "Bonjour,\n\nJ'essaie de payer l'abonnement Plus depuis mon téléphone et le paiement est refusé. La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué. J'ai essayé 3 fois, même résultat.\n\nJe veux bien vous payer mais encore faut-il que ça marche...\n\nBaptiste Lemoine",
+        "details": {
+          "device": "Samsung Galaxy A54 / Chrome",
+          "via": "mobile_app"
+        }
+      }
+    },
+    {
+      "task": "T-020",
+      "kind": "feedback_analysis",
+      "subject": "SAX-220",
+      "input": {
+        "identifier": "SAX-220",
+        "channel": "email",
+        "received_at": "2027-02-19T09:07:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_06",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Trois idées d'un abonné Plus très satisfait",
+        "text": "Bonjour l'équipe saxobeat,\n\nJe suis abonné Plus depuis deux mois et je tenais d'abord à vous dire merci. Après des mois à jongler entre quinze onglets et un fichier Excel, j'ai enfin l'impression de piloter ma recherche au lieu de la subir. Le bloc « pourquoi ce score » est particulièrement bien pensé, je comprends enfin pourquoi une offre remonte ou pas.\n\nComme j'utilise l'appli tous les jours, j'ai noté quelques idées qui me rendraient encore plus service :\n\n1. Les compétences manquantes. Sur la page d'une offre, ce serait génial de voir clairement les compétences demandées que je n'ai pas (ou que mon CV ne met pas en avant). Ça m'aiderait à décider si je postule et à adapter mon CV ou ma lettre.\n\n2. Les alertes APEC. Une bonne partie des postes cadres que je vise passent par l'APEC. Je reçois leurs alertes par e-mail, mais j'aimerais que ces offres arrivent directement dans ma Inbox saxobeat, scorées comme les autres.\n\n3. Les entretiens dans Google Agenda. Quand j'ajoute un entretien dans saxobeat, j'aimerais qu'il apparaisse automatiquement dans mon Google Agenda, avec le nom de l'entreprise et le lien vers la cheat sheet. Aujourd'hui je le saisis deux fois, et j'ai déjà failli me tromper d'heure.\n\nRien d'urgent, je sais que vous êtes une petite équipe, mais si l'une de ces idées pouvait voir le jour, je serais ravi. Et si vous cherchez des testeurs, je suis volontaire !\n\nBonne continuation,\nMarc-Antoine Perret",
+        "details": {
+          "subject": "Trois idées d'un abonné Plus très satisfait"
+        }
+      }
+    },
+    {
+      "task": "T-021",
+      "kind": "feedback_analysis",
+      "subject": "SAX-222",
+      "input": {
+        "identifier": "SAX-222",
+        "channel": "email",
+        "received_at": "2027-02-22T12:33:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_09",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "churned",
+          "arr_eur": 6000,
+          "seats": 30
+        },
+        "title": "Renouvellement de notre abonnement fin mars",
+        "text": "Madame, Monsieur,\n\nJe vous écris au nom du bureau de l'association Rebond Cadres IDF, qui s'est réuni la semaine dernière pour faire le point sur nos outils.\n\nNos bénévoles apprécient saxobeat pour accompagner les cadres en recherche d'emploi. En revanche, deux manques nous pénalisent fortement. D'une part, nous n'avons aucun moyen de produire un reporting pour nos financeurs (collectivités et fondations), qui conditionnent leurs subventions à des indicateurs d'activité. D'autre part, nous ne pouvons pas suivre de manière simple l'avancement des personnes que nous accompagnons.\n\nJe dois être transparente avec vous : en l'état, le bureau a décidé de ne pas renouveler l'abonnement à son échéance, fin mars. Nous restons néanmoins ouverts à un échange si des évolutions sur ces deux points étaient prévues à court terme.\n\nJe vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nMartine Caron\nDéléguée générale\nRebond Cadres IDF",
+        "details": {
+          "subject": "Renouvellement de notre abonnement fin mars"
+        }
+      }
+    },
+    {
+      "task": "T-022",
+      "kind": "feedback_analysis",
+      "subject": "SAX-221",
+      "input": {
+        "identifier": "SAX-221",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-22T16:20:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_29",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Avis] bof",
+        "text": "**De quoi s'agit-il ?**\nCette page\n\n**Est-ce utile pour vous ?**\nUn peu utile\n\n**Qu'est-ce qui marche bien pour vous ?**\nbof\n\n**Que changeriez-vous ?**\nc'est pas tres intuitif, plein de trucs",
+        "details": {
+          "path": "opinion",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-023",
+      "kind": "feedback_analysis",
+      "subject": "SAX-223",
+      "input": {
+        "identifier": "SAX-223",
+        "channel": "support_ticket",
+        "received_at": "2027-02-23T08:46:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_36",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Where is \"see who you know at a company\"?",
+        "text": "Hi,\n\nI read about a feature that lets you see who you know at a company, but I can't find it anywhere in the app. I looked on the Companies page and on a few job pages. Where is it?\n\nThanks,\nElena",
+        "details": {
+          "device": "Mac / Safari",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-024",
+      "kind": "feedback_analysis",
+      "subject": "SAX-224",
+      "input": {
+        "identifier": "SAX-224",
+        "channel": "feedback_chat",
+        "received_at": "2027-02-24T15:59:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_30",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Problème] la carte IA prend tout l'ecran, faut defiler super longtemps pour…",
+        "text": "**Que s'est-il passé, et qu'attendiez-vous ?**\nla carte IA prend tout l'ecran, faut defiler super longtemps pour voir l'offre\n\n**Où cela s'est-il passé ?**\nSur cette page\n\n**Dans quelle mesure cela vous a-t-il gêné ?**\nCela me ralentit\n\n**Est-ce que cela arrive à chaque fois ?**\nÀ chaque fois",
+        "details": {
+          "path": "problem",
+          "page": "job",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-025",
+      "kind": "feedback_analysis",
+      "subject": "SAX-225",
+      "input": {
+        "identifier": "SAX-225",
+        "channel": "email",
+        "received_at": "2027-02-25T11:12:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_40",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Offre déjà postulée qui revient comme nouvelle",
+        "text": "Bonjour\n\nCe matin j'ai vu dans mon Inbox une offre marquée « nouvelle »… sauf que j'y ai postulé il y a 3 semaines, elle est même dans mon Pipeline en statut « Postulé ». J'imagine que l'entreprise l'a republiée.\n\nEst-ce que l'appli pourrait détecter ce genre de cas et me prévenir que j'ai déjà candidaté, plutôt que de me la représenter comme une nouveauté ?\n\nMerci,\nJustine",
+        "details": {
+          "subject": "Offre déjà postulée qui revient comme nouvelle"
+        }
+      }
+    },
+    {
+      "task": "T-026",
+      "kind": "feedback_analysis",
+      "subject": "SAX-226",
+      "input": {
+        "identifier": "SAX-226",
+        "channel": "support_ticket",
+        "received_at": "2027-02-26T18:25:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_08",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "churned"
+        },
+        "title": "Ajouter la possibilité de supprimer mon compte",
+        "text": "Bonjour,\n\nPouvez-vous ajouter la possibilité de supprimer mon compte ? Je n'utilise plus votre service.\n\nJ'ai cliqué sur \"Supprimer mon compte\" dans les réglages, ça tourne dans le vide pendant un long moment puis j'ai un message d'erreur. Donc concrètement je ne peux pas supprimer mon compte.\n\nJe vous rappelle qu'au titre du RGPD j'ai le droit à l'effacement de mes données. Merci de faire le nécessaire et de me confirmer la suppression par écrit.\n\nYannick Tessier",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-027",
+      "kind": "feedback_analysis",
+      "subject": "SAX-227",
+      "input": {
+        "identifier": "SAX-227",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-01T14:38:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_16",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] les offres cadres sont sur l'apec, je recois les alertes par mail. ce…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nles offres cadres sont sur l'apec, je recois les alertes par mail. ce serait top de les avoir dans saxobeat\n\n**Est-ce que cela vous serait utile ?**\nJe m'en servirais toutes les semaines\n\n**Que faites-vous aujourd'hui à la place ?**\nje lis les mails apec a part\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-028",
+      "kind": "feedback_analysis",
+      "subject": "SAX-228",
+      "input": {
+        "identifier": "SAX-228",
+        "channel": "email",
+        "received_at": "2027-03-02T10:51:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_02",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "at_risk",
+          "arr_eur": 36000,
+          "seats": 120
+        },
+        "title": "Renouvellement de mai : nos deux conditions",
+        "text": "Bonjour,\n\nStéphane Marchal, notre directeur des opérations, vous a déjà fait part de nos besoins à plusieurs reprises. Je souhaite aujourd'hui vous écrire directement, car notre contrat, qui porte sur 120 sièges, arrive à échéance en mai.\n\nJe serai clair : notre décision de renouvellement dépend de deux éléments.\n\nLe premier est un tableau de suivi par consultant, qui permette à chacun de nos consultants de voir d'un coup d'œil l'avancement de tous les candidats de son portefeuille.\n\nLe second est le reporting mensuel destiné aux entreprises qui financent l'accompagnement de nos candidats. Nous en avons besoin pour justifier nos prestations auprès de nos clients.\n\nJe ne vous cache pas qu'un concurrent nous a récemment présenté une solution qui propose ces deux fonctionnalités. Nous préférerions poursuivre avec saxobeat, dont nos consultants apprécient la qualité, mais nous ne pouvons pas continuer sans ces outils.\n\nJe vous remercie de nous indiquer rapidement ce que vous êtes en mesure de nous proposer, et dans quels délais.\n\nCordialement,\n\nPhilippe Aubert\nDirecteur général\nCap Rebond Partners",
+        "details": {
+          "subject": "Renouvellement de mai : nos deux conditions"
+        }
+      }
+    },
+    {
+      "task": "T-029",
+      "kind": "feedback_analysis",
+      "subject": "SAX-229",
+      "input": {
+        "identifier": "SAX-229",
+        "channel": "support_ticket",
+        "received_at": "2027-03-02T17:04:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_43",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Pas reçu l'invitation de mon école",
+        "text": "Bonjour,\nmon école m'a envoyé une invitation pour saxobeat sur mon adresse Outlook mais je n'ai jamais rien reçu. J'ai vérifié les spams et les courriers indésirables, rien non plus. Comment je fais ?\nKevin",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-030",
+      "kind": "feedback_analysis",
+      "subject": "SAX-230",
+      "input": {
+        "identifier": "SAX-230",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-03T13:17:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_11",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Problème] jai changé mes mots clés mais les scores dans l'inbox bougent pas",
+        "text": "**Que s'est-il passé, et qu'attendiez-vous ?**\njai changé mes mots clés mais les scores dans l'inbox bougent pas\n\n**Où cela s'est-il passé ?**\nSur cette page\n\n**Dans quelle mesure cela vous a-t-il gêné ?**\nCela me ralentit",
+        "details": {
+          "path": "problem",
+          "page": "settings",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-031",
+      "kind": "feedback_analysis",
+      "subject": "SAX-231",
+      "input": {
+        "identifier": "SAX-231",
+        "channel": "support_ticket",
+        "received_at": "2027-03-04T09:30:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_34",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Can't tap 'dismiss' on Android, buttons hidden behind nav bar",
+        "text": "Hello,\n\nOn my Android phone (Chrome), the buttons at the bottom of the Inbox overlap with the phone's navigation bar. I literally can't tap 'dismiss', I keep hitting the back/home buttons instead. Screenshot attached.\n\nThis makes triaging the inbox on mobile basically impossible, which is the main reason I use the app.\n\nAnna",
+        "details": {
+          "device": "Pixel 7 / Chrome",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-032",
+      "kind": "feedback_analysis",
+      "subject": "SAX-232",
+      "input": {
+        "identifier": "SAX-232",
+        "channel": "support_ticket",
+        "received_at": "2027-03-05T16:43:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_03",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 24000,
+          "seats": 300
+        },
+        "title": "Le bouton « Se connecter avec Microsoft » ne fonctionne pas",
+        "text": "Bonjour,\n\nLe bouton « Se connecter avec Microsoft » ne fonctionne pas pour nos utilisateurs. Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID) des étudiants et du personnel.\n\nPouvez-vous corriger le problème ou nous indiquer la configuration à effectuer de notre côté ?\n\nCordialement,\nKarine Petit\nDSI, Institut Vauban Business School",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-033",
+      "kind": "feedback_analysis",
+      "subject": "SAX-234",
+      "input": {
+        "identifier": "SAX-234",
+        "channel": "email",
+        "received_at": "2027-03-08T08:09:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_12",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "at_risk"
+        },
+        "title": "RE: Rappels de relance",
+        "text": "Bonjour,\n\nJe reviens vers vous car rien n'a changé depuis mon premier message : toujours aucun rappel quand une relance arrive à échéance.\n\nRésultat, j'ai encore raté une relance la semaine dernière, pour un poste qui m'intéressait vraiment. Je m'en suis rendu compte en ouvrant mon Pipeline par hasard, avec 6 jours de retard.\n\nJe paie Plus en grande partie pour le suivi des candidatures. Si les relances ne me sont pas rappelées, je ne vois pas trop l'intérêt. Honnêtement, si rien ne bouge d'ici quelques semaines, je vais résilier mon abonnement.\n\nOlivier Fabre",
+        "details": {
+          "subject": "RE: Rappels de relance"
+        }
+      }
+    },
+    {
+      "task": "T-034",
+      "kind": "feedback_analysis",
+      "subject": "SAX-233",
+      "input": {
+        "identifier": "SAX-233",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-08T12:56:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_33",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idea] show which skills im missing for a job, so i know if i should apply…",
+        "text": "**What would you like to be able to do?**\nshow which skills im missing for a job, so i know if i should apply or not\n\n**How useful would that be to you?**\nI'd use it every day\n\n**What do you do today instead?**\nread the ad and guess\n\n**How often would you need it?**\nEvery day",
+        "details": {
+          "path": "idea",
+          "page": "job",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-035",
+      "kind": "feedback_analysis",
+      "subject": "SAX-236",
+      "input": {
+        "identifier": "SAX-236",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-09T11:35:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_46",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] que mon conseiller du cabinet voie pas toutes mes candidatures…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nque mon conseiller du cabinet voie pas toutes mes candidatures. certaines sont hors du projet qu'on a defini ensemble\n\n**Autre chose à ajouter ?**\nc'est un peu genant la",
+        "details": {
+          "path": "idea",
+          "page": "pipeline",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-036",
+      "kind": "feedback_analysis",
+      "subject": "SAX-235",
+      "input": {
+        "identifier": "SAX-235",
+        "channel": "support_ticket",
+        "received_at": "2027-03-09T15:22:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_10",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Bug ? Je ne vois que 20 offres par jour alors qu'il y en a plus",
+        "text": "Bonjour\n\nBug ? Je ne vois que 20 offres par jour alors qu'il y en a plus, je le sais parce que je vois passer d'autres annonces sur LinkedIn et sur les sites des entreprises qui correspondent à mes critères et elles n'apparaissent pas. C'est un peu le but de l'appli non ?\n\nPierre",
+        "details": {
+          "device": "Windows / Chrome",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-037",
+      "kind": "feedback_analysis",
+      "subject": "SAX-238",
+      "input": {
+        "identifier": "SAX-238",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-10T14:01:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_39",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] ajouter mes entretiens dans google agenda",
+        "text": "**Que voudriez-vous pouvoir faire ?**\najouter mes entretiens dans google agenda\n\n**Est-ce que cela vous serait utile ?**\nJe m'en servirais toutes les semaines\n\n**Que faites-vous aujourd'hui à la place ?**\nje les recopie a la main dans gcal\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines",
+        "details": {
+          "path": "idea",
+          "page": "interviews",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-038",
+      "kind": "feedback_analysis",
+      "subject": "SAX-237",
+      "input": {
+        "identifier": "SAX-237",
+        "channel": "email",
+        "received_at": "2027-03-10T18:48:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_07",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 24000,
+          "seats": 80
+        },
+        "title": "Import CSV : 40 nouveaux candidats en avril",
+        "text": "Bonjour,\n\nNous accueillons une nouvelle promotion de 40 candidats début avril.\n\nLors de nos derniers échanges, vous nous aviez indiqué qu'un import CSV des candidats était prévu. Pourriez-vous me dire s'il sera prêt d'ici là ? À défaut, je dois bloquer une demi-journée de saisie pour une personne de l'équipe, et je préférerais m'organiser dès maintenant.\n\nMerci d'avance pour votre retour.\n\nCordialement,\n\nGuillaume Perrin\nDirecteur associé\nTalentéo Partners",
+        "details": {
+          "subject": "Import CSV : 40 nouveaux candidats en avril"
+        }
+      }
+    },
+    {
+      "task": "T-039",
+      "kind": "feedback_analysis",
+      "subject": "SAX-239",
+      "input": {
+        "identifier": "SAX-239",
+        "channel": "support_ticket",
+        "received_at": "2027-03-11T10:14:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_47",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "at_risk"
+        },
+        "title": "Prélevé 2 fois ce mois-ci",
+        "text": "Bonjour,\n\nJ'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus : 2 x 12 €. Je veux être remboursé du deuxième prélèvement rapidement, sinon j'arrête mon abonnement.\n\nFrançois Duval",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-040",
+      "kind": "feedback_analysis",
+      "subject": "SAX-241",
+      "input": {
+        "identifier": "SAX-241",
+        "channel": "email",
+        "received_at": "2027-03-12T13:40:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2b_10",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 15000,
+          "seats": 25
+        },
+        "title": "Salary, remote policy and score explanation for our executives",
+        "text": "Dear saxobeat team,\n\nI lead the programmes at Passerelle Executive, where we support senior executives through career transitions. Our participants have been using saxobeat for a few weeks now, and I would like to pass on their main feedback.\n\nFirst, they want to see the salary range and the remote working policy at a glance, without opening each job and reading the full description. At their level, these two criteria often decide whether a role is worth a closer look at all.\n\nSecond, they want to understand why a job scores high. Several of them told me they are reluctant to trust a score they cannot explain, especially when a role they would never consider appears near the top of their list.\n\nI would be happy to arrange a short call with two or three of our participants if that would help your team.\n\nKind regards,\n\nRichard Hayes\nHead of Programmes\nPasserelle Executive",
+        "details": {
+          "subject": "Salary, remote policy and score explanation for our executives"
+        }
+      }
+    },
+    {
+      "task": "T-041",
+      "kind": "feedback_analysis",
+      "subject": "SAX-240",
+      "input": {
+        "identifier": "SAX-240",
+        "channel": "support_ticket",
+        "received_at": "2027-03-12T17:27:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_13",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Analyse IA bloquée sur « Analyse sous 24 h » depuis 3 jours",
+        "text": "Bonjour,\n\nSur 5 de mes offres, la carte IA affiche « Analyse sous 24 h » depuis 3 jours. Ça fait donc largement plus de 24 h.\n\nPour l'une d'elles je dois donner une réponse rapidement et j'aurais vraiment eu besoin de l'analyse avant. Est-ce que vous pouvez débloquer ça au plus vite ?\n\nMerci\nMélanie Carré",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-042",
+      "kind": "feedback_analysis",
+      "subject": "SAX-242",
+      "input": {
+        "identifier": "SAX-242",
+        "channel": "support_ticket",
+        "received_at": "2027-03-15T09:53:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_02",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "encore une offre en double",
+        "text": "Re-bonjour, c'est encore moi. J'ai la même offre en double dans mon Inbox : une fois avec le lieu « Paris » et une fois « Paris 9e ». C'est exactement la même annonce. Deuxième fois que je vous écris, ça commence à faire beaucoup.\nJulien",
+        "details": {
+          "device": "Android / Chrome",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-043",
+      "kind": "feedback_analysis",
+      "subject": "SAX-243",
+      "input": {
+        "identifier": "SAX-243",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-15T16:06:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_44",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Avis] le passage auto en « sans réponse » apres un mois, super pratique !!",
+        "text": "**De quoi s'agit-il ?**\nPipeline\n\n**Est-ce utile pour vous ?**\nJe ne peux pas m'en passer\n\n**Qu'est-ce qui marche bien pour vous ?**\nle passage auto en « sans réponse » apres un mois, super pratique !!\n\n**Que changeriez-vous ?**\nrien",
+        "details": {
+          "path": "opinion",
+          "page": "pipeline",
+          "device": "desktop",
+          "mode": "power"
+        }
+      }
+    },
+    {
+      "task": "T-044",
+      "kind": "feedback_analysis",
+      "subject": "SAX-244",
+      "input": {
+        "identifier": "SAX-244",
+        "channel": "email",
+        "received_at": "2027-03-16T12:19:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_20",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "churned"
+        },
+        "title": "Unsubscribe",
+        "text": "Please unsubscribe me from all your emails, I found a job.\nThanks.",
+        "details": {
+          "subject": "Unsubscribe"
+        }
+      }
+    },
+    {
+      "task": "T-045",
+      "kind": "feedback_analysis",
+      "subject": "SAX-245",
+      "input": {
+        "identifier": "SAX-245",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-17T08:32:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_17",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] ajouter les ESN et cabinets, genre sopra steria, capgemini invent",
+        "text": "**Que voudriez-vous pouvoir faire ?**\najouter les ESN et cabinets, genre sopra steria, capgemini invent\n\n**Est-ce que cela vous serait utile ?**\nJe ne peux pas m'en passer\n\n**Que faites-vous aujourd'hui à la place ?**\nje vais sur leurs sites carriere a la main\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-046",
+      "kind": "feedback_analysis",
+      "subject": "SAX-247",
+      "input": {
+        "identifier": "SAX-247",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-17T11:58:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_14",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] synchro des entretiens avec mon agenda outlook",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nsynchro des entretiens avec mon agenda outlook\n\n**Est-ce que cela vous serait utile ?**\nUn plus",
+        "details": {
+          "path": "idea",
+          "page": "interviews",
+          "device": "desktop",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-047",
+      "kind": "feedback_analysis",
+      "subject": "SAX-246",
+      "input": {
+        "identifier": "SAX-246",
+        "channel": "support_ticket",
+        "received_at": "2027-03-17T15:45:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_06",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "at_risk",
+          "arr_eur": 3600,
+          "seats": 12
+        },
+        "title": "Factures inutilisables et réflexion sur notre abonnement",
+        "text": "Bonjour,\n\nJe vous écris pour deux sujets.\n\n1. Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société. Mon expert-comptable me les a renvoyées. Il me faut des factures conformes.\n\n2. Plus largement, nous payons 12 sièges et je trouve ça trop cher pour ce que c'est. Je n'ai aucun moyen de suivre les personnes que j'accompagne : je ne sais pas qui avance, qui décroche, qui a besoin d'un coup de main. Or c'est précisément mon métier.\n\nEn l'état, j'envisage sérieusement d'arrêter. J'aimerais en parler avec quelqu'un.\n\nSandrine Leroy\nFondatrice, Atelier Carrières",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-048",
+      "kind": "feedback_analysis",
+      "subject": "SAX-249",
+      "input": {
+        "identifier": "SAX-249",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-18T14:24:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_33",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Problem] the buttons at the bottom are hidden behind the navigation bar on my…",
+        "text": "**What happened, and what did you expect?**\nthe buttons at the bottom are hidden behind the navigation bar on my pixel. expected to see them above it\n\n**Where did it happen?**\nOn this page\n\n**How much did it get in your way?**\nIt slows me down\n\n**Does it happen every time?**\nEvery time",
+        "details": {
+          "path": "problem",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-049",
+      "kind": "feedback_analysis",
+      "subject": "SAX-248",
+      "input": {
+        "identifier": "SAX-248",
+        "channel": "email",
+        "received_at": "2027-03-18T18:11:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_37",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Temps de trajet en RER pour chaque offre ?",
+        "text": "Bonjour,\n\nJ'habite en grande couronne (côté Melun), donc le trajet est un critère vraiment important pour moi. Une offre « Paris » peut vouloir dire 50 minutes comme 1 h 45 selon où se trouvent les bureaux.\n\nCe serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi, avant de postuler. Aujourd'hui je copie chaque adresse dans un calculateur d'itinéraire, c'est long.\n\nMerci et bonne soirée,\nVincent",
+        "details": {
+          "subject": "Temps de trajet en RER pour chaque offre ?"
+        }
+      }
+    },
+    {
+      "task": "T-050",
+      "kind": "feedback_analysis",
+      "subject": "SAX-250",
+      "input": {
+        "identifier": "SAX-250",
+        "channel": "support_ticket",
+        "received_at": "2027-03-19T10:37:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_05",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Mails « analyse IA prête » dans les spams",
+        "text": "Bonjour, depuis une semaine les e-mails « votre analyse IA est prête » arrivent dans mes spams Gmail. Avant ils arrivaient normalement. Du coup je les rate. Merci de voir ce qui se passe.\nÉmilie",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-051",
+      "kind": "feedback_analysis",
+      "subject": "SAX-252",
+      "input": {
+        "identifier": "SAX-252",
+        "channel": "email",
+        "received_at": "2027-03-22T13:03:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_01",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 18000,
+          "seats": 60
+        },
+        "title": "Notes des consultants sur une offre, visibles par le candidat",
+        "text": "Bonjour,\n\nJe reviens vers vous avec une nouvelle demande de nos consultants, maintenant que l'outil est bien installé chez nous.\n\nLorsqu'ils passent en revue les offres d'un candidat, ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat : un conseil sur la manière d'aborder la candidature, le nom d'un contact dans l'entreprise, un point à mettre en avant dans la lettre. Aujourd'hui, ces conseils passent par e-mail ou par téléphone et se perdent facilement.\n\nEst-ce une évolution envisageable ?\n\nBien cordialement,\n\nClaire Dubreuil\nResponsable des opérations\nTransitio Conseil",
+        "details": {
+          "subject": "Notes des consultants sur une offre, visibles par le candidat"
+        }
+      }
+    },
+    {
+      "task": "T-052",
+      "kind": "feedback_analysis",
+      "subject": "SAX-251",
+      "input": {
+        "identifier": "SAX-251",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-22T17:50:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_45",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Avis] Super appli, bien mieux que de checker 10 sites",
+        "text": "**De quoi s'agit-il ?**\nCette page\n\n**Est-ce utile pour vous ?**\nJe ne peux pas m'en passer\n\n**Qu'est-ce qui marche bien pour vous ?**\nSuper appli, bien mieux que de checker 10 sites\n\n**Que changeriez-vous ?**\nrien",
+        "details": {
+          "path": "opinion",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-053",
+      "kind": "feedback_analysis",
+      "subject": "SAX-253",
+      "input": {
+        "identifier": "SAX-253",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-23T09:16:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_28",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "at_risk"
+        },
+        "title": "[Problème] en mode standard y a pas de bouton pour recalculer les scores apres…",
+        "text": "**Que s'est-il passé, et qu'attendiez-vous ?**\nen mode standard y a pas de bouton pour recalculer les scores apres avoir modifié mes mots clés. un ami en mode power l'a, j'ai vu sa capture\n\n**Où cela s'est-il passé ?**\nSur cette page\n\n**Dans quelle mesure cela vous a-t-il gêné ?**\nJe n'ai pas pu faire ce que je venais faire\n\n**Est-ce que cela arrive à chaque fois ?**\nÀ chaque fois\n\n**Autre chose à ajouter ?**\npourquoi moi je l'ai pas ?",
+        "details": {
+          "path": "problem",
+          "page": "settings",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-054",
+      "kind": "feedback_analysis",
+      "subject": "SAX-254",
+      "input": {
+        "identifier": "SAX-254",
+        "channel": "support_ticket",
+        "received_at": "2027-03-23T16:29:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_35",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "How do I cancel Plus?",
+        "text": "Hi, how do I cancel my Plus subscription? I can't find it anywhere in Settings. Thanks, Lukas",
+        "details": {
+          "device": "Windows / Firefox",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-055",
+      "kind": "feedback_analysis",
+      "subject": "SAX-256",
+      "input": {
+        "identifier": "SAX-256",
+        "channel": "email",
+        "received_at": "2027-03-24T08:55:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_08",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 9000,
+          "seats": 150
+        },
+        "title": "Récapitulatif hebdomadaire obligatoire pour nos étudiants",
+        "text": "Bonjour,\n\nDans le cadre de notre module d'insertion professionnelle, nous souhaitons que chacun de nos étudiants reçoive un récapitulatif de sa recherche chaque lundi matin : nouvelles offres pertinentes, candidatures en attente, relances à faire.\n\nPour nous, ce récapitulatif doit être obligatoire. Nous savons que certains étudiants préféreraient recevoir moins d'e-mails et le désactiveraient s'ils le pouvaient, mais c'est justement ce rendez-vous hebdomadaire qui les fait avancer. Nous aurions donc besoin que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper.\n\nPouvez-vous me dire si c'est possible ?\n\nCordialement,\n\nBruno Lambert\nResponsable pédagogique\nÉcole Kepler du Numérique",
+        "details": {
+          "subject": "Récapitulatif hebdomadaire obligatoire pour nos étudiants"
+        }
+      }
+    },
+    {
+      "task": "T-056",
+      "kind": "feedback_analysis",
+      "subject": "SAX-255",
+      "input": {
+        "identifier": "SAX-255",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-24T12:42:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_21",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idea] filter jobs by salary range and number of remote days",
+        "text": "**What would you like to be able to do?**\nfilter jobs by salary range and number of remote days\n\n**How useful would that be to you?**\nI'd use it every day\n\n**What do you do today instead?**\nopen every job and check\n\n**How often would you need it?**\nEvery day",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-057",
+      "kind": "feedback_analysis",
+      "subject": "SAX-258",
+      "input": {
+        "identifier": "SAX-258",
+        "channel": "support_ticket",
+        "received_at": "2027-03-25T11:21:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_48",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Impossible de glisser une carte vers Entretien",
+        "text": "bonjour, sur mon téléphone android je n'arrive pas a faire glisser une carte du Pipeline vers « Entretien ». j'appuie, je glisse et rien ne se passe. j'ai réessayé plusieurs fois. merci",
+        "details": {
+          "device": "Android / Chrome",
+          "via": "mobile_app"
+        }
+      }
+    },
+    {
+      "task": "T-058",
+      "kind": "feedback_analysis",
+      "subject": "SAX-257",
+      "input": {
+        "identifier": "SAX-257",
+        "channel": "support_ticket",
+        "received_at": "2027-03-25T15:08:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_27",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "appli lente",
+        "text": "L'appli est hyper lente.",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-059",
+      "kind": "feedback_analysis",
+      "subject": "SAX-259",
+      "input": {
+        "identifier": "SAX-259",
+        "channel": "email",
+        "received_at": "2027-03-26T18:34:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_29",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "J'ai postulé deux fois à la même offre sans m'en rendre compte",
+        "text": "Bonjour,\n\nPetit moment de solitude hier : un recruteur m'a répondu que j'avais déjà candidaté à ce poste le mois dernier. L'offre avait été republiée, saxobeat me l'a reproposée, et moi j'ai foncé sans vérifier.\n\nFranchement, c'est le genre de chose qu'un outil de suivi devrait m'éviter. Est-ce que vous pourriez m'avertir quand une offre correspond à une candidature que j'ai déjà envoyée ? Ça m'éviterait de passer pour quelqu'un qui ne sait pas où il postule.\n\nLucie Hamon",
+        "details": {
+          "subject": "J'ai postulé deux fois à la même offre sans m'en rendre compte"
+        }
+      }
+    },
+    {
+      "task": "T-060",
+      "kind": "feedback_analysis",
+      "subject": "SAX-261",
+      "input": {
+        "identifier": "SAX-261",
+        "channel": "support_ticket",
+        "received_at": "2027-03-29T10:00:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_38",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Trop d'e-mails",
+        "text": "Bonjour,\n\nC'est mon école qui m'a inscrite et depuis je reçois beaucoup trop d'e-mails de votre part. Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles. Comment je fais ? Je n'ai pas envie de me désinscrire de tout et de rater mes entretiens.\n\nMerci,\nManon",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-061",
+      "kind": "feedback_analysis",
+      "subject": "SAX-260",
+      "input": {
+        "identifier": "SAX-260",
+        "channel": "feedback_chat",
+        "received_at": "2027-03-29T14:47:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_19",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] Où est-ce qu'on bloque une boite ? j'ai 30 offres d'une ESN qui…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nOù est-ce qu'on bloque une boite ? j'ai 30 offres d'une ESN qui m'interesse pas\n\n**Que faites-vous aujourd'hui à la place ?**\nje les swipe une par une",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-062",
+      "kind": "feedback_analysis",
+      "subject": "SAX-263",
+      "input": {
+        "identifier": "SAX-263",
+        "channel": "email",
+        "received_at": "2027-03-30T13:26:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_49",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "alertes LinkedIn et Indeed",
+        "text": "est ce que saxobeat peut recuperer les offres de mes alertes LinkedIn et Indeed ? je les recois tous les jours par mail ce serait plus pratique d'avoir tout au meme endroit\nMerci\nRémi",
+        "details": {
+          "subject": "alertes LinkedIn et Indeed"
+        }
+      }
+    },
+    {
+      "task": "T-063",
+      "kind": "feedback_analysis",
+      "subject": "SAX-262",
+      "input": {
+        "identifier": "SAX-262",
+        "channel": "email",
+        "received_at": "2027-03-30T17:13:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_04",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 1500,
+          "seats": 5
+        },
+        "title": "Mentions obligatoires sur ma facture (SIRET et TVA)",
+        "text": "Bonjour,\n\nMon comptable vient de me retourner votre facture du mois de mars : il ne peut pas l'accepter car elle ne mentionne ni mon numéro SIRET ni mon numéro de TVA intracommunautaire.\n\nSerait-il possible d'ajouter ces informations sur mes factures ? Je ne trouve pas où les saisir dans mon espace. Je vous les communique volontiers si besoin.\n\nMerci par avance,\n\nIsabelle Garnier\nCoach indépendante\nHorizon Coaching",
+        "details": {
+          "subject": "Mentions obligatoires sur ma facture (SIRET et TVA)"
+        }
+      }
+    },
+    {
+      "task": "T-064",
+      "kind": "feedback_analysis",
+      "subject": "SAX-264",
+      "input": {
+        "identifier": "SAX-264",
+        "channel": "support_ticket",
+        "received_at": "2027-03-31T09:39:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_31",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "AI analysis stuck on 'pending' for 4 days - 3rd time contacting you",
+        "text": "Hi,\n\nThis is the third time I'm contacting you. The AI analysis has been 'pending' for 4 days now on 12 jobs. You promise results within 24 hours.\n\nI'm a paying Plus subscriber and the AI analysis is the main reason I pay. So far I'm not getting what I'm paying for. Please fix this and let me know what's going on.\n\nJames Whitaker",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-065",
+      "kind": "feedback_analysis",
+      "subject": "SAX-266",
+      "input": {
+        "identifier": "SAX-266",
+        "channel": "email",
+        "received_at": "2027-04-01T12:05:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_12",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "at_risk"
+        },
+        "title": "Résiliation de mon abonnement Plus",
+        "text": "Bonjour,\n\nTroisième et dernier message de ma part. Je vous ai signalé à deux reprises qu'il n'y avait aucun rappel pour les relances, et toujours rien.\n\nJe résilie donc mon abonnement Plus. Merci de ne pas le renouveler et de me confirmer la résiliation.\n\nL'Inbox est bien, mais sans rappels le suivi ne me sert à rien. Je retourne à mon tableur.\n\nOlivier Fabre",
+        "details": {
+          "subject": "Résiliation de mon abonnement Plus"
+        }
+      }
+    },
+    {
+      "task": "T-066",
+      "kind": "feedback_analysis",
+      "subject": "SAX-265",
+      "input": {
+        "identifier": "SAX-265",
+        "channel": "feedback_chat",
+        "received_at": "2027-04-01T16:52:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_36",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Opinion] the inbox and all the sources",
+        "text": "**What is it about?**\nInbox\n\n**How useful is it to you?**\nVery useful\n\n**What works well for you?**\nthe inbox and all the sources\n\n**What would you change?**\nexplain the score. why 62 and not 80?",
+        "details": {
+          "path": "opinion",
+          "page": "inbox",
+          "device": "desktop",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-067",
+      "kind": "feedback_analysis",
+      "subject": "SAX-267",
+      "input": {
+        "identifier": "SAX-267",
+        "channel": "support_ticket",
+        "received_at": "2027-04-02T08:18:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_03",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 24000,
+          "seats": 300
+        },
+        "title": "URGENT - étudiants bloqués à l'inscription, code d'invitation expiré",
+        "text": "Bonjour,\n\nNous avons envoyé les invitations à notre promotion et la moitié des étudiants n'ont pas pu s'inscrire : le code d'invitation avait expiré, au bout de 7 jours. Beaucoup d'étudiants étaient en stage ou en partiels et ne l'ont pas utilisé tout de suite.\n\nJe reçois des messages de leur part et cela nous met en difficulté vis-à-vis d'eux. Merci de nous dire rapidement comment débloquer la situation.\n\nCordialement,\nAnne-Sophie Roux\nResponsable du service carrières, Institut Vauban Business School",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-068",
+      "kind": "feedback_analysis",
+      "subject": "SAX-268",
+      "input": {
+        "identifier": "SAX-268",
+        "channel": "feedback_chat",
+        "received_at": "2027-04-02T15:31:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_46",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] pouvoir mettre certaines candidatures en privé pour que mon…",
+        "text": "**Que voudriez-vous pouvoir faire ?**\npouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas\n\n**Est-ce que cela vous serait utile ?**\nJe ne peux pas m'en passer\n\n**Que faites-vous aujourd'hui à la place ?**\nRien, je ne peux tout simplement pas\n\n**Autre chose à ajouter ?**\ndeja demandé la derniere fois",
+        "details": {
+          "path": "idea",
+          "page": "pipeline",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-069",
+      "kind": "feedback_analysis",
+      "subject": "SAX-269",
+      "input": {
+        "identifier": "SAX-269",
+        "channel": "email",
+        "received_at": "2027-04-05T11:44:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_02",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "at_risk",
+          "arr_eur": 36000,
+          "seats": 120
+        },
+        "title": "RE: Renouvellement de mai : suite à notre appel",
+        "text": "Bonjour,\n\nJe vous remercie pour notre appel de ce matin. Comme convenu, je vous confirme par écrit notre position.\n\nNotre comité de direction se réunira le 15 mai pour statuer sur le renouvellement de notre contrat, qui porte sur 120 sièges, soit environ 36 k€ par an. Si le tableau de suivi par consultant n'est pas livré et utilisable par nos équipes avant cette date, nous ne renouvellerons pas.\n\nJe mesure que le délai est court, et j'apprécie la transparence dont vous avez fait preuve au téléphone. Je vous serais reconnaissant de nous transmettre d'ici la fin de la semaine prochaine un calendrier de livraison précis, afin que je puisse le présenter au comité.\n\nStéphane Marchal reste votre interlocuteur pour les aspects opérationnels.\n\nCordialement,\n\nPhilippe Aubert\nDirecteur général\nCap Rebond Partners",
+        "details": {
+          "subject": "RE: Renouvellement de mai : suite à notre appel"
+        }
+      }
+    },
+    {
+      "task": "T-070",
+      "kind": "feedback_analysis",
+      "subject": "SAX-270",
+      "input": {
+        "identifier": "SAX-270",
+        "channel": "feedback_chat",
+        "received_at": "2027-04-05T18:57:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_10",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] essayer plus 1 ou 2 semaines avant de payer",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nessayer plus 1 ou 2 semaines avant de payer\n\n**Est-ce que cela vous serait utile ?**\nUn plus\n\n**Que faites-vous aujourd'hui à la place ?**\nje reste en gratuit\n\n**À quelle fréquence en auriez-vous besoin ?**\nUne seule fois",
+        "details": {
+          "path": "idea",
+          "page": "settings",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-071",
+      "kind": "feedback_analysis",
+      "subject": "SAX-272",
+      "input": {
+        "identifier": "SAX-272",
+        "channel": "feedback_chat",
+        "received_at": "2027-04-06T10:23:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_50",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "[Idée] une notif sur mon tel quand l'analyse IA est prete",
+        "text": "**Que voudriez-vous pouvoir faire ?**\nune notif sur mon tel quand l'analyse IA est prete\n\n**Est-ce que cela vous serait utile ?**\nJe m'en servirais toutes les semaines\n\n**Que faites-vous aujourd'hui à la place ?**\nje reviens checker l'appli de temps en temps\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines",
+        "details": {
+          "path": "idea",
+          "page": "job",
+          "device": "phone",
+          "mode": "power"
+        }
+      }
+    },
+    {
+      "task": "T-072",
+      "kind": "feedback_analysis",
+      "subject": "SAX-271",
+      "input": {
+        "identifier": "SAX-271",
+        "channel": "support_ticket",
+        "received_at": "2027-04-06T14:10:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_32",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Same job listed twice in my inbox",
+        "text": "Hi, the same job is listed twice in my inbox: once from the company's own site and once from Welcome to the Jungle. Same role, same company. Can you fix that?\nPriya",
+        "details": {
+          "device": "Mac / Chrome",
+          "via": "web_widget"
+        }
+      }
+    },
+    {
+      "task": "T-073",
+      "kind": "feedback_analysis",
+      "subject": "SAX-274",
+      "input": {
+        "identifier": "SAX-274",
+        "channel": "feedback_chat",
+        "received_at": "2027-04-07T13:49:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_43",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Avis] je sais pas",
+        "text": "**De quoi s'agit-il ?**\nCette page\n\n**Est-ce utile pour vous ?**\nUn peu utile\n\n**Qu'est-ce qui marche bien pour vous ?**\nje sais pas\n\n**Que changeriez-vous ?**\nc'est compliqué",
+        "details": {
+          "path": "opinion",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-074",
+      "kind": "feedback_analysis",
+      "subject": "SAX-273",
+      "input": {
+        "identifier": "SAX-273",
+        "channel": "email",
+        "received_at": "2027-04-07T17:36:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_05",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 13500,
+          "seats": 45
+        },
+        "title": "Réponse automatique : absente jusqu'au 19 avril",
+        "text": "Bonjour,\n\nJe suis absente du bureau et serai de retour le lundi 19 avril. Je n'aurai qu'un accès limité à ma messagerie pendant cette période.\n\nPour toute demande urgente, merci de contacter l'accueil de Mobilis RH au 01 00 00 00 00 ou à l'adresse contact@mobilis-rh.example.\n\nCordialement,\n\nNathalie Bonnet\nConsultante senior\nMobilis RH\n\nCeci est une réponse automatique, merci de ne pas y répondre.",
+        "details": {
+          "subject": "Réponse automatique : absente jusqu'au 19 avril"
+        }
+      }
+    },
+    {
+      "task": "T-075",
+      "kind": "feedback_analysis",
+      "subject": "SAX-275",
+      "input": {
+        "identifier": "SAX-275",
+        "channel": "support_ticket",
+        "received_at": "2027-04-08T09:02:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_25",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Pas reçu le mail de confirmation d'inscription",
+        "text": "Bonjour,\n\nAprès mon inscription je n'ai pas reçu l'e-mail de confirmation (adresse Hotmail). J'ai dû redemander un nouveau lien 3 fois. Pas très engageant pour un début...\n\nPauline Olivier",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-076",
+      "kind": "feedback_analysis",
+      "subject": "SAX-276",
+      "input": {
+        "identifier": "SAX-276",
+        "channel": "feedback_chat",
+        "received_at": "2027-04-08T16:15:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_41",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "[Idée] ajouter les offres accenture",
+        "text": "**Que voudriez-vous pouvoir faire ?**\najouter les offres accenture\n\n**Est-ce que cela vous serait utile ?**\nJe m'en servirais toutes les semaines\n\n**À quelle fréquence en auriez-vous besoin ?**\nToutes les semaines",
+        "details": {
+          "path": "idea",
+          "page": "inbox",
+          "device": "phone",
+          "mode": "standard"
+        }
+      }
+    },
+    {
+      "task": "T-077",
+      "kind": "feedback_analysis",
+      "subject": "SAX-278",
+      "input": {
+        "identifier": "SAX-278",
+        "channel": "support_ticket",
+        "received_at": "2027-04-09T08:41:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2b_01",
+          "segment": "b2b",
+          "plan": "business",
+          "status": "active",
+          "arr_eur": 18000,
+          "seats": 60
+        },
+        "title": "Import CSV : où en est-on ?",
+        "text": "Bonjour,\n\nJe reviens vers vous (troisième fois) au sujet de l'import CSV de nos candidats. Où en êtes-vous ?\n\n25 nouveaux candidats arrivent lundi prochain et je préférerais éviter de les créer un par un. Pouvez-vous me donner une date ou, à défaut, une solution pour lundi ?\n\nMerci d'avance,\nClaire Dubreuil\nResponsable des opérations, Transitio Conseil",
+        "details": {
+          "via": "email"
+        }
+      }
+    },
+    {
+      "task": "T-078",
+      "kind": "feedback_analysis",
+      "subject": "SAX-277",
+      "input": {
+        "identifier": "SAX-277",
+        "channel": "email",
+        "received_at": "2027-04-09T12:28:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_30",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "super appli + une idée",
+        "text": "Salut l'équipe !\n\nJuste pour vous dire que votre appli est vraiment top, je l'utilise tous les jours depuis un mois et les scores sont étonnamment justes. Ça m'a déjà fait décrocher 2 entretiens.\n\nUne idée pour aller encore plus loin : est-ce que l'appli pourrait postuler automatiquement aux offres qui ont un score au-dessus de 80 ? Vu que ces offres la colent presque toujours à mon profil, ça me ferait gagner un temps fou. Je validerais juste les autres à la main.\n\nEn tout cas continuez comme ça !\nDavid",
+        "details": {
+          "subject": "super appli + une idée"
+        }
+      }
+    },
+    {
+      "task": "T-079",
+      "kind": "feedback_analysis",
+      "subject": "SAX-279",
+      "input": {
+        "identifier": "SAX-279",
+        "channel": "email",
+        "received_at": "2027-04-10T15:54:00Z",
+        "language": "en",
+        "customer": {
+          "id": "cus_b2c_35",
+          "segment": "b2c",
+          "plan": "plus",
+          "status": "active"
+        },
+        "title": "Commute time for each job?",
+        "text": "Hi,\n\nCould saxobeat show the commute time from my home for each job? I live quite far from central Paris, so a job in La Défense or one in the east can mean a very different daily trip.\n\nThanks,\nLukas",
+        "details": {
+          "subject": "Commute time for each job?"
+        }
+      }
+    },
+    {
+      "task": "T-080",
+      "kind": "feedback_analysis",
+      "subject": "SAX-280",
+      "input": {
+        "identifier": "SAX-280",
+        "channel": "support_ticket",
+        "received_at": "2027-04-11T11:07:00Z",
+        "language": "fr",
+        "customer": {
+          "id": "cus_b2c_24",
+          "segment": "b2c",
+          "plan": "free",
+          "status": "active"
+        },
+        "title": "Scores toujours sous 40",
+        "text": "Bonjour,\n\nMes scores ne dépassent jamais 40. Jamais. Pourtant je décroche des entretiens sur ces offres-là (3 ce mois-ci sur des offres à 34, 38 et 31). Donc soit le score ne sert à rien, soit il y a un bug.\n\nHonnêtement je ne fais plus confiance au score, je relis tout moi-même.\n\nMehdi",
+        "details": {
+          "device": "Windows / Chrome",
+          "via": "web_widget"
+        }
+      }
+    }
+  ],
+  "checklist": [
+    "Une entrée dans results par tâche du pack (output ou skipped), avec le même identifiant de tâche et le même kind.",
+    "Toutes les valeurs énumérées sont dans les listes autorisées.",
+    "Chaque citation est copiée mot pour mot depuis le texte de la tâche.",
+    "Le fichier est du JSON valide, nommé comme results_file, à côté du pack."
+  ]
+}
