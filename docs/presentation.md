@@ -1,6 +1,8 @@
 # Restitution : présentation, démonstration, questions
 
 > 30 minutes : 10 min de démonstration, 5 min d'architecture, 5 min de démarche et difficultés, 10 min de questions (brief §03).
+>
+> **Diapositives** (14, avec notes du présentateur et captures de secours) : https://claude.ai/artifact/Uvou3wJVtTvQHdhBGFSJSk (privées : à partager depuis le menu Partager, export PDF ou PowerPoint possible).
 
 ## Avant de commencer (J-0, 15 min avant)
 

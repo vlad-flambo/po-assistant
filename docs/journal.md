@@ -13,6 +13,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-14 | Rédaction des 80 feedbacks (3 sous-agents en parallèle, un par canal) | Claude Code (sous-agents) | Faits imposés par une matrice écrite avant ; fusion par script contrôlé ; recherche de fuites ; 11 tests ; 5 textes lus par l'agent principal ; 10 soumis à Vlad |
 | 2026-11-16 | Code de l'application (connecteur, packs, scores, interface, tests) | Claude Code | 30 tests ; chaque page de l'interface testée sans navigateur ; chiffres du script de démo recoupés avec les données (3 corrigés) |
 | 2026-11-16 | Travail de l'agent : analyse (80), priorisation (30), rédaction (5) | Skill `po-agent` exécuté par des sous-agents qui n'ont pas vu la vérité terrain | Validation automatique à l'import (0 refus) ; analyse mesurée contre la vérité terrain |
+| 2026-11-16 | Diapositives de restitution (14) | Claude Code | Aperçu rendu et relu ; un titre raccourci ; chiffres repris des données vérifiées |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
