@@ -38,5 +38,5 @@ Status: `open`, `answered`, `parked` (deliberately left for later).
 -
 
 ## Gate
-- [ ] All open questions answered or parked
-- [ ] Goal and success measure confirmed by the owner
+- [x] All open questions answered or parked
+- [x] Goal and success measure confirmed by the owner (périmètre validé via le lot Q1 à Q7 du cycle 002, 2026-11-16)

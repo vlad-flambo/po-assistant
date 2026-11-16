@@ -1,0 +1,41 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /home/user/po-assist/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/po-assist
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0
+collecting ... collected 30 items
+
+tests/test_blocks.py::test_prioritization_pack_covers_open_needs PASSED  [  3%]
+tests/test_blocks.py::test_scores_are_computed_by_code_and_follow_po_overrides PASSED [  6%]
+tests/test_blocks.py::test_cycle_proposal_respects_capacity PASSED       [ 10%]
+tests/test_blocks.py::test_redaction_then_push_to_linear_and_exports PASSED [ 13%]
+tests/test_blocks.py::test_story_validation_rejects_incomplete_output PASSED [ 16%]
+tests/test_dataset.py::test_build_is_deterministic_and_committed_db_is_current PASSED [ 20%]
+tests/test_dataset.py::test_schema_and_integrity PASSED                  [ 23%]
+tests/test_dataset.py::test_feedbacks PASSED                             [ 26%]
+tests/test_dataset.py::test_backlog PASSED                               [ 30%]
+tests/test_dataset.py::test_customers PASSED                             [ 33%]
+tests/test_dataset.py::test_context PASSED                               [ 36%]
+tests/test_dataset.py::test_languages PASSED                             [ 40%]
+tests/test_dataset.py::test_traps PASSED                                 [ 43%]
+tests/test_dataset.py::test_p9_matches_data PASSED                       [ 46%]
+tests/test_dataset.py::test_ground_truth PASSED                          [ 50%]
+tests/test_dataset.py::test_fiction_and_privacy PASSED                   [ 53%]
+tests/test_demo.py::test_demo_results_replay_on_a_fresh_workspace PASSED [ 56%]
+tests/test_demo.py::test_every_ui_page_renders PASSED                    [ 60%]
+tests/test_handoff.py::test_linear_connector_reads_workspace PASSED      [ 63%]
+tests/test_handoff.py::test_export_is_self_contained_and_anonymous PASSED [ 66%]
+tests/test_handoff.py::test_valid_results_are_applied PASSED             [ 70%]
+tests/test_handoff.py::test_invalid_results_are_refused_with_reasons PASSED [ 73%]
+tests/test_handoff.py::test_unknown_export_or_garbage_is_fatal PASSED    [ 76%]
+tests/test_handoff.py::test_reimport_is_a_no_op PASSED                   [ 80%]
+tests/test_handoff.py::test_partial_and_skipped_results PASSED           [ 83%]
+tests/test_handoff.py::test_fenced_json_pasted_from_chat_is_accepted PASSED [ 86%]
+tests/test_handoff.py::test_link_and_create_in_linear PASSED             [ 90%]
+tests/test_insights.py::test_demands_count_distinct_customers_and_reach PASSED [ 93%]
+tests/test_insights.py::test_themes_and_alerts PASSED                    [ 96%]
+tests/test_insights.py::test_evaluation_of_a_perfect_agent PASSED        [100%]
+
+============================== 30 passed in 2.90s ==============================

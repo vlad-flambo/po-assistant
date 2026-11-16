@@ -11,6 +11,8 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-14 | Lecture et synthèse de la documentation saxobeat (PRD lus par l'agent principal, 33 cycles synthétisés par un sous-agent) | Claude Code | Faits cités avec leur fichier source dans `cycles/001/intent.md` ; relecture par Vlad à faire |
 | 2026-11-14 | Spec du jeu de données (schéma, pièges, critères) | Claude Code | Modèle Linear vérifié par recherche web (objets Customer et CustomerNeed) ; spec soumise à l'approbation de Vlad |
 | 2026-11-14 | Rédaction des 80 feedbacks (3 sous-agents en parallèle, un par canal) | Claude Code (sous-agents) | Faits imposés par une matrice écrite avant ; fusion par script contrôlé ; recherche de fuites ; 11 tests ; 5 textes lus par l'agent principal ; 10 soumis à Vlad |
+| 2026-11-16 | Code de l'application (connecteur, packs, scores, interface, tests) | Claude Code | 30 tests ; chaque page de l'interface testée sans navigateur ; chiffres du script de démo recoupés avec les données (3 corrigés) |
+| 2026-11-16 | Travail de l'agent : analyse (80), priorisation (30), rédaction (5) | Skill `po-agent` exécuté par des sous-agents qui n'ont pas vu la vérité terrain | Validation automatique à l'import (0 refus) ; analyse mesurée contre la vérité terrain |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -34,3 +36,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 
 - **Pivot d'architecture (Vlad)** : pas d'API Anthropic. L'IA passe par un skill Claude Code qui traite des payloads exportés par l'application, puis l'application importe la réponse. C'est le modèle déjà en production sur saxobeat (« le fichier est le skill »).
 - **Conséquence** : pas de chat dans l'interface. Le PO valide entre chaque étape, et la vérification à l'import devient le garde-fou principal.
+- **Construction en une journée** : socle d'échange (002), Comprendre (003), Arbitrer (004), Formaliser (005), interface (006). Documentation allégée, comme décidé en Q7.
+- **Premier vrai passage de l'agent** (80 feedbacks, en un seul passage, sans voir la vérité terrain) : types 84 %, thème principal 96 %, rattachement au backlog 98 % / 95 %, 22 besoins nouveaux sur 22, aucun risque de churn manqué. L'erreur la plus fréquente : des bugs classés en améliorations (5 cas).
+- **Biais découvert à l'usage** : compté en personnes (sièges Business), le Reach donne la priorité aux comptes Business ; compté en clients, ce sont les bugs B2C qui passent devant. Plutôt que de trancher dans le code, la bascule est laissée au PO. C'est un argument de démo.
+- **Erreurs rattrapées dans mes propres documents** : une assertion de test fausse (5 mentions et non 7) et 3 chiffres du script de démo, corrigés après recoupement avec les données.
