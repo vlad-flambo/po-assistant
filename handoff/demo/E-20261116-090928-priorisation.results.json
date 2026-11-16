@@ -1,0 +1,398 @@
+{
+  "schema": "po-assist.results.v1",
+  "export_id": "E-20261116-090928-priorisation",
+  "pack": "priorisation",
+  "agent": "claude-code / po-agent",
+  "results": [
+    {
+      "task": "T-001",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.8,
+        "effort_points": 13,
+        "moscow": "could",
+        "okr": "ini_activation",
+        "rationale": "Besoin le plus cité côté B2C : 8 clients (7 candidats dont 5 Plus, 1 compte Business), qui recopient leurs alertes à la main (« je recopie tout a la main chaque matin »). Le Reach de 67 est gonflé par les sièges d'un seul compte Business (18 000 €), sans aucun churn, et la tendance est faible (1 mention sur 4 semaines). À 13 points, soit un cycle entier, ce n'est pas tenable ce trimestre à côté des musts : je propose de le découper (LinkedIn et Indeed d'abord) pour le trimestre suivant.",
+        "risks": "Maintenance continue : un parseur par plateforme, et des formats d'e-mail qui changent sans prévenir."
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 8,
+        "moscow": "should",
+        "okr": "ini_conversion",
+        "rationale": "6 clients (4 candidats dont 4 Plus, 2 comptes Business pour 33 000 €), 2 mentions sur les 4 dernières semaines et 1 client Plus en risque de départ. Les relances sont un levier nommé de l'objectif O1 (« jai loupé une relance importante »). Le Reach de 234 vient surtout des sièges des 2 comptes Business, dont une école qui veut un récapitulatif chaque lundi pour ses étudiants.",
+        "risks": "Délivrabilité : tant que nos e-mails tombent en spam (besoin NEW:delivrabilite-emails), rappels et résumé hebdomadaire n'arriveront pas."
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.5,
+        "effort_points": 5,
+        "moscow": "wont",
+        "okr": null,
+        "rationale": "Aucune mention récente : seulement 2 demandes historiques de candidats Plus, et aucun compte Business. Confort pour les gros utilisateurs, sans lien avec un objectif du trimestre.",
+        "risks": null
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.8,
+        "effort_points": 3,
+        "moscow": "could",
+        "okr": "ini_activation",
+        "rationale": "3 candidats (dont 1 Plus), 1 mention sur les 4 dernières semaines : la fonction existe mais personne ne la trouve (« j'ai cherché longtemps »). Gain de tri utile à l'activation, pour un effort modéré de 3 points.",
+        "risks": null
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 5,
+        "moscow": "should",
+        "okr": "ini_activation",
+        "rationale": "3 candidats (dont 2 Plus) ne peuvent pas changer le statut d'une candidature au doigt (« impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt »). Pour une web app pensée pour le téléphone, c'est une fonction cœur cassée sur mobile, dans le projet Expérience mobile de l'objectif O2.",
+        "risks": "Tester sur de vrais appareils (iOS et Android) : le balayage peut entrer en conflit avec les gestes du navigateur."
+      }
+    },
+    {
+      "task": "T-006",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 1.0,
+        "effort_points": 8,
+        "moscow": "should",
+        "okr": "ini_activation",
+        "rationale": "6 clients (4 candidats, 2 comptes Business pour 39 000 €) demandent la même chose de façon convergente (« comprendre pk une offre a 48 et ce qui manque pour que ca monte »). C'est le levier direct du résultat clé d'O2 sur la confiance dans le score (4 utilisateurs sur 5 le jugent clair) et notre différenciant ; pas de churn, d'où un should, le premier à tirer après les musts. Le Reach de 109 est porté par les sièges des 2 comptes Business.",
+        "risks": "Le score doit être juste avant d'être expliqué : une explication qui expose des incohérences (voir SAX-121) peut faire baisser la confiance."
+      }
+    },
+    {
+      "task": "T-007",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.8,
+        "effort_points": 5,
+        "moscow": "could",
+        "okr": "ini_activation",
+        "rationale": "3 candidats, tous Plus, voient réapparaître comme nouvelle une offre à laquelle ils ont déjà postulé (« me prévenir que j'ai déjà candidaté »). Gêne réelle mais ponctuelle, 1 mention sur 4 semaines.",
+        "risks": "Même moteur de détection que le dédoublonnage multi-sources (NEW:dedoublonnage-offres-multi-sources) : à traiter ensemble."
+      }
+    },
+    {
+      "task": "T-008",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.5,
+        "effort_points": 5,
+        "moscow": "could",
+        "okr": "ini_conversion",
+        "rationale": "2 candidats Plus, aucune demande historique (« une notif sur mon tel quand l'analyse IA est prete »). Confort tant que la promesse des 24 h n'est pas tenue : SAX-120 passe avant.",
+        "risks": "Le push des applications installées (PWA) est limité sur iOS ; dépend aussi de SAX-120."
+      }
+    },
+    {
+      "task": "T-009",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.5,
+        "effort_points": 8,
+        "moscow": "could",
+        "okr": "ini_activation",
+        "rationale": "Une seule mention récente, 2 candidats au total (« Mes scores ne dépassent jamais 40 »). Le signal est réel pour la confiance dans le score (O2), mais trop faible pour 8 points ce trimestre ; à instrumenter d'abord.",
+        "risks": "Recalibrer change tous les scores d'un coup : prévenir les utilisateurs pour ne pas casser la confiance."
+      }
+    },
+    {
+      "task": "T-010",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 8,
+        "moscow": "should",
+        "okr": "ini_conversion",
+        "rationale": "2 candidats Plus attendent leur analyse IA depuis 3 à 4 jours (« The AI analysis has been 'pending' for 4 days now on 12 jobs. »). L'analyse IA est un levier de valeur de Plus nommé dans O1 : une promesse payante non tenue fragilise la conversion. Peu de clients le signalent, mais le problème grossit avec la charge.",
+        "risks": "Coût : un lancement automatique sans plafond peut faire déraper la facture de LLM ; prévoir le garde-fou dès le départ."
+      }
+    },
+    {
+      "task": "T-011",
+      "kind": "prioritization",
+      "output": {
+        "impact": 3,
+        "confidence": 1.0,
+        "effort_points": 8,
+        "moscow": "must",
+        "okr": "ini_b2b",
+        "rationale": "6 comptes Business (95 100 € d'ARR sur 144 600 €) le réclament, dont 3 en risque de départ pour 39 600 €, et 2 mentions sur les 4 dernières semaines (« nous ne pouvons pas suivre de manière simple l'avancement des personnes que nous accompagnons »). C'est le prérequis explicite de l'objectif O3 (console conseiller utilisable). Le Reach de 567 compte les sièges : ce sont 6 comptes, mais ce sont eux qui paient.",
+        "risks": "Confidentialité : certains candidats ne veulent pas que leur conseiller voie toutes leurs candidatures (NEW:masquer-candidatures-au-conseiller)."
+      }
+    },
+    {
+      "task": "T-012",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.5,
+        "effort_points": 5,
+        "moscow": "should",
+        "okr": "ini_activation",
+        "rationale": "Aucun feedback ne le mentionne, ce qui est attendu : les inscrits qui abandonnent à l'import du CV n'écrivent pas. Le besoin sert directement les résultats clés d'O2 (onboarding en moins de 4 minutes, 70 % qui trient 10 offres en 7 jours). Confiance faible : vérifier d'abord le taux d'abandon à l'étape CV dans l'entonnoir avant d'engager.",
+        "risks": "Sans CV, le score repose sur l'intitulé seul et sera moins précis au départ."
+      }
+    },
+    {
+      "task": "T-013",
+      "kind": "prioritization",
+      "output": {
+        "impact": 3,
+        "confidence": 0.8,
+        "effort_points": 5,
+        "moscow": "must",
+        "okr": "ini_b2b",
+        "rationale": "2 comptes Business (150 sièges, 36 000 €), tous deux en risque de départ pour la totalité de leur ARR (« nous n'avons aucun moyen de produire un reporting pour nos financeurs (collectivités et fondations) »). Le reporting est un prérequis nommé d'O3. Aucune mention ces 4 dernières semaines, mais l'enjeu financier justifie le must.",
+        "risks": "Dépend des données du tableau de suivi SAX-123 ; les retours à l'emploi ne sont peut-être pas saisis aujourd'hui."
+      }
+    },
+    {
+      "task": "T-014",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.5,
+        "effort_points": 8,
+        "moscow": "could",
+        "okr": "ini_b2b",
+        "rationale": "Un seul compte Business (300 sièges, 24 000 €) l'exige pour sa politique de sécurité (« Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID) »). Le Reach de 300 compte les sièges d'un seul client, aucune mention récente et pas de churn signalé : à garder pour le trimestre suivant, sauf si ce compte en fait une condition de renouvellement.",
+        "risks": "Deux fournisseurs (Google Workspace, Microsoft Entra ID) à intégrer et à maintenir."
+      }
+    },
+    {
+      "task": "T-015",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 3,
+        "moscow": "must",
+        "okr": "ini_b2b",
+        "rationale": "2 comptes Business (17 sièges, 5 100 €), dont 1 en risque de départ pour 3 600 €, et 2 mentions sur les 4 dernières semaines (« Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société. »). Pour un client professionnel, une facture inutilisable bloque le paiement ; à 3 points, c'est un must peu coûteux qui protège la rétention visée par O3.",
+        "risks": "Mentions légales des factures (TVA intracommunautaire, SIRET) : faire valider par la comptabilité."
+      }
+    },
+    {
+      "task": "T-016",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 5,
+        "moscow": "must",
+        "okr": "ini_conversion",
+        "rationale": "Le Reach est faible (2 candidats Free, 3 mentions), mais les deux croient à un bug (« Et ca recommence chaque jour, toujours vers 20 offres ca s'arrete. ») : la limite de 20 offres est subie, pas comprise. C'est exactement le levier d'O1 (un paywall compréhensible pour passer de 6,2 % à 9 % d'abonnés Plus) ; sans lui l'objectif est bloqué.",
+        "risks": "Un essai de 14 jours peut cannibaliser des abonnements immédiats ; mesurer le taux de conversion à la fin de l'essai."
+      }
+    },
+    {
+      "task": "T-017",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 3,
+        "moscow": "must",
+        "okr": "ini_activation",
+        "rationale": "4 candidats (dont 2 Plus) ne reçoivent pas nos e-mails ou les trouvent en spam, avec 2 mentions sur les 4 dernières semaines : confirmation d'inscription, réinitialisation du mot de passe, invitations d'école (« mon école m'a envoyé une invitation pour saxobeat sur mon adresse Outlook mais je n'ai jamais rien reçu »). Le produit est cassé à l'entrée (O2) et pour les invitations en masse des comptes Business (O3). Effort estimé à 3 points (authentification du domaine d'envoi et suivi), pas d'estimation d'équipe.",
+        "risks": "La réputation d'un domaine d'envoi se rétablit lentement ; dépend du fournisseur d'e-mails."
+      }
+    },
+    {
+      "task": "T-018",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.8,
+        "effort_points": 5,
+        "moscow": "should",
+        "okr": "ini_activation",
+        "rationale": "3 candidats, dont 2 sur les 4 dernières semaines, voient la même offre plusieurs fois (« une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna »). Le dédoublonnage est une promesse de base du produit : les doublons alourdissent le tri visé par O2. Effort estimé à 5 points, pas d'estimation d'équipe.",
+        "risks": "Risque de fusionner à tort deux offres proches ; à traiter avec SAX-112 (offre republiée)."
+      }
+    },
+    {
+      "task": "T-019",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.8,
+        "effort_points": 5,
+        "moscow": "could",
+        "okr": null,
+        "rationale": "3 candidats (dont 1 Plus), 1 mention récente (« ajouter mes entretiens dans google agenda »). Confort apprécié mais non bloquant ; un export .ics serait une première étape à 2 points. Effort estimé à 5 points pour Google et Outlook.",
+        "risks": "Deux API d'agenda (Google, Microsoft) et des autorisations OAuth à gérer."
+      }
+    },
+    {
+      "task": "T-020",
+      "kind": "prioritization",
+      "output": {
+        "impact": 2,
+        "confidence": 0.8,
+        "effort_points": 2,
+        "moscow": "must",
+        "okr": "ini_activation",
+        "rationale": "2 candidats (dont 1 Plus) ne peuvent pas toucher les boutons du bas de l'Inbox sur Android (« the buttons at the bottom are hidden behind the navigation bar on my pixel »). Pour une web app pensée pour le téléphone, le tri est cassé sur ces appareils, ce qui bloque l'activation (O2). Correctif estimé à 2 points.",
+        "risks": "Tester sur plusieurs appareils Android réels (barre de navigation par gestes ou par boutons)."
+      }
+    },
+    {
+      "task": "T-021",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.5,
+        "effort_points": 5,
+        "moscow": "could",
+        "okr": "ini_activation",
+        "rationale": "1 candidat et 1 compte Business (15 000 €) qui relaie la demande de ses candidats (« they want to see the salary range and the remote working policy at a glance »). Le Reach de 26 vient surtout des sièges de ce compte. Utile au tri mais signal mince ; effort estimé à 5 points.",
+        "risks": "Le salaire et le télétravail sont souvent absents ou en texte libre dans les annonces : extraction peu fiable."
+      }
+    },
+    {
+      "task": "T-022",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.5,
+        "effort_points": 5,
+        "moscow": "could",
+        "okr": null,
+        "rationale": "2 candidats Plus, tous deux sur les 4 dernières semaines (« Ce serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi »). Confort, sans lien direct avec un objectif du trimestre ; effort estimé à 5 points.",
+        "risks": "Coût d'une API d'itinéraires par offre et par candidat ; l'adresse du domicile est une donnée personnelle."
+      }
+    },
+    {
+      "task": "T-023",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.5,
+        "effort_points": 3,
+        "moscow": "should",
+        "okr": "ini_b2b",
+        "rationale": "Un seul candidat, mais 2 mentions dont 1 récente (« pouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas »). C'est le revers du tableau de suivi SAX-123 : à concevoir avec lui pour que les candidats acceptent la console. Effort estimé à 3 points.",
+        "risks": "Juridique (RGPD) : base légale du partage des candidatures avec le cabinet ; à valider avant de livrer SAX-123."
+      }
+    },
+    {
+      "task": "T-024",
+      "kind": "prioritization",
+      "output": {
+        "impact": 3,
+        "confidence": 0.5,
+        "effort_points": 3,
+        "moscow": "must",
+        "okr": "ini_conversion",
+        "rationale": "Un abonné Plus a été prélevé deux fois (« J'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus ») et risque de partir (144 €). Une seule mention, mais un double prélèvement casse la confiance dans le paiement, au cœur d'O1, et peut toucher d'autres abonnés. Rembourser ce client tout de suite, puis chercher la cause ; effort estimé à 3 points.",
+        "risks": "Cause inconnue (relance de paiement, webhook rejoué) : vérifier si d'autres abonnés sont touchés."
+      }
+    },
+    {
+      "task": "T-025",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.5,
+        "effort_points": 5,
+        "moscow": "could",
+        "okr": "ini_b2b",
+        "rationale": "Un seul compte Business (60 sièges, 18 000 €) l'évoque (« ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat »). Le Reach de 60 compte ses sièges ; pas de risque de départ signalé. À reprendre une fois la console (SAX-123) livrée.",
+        "risks": "Dépend de la console conseiller SAX-123."
+      }
+    },
+    {
+      "task": "T-026",
+      "kind": "prioritization",
+      "output": {
+        "impact": 3,
+        "confidence": 0.5,
+        "effort_points": 3,
+        "moscow": "must",
+        "okr": "ini_conversion",
+        "rationale": "Un seul abonné, sans mention récente, mais le paiement échoue sur téléphone (« La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué. »). Si c'est reproductible, chaque passage à Plus depuis le téléphone échoue, ce qui bloque O1 dans une app pensée pour le mobile. Reproduire d'abord sur de vrais appareils ; effort estimé à 3 points.",
+        "risks": "Dépend du prestataire de paiement et du comportement des navigateurs mobiles (fenêtres bloquées)."
+      }
+    },
+    {
+      "task": "T-027",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.5,
+        "effort_points": 2,
+        "moscow": "could",
+        "okr": "ini_conversion",
+        "rationale": "Un seul candidat (« Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles. »). Le réglage par type est déjà prévu dans le périmètre de SAX-115 (e-mails désactivables par type) : à livrer avec lui plutôt que séparément.",
+        "risks": "Désinscription : chaque e-mail non essentiel doit pouvoir être coupé."
+      }
+    },
+    {
+      "task": "T-028",
+      "kind": "prioritization",
+      "output": {
+        "impact": 1,
+        "confidence": 0.5,
+        "effort_points": 2,
+        "moscow": "should",
+        "okr": "ini_b2b",
+        "rationale": "Un compte Business de 300 sièges (24 000 €) a perdu des inscriptions (« le code d'invitation avait expiré, au bout de 7 jours »). Le Reach compte tous les sièges alors que seuls les invités en retard sont gênés, d'où un impact moyen. Correctif peu coûteux (2 points) qui sert les invitations en masse d'O3.",
+        "risks": "Une invitation valable plus longtemps reste exploitable plus longtemps si elle est transférée : préférer le renvoi."
+      }
+    },
+    {
+      "task": "T-029",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.5,
+        "effort_points": 3,
+        "moscow": "could",
+        "okr": "ini_b2b",
+        "rationale": "Un seul compte Business (150 sièges, 9 000 €) le demande (« que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper »). Dépend du résumé hebdomadaire SAX-115, pas encore construit ; le Reach de 150 compte les sièges.",
+        "risks": "Juridique : imposer un e-mail que l'étudiant ne peut pas couper pose une question de consentement ; dépend de SAX-115."
+      }
+    },
+    {
+      "task": "T-030",
+      "kind": "prioritization",
+      "output": {
+        "impact": 0.5,
+        "confidence": 0.8,
+        "effort_points": 1,
+        "moscow": "should",
+        "okr": "ini_conversion",
+        "rationale": "Un abonné Plus ne trouve pas comment résilier (« how do I cancel my Plus subscription? I can't find it anywhere in Settings ») et part de toute façon (144 €). L'enjeu n'est pas la rétention mais la conformité et la confiance ; correctif d'1 point.",
+        "risks": "Juridique : la résiliation en ligne doit être simple et accessible ; une résiliation introuvable expose à des litiges et à des rétrofacturations."
+      }
+    }
+  ]
+}

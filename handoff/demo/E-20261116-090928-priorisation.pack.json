@@ -1,0 +1,1057 @@
+{
+  "schema": "po-assist.pack.v1",
+  "export_id": "E-20261116-090928-priorisation",
+  "pack": "priorisation",
+  "instructions_version": 1,
+  "exported_at": "2026-11-16T09:09:28Z",
+  "reference_date": "2027-04-12",
+  "results_file": "E-20261116-090928-priorisation.results.json",
+  "task_count": 30,
+  "agent_brief": "Tu es l'agent IA de PO Assist. Tu assistes Camille, Product Owner de saxobeat (un SaaS de suivi de recherche d'emploi),\nqui travaille dans Linear. Ce fichier est un lot de travail (« pack ») exporté par l'application : il contient tout ce dont\ntu as besoin. Tu joues le rôle qu'aurait une API de modèle de langage : tu lis les tâches, tu produis un résultat structuré\npar tâche, et l'application l'importe après vérification.\n\nRègles :\n1. Traite les tâches dans l'ordre, par paquets d'environ 20, sans en sauter. Si une tâche est impossible, renvoie-la avec\n   \"skipped\" et la raison, plutôt que d'inventer.\n2. N'invente jamais un fait, un chiffre, un client ou une demande qui n'est pas dans le fichier. Les citations (\"quote\")\n   sont copiées mot pour mot depuis le texte de la tâche : l'application vérifie qu'elles s'y trouvent.\n3. Respecte exactement le format de sortie décrit dans \"output_format\" (types, valeurs autorisées). Un résultat hors\n   format est refusé à l'import.\n4. Écris un seul fichier JSON, à côté de ce pack, nommé exactement comme indiqué dans \"results_file\". Si la session\n   risque de s'arrêter, écris les résultats déjà faits : un fichier partiel est importé, le reste repartira au prochain export.\n5. Avant de finir, relis la \"checklist\". Puis donne au PO un compte rendu en 3 lignes : nombre de tâches traitées,\n   ignorées, et ce qui t'a semblé incertain.\n6. Ne lis aucun autre fichier du dépôt pour répondre (en particulier pas data/ground_truth.json) : tout le contexte utile est ici.\n",
+  "instructions": "Pack « priorisation » : pour chaque besoin (issue ouverte du backlog ou besoin nouveau « NEW: » issu des feedbacks),\ndonne au PO les estimations qui lui manquent pour arbitrer. Le Reach (personnes touchées) et le score RICE sont calculés\npar l'application à partir des données : ne les recalcule pas, appuie-toi sur eux.\n\nPour chaque tâche :\n1. impact : l'effet pour chaque personne touchée, sur l'échelle RICE : 3 massif, 2 fort, 1 moyen, 0.5 faible, 0.25\n   minimal. Tiens compte de la gravité (bloquant ou confort), de l'argent en jeu (ARR Business à risque, abonnés Plus)\n   et de l'alignement avec les objectifs du trimestre (context.okrs).\n2. confidence : ta confiance dans ces estimations : 1.0 (preuves nombreuses et convergentes), 0.8 (preuves\n   correctes), 0.5 (une ou deux mentions, besoin flou).\n3. effort_points : l'effort en points Fibonacci (1, 2, 3, 5, 8, 13). Si l'issue a déjà une estimation de l'équipe,\n   reprends-la sauf raison explicite (dis-la dans rationale).\n4. moscow : must, should, could ou wont, pour le trimestre en cours (jusqu'au 30 juin 2027). « must » est réservé à ce\n   qui bloque un objectif, fait perdre des clients ou casse le produit.\n5. okr : l'identifiant de l'objectif du trimestre servi en premier (context.okrs), ou null.\n6. rationale : 2 à 4 phrases pour le PO, qui citent les preuves de l'entrée (nombre de clients, segments, ARR, tendance,\n   une citation) : c'est la justification que le PO présentera à l'équipe.\n7. risks : un risque ou une dépendance à connaître (technique, juridique, produit), ou null.\n",
+  "output_format": {
+    "description": "Un objet par tâche, dans le champ output du fichier de résultats.",
+    "fields": {
+      "impact": "une valeur parmi [3, 2, 1, 0.5, 0.25]",
+      "confidence": "une valeur parmi [1.0, 0.8, 0.5]",
+      "effort_points": "une valeur parmi [1, 2, 3, 5, 8, 13]",
+      "moscow": "une valeur parmi ['must', 'should', 'could', 'wont']",
+      "okr": "identifiant d'objectif de context.okrs, ou null",
+      "rationale": "chaîne, 2 à 4 phrases",
+      "risks": "chaîne ou null"
+    },
+    "example": {
+      "impact": 2,
+      "confidence": 0.8,
+      "effort_points": 8,
+      "moscow": "must",
+      "okr": "ini_b2b",
+      "rationale": "Réclamé par 4 comptes Business (190 sièges), dont Cap Rebond (36 k€) qui conditionne son renouvellement de mai à ce tableau. C'est le prérequis de l'objectif O3.",
+      "risks": "Confidentialité : certains candidats ne veulent pas que leur conseiller voie toutes leurs candidatures."
+    }
+  },
+  "results_envelope": {
+    "schema": "po-assist.results.v1",
+    "export_id": "E-20261116-090928-priorisation",
+    "pack": "priorisation",
+    "agent": "<nom de l'agent>",
+    "results": [
+      {
+        "task": "T-001",
+        "kind": "prioritization",
+        "output": "<objet décrit dans output_format>"
+      },
+      {
+        "task": "T-002",
+        "kind": "prioritization",
+        "skipped": "<raison>"
+      }
+    ]
+  },
+  "context": {
+    "product": "saxobeat : suivi de recherche d'emploi. Collecte les offres sur les sites carrières des employeurs et les agrégateurs, les dédoublonne, leur donne un score explicable (mots-clés + similarité + séniorité) et suit les candidatures (Inbox, Pipeline, Entretiens). Web app pensée pour le téléphone, en français et en anglais, centrée sur Paris et l'Île-de-France.",
+    "reference_date": "2027-04-12",
+    "okrs": [
+      {
+        "id": "ini_conversion",
+        "name": "O1 · Conversion Free → Plus",
+        "description": "Faire passer la part d'abonnés Plus de 6 % à 9 % des candidats actifs d'ici fin juin 2027. Levier : la valeur perçue (analyse IA, relances, contacts) et un paywall compréhensible."
+      },
+      {
+        "id": "ini_activation",
+        "name": "O2 · Activation et rétention",
+        "description": "70 % des nouveaux inscrits trient au moins 10 offres dans leurs 7 premiers jours ; onboarding terminé en moins de 4 minutes ; confiance dans le score (4 utilisateurs sur 5 le jugent clair)."
+      },
+      {
+        "id": "ini_b2b",
+        "name": "O3 · Lancement de l'offre Business",
+        "description": "Passer de 10 à 15 comptes Business payants (cabinets d'outplacement, écoles, coachs) et garder 100 % des comptes pilotes. Prérequis : console conseiller utilisable et reporting."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Console conseiller (Business)",
+        "initiative": "O3 · Lancement de l'offre Business",
+        "description": "Donner aux cabinets, écoles et coachs une vue sur leurs candidats : invitations en masse, suivi, reporting exportable."
+      },
+      {
+        "name": "Couverture des sources",
+        "initiative": "O2 · Activation et rétention",
+        "description": "Plus d'employeurs lus directement (conseil, banques, fintechs) et import des alertes e-mail."
+      },
+      {
+        "name": "Expérience mobile",
+        "initiative": "O2 · Activation et rétention",
+        "description": "Trier, lire et agir sur une offre depuis le téléphone sans friction ; tests sur de vrais appareils."
+      },
+      {
+        "name": "Offre Plus et paywall",
+        "initiative": "O1 · Conversion Free → Plus",
+        "description": "Rendre la valeur de Plus visible au bon moment, simplifier l'abonnement et la facturation."
+      },
+      {
+        "name": "Relances et notifications",
+        "initiative": "O1 · Conversion Free → Plus",
+        "description": "Ne plus laisser une candidature s'endormir : rappels, résumé hebdomadaire, notifications push."
+      },
+      {
+        "name": "Score explicable v2",
+        "initiative": "O2 · Activation et rétention",
+        "description": "Rendre le score juste et compréhensible : bilingue, recalcul après changement des mots-clés, explication « ce qui matche / ce qui manque »."
+      }
+    ],
+    "capacity_points_per_cycle": 20,
+    "velocity_last_cycles": [
+      18,
+      22,
+      19,
+      21
+    ],
+    "metrics": {
+      "active_candidates": 3400,
+      "b2b_accounts": 9,
+      "b2b_arr_eur": 144600,
+      "date": "2027-04-11",
+      "plus_share_pct": 6.2,
+      "plus_subscribers": 210
+    },
+    "reach_definition": "Personnes touchées : 1 par candidat qui a exprimé le besoin, le nombre de sièges pour un compte Business."
+  },
+  "tasks": [
+    {
+      "task": "T-001",
+      "kind": "prioritization",
+      "subject": "SAX-110",
+      "input": {
+        "target": "SAX-110",
+        "title": "Importer les alertes e-mail (LinkedIn, APEC, Welcome to the Jungle, Indeed)",
+        "description": "Ces plateformes n'ont pas d'API ; leurs alertes e-mail sont la seule voie légale. L'utilisateur transfère ou dépose ses alertes, des parseurs par expéditeur en extraient les offres.\n\nGros chantier : un parseur par plateforme, formats qui changent sans prévenir.",
+        "state": "Backlog",
+        "current_priority": 2,
+        "team_estimate": 13,
+        "project": "Couverture des sources",
+        "evidence": {
+          "mentions": 5,
+          "historic_requests": 4,
+          "customers": 8,
+          "b2c": 7,
+          "b2b": 1,
+          "plus": 5,
+          "reach": 67,
+          "arr_b2b_eur": 18000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "pouvoir importer mes alertes linkedin direct dans l'inbox, la je recopie tout a la main chaque matin",
+          "I get the Indeed alert e-mails every morning and then copy the interesting links into saxobeat by hand",
+          "j'aimerais que ces offres arrivent directement dans ma Inbox saxobeat, scorées comme les autres",
+          "je recois les alertes par mail. ce serait top de les avoir dans saxobeat"
+        ]
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "prioritization",
+      "subject": "SAX-115",
+      "input": {
+        "target": "SAX-115",
+        "title": "Rappels de relance par e-mail et résumé hebdomadaire",
+        "description": "Envoyer un e-mail quand une relance est due (candidature + 7 jours) et un résumé hebdomadaire (nouvelles offres, relances, entretiens à venir). Désactivable par type.",
+        "state": "Backlog",
+        "current_priority": 2,
+        "team_estimate": 8,
+        "project": "Relances et notifications",
+        "evidence": {
+          "mentions": 5,
+          "historic_requests": 3,
+          "customers": 6,
+          "b2c": 4,
+          "b2b": 2,
+          "plus": 4,
+          "reach": 234,
+          "arr_b2b_eur": 33000,
+          "churn_customers": 1,
+          "arr_at_risk_eur": 144,
+          "recent_4w": 2
+        },
+        "quotes": [
+          "Un rappel quand il faut relancer un recruteur",
+          "etre prevenu quand je dois relancer qqn. jai loupé une relance importante",
+          "toujours aucun rappel quand une relance arrive à échéance",
+          "chacun de nos étudiants reçoive un récapitulatif de sa recherche chaque lundi matin"
+        ]
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "prioritization",
+      "subject": "SAX-117",
+      "input": {
+        "target": "SAX-117",
+        "title": "Recherche plein texte dans l'Inbox et les archives",
+        "description": "La recherche actuelle ne porte que sur l'intitulé et l'employeur. Chercher aussi dans la description, les notes et les offres archivées.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 5,
+        "project": null,
+        "evidence": {
+          "mentions": 0,
+          "historic_requests": 2,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 0
+        },
+        "quotes": []
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "prioritization",
+      "subject": "SAX-106",
+      "input": {
+        "target": "SAX-106",
+        "title": "Bloquer un employeur avec une icône, et gérer la liste dans Entreprises",
+        "description": "Le blocage d'un employeur existe mais passe par un lien texte peu visible, et la liste des employeurs bloqués est rangée dans Réglages.\n\nAttendu : une icône « bloquer » sur la carte et la page offre ; la liste et le déblocage dans la page Entreprises.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 3,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 1,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 3,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "un bouton bien visible pour ne plus voir une entreprise, j'ai cherché longtemps",
+          "Où est-ce qu'on bloque une boite ? j'ai 30 offres d'une ESN qui m'interesse pas"
+        ]
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "prioritization",
+      "subject": "SAX-113",
+      "input": {
+        "target": "SAX-113",
+        "title": "Pipeline sur téléphone : changer le statut d'une candidature par un geste",
+        "description": "Le Pipeline s'affiche en colonnes côte à côte ; déplacer une carte demande un glisser-déposer à la souris, impossible au doigt.\n\nAttendu : vue liste par statut sur téléphone, changement de statut par balayage ou menu.",
+        "state": "Todo",
+        "current_priority": 3,
+        "team_estimate": 5,
+        "project": "Expérience mobile",
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 2,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 2,
+          "reach": 3,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt",
+          "je n'arrive pas a faire glisser une carte du Pipeline vers « Entretien »"
+        ]
+      }
+    },
+    {
+      "task": "T-006",
+      "kind": "prioritization",
+      "subject": "SAX-103",
+      "input": {
+        "target": "SAX-103",
+        "title": "Explication du score : ce qui matche, ce qui manque, verdict",
+        "description": "Afficher sur chaque offre une explication en un coup d'œil : compétences trouvées (« 22 sur 31 »), intitulé et séniorité compatibles, mots-clés manquants, et un verdict (« À postuler », « À regarder », « Peu pertinent »).\n\nC'est notre différenciant face aux concurrents dont le score IA est opaque.",
+        "state": "Todo",
+        "current_priority": 2,
+        "team_estimate": 8,
+        "project": "Score explicable v2",
+        "evidence": {
+          "mentions": 5,
+          "historic_requests": 3,
+          "customers": 6,
+          "b2c": 4,
+          "b2b": 2,
+          "plus": 2,
+          "reach": 109,
+          "arr_b2b_eur": 39000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "comprendre pk une offre a 48 et ce qui manque pour que ca monte",
+          "ce serait génial de voir clairement les compétences demandées que je n'ai pas",
+          "show which skills im missing for a job, so i know if i should apply or not",
+          "they want to understand why a job scores high"
+        ]
+      }
+    },
+    {
+      "task": "T-007",
+      "kind": "prioritization",
+      "subject": "SAX-112",
+      "input": {
+        "target": "SAX-112",
+        "title": "Offre republiée après candidature : la rattacher à la candidature existante",
+        "description": "Quand un employeur republie une offre à laquelle le candidat a déjà postulé, elle réapparaît comme nouvelle dans l'Inbox.\n\nAttendu : la détecter, l'afficher comme « republiée » et la rattacher à la candidature au lieu de la proposer à nouveau.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 5,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 1,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 3,
+          "reach": 3,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "Est-ce que l'appli pourrait détecter ce genre de cas et me prévenir que j'ai déjà candidaté",
+          "Est-ce que vous pourriez m'avertir quand une offre correspond à une candidature que j'ai déjà envoyée ?"
+        ]
+      }
+    },
+    {
+      "task": "T-008",
+      "kind": "prioritization",
+      "subject": "SAX-116",
+      "input": {
+        "target": "SAX-116",
+        "title": "Notification push quand l'analyse IA est prête",
+        "description": "L'analyse IA arrive « sous 24 h », mais le candidat ne le sait que s'il ouvre l'application. Notification push via l'application installée (PWA).",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 5,
+        "project": "Relances et notifications",
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "Could you send me a notification when the AI analysis is ready?",
+          "une notif sur mon tel quand l'analyse IA est prete"
+        ]
+      }
+    },
+    {
+      "task": "T-009",
+      "kind": "prioritization",
+      "subject": "SAX-121",
+      "input": {
+        "target": "SAX-121",
+        "title": "Calibrage du score : qu'un 50 ait le même sens pour tous les candidats",
+        "description": "Un CV riche en mots-clés gonfle tous les scores. Suivre par candidat la part d'offres au-dessus de 50 et l'accord entre l'analyse IA et le score, puis recalibrer périodiquement.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 8,
+        "project": "Score explicable v2",
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 1,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "Mes scores ne dépassent jamais 40. Jamais. Pourtant je décroche des entretiens sur ces offres-là"
+        ]
+      }
+    },
+    {
+      "task": "T-010",
+      "kind": "prioritization",
+      "subject": "SAX-120",
+      "input": {
+        "target": "SAX-120",
+        "title": "Analyse IA : lancer l'agent automatiquement pour tenir les 24 h",
+        "description": "Les packs d'analyse IA sont encore lancés à la main. Les jours de forte charge, la promesse « sous 24 h » n'est pas tenue. Lancer l'agent automatiquement, avec un garde-fou de coût.",
+        "state": "Backlog",
+        "current_priority": 2,
+        "team_estimate": 8,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "la carte IA affiche « Analyse sous 24 h » depuis 3 jours",
+          "The AI analysis has been 'pending' for 4 days now on 12 jobs."
+        ]
+      }
+    },
+    {
+      "task": "T-011",
+      "kind": "prioritization",
+      "subject": "SAX-123",
+      "input": {
+        "target": "SAX-123",
+        "title": "Console Business : tableau de suivi des candidats par conseiller",
+        "description": "Vue par conseiller : ses candidats, leur activité (dernière connexion, offres triées, candidatures, entretiens), les candidats inactifs depuis plus de 10 jours.",
+        "state": "Todo",
+        "current_priority": 2,
+        "team_estimate": 8,
+        "project": "Console conseiller (Business)",
+        "evidence": {
+          "mentions": 6,
+          "historic_requests": 3,
+          "customers": 6,
+          "b2c": 0,
+          "b2b": 6,
+          "plus": 0,
+          "reach": 567,
+          "arr_b2b_eur": 95100,
+          "churn_customers": 3,
+          "arr_at_risk_eur": 39600,
+          "recent_4w": 2
+        },
+        "quotes": [
+          "Nous aimerions pouvoir consulter l'activité de chaque candidat, regroupée par conseiller",
+          "de voir directement où en est chaque candidat (candidatures en cours, relances, entretiens prévus) sans avoir à le solliciter",
+          "nous ne pouvons pas suivre de manière simple l'avancement des personnes que nous accompagnons",
+          "Le premier est un tableau de suivi par consultant"
+        ]
+      }
+    },
+    {
+      "task": "T-012",
+      "kind": "prioritization",
+      "subject": "SAX-118",
+      "input": {
+        "target": "SAX-118",
+        "title": "Onboarding : démarrer avec un intitulé de poste, sans CV",
+        "description": "L'import du CV est la première étape et fait abandonner une partie des inscrits (CV pas à jour, sur un autre appareil). Permettre de démarrer avec un intitulé de poste et une ville, et d'ajouter le CV plus tard.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 5,
+        "project": null,
+        "evidence": {
+          "mentions": 0,
+          "historic_requests": 0,
+          "customers": 0,
+          "b2c": 0,
+          "b2b": 0,
+          "plus": 0,
+          "reach": 0,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 0
+        },
+        "quotes": []
+      }
+    },
+    {
+      "task": "T-013",
+      "kind": "prioritization",
+      "subject": "SAX-124",
+      "input": {
+        "target": "SAX-124",
+        "title": "Console Business : export du reporting pour les clients du cabinet",
+        "description": "Les cabinets d'outplacement rendent compte à l'entreprise qui paie l'accompagnement. Export mensuel (PDF et CSV) : candidatures, entretiens, retours à l'emploi, par candidat et agrégé.",
+        "state": "Backlog",
+        "current_priority": 2,
+        "team_estimate": 5,
+        "project": "Console conseiller (Business)",
+        "evidence": {
+          "mentions": 3,
+          "historic_requests": 2,
+          "customers": 2,
+          "b2c": 0,
+          "b2b": 2,
+          "plus": 0,
+          "reach": 150,
+          "arr_b2b_eur": 36000,
+          "churn_customers": 2,
+          "arr_at_risk_eur": 36000,
+          "recent_4w": 0
+        },
+        "quotes": [
+          "Pourriez-vous nous indiquer si ce reporting est prévu et, le cas échéant, dans quel calendrier ?",
+          "nous n'avons aucun moyen de produire un reporting pour nos financeurs (collectivités et fondations)",
+          "Le second est le reporting mensuel destiné aux entreprises qui financent l'accompagnement de nos candidats."
+        ]
+      }
+    },
+    {
+      "task": "T-014",
+      "kind": "prioritization",
+      "subject": "SAX-125",
+      "input": {
+        "target": "SAX-125",
+        "title": "SSO Google Workspace et Microsoft pour les comptes Business",
+        "description": "Les écoles et les grands cabinets veulent que leurs conseillers se connectent avec leur compte professionnel.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 8,
+        "project": "Console conseiller (Business)",
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 1,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "reach": 300,
+          "arr_b2b_eur": 24000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 0
+        },
+        "quotes": [
+          "Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID)"
+        ]
+      }
+    },
+    {
+      "task": "T-015",
+      "kind": "prioritization",
+      "subject": "SAX-127",
+      "input": {
+        "target": "SAX-127",
+        "title": "Facture au nom de la société, avec numéro de TVA intracommunautaire",
+        "description": "Les factures ne portent que le nom de la personne. Les coachs indépendants et les cabinets ont besoin du nom de la société, de l'adresse et du numéro de TVA.",
+        "state": "Backlog",
+        "current_priority": 3,
+        "team_estimate": 3,
+        "project": "Offre Plus et paywall",
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 0,
+          "b2b": 2,
+          "plus": 0,
+          "reach": 17,
+          "arr_b2b_eur": 5100,
+          "churn_customers": 1,
+          "arr_at_risk_eur": 3600,
+          "recent_4w": 2
+        },
+        "quotes": [
+          "Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société.",
+          "elle ne mentionne ni mon numéro SIRET ni mon numéro de TVA intracommunautaire"
+        ]
+      }
+    },
+    {
+      "task": "T-016",
+      "kind": "prioritization",
+      "subject": "SAX-126",
+      "input": {
+        "target": "SAX-126",
+        "title": "Paywall : faire essayer Plus 14 jours avant de bloquer",
+        "description": "Aujourd'hui l'Inbox Free se bloque à 20 offres par jour sans explication. Proposer un essai Plus de 14 jours, et montrer ce que Plus apporte au moment où la limite est atteinte.",
+        "state": "Todo",
+        "current_priority": 2,
+        "team_estimate": 5,
+        "project": "Offre Plus et paywall",
+        "evidence": {
+          "mentions": 3,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 0,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "Et ca recommence chaque jour, toujours vers 20 offres ca s'arrete.",
+          "Je ne vois que 20 offres par jour alors qu'il y en a plus",
+          "essayer plus 1 ou 2 semaines avant de payer"
+        ]
+      }
+    },
+    {
+      "task": "T-017",
+      "kind": "prioritization",
+      "subject": "NEW:delivrabilite-emails",
+      "input": {
+        "target": "NEW:delivrabilite-emails",
+        "title": "Recevoir les e-mails d'invitation envoyés par son école",
+        "description": "Recevoir l'e-mail de confirmation d'inscription du premier coup / Recevoir les e-mails d'invitation envoyés par son école / Recevoir les e-mails du service (réinitialisation du mot de passe) dans la boîte de réception et non dans les spams / Recevoir les e-mails « analyse IA prête » dans la boîte de réception et non dans les spams",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 4,
+          "historic_requests": 0,
+          "customers": 4,
+          "b2c": 4,
+          "b2b": 0,
+          "plus": 2,
+          "reach": 4,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 2
+        },
+        "quotes": [
+          "merci de faire en sorte que vos e-mails arrivent normalement",
+          "mon école m'a envoyé une invitation pour saxobeat sur mon adresse Outlook mais je n'ai jamais rien reçu",
+          "les e-mails « votre analyse IA est prête » arrivent dans mes spams Gmail",
+          "Après mon inscription je n'ai pas reçu l'e-mail de confirmation (adresse Hotmail)."
+        ]
+      }
+    },
+    {
+      "task": "T-018",
+      "kind": "prioritization",
+      "subject": "NEW:dedoublonnage-offres-multi-sources",
+      "input": {
+        "target": "NEW:dedoublonnage-offres-multi-sources",
+        "title": "Ne voir qu'une fois une même offre publiée sur plusieurs sources",
+        "description": "Ne voir qu'une fois une même annonce, même si son lieu est libellé différemment / Ne voir qu'une fois une même offre publiée sur plusieurs sources / Ne voir qu'une fois une même offre publiée sur plusieurs sources, avec un score unique",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 3,
+          "historic_requests": 0,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 0,
+          "reach": 3,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 2
+        },
+        "quotes": [
+          "une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna",
+          "une fois avec le lieu « Paris » et une fois « Paris 9e ». C'est exactement la même annonce",
+          "once from the company's own site and once from Welcome to the Jungle"
+        ]
+      }
+    },
+    {
+      "task": "T-019",
+      "kind": "prioritization",
+      "subject": "NEW:synchro-agenda-entretiens",
+      "input": {
+        "target": "NEW:synchro-agenda-entretiens",
+        "title": "Synchroniser les entretiens avec son agenda (Outlook)",
+        "description": "Ajouter automatiquement les entretiens dans Google Agenda / Synchroniser les entretiens avec son agenda (Outlook)",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 3,
+          "historic_requests": 0,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 3,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "j'aimerais qu'il apparaisse automatiquement dans mon Google Agenda, avec le nom de l'entreprise et le lien vers la cheat sheet",
+          "ajouter mes entretiens dans google agenda",
+          "synchro des entretiens avec mon agenda outlook"
+        ]
+      }
+    },
+    {
+      "task": "T-020",
+      "kind": "prioritization",
+      "subject": "NEW:boutons-inbox-masques-android",
+      "input": {
+        "target": "NEW:boutons-inbox-masques-android",
+        "title": "Pouvoir toucher les boutons du bas de l'Inbox sur Android sans qu'ils soient masqués par la barre de navigation",
+        "description": "Pouvoir toucher les boutons du bas de l'Inbox sur Android sans qu'ils soient masqués par la barre de navigation",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "the buttons at the bottom of the Inbox overlap with the phone's navigation bar",
+          "the buttons at the bottom are hidden behind the navigation bar on my pixel"
+        ]
+      }
+    },
+    {
+      "task": "T-021",
+      "kind": "prioritization",
+      "subject": "NEW:salaire-teletravail-offres",
+      "input": {
+        "target": "NEW:salaire-teletravail-offres",
+        "title": "Filtrer les offres par fourchette de salaire et nombre de jours de télétravail",
+        "description": "Filtrer les offres par fourchette de salaire et nombre de jours de télétravail / Voir la fourchette de salaire et la politique de télétravail sans ouvrir l'offre",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 1,
+          "b2b": 1,
+          "plus": 0,
+          "reach": 26,
+          "arr_b2b_eur": 15000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "they want to see the salary range and the remote working policy at a glance",
+          "filter jobs by salary range and number of remote days"
+        ]
+      }
+    },
+    {
+      "task": "T-022",
+      "kind": "prioritization",
+      "subject": "NEW:temps-de-trajet-offre",
+      "input": {
+        "target": "NEW:temps-de-trajet-offre",
+        "title": "Voir sur chaque offre le temps de trajet depuis son domicile",
+        "description": "Voir sur chaque offre le temps de trajet depuis son domicile / Voir sur chaque offre le temps de trajet en transports depuis son domicile",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "reach": 2,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 2
+        },
+        "quotes": [
+          "Ce serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi",
+          "Could saxobeat show the commute time from my home for each job?"
+        ]
+      }
+    },
+    {
+      "task": "T-023",
+      "kind": "prioritization",
+      "subject": "NEW:masquer-candidatures-au-conseiller",
+      "input": {
+        "target": "NEW:masquer-candidatures-au-conseiller",
+        "title": "Choisir quelles candidatures sont visibles par son conseiller",
+        "description": "Choisir quelles candidatures sont visibles par son conseiller",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 2,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 0,
+          "reach": 1,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "que mon conseiller du cabinet voie pas toutes mes candidatures",
+          "pouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas"
+        ]
+      }
+    },
+    {
+      "task": "T-024",
+      "kind": "prioritization",
+      "subject": "NEW:double-prelevement-abonnement",
+      "input": {
+        "target": "NEW:double-prelevement-abonnement",
+        "title": "Ne pas être prélevé deux fois pour l'abonnement, et être remboursé du doublon",
+        "description": "Ne pas être prélevé deux fois pour l'abonnement, et être remboursé du doublon",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 1,
+          "arr_b2b_eur": 0,
+          "churn_customers": 1,
+          "arr_at_risk_eur": 144,
+          "recent_4w": 0
+        },
+        "quotes": [
+          "J'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus"
+        ]
+      }
+    },
+    {
+      "task": "T-025",
+      "kind": "prioritization",
+      "subject": "NEW:notes-conseiller-sur-offre",
+      "input": {
+        "target": "NEW:notes-conseiller-sur-offre",
+        "title": "Permettre au conseiller de laisser une note sur une offre, visible par le candidat",
+        "description": "Permettre au conseiller de laisser une note sur une offre, visible par le candidat",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "reach": 60,
+          "arr_b2b_eur": 18000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat"
+        ]
+      }
+    },
+    {
+      "task": "T-026",
+      "kind": "prioritization",
+      "subject": "NEW:paiement-3d-secure-mobile",
+      "input": {
+        "target": "NEW:paiement-3d-secure-mobile",
+        "title": "Pouvoir payer l'abonnement Plus depuis un téléphone avec la validation 3D Secure",
+        "description": "Pouvoir payer l'abonnement Plus depuis un téléphone avec la validation 3D Secure",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 1,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 0
+        },
+        "quotes": [
+          "La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué."
+        ]
+      }
+    },
+    {
+      "task": "T-027",
+      "kind": "prioritization",
+      "subject": "NEW:preferences-emails-par-type",
+      "input": {
+        "target": "NEW:preferences-emails-par-type",
+        "title": "Choisir par type les e-mails reçus (garder les rappels d'entretien, couper le reste)",
+        "description": "Choisir par type les e-mails reçus (garder les rappels d'entretien, couper le reste)",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 0,
+          "reach": 1,
+          "arr_b2b_eur": 0,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles."
+        ]
+      }
+    },
+    {
+      "task": "T-028",
+      "kind": "prioritization",
+      "subject": "NEW:prolonger-validite-invitations",
+      "input": {
+        "target": "NEW:prolonger-validite-invitations",
+        "title": "Permettre aux invités de s'inscrire après 7 jours (validité plus longue ou renvoi de l'invitation)",
+        "description": "Permettre aux invités de s'inscrire après 7 jours (validité plus longue ou renvoi de l'invitation)",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "reach": 300,
+          "arr_b2b_eur": 24000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "le code d'invitation avait expiré, au bout de 7 jours"
+        ]
+      }
+    },
+    {
+      "task": "T-029",
+      "kind": "prioritization",
+      "subject": "NEW:recap-hebdo-impose-par-l-etablissement",
+      "input": {
+        "target": "NEW:recap-hebdo-impose-par-l-etablissement",
+        "title": "Permettre à l'école d'imposer le récapitulatif hebdomadaire à toute une promotion, sans désactivation possible par l'étudiant",
+        "description": "Permettre à l'école d'imposer le récapitulatif hebdomadaire à toute une promotion, sans désactivation possible par l'étudiant",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "reach": 150,
+          "arr_b2b_eur": 9000,
+          "churn_customers": 0,
+          "arr_at_risk_eur": 0,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper"
+        ]
+      }
+    },
+    {
+      "task": "T-030",
+      "kind": "prioritization",
+      "subject": "NEW:resilier-plus-depuis-reglages",
+      "input": {
+        "target": "NEW:resilier-plus-depuis-reglages",
+        "title": "Trouver facilement comment résilier son abonnement Plus dans Réglages",
+        "description": "Trouver facilement comment résilier son abonnement Plus dans Réglages",
+        "state": "À créer",
+        "current_priority": null,
+        "team_estimate": null,
+        "project": null,
+        "evidence": {
+          "mentions": 1,
+          "historic_requests": 0,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 1,
+          "reach": 1,
+          "arr_b2b_eur": 0,
+          "churn_customers": 1,
+          "arr_at_risk_eur": 144,
+          "recent_4w": 1
+        },
+        "quotes": [
+          "how do I cancel my Plus subscription? I can't find it anywhere in Settings"
+        ]
+      }
+    }
+  ],
+  "checklist": [
+    "Une entrée dans results par tâche du pack (output ou skipped), avec le même identifiant de tâche et le même kind.",
+    "Toutes les valeurs énumérées sont dans les listes autorisées.",
+    "Chaque citation est copiée mot pour mot depuis le texte de la tâche.",
+    "Le fichier est du JSON valide, nommé comme results_file, à côté du pack."
+  ]
+}
