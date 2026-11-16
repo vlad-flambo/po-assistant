@@ -7,11 +7,11 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
 | **Owner** | Vlad (VP Customer Operations), decides at every gate |
 | **Run Python / scripts with** | `uv run python` for project code (uv 0.11 installed); `python3` (3.13) for the ai-sdlc scripts |
 | **Shell** | bash (Linux cloud container) |
-| **Tests** | none yet (to be set by cycle 002: `uv run pytest`) |
+| **Tests** | `uv run pytest` (11 tests verts au 2026-11-14, jeu de données) |
 | **Secrets live in** | aucun : pas d'API LLM (décision 002-D1, 2026-11-16). L'IA passe par un skill Claude Code et un échange de fichiers |
 | **Hosts and irreversible actions** | No hosted service. Push to GitHub only on branch `claude/optimistic-brown-avbf17`. No real Linear API call, ever (the integration is simulated) |
 | **Project memory / status note** | `docs/sdlc/BOARD.md` + `docs/journal.md` (process log for the jury, see cycle 007) |
-| **Stack** | not on house-stack (no house-stack skill in this environment). Python, SQLite (tier 1, file committed to the repo), Claude API, light web UI |
+| **Stack** | not on house-stack (no house-stack skill in this environment). Python, SQLite (tier 1, file committed to the repo), skill Claude Code via échange de fichiers (pas d'API), interface web légère |
 | **Product docs that a cycle updates** | `README.md`, `docs/analyse/`, `docs/adr/` (technical decisions), `docs/journal.md` |
 | **Board data folder** | `docs/sdlc/board-data` (gitignored) |
 | **Live board** | none yet: `BOARD.md` is the board until one is created |
