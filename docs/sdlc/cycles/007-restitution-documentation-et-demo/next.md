@@ -9,3 +9,6 @@ Each line is one action: `- [ ] [owner|claude|both] <date, optional> text`. Tick
 - [x] [owner] 2026-11-16 Choisir le support : diapositives demandées par Vlad
 - [x] [claude] 2026-11-16 Diapositives (14) : https://claude.ai/artifact/Uvou3wJVtTvQHdhBGFSJSk
 - [ ] [owner] 2026-11-16 Partager les diapositives avec le jury si besoin (menu Partager) ou les exporter en PDF
+- [x] [claude] 2026-11-16 Remplir le cadrage (intent.md)
+- [ ] [owner] 2026-11-16 Confirmer le but et la mesure de succès du cycle 007
+- [ ] [claude] Après la présentation : verify.md (répétition, partage) et learn.md

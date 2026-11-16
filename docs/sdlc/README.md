@@ -54,9 +54,9 @@ docs/sdlc/
 | Cycle | Imp. | Topic | Stage |
 |-------|------|-------|-------|
 | 001 | 5 | jeu de données synthétique | Closed 2026-11-16 (verify accepted, learn done) |
-| 002 | 5 | socle agent et faux connecteur Linear | Intent: started 2026-11-14 |
-| 003 | 4 | bloc A comprendre les feedbacks | Intent: started 2026-11-14 |
-| 004 | 4 | bloc B arbitrer la priorisation | Intent: started 2026-11-14 |
-| 005 | 4 | bloc C formaliser les user stories | Intent: started 2026-11-14 |
-| 006 | 4 | interface web du PO | Intent: started 2026-11-14 |
-| 007 | 5 | restitution documentation et démo | Intent: started 2026-11-14 |
+| 002 | 5 | socle agent et faux connecteur Linear | Verify : en attente de l'accord du PO (plan reconstitué après coup) |
+| 003 | 4 | bloc A comprendre les feedbacks | Verify : en attente de l'accord du PO |
+| 004 | 4 | bloc B arbitrer la priorisation | Verify : en attente de l'accord du PO |
+| 005 | 4 | bloc C formaliser les user stories | Verify : en attente de l'accord du PO |
+| 006 | 4 | interface web du PO | Verify : en attente de l'accord du PO |
+| 007 | 5 | restitution documentation et démo | Intent rempli, but à confirmer par le PO |
