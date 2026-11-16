@@ -47,13 +47,13 @@ L'application lit l'espace Linear simulé (`data/linear.db`), exporte le travail
 ## Open questions (grilled one at a time)
 | # | Question | Recommended answer | Answer | Status |
 |---|----------|--------------------|--------|--------|
-| Q1 | Format des payloads ? | Un fichier **JSON** par pack, auto-suffisant comme chez saxobeat : en-tête, brief de l'agent, instructions, schéma de sortie avec un exemple, puis les tâches. Le skill `.claude/skills/po-agent/` contient le mode opératoire commun (traiter tous les packs de `to-do/`, écrire `<pack>.results.json` à côté). Les résultats sont aussi en JSON | | open |
-| Q2 | Dossier d'échange ? | `handoff/to-do`, `handoff/done`, `handoff/problems` (contenu non versionné). Des résultats de démo pré-calculés sont versionnés dans `handoff/demo/` pour rejouer la démo sans attendre le skill | | open |
-| Q3 | Où stocker l'état de l'agent ? | Une base de travail séparée, `data/po_assist.db` (exports, tâches, résultats, scores, stories), non versionnée et recréable. `linear.db` reste « Linear » et n'est modifiée que sur une action explicite du PO (« Envoyer vers Linear ») | | open |
-| Q4 | Interface (cycle 006) ? | **Streamlit** : Python uniquement, le plus rapide à livrer ce soir, suffisant pour des vues, des tableaux et des boutons. Pas de chat (cf. ci-dessus). Écarté : FastAPI + HTMX, plus proche de saxobeat mais trop long pour ce soir | | open |
-| Q5 | Déclenchement ? | Boutons Exporter / Importer dans l'interface, et une ligne de commande équivalente (`po status`, `po export <pack>`, `po import <fichier>`) pour les tests et la démo | | open |
-| Q6 | Découpage du travail d'IA en packs ? | 3 packs, un par bloc, enchaînés avec le PO entre chaque : **analyse** (classer, regrouper, extraire, rattacher), **priorisation** (estimer Impact, Confiance et Effort avec justification, proposer MoSCoW ; le score RICE est calculé par le code), **rédaction** (story, critères Gherkin, estimation) | | open |
-| Q7 | Replanification pour tenir ce soir ? | Ordre : socle + analyse → priorisation → rédaction → interface → documentation et présentation. Un cycle par bloc, avec une documentation allégée (intent et spec fusionnés). Si le temps manque : la démo s'appuie sur les résultats pré-calculés | | open |
+| Q1 | Format des payloads ? | Un fichier **JSON** par pack, auto-suffisant comme chez saxobeat : en-tête, brief de l'agent, instructions, schéma de sortie avec un exemple, puis les tâches. Le skill `.claude/skills/po-agent/` contient le mode opératoire commun (traiter tous les packs de `to-do/`, écrire `<pack>.results.json` à côté). Les résultats sont aussi en JSON | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
+| Q2 | Dossier d'échange ? | `handoff/to-do`, `handoff/done`, `handoff/problems` (contenu non versionné). Des résultats de démo pré-calculés sont versionnés dans `handoff/demo/` pour rejouer la démo sans attendre le skill | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
+| Q3 | Où stocker l'état de l'agent ? | Une base de travail séparée, `data/po_assist.db` (exports, tâches, résultats, scores, stories), non versionnée et recréable. `linear.db` reste « Linear » et n'est modifiée que sur une action explicite du PO (« Envoyer vers Linear ») | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
+| Q4 | Interface (cycle 006) ? | **Streamlit** : Python uniquement, le plus rapide à livrer ce soir, suffisant pour des vues, des tableaux et des boutons. Pas de chat (cf. ci-dessus). Écarté : FastAPI + HTMX, plus proche de saxobeat mais trop long pour ce soir | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
+| Q5 | Déclenchement ? | Boutons Exporter / Importer dans l'interface, et une ligne de commande équivalente (`po status`, `po export <pack>`, `po import <fichier>`) pour les tests et la démo | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
+| Q6 | Découpage du travail d'IA en packs ? | 3 packs, un par bloc, enchaînés avec le PO entre chaque : **analyse** (classer, regrouper, extraire, rattacher), **priorisation** (estimer Impact, Confiance et Effort avec justification, proposer MoSCoW ; le score RICE est calculé par le code), **rédaction** (story, critères Gherkin, estimation) | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
+| Q7 | Replanification pour tenir ce soir ? | Ordre : socle + analyse → priorisation → rédaction → interface → documentation et présentation. Un cycle par bloc, avec une documentation allégée (intent et spec fusionnés). Si le temps manque : la démo s'appuie sur les résultats pré-calculés | Oui : « Je valide, go » (Vlad, 2026-11-16) | answered |
 
 ## Constraints and risks
 - **Délai** : tout doit être livré ce soir, documentation et présentation comprises.
@@ -61,5 +61,5 @@ L'application lit l'espace Linear simulé (`data/linear.db`), exporte le travail
 - **Qualité non garantie des réponses du skill** : vérification stricte à l'import, et mesure contre la vérité terrain.
 
 ## Gate
-- [ ] All open questions answered or parked
-- [ ] Goal and success measure confirmed by the owner
+- [x] All open questions answered or parked
+- [x] Goal and success measure confirmed by the owner (« Je valide, go », Vlad, 2026-11-16)

@@ -6,3 +6,9 @@ docs/sdlc/board-data/
 .venv/
 __pycache__/
 .pytest_cache/
+
+# Hand-off (sauf résultats de démo versionnés)
+handoff/to-do/
+handoff/done/
+handoff/problems/
+data/po_assist.db
