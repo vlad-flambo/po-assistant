@@ -1,6 +1,6 @@
 # Cycle board
 
-Generated 2026-11-16 09:16 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
+Generated 2026-11-16 09:17 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
 
 Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
@@ -10,6 +10,8 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
 - 001 Jeu de données synthétique: Relire les 10 feedbacks de evidence/echantillon_relecture.md et rendre le verdict (critère 12) (due 2026-11-15)
 - 002 Socle agent : hand-off par fichiers et faux connecteur Linear: Accepter la vérification (verify.md) (due 2026-11-16)
+- 007 Restitution documentation et démo: Répéter la démo avec docs/presentation.md (Réinitialiser → Charger les résultats pré-calculés) (due 2026-11-16)
+- 007 Restitution documentation et démo: Choisir le support : diapositives à partir du déroulé (je peux les produire) ou présentation directe depuis l'application (due 2026-11-16)
 - 003 Bloc A comprendre les feedbacks: Accepter la vérification (verify.md) (due 2026-11-16)
 - 004 Bloc B arbitrer la priorisation: Accepter la vérification (verify.md) (due 2026-11-16)
 - 005 Bloc C formaliser les user stories: Accepter la vérification (verify.md) (due 2026-11-16)
@@ -28,6 +30,6 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 | 002 | Socle agent : hand-off par fichiers et faux connecteur Linear | 5/5 | Plan | x | x | - | x | o | . | 7/7 | 2026-11-16 |
 | 003 | Bloc A comprendre les feedbacks | 4/5 | Plan | x | x | - | x | o | . | 5/5 | 2026-11-16 |
 | 004 | Bloc B arbitrer la priorisation | 4/5 | Plan | x | x | - | x | o | . | 4/4 | 2026-11-16 |
-| 005 | Bloc C formaliser les user stories | 4/5 | Plan | x | x | - | x | o | . | 3/4 | 2026-11-16 |
+| 005 | Bloc C formaliser les user stories | 4/5 | Plan | x | x | - | x | o | . | 4/4 | 2026-11-16 |
 | 006 | Interface web du PO | 4/5 | Plan | x | x | - | x | o | . | 3/3 | 2026-11-16 |
-| 007 | Restitution documentation et démo | 5/5 | Intent | o | . | . | . | . | . |  | 2026-11-14 |
+| 007 | Restitution documentation et démo | 5/5 | Intent | o | . | . | . | . | . |  | 2026-11-16 |

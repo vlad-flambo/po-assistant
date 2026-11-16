@@ -1,0 +1,532 @@
+{
+  "schema": "po-assist.results.v1",
+  "export_id": "E-20261116-091254-redaction",
+  "pack": "redaction",
+  "agent": "claude-code / po-agent",
+  "results": [
+    {
+      "task": "T-001",
+      "kind": "user_story",
+      "output": {
+        "title": "Console Business : suivre l'activité de ses candidats par conseiller",
+        "user_story": {
+          "as_a": "conseiller d'un compte Business (cabinet d'outplacement, école ou coach) qui accompagne un portefeuille de candidats",
+          "i_want": "voir sur un seul écran l'activité de chacun de mes candidats (dernière connexion, offres triées, candidatures, entretiens) et repérer ceux inactifs depuis plus de 10 jours",
+          "so_that": "relancer à temps ceux qui décrochent sans avoir à solliciter chaque candidat pour savoir où il en est"
+        },
+        "context": "6 comptes Business, soit 95 100 € d'ARR sur 144 600 €, réclament cette vue, dont 3 en risque de départ pour 39 600 € ; l'un d'eux conditionne son renouvellement à sa livraison : « Si le tableau de suivi par consultant n'est pas livré et utilisable par nos équipes avant cette date, nous ne renouvellerons pas. » Les conseillers n'ont aujourd'hui aucune visibilité (« Je n'ai aucun moyen de suivre les personnes que j'accompagne : je ne sais pas qui avance, qui décroche »), avec 2 mentions sur les 4 dernières semaines. C'est le prérequis explicite de l'objectif O3 (console conseiller utilisable) ; le Reach de 567 compte les sièges de ces 6 comptes payants.",
+        "acceptance_criteria": [
+          {
+            "title": "Vue de suivi nominale",
+            "given": "un conseiller d'un compte Business connecté, à qui 12 candidats ayant accepté leur invitation sont rattachés",
+            "when": "il ouvre « Suivi des candidats » dans la console",
+            "then": "il voit une ligne par candidat avec la date de dernière connexion, le nombre d'offres triées, de candidatures en cours et d'entretiens prévus, et ne voit aucun candidat rattaché à un autre conseiller"
+          },
+          {
+            "title": "Signalement des candidats inactifs (cas limite à 10 jours)",
+            "given": "un candidat dont la dernière connexion date de 11 jours et un autre dont elle date d'exactement 10 jours",
+            "when": "le conseiller affiche la vue ou applique le filtre « Inactifs depuis plus de 10 jours »",
+            "then": "seul le premier est marqué « Inactif depuis 11 jours » et apparaît dans le filtre ; le second n'est pas marqué"
+          },
+          {
+            "title": "Vue regroupée par conseiller pour le responsable du compte",
+            "given": "un administrateur d'un compte Business qui compte 3 conseillers",
+            "when": "il ouvre « Suivi des candidats »",
+            "then": "les candidats sont regroupés par conseiller, chaque groupe affiche son nombre de candidats et de candidats inactifs, et la vue peut être filtrée sur un conseiller"
+          },
+          {
+            "title": "Accès refusé hors de son portefeuille",
+            "given": "le conseiller A et un candidat rattaché au conseiller B",
+            "when": "A ouvre l'adresse de la fiche de suivi de ce candidat",
+            "then": "l'accès est refusé avec un message explicite et aucune donnée d'activité du candidat n'est renvoyée par l'API"
+          },
+          {
+            "title": "Invitation pas encore acceptée",
+            "given": "un candidat invité par import CSV (SAX-122) qui n'a pas encore créé son compte",
+            "when": "le conseiller affiche la vue",
+            "then": "le candidat apparaît avec le statut « Invitation en attente », la date d'envoi de l'invitation et des compteurs vides, sans être compté comme inactif"
+          },
+          {
+            "title": "Confidentialité des candidatures",
+            "given": "un candidat qui suit 5 candidatures dans son Pipeline",
+            "when": "son conseiller consulte la vue de suivi",
+            "then": "le conseiller voit les compteurs (candidatures, relances, entretiens prévus) mais pas les notes personnelles du candidat ; le niveau de détail visible (nom des employeurs) suit la décision prise sur la question ouverte de confidentialité"
+          },
+          {
+            "title": "Consultation sur téléphone",
+            "given": "un conseiller sur un téléphone en largeur 375 px",
+            "when": "il ouvre « Suivi des candidats »",
+            "then": "chaque candidat s'affiche en carte lisible sans défilement horizontal, avec le badge d'inactivité visible sans ouvrir la carte"
+          }
+        ],
+        "non_functional": [
+          "Performance : la vue d'un compte de 200 sièges s'affiche en moins de 2 secondes (seuil à valider avec l'équipe)",
+          "Confidentialité (RGPD) : un conseiller n'accède qu'aux candidats qui lui sont rattachés ; les consultations de la vue sont journalisées",
+          "Fraîcheur : les indicateurs d'activité reflètent l'activité de la veille au plus tard, et la date de mise à jour est affichée",
+          "Accessibilité : l'état « inactif » n'est pas signalé par la seule couleur (texte ou icône libellée)",
+          "Interface disponible en français et en anglais"
+        ],
+        "out_of_scope": [
+          "Export du reporting mensuel pour les financeurs (SAX-124)",
+          "Invitation des candidats en masse par CSV (SAX-122)",
+          "Masquage de certaines candidatures au conseiller par le candidat (NEW:masquer-candidatures-au-conseiller)",
+          "Alertes e-mail ou push au conseiller quand un candidat devient inactif",
+          "Messagerie entre conseiller et candidat",
+          "Réaffectation d'un candidat à un autre conseiller"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "Suppose le rattachement candidat-conseiller créé à l'invitation (SAX-122, en cours) ; à confirmer qu'il existe en base."
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Le niveau de détail visible par le conseiller et la période des compteurs restent à négocier avec les clients."
+          },
+          "valuable": {
+            "ok": true,
+            "note": "95 100 € d'ARR demandeurs, 39 600 € en risque, prérequis d'O3."
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Estimable si les événements d'activité (connexion, tri, candidature, entretien) sont déjà enregistrés par candidat."
+          },
+          "small": {
+            "ok": false,
+            "note": "8 points : liste conseiller, indicateurs, vue responsable et règles d'accès ne tiennent pas confortablement dans un sprint."
+          },
+          "testable": {
+            "ok": true,
+            "note": "Seuil de 10 jours, règles d'accès et états vides vérifiables par des tests automatisés."
+          }
+        },
+        "estimate_points": 8,
+        "estimate_rationale": "Aligné sur l'estimation de l'équipe (8). Pèsent : l'agrégation des indicateurs d'activité par candidat, deux niveaux de vue (conseiller et responsable), le contrôle d'accès par portefeuille et l'affichage mobile. Inconnue principale : la disponibilité des événements d'activité historisés ; s'ils ne sont pas stockés, l'effort augmente.",
+        "split_proposal": [
+          "Console Business : liste des candidats d'un conseiller avec dernière connexion et alerte d'inactivité > 10 jours",
+          "Console Business : indicateurs d'activité par candidat (offres triées, candidatures, entretiens)",
+          "Console Business : vue du responsable regroupée par conseiller"
+        ],
+        "open_questions": [
+          "Quelle est la date limite fixée par le client qui conditionne son renouvellement, et qu'entend-il par « utilisable par nos équipes » ?",
+          "Que le conseiller peut-il voir des candidatures : uniquement des compteurs, ou aussi le nom des employeurs et les étapes ? Faut-il un consentement explicite du candidat ?",
+          "« Inactif » signifie-t-il aucune connexion depuis 10 jours, ou aucune action (tri, candidature) même en se connectant ? Le seuil de 10 jours doit-il être réglable par compte ?",
+          "Sur quelle période les compteurs sont-ils calculés par défaut (depuis l'invitation, 30 derniers jours, semaine en cours) ?",
+          "Un candidat peut-il être suivi par plusieurs conseillers, et qui peut voir la vue regroupée (rôle administrateur à créer ?) ?"
+        ]
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "user_story",
+      "output": {
+        "title": "Console Business : exporter le reporting mensuel pour les financeurs",
+        "user_story": {
+          "as_a": "responsable d'un cabinet d'outplacement client Business qui rend compte aux financeurs de l'accompagnement (entreprises, collectivités, fondations)",
+          "i_want": "exporter chaque mois en PDF et en CSV les candidatures, entretiens et retours à l'emploi, par candidat et en agrégé",
+          "so_that": "remettre à mes financeurs le reporting qu'ils exigent sans le reconstituer à la main, et conserver ces contrats"
+        },
+        "context": "2 comptes Business (150 sièges, 36 000 € d'ARR) le demandent et sont tous deux en risque de départ pour la totalité de leur ARR : « nous n'avons aucun moyen de produire un reporting pour nos financeurs (collectivités et fondations) ». Un client le cite comme second prérequis (« Le second est le reporting mensuel destiné aux entreprises qui financent l'accompagnement de nos candidats. ») et demande un calendrier. C'est un prérequis nommé d'O3 ; aucune mention ces 4 dernières semaines (3 au total), mais l'enjeu financier justifie le must.",
+        "acceptance_criteria": [
+          {
+            "title": "Export CSV d'un mois clos",
+            "given": "un responsable de compte Business et le mois de mars 2027 sélectionné",
+            "when": "il clique sur « Exporter en CSV »",
+            "then": "il télécharge un fichier avec une ligne par candidat (nom, conseiller, candidatures envoyées, entretiens, retour à l'emploi) et une ligne « Total » qui agrège le compte ; les totaux sont égaux à la somme des lignes"
+          },
+          {
+            "title": "Export PDF prêt à transmettre",
+            "given": "le même compte et le même mois",
+            "when": "il clique sur « Exporter en PDF »",
+            "then": "il télécharge un PDF qui indique le nom du cabinet, la période, les indicateurs agrégés puis le tableau par candidat, avec les mêmes chiffres que le CSV"
+          },
+          {
+            "title": "Retour à l'emploi non renseigné",
+            "given": "un candidat pour lequel aucun retour à l'emploi n'est saisi",
+            "when": "le responsable exporte le mois",
+            "then": "la colonne affiche « Non renseigné » (et non « Non » ou 0) et le PDF compte séparément les retours à l'emploi confirmés et les situations non renseignées"
+          },
+          {
+            "title": "Mois en cours ou sans activité",
+            "given": "le mois en cours sélectionné, ou un mois sans aucune candidature",
+            "when": "le responsable lance l'export",
+            "then": "pour le mois en cours l'export porte la mention « Données partielles au JJ/MM/AAAA » ; pour un mois vide, l'export est produit avec des compteurs à 0 et non une erreur"
+          },
+          {
+            "title": "Candidat entré ou sorti en cours de mois",
+            "given": "un candidat rattaché au compte le 15 mars",
+            "when": "le responsable exporte mars",
+            "then": "le candidat figure dans l'export avec son activité à partir du 15 mars et sa date d'entrée dans le dispositif"
+          },
+          {
+            "title": "Export réservé aux rôles autorisés",
+            "given": "un utilisateur candidat d'un compte Business",
+            "when": "il appelle l'adresse de l'export",
+            "then": "l'accès est refusé et aucun fichier n'est généré"
+          }
+        ],
+        "non_functional": [
+          "Performance : l'export d'un compte de 150 sièges est généré en moins de 10 secondes",
+          "Compatibilité : CSV en UTF-8 avec séparateur point-virgule, lisible directement dans Excel en français",
+          "Confidentialité (RGPD) : chaque export est journalisé (qui, quand, quelle période) ; les liens de téléchargement expirent",
+          "Accessibilité : PDF balisé (titres, tableau avec en-têtes) lisible par un lecteur d'écran"
+        ],
+        "out_of_scope": [
+          "Envoi automatique du reporting au financeur par e-mail",
+          "Modèles de reporting personnalisables par financeur",
+          "Saisie du retour à l'emploi par le candidat ou le conseiller (story séparée si la donnée n'existe pas)",
+          "Tableau de suivi par conseiller dans la console (SAX-123)"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "Réutilise les indicateurs d'activité de SAX-123 et suppose que le retour à l'emploi est saisi quelque part."
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Format, colonnes et niveau de nominativité à arrêter avec les 2 clients."
+          },
+          "valuable": {
+            "ok": true,
+            "note": "36 000 € d'ARR entièrement en risque, prérequis d'O3."
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Estimable à 5 si les indicateurs de SAX-123 et la donnée de retour à l'emploi existent ; sinon à réestimer."
+          },
+          "small": {
+            "ok": true,
+            "note": "Tient dans un sprint une fois SAX-123 livré."
+          },
+          "testable": {
+            "ok": true,
+            "note": "Totaux, états vides et droits vérifiables sur un jeu de données de test."
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Aligné sur l'estimation de l'équipe (5) : deux formats d'export (génération PDF à mettre en place), agrégation mensuelle et règles d'accès, en s'appuyant sur les indicateurs de SAX-123. Hors estimation : la capture du retour à l'emploi si elle n'existe pas aujourd'hui, qui ferait l'objet d'une story séparée.",
+        "split_proposal": [],
+        "open_questions": [
+          "Le retour à l'emploi est-il saisi aujourd'hui, et par qui (candidat, conseiller) ? Quelle définition retenir (CDI, CDD, formation, création d'entreprise) ?",
+          "Les financeurs peuvent-ils recevoir des données nominatives sur les candidats, ou faut-il un export agrégé ou pseudonymisé ? Quel consentement des candidats ?",
+          "Un même compte a-t-il plusieurs financeurs (entreprises, collectivités, fondations) ? Faut-il filtrer l'export par financeur ou par cohorte de candidats ?",
+          "Les collectivités et fondations imposent-elles un format ou des indicateurs précis ? Peut-on obtenir un exemple de reporting actuel auprès des 2 clients ?",
+          "Quel calendrier communiquer aux 2 clients qui le demandent, compte tenu de la dépendance à SAX-123 ?"
+        ]
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "user_story",
+      "output": {
+        "title": "Faire arriver nos e-mails en boîte de réception (Outlook, Hotmail, Gmail)",
+        "user_story": {
+          "as_a": "candidat en offre Free ou Plus avec une adresse Outlook, Hotmail ou Gmail, qui s'inscrit seul ou est invité par son école",
+          "i_want": "recevoir les e-mails de saxobeat (confirmation d'inscription, invitation de mon école, réinitialisation du mot de passe, « analyse IA prête ») dans ma boîte de réception",
+          "so_that": "activer mon compte et revenir dans l'application sans fouiller mes spams ni abandonner"
+        },
+        "context": "4 candidats (dont 2 Plus) ne reçoivent pas nos e-mails ou les trouvent en spam, avec 2 mentions sur les 4 dernières semaines : « Après mon inscription je n'ai pas reçu l'e-mail de confirmation (adresse Hotmail). », « mon école m'a envoyé une invitation pour saxobeat sur mon adresse Outlook mais je n'ai jamais rien reçu », « les e-mails « votre analyse IA est prête » arrivent dans mes spams Gmail ». Le produit est cassé à l'entrée (O2) et les invitations en masse des comptes Business (SAX-122, O3) en dépendent, tout comme les rappels de relance de SAX-115.",
+        "acceptance_criteria": [
+          {
+            "title": "Domaine d'envoi authentifié",
+            "given": "le domaine utilisé pour envoyer les e-mails de saxobeat",
+            "when": "on contrôle les en-têtes d'un e-mail de chaque type (confirmation, invitation, réinitialisation, analyse IA prête)",
+            "then": "SPF, DKIM et DMARC sont valides et alignés sur le domaine expéditeur pour les quatre types"
+          },
+          {
+            "title": "Confirmation d'inscription reçue sur Hotmail",
+            "given": "une nouvelle inscription avec une adresse de test @hotmail.fr",
+            "when": "le candidat valide le formulaire d'inscription",
+            "then": "l'e-mail de confirmation arrive dans la boîte de réception (pas en courrier indésirable) en moins de 5 minutes"
+          },
+          {
+            "title": "Invitation d'école reçue sur Outlook",
+            "given": "une école cliente Business qui invite une adresse de test @outlook.fr",
+            "when": "l'invitation est envoyée",
+            "then": "l'e-mail arrive en boîte de réception et le lien d'invitation ouvre la création de compte rattachée à l'école"
+          },
+          {
+            "title": "« Analyse IA prête » hors des spams Gmail",
+            "given": "un candidat Plus avec une adresse de test Gmail",
+            "when": "une analyse IA se termine",
+            "then": "l'e-mail arrive dans la boîte de réception principale et non dans les spams"
+          },
+          {
+            "title": "Renvoi de l'e-mail depuis le téléphone",
+            "given": "un candidat sur téléphone dont l'inscription n'est pas confirmée",
+            "when": "il touche « Renvoyer l'e-mail » sur l'écran d'attente",
+            "then": "un nouvel e-mail part, l'écran rappelle l'adresse utilisée et invite à vérifier les indésirables, et le bouton est désactivé 60 secondes pour éviter les envois répétés"
+          },
+          {
+            "title": "Adresse en échec de remise",
+            "given": "une invitation envoyée à une adresse qui rejette le message (rebond définitif)",
+            "when": "le fournisseur d'e-mails signale l'échec",
+            "then": "l'échec est journalisé, l'invitation passe au statut « Non délivrée » dans la console Business et aucun nouvel envoi automatique n'est tenté vers cette adresse"
+          }
+        ],
+        "non_functional": [
+          "Délai : e-mails transactionnels (confirmation, réinitialisation, invitation) remis au fournisseur en moins d'une minute",
+          "Suivi : taux de remise, de rebond et de plainte mesurés par fournisseur de messagerie (Outlook/Hotmail, Gmail), avec une alerte en cas de dégradation",
+          "Les e-mails de notification portent un en-tête de désinscription en un clic (List-Unsubscribe)",
+          "E-mails lisibles sur téléphone et disponibles en français et en anglais selon la langue du compte"
+        ],
+        "out_of_scope": [
+          "Contenu et planification des rappels de relance et du résumé hebdomadaire (SAX-115)",
+          "Notification push quand l'analyse IA est prête (SAX-116)",
+          "Refonte graphique des modèles d'e-mails",
+          "Changement de fournisseur d'e-mails, sauf si le diagnostic l'impose (à décider)"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": "Indépendante ; d'autres stories (SAX-115, SAX-122) en dépendent."
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Les moyens (sous-domaine dédié, fournisseur) sont à choisir après diagnostic."
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Débloque l'activation (O2) et les invitations Business (O3)."
+          },
+          "estimable": {
+            "ok": false,
+            "note": "La cause n'est pas diagnostiquée : configuration DNS, réputation du domaine ou fournisseur."
+          },
+          "small": {
+            "ok": true,
+            "note": "Tient dans un sprint si le diagnostic ne révèle pas de changement de fournisseur."
+          },
+          "testable": {
+            "ok": true,
+            "note": "Vérifiable avec des boîtes de test chez Outlook, Hotmail et Gmail et le contrôle des en-têtes."
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Pas d'estimation d'équipe. La priorisation retenait 3 points pour l'authentification du domaine d'envoi et le suivi ; j'estime 5 car la story inclut aussi le renvoi de l'e-mail et le statut « Non délivrée » des invitations, et la cause réelle reste inconnue. Le rétablissement de la réputation du domaine peut prendre du temps sans dépendre de l'équipe.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quel fournisseur d'e-mails et quel domaine d'envoi utilisons-nous aujourd'hui ? SPF, DKIM et DMARC sont-ils déjà configurés ?",
+          "Les 4 signalements correspondent-ils à un incident ponctuel ou à un problème durable ? Dispose-t-on des journaux de remise du fournisseur ?",
+          "Faut-il séparer les e-mails transactionnels et les notifications sur des sous-domaines distincts pour protéger la réputation des premiers ?",
+          "Les écoles et cabinets Business doivent-ils être prévenus des invitations non délivrées, et comment (console, e-mail) ?",
+          "Peut-on recontacter les 4 candidats concernés pour vérifier la correction ?"
+        ]
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "user_story",
+      "output": {
+        "title": "Paywall Free : expliquer la limite de 20 offres et proposer 14 jours de Plus",
+        "user_story": {
+          "as_a": "candidat en offre Free qui atteint chaque jour la limite de 20 offres de son Inbox",
+          "i_want": "comprendre pourquoi mon Inbox s'arrête à 20 offres et pouvoir essayer Plus pendant 14 jours avant de payer",
+          "so_that": "décider de passer à Plus en sachant ce qu'il m'apporte, au lieu de croire à un bug"
+        },
+        "context": "2 candidats Free (3 mentions) croient à un bug : « Et ca recommence chaque jour, toujours vers 20 offres ca s'arrete. » et « Je ne vois que 20 offres par jour alors qu'il y en a plus » ; l'un demande à « essayer plus 1 ou 2 semaines avant de payer ». La limite est subie, pas comprise. Le Reach est faible, mais c'est le levier direct d'O1 (un paywall compréhensible pour passer de 6,2 % à 9 % d'abonnés Plus).",
+        "acceptance_criteria": [
+          {
+            "title": "Limite expliquée au moment où elle est atteinte",
+            "given": "un candidat Free qui a vu ses 20 offres du jour alors que 35 autres offres correspondent à sa recherche",
+            "when": "il arrive au bout de son Inbox",
+            "then": "une carte indique « Vous avez vu vos 20 offres du jour », le nombre d'offres en attente (35), l'heure à laquelle la limite se réinitialise, ce que Plus apporte (Inbox illimitée, analyse IA sous 24 h, relances, contacts) et un bouton « Essayer Plus 14 jours »"
+          },
+          {
+            "title": "Démarrage de l'essai",
+            "given": "un candidat Free qui n'a jamais bénéficié d'un essai",
+            "when": "il touche « Essayer Plus 14 jours » et confirme",
+            "then": "Plus est actif immédiatement, les offres en attente apparaissent dans l'Inbox et la date de fin d'essai est affichée dans Réglages"
+          },
+          {
+            "title": "Un seul essai par compte",
+            "given": "un candidat dont l'essai Plus a déjà pris fin",
+            "when": "il atteint de nouveau la limite de 20 offres",
+            "then": "la carte explique toujours la limite mais propose de s'abonner à Plus (12 €/mois), sans nouvel essai"
+          },
+          {
+            "title": "Fin d'essai sans abonnement",
+            "given": "un candidat dont l'essai se termine sans qu'il se soit abonné",
+            "when": "le 15e jour commence",
+            "then": "le compte repasse en Free, la limite de 20 offres s'applique de nouveau, ses candidatures restent intactes et un message dans l'application lui propose de s'abonner"
+          },
+          {
+            "title": "Pas de paywall pour les abonnés",
+            "given": "un abonné Plus ou un candidat d'un compte Business",
+            "when": "il consulte plus de 20 offres dans la journée",
+            "then": "aucune carte de limite ni proposition d'essai ne s'affiche"
+          },
+          {
+            "title": "Parcours sur téléphone",
+            "given": "un candidat Free sur iPhone (Safari) ou Android (Chrome) en largeur 375 px",
+            "when": "la carte de limite s'affiche",
+            "then": "elle est lisible sans défilement horizontal, le bouton d'essai est atteignable au pouce et l'essai démarre en deux touchers au plus"
+          },
+          {
+            "title": "Mesure de la conversion",
+            "given": "le paywall en production",
+            "when": "un candidat atteint la limite, démarre un essai puis s'abonne ou non à la fin",
+            "then": "les événements « limite atteinte », « essai démarré » et « abonné à la fin de l'essai » sont enregistrés pour suivre le taux de conversion et le risque de cannibalisation"
+          }
+        ],
+        "non_functional": [
+          "Performance : l'activation de l'essai prend moins de 2 secondes et ne demande pas de recharger l'application",
+          "Accessibilité : carte et boutons utilisables au lecteur d'écran (VoiceOver, TalkBack), contraste conforme WCAG AA",
+          "Textes en français et en anglais",
+          "Compatibilité Safari iOS et Chrome Android (cf. SAX-114)"
+        ],
+        "out_of_scope": [
+          "Modification de la limite de 20 offres par jour ou des prix",
+          "Essai pour les comptes Business",
+          "E-mails de rappel avant la fin de l'essai (dépend de NEW:delivrabilite-emails)",
+          "Refonte de la page de tarifs"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": "Pas de dépendance bloquante ; s'appuie sur la limite Free existante."
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Durée d'essai, moyen de paiement demandé et textes restent ouverts."
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Levier direct d'O1 et supprime l'impression de bug."
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Gestion d'abonnement existante ; la question du moyen de paiement peut faire varier l'effort."
+          },
+          "small": {
+            "ok": true,
+            "note": "Tient dans un sprint."
+          },
+          "testable": {
+            "ok": true,
+            "note": "États Free, essai, fin d'essai et abonné testables avec des comptes de test datés."
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Aligné sur l'estimation de l'équipe (5) : carte de limite contextuelle, état « essai » dans l'abonnement avec date de fin et retour automatique en Free, plus les événements de mesure. Inconnue : si l'essai exige un moyen de paiement, l'intégration avec le prestataire de paiement alourdit l'effort.",
+        "split_proposal": [],
+        "open_questions": [
+          "L'essai demande-t-il un moyen de paiement, avec passage automatique à Plus à la fin, ou est-il sans engagement ?",
+          "Que deviennent les éléments réservés à Plus créés pendant l'essai (analyses IA, contacts, relances) quand le compte repasse en Free ?",
+          "À quelle heure la limite de 20 offres se réinitialise-t-elle (minuit heure de Paris, ou 24 h glissantes) ?",
+          "Faut-il proposer l'essai aussi ailleurs que sur la carte de limite (Réglages, analyse IA) ?",
+          "Teste-t-on l'essai sur une partie des candidats Free pour mesurer la cannibalisation des abonnements immédiats ?"
+        ]
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "user_story",
+      "output": {
+        "title": "Rappel e-mail de relance due et résumé hebdomadaire du lundi",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui suit plusieurs candidatures en parallèle",
+          "i_want": "recevoir un e-mail le jour où une relance est due (candidature + 7 jours) et un récapitulatif de ma recherche chaque lundi matin",
+          "so_that": "ne plus laisser passer une relance importante et garder le fil de ma recherche sans ouvrir l'application"
+        },
+        "context": "6 clients le demandent : 4 candidats Plus, dont 1 en risque de départ, et 2 comptes Business pour 33 000 € d'ARR, avec 2 mentions sur les 4 dernières semaines (« etre prevenu quand je dois relancer qqn. jai loupé une relance importante » ; « Je vous ai signalé à deux reprises qu'il n'y avait aucun rappel pour les relances »). Une école cliente veut que « chacun de nos étudiants reçoive un récapitulatif de sa recherche chaque lundi matin ». Les relances sont un levier nommé d'O1 ; la story dépend de la délivrabilité de nos e-mails (NEW:delivrabilite-emails).",
+        "acceptance_criteria": [
+          {
+            "title": "Rappel envoyé le jour de la relance",
+            "given": "un candidat Plus avec une candidature au statut Postulé le 05/04, sans changement depuis",
+            "when": "le 12/04 à 8 h (heure de Paris)",
+            "then": "il reçoit un e-mail qui nomme l'offre et l'employeur, avec un lien direct vers la candidature"
+          },
+          {
+            "title": "Pas de rappel si la candidature a évolué",
+            "given": "une candidature passée en Entretien, Refusée ou rejetée automatiquement (SAX-111) avant l'échéance",
+            "when": "la date de relance arrive",
+            "then": "aucun rappel n'est envoyé pour cette candidature"
+          },
+          {
+            "title": "Plusieurs relances le même jour",
+            "given": "trois candidatures dont la relance tombe le même jour",
+            "when": "l'envoi du matin a lieu",
+            "then": "le candidat reçoit un seul e-mail qui liste les trois relances, et non trois e-mails"
+          },
+          {
+            "title": "Résumé hebdomadaire du lundi",
+            "given": "un candidat dont le résumé hebdomadaire est activé",
+            "when": "le lundi à 8 h (heure de Paris)",
+            "then": "il reçoit un e-mail avec les nouvelles offres de la semaine, les relances dues et les entretiens à venir ; une semaine sans aucun de ces éléments ne déclenche pas d'envoi"
+          },
+          {
+            "title": "Désactivation par type",
+            "given": "un candidat qui désactive les rappels de relance mais garde le résumé, depuis Réglages ou le lien de désinscription d'un e-mail",
+            "when": "une relance est due puis le lundi suivant arrive",
+            "then": "aucun rappel n'est envoyé, le résumé l'est, et la relance reste visible dans le Pipeline"
+          },
+          {
+            "title": "Ouverture depuis le téléphone",
+            "given": "un candidat qui lit le rappel sur son téléphone et n'est pas connecté à saxobeat",
+            "when": "il touche le lien de la candidature",
+            "then": "l'application web s'ouvre sur l'écran de connexion puis redirige vers la candidature concernée ; l'e-mail est lisible sans zoom en largeur 375 px"
+          },
+          {
+            "title": "Rappels réservés à l'offre Plus",
+            "given": "un candidat en offre Free avec une candidature dont la relance est due",
+            "when": "la date de relance arrive",
+            "then": "aucun e-mail de rappel n'est envoyé (les relances font partie de Plus)"
+          }
+        ],
+        "non_functional": [
+          "Idempotence : un même rappel ou résumé n'est jamais envoyé deux fois, même si la tâche planifiée est relancée",
+          "Horaires calculés dans le fuseau Europe/Paris, y compris aux changements d'heure",
+          "E-mails authentifiés (SPF/DKIM/DMARC) avec désinscription en un clic (List-Unsubscribe)",
+          "E-mails en français ou en anglais selon la langue du compte, lisibles sur téléphone et accessibles (texte alternatif, contraste)"
+        ],
+        "out_of_scope": [
+          "Délivrabilité des e-mails (NEW:delivrabilite-emails)",
+          "Notifications push (SAX-116) et SMS",
+          "Copie du résumé au conseiller ou à l'école",
+          "Délai de relance réglable par candidature"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "Sans la correction de la délivrabilité (NEW:delivrabilite-emails), rappels et résumés risquent de finir en spam."
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Heure d'envoi, contenu du résumé et règle des 7 jours restent négociables."
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Demandé par 6 clients dont 33 000 € d'ARR Business, levier d'O1."
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Planification et modèles d'e-mails bien cernés."
+          },
+          "small": {
+            "ok": false,
+            "note": "8 points : deux fonctionnalités (rappel et résumé) livrables séparément."
+          },
+          "testable": {
+            "ok": true,
+            "note": "Dates, regroupement et désactivation testables avec une horloge simulée."
+          }
+        },
+        "estimate_points": 8,
+        "estimate_rationale": "Aligné sur l'estimation de l'équipe (8) : deux e-mails planifiés avec leurs modèles, le regroupement des relances, les préférences par type et la désinscription, et l'agrégation des données du résumé. Le risque principal est externe : la délivrabilité.",
+        "split_proposal": [
+          "Rappel e-mail le jour où une relance de candidature est due",
+          "Résumé hebdomadaire du lundi : nouvelles offres, relances, entretiens à venir",
+          "Réglages : activer ou désactiver chaque type d'e-mail (rappel, résumé)"
+        ],
+        "open_questions": [
+          "Le délai de 7 jours après la candidature est-il fixe, ou faut-il reprendre la date de relance saisie par le candidat quand elle existe ?",
+          "Le résumé hebdomadaire est-il réservé à Plus, ou aussi envoyé aux candidats Free et aux candidats des comptes Business (sièges) ?",
+          "Pour les écoles, le résumé doit-il être activé par défaut pour tous les étudiants ? Avec quel consentement ?",
+          "L'école ou le conseiller doivent-ils recevoir une copie du résumé, sachant que certains candidats ne veulent pas que leur conseiller voie toutes leurs candidatures ?",
+          "8 h convient-il pour les rappels comme pour le résumé, ou faut-il laisser le candidat choisir l'heure ?"
+        ]
+      }
+    }
+  ]
+}
