@@ -2,13 +2,15 @@
 
 PO Assist est un assistant pour Product Owner. Il lit les feedbacks clients arrivés dans Linear, vous aide à décider quoi faire en priorité, puis rédige les user stories et les envoie dans Linear. **C'est toujours vous qui validez** : l'agent propose, vous importez, vous corrigez, vous envoyez.
 
+L'agent fonctionne par défaut par **l'API Claude**. Sans clé API, l'outil se **replie** sur le skill Claude Code local.
+
 > Les données de démonstration sont fictives : saxobeat, un suivi de recherche d'emploi, projeté au printemps 2027, avec 80 feedbacks, 30 issues au backlog et 60 clients. Linear est simulé.
 
 **Sommaire**
 1. Démarrer
 2. Vue d'ensemble
 3. Le parcours pas à pas (mode démo)
-4. Passer en mode réel : skill Claude Code ou API
+4. Passer en mode réel : API (par défaut) ou skill (repli)
 5. Lire les résultats
 6. Réglages et remise à zéro
 7. Dépannage
@@ -30,7 +32,11 @@ PO Assist est un assistant pour Product Owner. Il lit les feedbacks clients arri
 
 **Sur un autre système**, voir l'annexe technique (§ 9).
 
-L'application s'ouvre en **mode démo**. Un bandeau 🎬 en haut de chaque page le rappelle. Dans ce mode, chaque lancement de l'agent restitue le résultat d'un vrai passage de l'agent, calculé à l'avance, au lieu d'attendre plusieurs minutes. La vérification et l'import, eux, sont réels.
+L'application s'ouvre en **mode démo**, rappelé par un bandeau 🎬 en haut de chaque page. Dans ce mode :
+- le parcours est exactement celui de l'intégration API : bouton avec coût estimé, envoi paquet par paquet, coût affiché ;
+- l'API est **simulée** : aucun appel n'est fait et rien n'est facturé ;
+- les résultats sont ceux d'un vrai passage de l'agent, calculés à l'avance ;
+- la vérification et l'import, eux, sont réels.
 
 ## 2. Vue d'ensemble
 
@@ -56,9 +62,9 @@ La barre latérale de gauche donne accès aux 9 pages. Sous les pages, elle indi
 ![Page Agent au départ : seule l'analyse peut être lancée](guide/01-agent-depart.jpg)
 
 **1.2. Lancez l'agent**
-- Sur la carte **« 1 · Analyse des feedbacks »**, cliquez sur **« Lancer l'agent »**.
-- Une barre de progression montre l'agent qui traite les 80 feedbacks, en 8 secondes environ.
-- Un message vert annonce « Résultats prêts ».
+- Sur la carte **« 1 · Analyse des feedbacks »**, cliquez sur **« Lancer l'agent »**. Le bouton affiche le coût estimé de l'appel à l'API, par exemple « Lancer l'agent (API, ≈ 1,53 $) » pour les 80 feedbacks avec Claude Opus 5.5. En mode démo, ce coût est simulé.
+- Une barre de progression montre l'envoi à l'API paquet par paquet (« API : paquet 1/4 traité »), en 8 secondes environ en mode démo.
+- Un message vert annonce « Résultats prêts », avec le coût : simulé en mode démo, réel sinon.
 
 ![L'agent a traité les 80 feedbacks : résultats prêts](guide/02-agent-resultats-prets.jpg)
 
@@ -145,7 +151,7 @@ Un encadré jaune signale les issues déjà planifiées qui ne rentrent plus dan
 **3.1. Choisissez les besoins à rédiger**
 - Toujours dans **« ⚖️ Priorisation »**, descendez jusqu'à **« Rédiger les user stories »**.
 - Dans **« Besoins à formaliser »**, gardez ou modifiez la sélection. Par défaut, ce sont les 5 premiers besoins Must ou Should.
-- Cliquez sur **« Lancer la rédaction (agent) »**.
+- Cliquez sur **« Lancer la rédaction »** (le bouton affiche le coût estimé).
 
 ![Proposition de sprint et choix des stories à rédiger](guide/08-priorisation-sprint-et-redaction.jpg)
 
@@ -176,30 +182,34 @@ Pour un usage hors de l'application, téléchargez toutes les stories avec **« 
 
 ![Story envoyée dans Linear](guide/10-envoyee-dans-linear.jpg)
 
-## 4. Passer en mode réel : skill Claude Code ou API
+## 4. Passer en mode réel : API (par défaut) ou skill (repli)
 
-Ouvrez **« ⚙️ Réglages »** et désactivez **« Activer le mode démo »**. Choisissez ensuite le **« Moteur de l'agent »**. Le parcours reste le même que dans le § 3 ; seul change ce qui se passe quand vous lancez l'agent.
+Ouvrez **« ⚙️ Réglages »** et désactivez **« Activer le mode démo »**. Le parcours reste le même que dans le § 3 ; seul change ce qui se passe quand vous lancez l'agent.
 
-### 4.1. Skill Claude Code (local)
+### 4.1. API Claude (par défaut)
 
-Ce moteur n'a besoin d'aucune clé API : l'agent tourne dans votre session Claude Code.
+L'application envoie elle-même le travail à l'API : vous n'avez aucun geste manuel à faire.
+
+1. **Prérequis :** une clé API Anthropic. Mettez-la dans un fichier `.env` à la racine du dépôt, sur une ligne `ANTHROPIC_API_KEY=...`. Le lanceur Mac lit ce fichier, git l'ignore, et l'application n'enregistre ni n'affiche jamais la clé. **« ⚙️ Réglages »** indique si une clé est détectée.
+2. Dans **« ⚙️ Réglages »**, le **« Moteur de l'agent »** est réglé sur **« API Claude (recommandé) »**. Choisissez le modèle dans **« Modèle (mode API) »** ; Claude Opus 5.5 est recommandé.
+3. Sur **« 🤖 Agent »**, le bouton annonce le coût estimé, par exemple « Lancer l'agent (API, ≈ 1,53 $) ». Le clic vaut confirmation.
+4. Une progression s'affiche paquet par paquet, puis le **coût réel** apparaît. Vérifiez l'aperçu et importez, comme au § 3.
+
+> Si l'API refuse une partie du travail (refus du modèle, erreur réseau), seules les tâches concernées reviennent « ignorées », avec la raison. Elles repartiront au prochain lancement.
+
+### 4.2. Le repli sur le skill Claude Code
+
+L'outil se replie **automatiquement** sur le skill Claude Code local dans deux cas :
+- aucune clé API n'est détectée ;
+- l'API refuse la requête dès le premier paquet (clé invalide, modèle inaccessible).
+
+Un bandeau ↩️ en indique la raison, et le bouton devient **« Exporter »**. Vous pouvez aussi choisir le skill vous-même dans **« ⚙️ Réglages »** : **« Skill Claude Code, en local (repli) »**. Ce moteur ne demande aucune clé.
 
 1. Sur **« 🤖 Agent »**, cliquez sur **« Exporter »**. Un fichier de travail (un « pack ») est écrit dans `handoff/to-do/`.
 2. Dans Claude Code, ouvert dans le dossier du dépôt, dites : **« traite les packs »**. Le skill `po-agent` lit le pack et écrit le fichier de résultats à côté. Comptez 3 à 4 minutes pour 80 feedbacks.
 3. Revenez sur **« 🤖 Agent »**. Le fichier apparaît dans **« Importer des résultats »** : vérifiez l'aperçu, puis importez.
 
 Pour l'étape 3, le bouton de la page Priorisation exporte le pack de rédaction ; la suite est identique.
-
-### 4.2. API Claude
-
-Ce moteur évite tout geste manuel : l'application appelle elle-même l'API.
-
-1. **Prérequis :** une clé API Anthropic. Mettez-la dans un fichier `.env` à la racine du dépôt, sur une ligne `ANTHROPIC_API_KEY=...`. Le lanceur Mac lit ce fichier, git l'ignore, et l'application n'enregistre ni n'affiche jamais la clé.
-2. Dans **« ⚙️ Réglages »**, choisissez **« API Claude »**, puis le modèle dans **« Modèle (mode API) »**. Claude Opus 5.5 est recommandé. La page indique si une clé est détectée.
-3. Sur **« 🤖 Agent »**, le bouton annonce le coût estimé, par exemple « Lancer l'agent (API, ≈ 0,40 $) ». Le clic vaut confirmation.
-4. Une progression s'affiche paquet par paquet, puis le **coût réel** apparaît. Vérifiez l'aperçu et importez, comme au § 3.
-
-> Si une partie échoue (refus du modèle, erreur réseau), seules les tâches concernées reviennent « ignorées », avec la raison. Elles repartiront au prochain lancement.
 
 ## 5. Lire les résultats
 
@@ -220,7 +230,7 @@ Ce moteur évite tout geste manuel : l'application appelle elle-même l'API.
 
 - **« ⚙️ Réglages »** regroupe :
   - le mode démo, activé par défaut ;
-  - le moteur de l'agent (skill ou API) et le modèle ;
+  - le moteur de l'agent (l'API par défaut, le skill en repli) et le modèle ;
   - l'état de la clé API ;
   - le nombre de résultats pré-calculés disponibles.
 
@@ -241,8 +251,8 @@ Ce moteur évite tout geste manuel : l'application appelle elle-même l'API.
 | « Rien à traiter : tout est déjà fait ou déjà chez l'agent » | Tout est déjà importé ou un fichier attend dans « Importer des résultats ». Pour recommencer : **« Réinitialiser (état initial) »** |
 | L'aperçu affiche des refusés | Lisez la raison de chaque refus (citation absente, valeur hors liste…). Importez les résultats valides ; les refusés repartiront au prochain lancement |
 | « Déjà importé le … : rien à faire » | Ce fichier a déjà été importé ; le réimporter ne change rien |
-| Mode API : « Aucune clé API détectée » | Ajoutez `ANTHROPIC_API_KEY=...` dans `.env`, puis relancez avec le lanceur ; ou connectez-vous avec `ant auth login` |
-| Mode API : « L'API refuse la requête » | Vérifiez la clé et le modèle dans **« ⚙️ Réglages »** |
+| Bandeau ↩️ « Aucune clé API détectée : repli sur le skill… » | L'outil fonctionne avec le skill (§ 4.2). Pour utiliser l'API : ajoutez `ANTHROPIC_API_KEY=...` dans `.env`, puis relancez avec le lanceur ; ou connectez-vous avec `ant auth login` |
+| Bandeau ↩️ « L'API refuse la requête… Repli sur le skill » | Le pack a été exporté pour le skill (§ 4.2). Vérifiez la clé et le modèle dans **« ⚙️ Réglages »** |
 
 ## 8. Glossaire
 
@@ -251,8 +261,9 @@ Ce moteur évite tout geste manuel : l'application appelle elle-même l'API.
 | **Linear** | L'outil de gestion de backlog du PO, simulé ici par une base SQLite |
 | **Triage** | La file d'entrée de Linear, où arrivent tickets, e-mails et messages du chat |
 | **Pack** | Lot de travail exporté pour l'agent. Il contient tout ce dont l'agent a besoin : instructions, contexte, tâches |
-| **Skill `po-agent`** | La compétence Claude Code qui traite les packs, comme le ferait l'API |
-| **Mode démo** | L'agent reçoit le résultat d'un vrai passage du skill, calculé à l'avance. Le reste du parcours est réel |
+| **API Claude** | Le moteur par défaut : l'application envoie elle-même les packs au modèle |
+| **Skill `po-agent`** | Le moteur de repli : la compétence Claude Code qui traite les packs en local, sans clé API |
+| **Mode démo** | Le flux API simulé : aucun appel, rien n'est facturé ; les résultats sont ceux d'un vrai passage de l'agent, calculés à l'avance. Vérification et import restent réels |
 | **ARR** | Revenu annuel récurrent d'un compte Business |
 | **B2C / Business** | Candidats individuels (offres Free et Plus) / cabinets d'outplacement, écoles, coachs |
 | **OKR** | Les trois objectifs du trimestre : conversion Free → Plus, activation, lancement de l'offre Business |
@@ -272,9 +283,10 @@ uv run streamlit run app.py        # http://localhost:8007
 
 ```bash
 uv run python -m po_assist status                           # où en est chaque étape
-uv run python -m po_assist export analyse                   # écrire un pack pour le skill
-uv run python -m po_assist run analyse --engine demo        # mode démo
+uv run python -m po_assist run analyse                      # moteur des réglages (API, repli skill)
 uv run python -m po_assist run analyse --engine api --limit 5   # API, sur 5 tâches
+uv run python -m po_assist run analyse --engine demo        # API simulée (mode démo)
+uv run python -m po_assist export analyse                   # écrire un pack pour le skill
 uv run python -m po_assist import --dry-run                 # vérifier sans rien écrire
 uv run python -m po_assist import                           # importer les résultats en attente
 uv run python -m po_assist.evaluate                         # qualité de l'agent

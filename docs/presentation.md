@@ -19,11 +19,11 @@
 | 1 | 0:30 | **Le lundi matin de Camille** : 80 feedbacks en 10 semaines, 3 canaux, 30 issues au backlog, un sprint qui démarre aujourd'hui | Le problème n'est pas de lire, c'est de **décider vite et de pouvoir le justifier** |
 | 2 | 0:30 | **Ce que fait PO Assist** : Comprendre → Arbitrer → Formaliser, avec Camille qui valide entre chaque étape | Un fil rouge : de la citation client à la story |
 | — | **10:00** | **Démonstration** (script ci-dessous) | |
-| 3 | 1:30 | **Architecture** : schéma du README (Linear simulé → packs → skill → import vérifié → Linear) | Pas d'API : le fichier est le skill. Architecture déjà en production sur saxobeat |
+| 3 | 1:30 | **Architecture** : schéma du README (Linear simulé → pack → API Claude, ou skill en repli → import vérifié → Linear) | L'API par défaut, le skill en repli. Le même pack pour les deux : le format et la vérification ne dépendent pas du moteur |
 | 4 | 1:30 | **L'IA estime, le code calcule** : tableau des rôles IA / code par pack | Tout chiffre est exact et rejouable ; tout jugement est justifié |
 | 5 | 2:00 | **Garde-fous et qualité mesurée** : citations vérifiées, refus avec raison, import idempotent ; puis le tableau 84 % / 96 % / 98 % / 22 sur 22 / 100 % | On ne dit pas « ça marche », on le mesure contre une vérité terrain que l'agent n'a jamais vue |
 | 6 | 1:30 | **La démarche** : cycles courts avec portes de validation, journal tenu au fil de l'eau | La trace est dans le dépôt (`docs/sdlc/`) |
-| 7 | 2:00 | **Ce qui a changé en route** : pas d'accès au code (→ documentation), pas d'API (→ skill), P9 annoté à la main (→ règle calculée), biais du Reach (→ bascule) | Les impasses ont amélioré le produit |
+| 7 | 2:00 | **Ce qui a changé en route** : pas d'accès au code (→ documentation), pas d'API d'abord (→ skill), puis l'API par défaut avec le skill en repli, P9 annoté à la main (→ règle calculée), biais du Reach (→ bascule) | Les impasses ont amélioré le produit |
 | 8 | 1:30 | **L'IA comme équipe** : matrice imposée aux rédacteurs, agents évalués qui ne voient pas la vérité terrain, sous-agents qui ont repéré mes propres erreurs | Déléguer, oui ; sans contrôle, non |
 
 ## Script de démonstration (10 min)
@@ -41,7 +41,7 @@
 | 7:00 | ⚖️ › Proposition | Capacité, reste à faire, Todo non retenus | « Le sprint 8 est déjà surchargé : il reste 9,5 points après le travail en cours. L'agent me dit ce qui ne rentre pas. » |
 | 7:45 | ✍️ User stories | Ouvrir la story du tableau de suivi conseiller | « Persona précis, contexte chiffré et cité, critères Gherkin dont un cas sur la confidentialité des candidats, contrôle INVEST, découpage. » |
 | 8:45 | ✍️ | **Envoyer vers Linear** sur le besoin nouveau | « L'issue est créée dans Linear, et les 4 feedbacks d'origine y sont rattachés : la boucle est fermée. » |
-| 9:15 | 🤖 Agent + terminal | Montrer un pack, puis le skill dans Claude Code | « Comment l'IA travaille : un fichier qui contient tout, un skill qui le traite, un import vérifié. Voici un résultat refusé et pourquoi. » |
+| 9:15 | 🤖 Agent + ⚙️ Réglages | Montrer le bouton (coût estimé), la progression paquet par paquet, puis les réglages : API par défaut, skill en repli | « En production, c'est l'API : un clic, un coût annoncé, des paquets, un import vérifié. En démo, ce flux est simulé, je le dis. Sans clé, l'outil se replie sur le skill Claude Code, avec le même pack. » |
 | 9:45 | 🎯 Qualité | Tableau | « Et voilà comment je sais que je peux lui faire confiance, et où elle se trompe encore : des bugs classés en améliorations. » |
 
 **Démonstration en direct du skill (si le jury le demande)** : Réinitialiser → 🤖 Agent › Exporter l'analyse → dans Claude Code, « traite les packs » → Importer. Prévoir 3 à 4 minutes pour 80 feedbacks ; pour aller vite : `uv run python -m po_assist export analyse --limit 5`.
@@ -50,7 +50,8 @@
 
 | Question | Réponse courte |
 |---|---|
-| Pourquoi ne pas appeler l'API d'un LLM ? | Choix d'architecture : zéro clé, zéro coût par appel, validation humaine par construction, et n'importe quel agent peut traiter un pack. C'est ce qui tourne en production sur saxobeat (257 tâches sur 258 traitées). Passer à l'API ne changerait qu'un transport : le format des packs et la validation restent. |
+| Pourquoi l'API par défaut, et un skill en repli ? | L'API, c'est l'intégration attendue en production : aucun geste manuel, un coût annoncé avant et mesuré après. Le skill garde deux atouts : zéro clé, et un repli quand l'API est indisponible. Les deux traitent le **même pack** et passent par la **même vérification** : changer de moteur ne change que le transport. Le skill est l'architecture qui tourne en production sur saxobeat (257 tâches sur 258 traitées). |
+| La démo appelle-t-elle vraiment l'API ? | Non, et le bandeau le dit : le flux API est simulé (aucun appel, rien n'est facturé). Les résultats sont ceux d'un vrai passage de l'agent, calculés à l'avance, et passent par la vraie vérification. Le moteur API est testé avec un client simulé ; un essai réel se fait en une commande avec une clé. |
 | Comment évitez-vous les hallucinations ? | 1) Chaque demande doit citer le feedback **mot pour mot**, et l'import le vérifie. 2) Les chiffres sont calculés par le code, jamais par le LLM. 3) Les identifiants sont vérifiés contre le backlog. 4) Mesure contre une vérité terrain. |
 | Pourquoi RICE et pas WSJF ? | RICE et MoSCoW sont demandés par le brief et parlent au PO. Le score pondéré réglable couvre les autres critères (ARR à risque, alignement OKR, tendance). WSJF s'ajouterait comme un pack de plus. |
 | Le Reach en sièges n'est-il pas biaisé ? | Si, et c'est volontairement visible : la bascule personnes / clients montre l'arbitrage B2B / B2C. Le choix revient au PO, pas à l'agent. |
@@ -59,4 +60,4 @@
 | Qu'avez-vous vérifié vous-même ? | Chaque porte de cycle, la matrice des données, la lecture d'échantillons, et surtout des tests (30) et une évaluation qui ne dépendent pas de mon jugement. Voir `docs/demarche.md` §4. |
 | Que feriez-vous avec une semaine de plus ? | Brancher le vrai Linear (un module), un runner automatique, une vérité terrain pour la priorisation (décisions passées du PO), et des tests utilisateurs avec 2 PO. |
 | Pourquoi Streamlit ? | Proportionné : une langue, zéro front à maintenir, testable sans navigateur. Pour un produit, je reprendrais la pile de saxobeat (Django + HTMX). |
-| Comment le PO garde-t-il la main ? | Il exporte, il importe après aperçu, il corrige chaque estimation, il choisit les stories, et il est le seul à écrire dans Linear. |
+| Comment le PO garde-t-il la main ? | Il lance l'agent après avoir vu le coût, il importe après aperçu, il corrige chaque estimation, il choisit les stories, et il est le seul à écrire dans Linear. |

@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from po_assist import actions, api_agent, config, demo, evaluate, handoff, insights, scoring, settings
+from po_assist import actions, api_agent, config, demo, evaluate, handoff, insights, runner, scoring, settings
 from po_assist.linear import LinearClient
 from po_assist.packs.analyse import THEMES
 from po_assist.scoring import CRITERIA, DEFAULT_WEIGHTS, REACH_MODES
@@ -48,7 +48,8 @@ PAGES = ["🤖 Agent", "🏠 Tableau de bord", "📥 Feedbacks", "🧩 Demandes"
          "🎯 Qualité de l'agent", "⚙️ Réglages", "❓ Guide"]
 cfg = settings.load()
 DEMO = cfg["demo_mode"]
-ENGINE = "demo" if DEMO else cfg["engine"]  # le mode démo prime : aucun appel d'API tant qu'il est activé
+RESOLVED = runner.resolve(cfg)       # API par défaut ; skill en repli ; démo = API simulée (cycle 012)
+ENGINE = RESOLVED["engine"]
 MODEL = cfg["api_model"]
 page = st.sidebar.radio("Navigation", PAGES, index=1 if store.results("feedback_analysis") else 0, label_visibility="collapsed")
 stt = handoff.status(linear=linear, store=store)
@@ -60,70 +61,59 @@ if st.sidebar.button("Réinitialiser (état initial)", width="stretch",
     config.reset_workspace()
     st.session_state.pop("last_results", None)
     st.rerun()
-ENGINE_FR = {"demo": "mode démo : résultats d'un vrai passage du skill, calculés à l'avance",
-             "skill": "agent : skill Claude Code (échange de fichiers)",
+ENGINE_FR = {"demo": "mode démo : flux API simulé, résultats d'un vrai passage de l'agent calculés à l'avance",
+             "skill": "agent : skill Claude Code, en local (repli)",
              "api": f"agent : API Claude ({api_agent.MODELS.get(MODEL, MODEL)})"}
 st.sidebar.caption("Données fictives · " + ENGINE_FR[ENGINE])
 if DEMO:
-    st.info("**Mode démo.** Chaque fois que vous lancez l'agent, il reçoit le résultat d'un **vrai passage du skill "
-            "po-agent, calculé à l'avance**, au lieu d'attendre plusieurs minutes. Vérification et import restent réels. "
-            "Désactivable dans ⚙️ Réglages.", icon="🎬")
+    st.info("**Mode démo.** Le parcours est celui de l'intégration API, **simulé** : aucun appel n'est fait et rien "
+            "n'est facturé. Les résultats sont ceux d'un **vrai passage de l'agent (skill po-agent), calculés à "
+            "l'avance**. Vérification et import restent réels. Désactivable dans ⚙️ Réglages.", icon="🎬")
+elif RESOLVED["fallback_reason"]:
+    st.warning(RESOLVED["fallback_reason"], icon="↩️")
 
 
-def launch_label(name: str, subjects: list[str] | None = None) -> str:
-    if ENGINE == "demo":
-        return "Lancer l'agent"
-    if ENGINE == "api":
+def _eur(x: float) -> str:
+    return f"{x:.2f}".replace(".", ",")
+
+
+def launch_label(name: str, subjects: list[str] | None = None, verb: str = "Lancer l'agent") -> str:
+    if ENGINE in ("api", "demo"):
         est = api_agent.estimate(name, linear=linear, store=store, subjects=subjects, model=MODEL)
-        return f"Lancer l'agent (API, ≈ {est['usd']:.2f} $)".replace(".", ",")
-    return "Exporter"
+        return f"{verb} (API, ≈ {_eur(est['usd'])} $)"
+    return "Exporter" if verb == "Lancer l'agent" else "Exporter le pack « rédaction »"
 
 
 def launch(name: str, subjects: list[str] | None = None) -> None:
-    """Lance l'agent sur un pack : démo (résultat pré-calculé), API (appel réel) ou skill (export à traiter)."""
-    if ENGINE == "api":
-        bar = st.progress(0.0, text=f"Envoi à l'API ({MODEL})…")
-        try:
-            run = api_agent.run(name, subjects=subjects, model=MODEL, linear=linear, store=store,
-                                on_progress=lambda k, n: bar.progress(k / n, text=f"API : paquet {k}/{n} traité"))
-        except api_agent.ApiAgentError as e:
-            st.error(str(e))
-            return
-        if run is None:
-            st.warning("Rien à traiter : tout est déjà fait ou déjà chez l'agent.")
-            return
-        st.session_state["last_results"] = run["results"].name
-        u = run["usage"]
-        st.success(f"Résultats prêts : `{run['results'].name}` ({run['batches']} requête(s)). Coût réel : "
-                   f"**{str(round(run['usd'], 2)).replace('.', ',')} $** ({u['input_tokens'] + u['cache_creation_input_tokens'] + u['cache_read_input_tokens']} "
-                   f"jetons d'entrée dont {u['cache_read_input_tokens']} lus en cache, {u['output_tokens']} de sortie). "
-                   "Vérifiez-les et importez-les dans 🤖 Agent.")
-        for prob in run["problems"]:
-            st.warning(prob)
+    """Lance l'agent : API (par défaut), API simulée (démo) ou skill (repli), via po_assist.runner."""
+    bar = st.progress(0.0, text=f"Envoi à l'API ({MODEL})…") if ENGINE in ("api", "demo") else None
+    progress = (lambda k, n: bar.progress(k / n, text=f"API : paquet {k}/{n} traité")) if bar else None
+    out = runner.run(name, subjects=subjects, cfg=cfg, linear=linear, store=store, on_progress=progress,
+                     pace=demo.simulated_seconds(api_agent.estimate(name, linear=linear, store=store,
+                                                                    subjects=subjects, model=MODEL)["tasks"])
+                     if ENGINE == "demo" else 0.0)
+    if out is None:
+        st.warning("Rien à traiter : tout est déjà fait ou déjà chez l'agent.")
         return
-    if DEMO:
-        run = demo.run(name, subjects=subjects, linear=linear, store=store)
-        if run is None:
-            st.warning("Rien à traiter : tout est déjà fait ou déjà chez l'agent.")
-            return
-        bar = st.progress(0.0, text=f"Le skill po-agent traite {run['tasks']} tâche(s)…")
-        steps = 20
-        for k in range(1, steps + 1):
-            time.sleep(run["seconds"] / steps)
-            bar.progress(k / steps, text=f"Le skill po-agent traite {run['tasks']} tâche(s)… "
-                                         f"{round(run['tasks'] * k / steps)}/{run['tasks']}")
-        st.session_state["last_results"] = run["results"].name
-        msg = f"Résultats prêts : `{run['results'].name}`. Vérifiez-les et importez-les dans 🤖 Agent."
-        if run["missing"]:
-            msg += f" {len(run['missing'])} sujet(s) sans résultat pré-calculé : ils reviennent « ignorés »."
-        st.success(msg)
-    else:
-        path = handoff.export(name, linear=linear, store=store, subjects=subjects)
-        if path is None:
-            st.warning("Rien à exporter : tout est déjà fait ou déjà chez l'agent.")
-            return
-        st.success(f"Pack écrit : `handoff/to-do/{path.name}`. Dans Claude Code, dites « traite les packs » "
+    if out.get("fallback_reason"):
+        st.warning(out["fallback_reason"], icon="↩️")
+    if out["engine"] == "skill":
+        st.success(f"Pack écrit : `handoff/to-do/{out['pack'].name}`. Dans Claude Code, dites « traite les packs » "
                    "(skill po-agent), puis importez le résultat dans 🤖 Agent.")
+        return
+    st.session_state["last_results"] = out["results"].name
+    if out.get("simulated"):
+        cost = f"Coût simulé : **≈ {_eur(out['usd'])} $** (mode démo : aucun appel, rien n'est facturé)."
+    else:
+        u = out["usage"]
+        cost = (f"Coût réel : **{_eur(out['usd'])} $** ({u['input_tokens'] + u['cache_creation_input_tokens'] + u['cache_read_input_tokens']} "
+                f"jetons d'entrée dont {u['cache_read_input_tokens']} lus en cache, {u['output_tokens']} de sortie).")
+    msg = f"Résultats prêts : `{out['results'].name}` ({out['batches']} requête(s)). {cost} Vérifiez-les et importez-les dans 🤖 Agent."
+    if out.get("missing"):
+        msg += f" {len(out['missing'])} sujet(s) sans résultat pré-calculé : ils reviennent « ignorés »."
+    st.success(msg)
+    for prob in out.get("problems", []):
+        st.warning(prob)
 
 
 def need_analysis() -> bool:
@@ -137,12 +127,10 @@ def need_analysis() -> bool:
 # ------------------------------------------------------------------ 🤖 Agent
 def page_agent():
     st.header("🤖 Agent")
-    if ENGINE == "api":
-        st.markdown(f"**Lancez l'agent** : le pack est envoyé à l'**API Claude** ({MODEL}) par paquets, le coût estimé "
-                    "est indiqué sur le bouton → l'application **vérifie puis importe** le résultat.")
-    elif DEMO:
-        st.markdown("**Lancez l'agent** sur une étape → le skill `po-agent` « travaille » (résultat réel, calculé à "
-                    "l'avance) → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
+    if ENGINE in ("api", "demo"):
+        st.markdown(f"**Lancez l'agent** : le pack est envoyé à l'**API Claude** ({MODEL}) par paquets"
+                    + (" (simulé en mode démo)" if ENGINE == "demo" else "") + ", le coût estimé est indiqué sur le "
+                    "bouton → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
     else:
         st.markdown("L'application **exporte** un lot de travail → dans Claude Code, dites **« traite les packs »** "
                     "(skill `po-agent`) → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
@@ -376,9 +364,7 @@ def page_prioritization():
     default = [r["target"] for r in rows if r["moscow"] in ("must", "should")][:5]
     chosen = st.multiselect("Besoins à formaliser", [r["target"] for r in rows], default=default,
                             format_func=lambda t: f"{t} · {next(r['title'] for r in rows if r['target'] == t)}")
-    label = {"demo": "Lancer la rédaction (agent)", "skill": "Exporter le pack « rédaction »"}.get(ENGINE)
-    if ENGINE == "api":
-        label = launch_label("redaction", chosen).replace("Lancer l'agent", "Lancer la rédaction") if chosen else "Lancer la rédaction"
+    label = launch_label("redaction", chosen, verb="Lancer la rédaction") if chosen else "Lancer la rédaction"
     if st.button(label, type="primary", disabled=not chosen):
         launch("redaction", chosen)
 
@@ -427,21 +413,24 @@ def page_settings():
     st.header("⚙️ Réglages")
     st.subheader("Mode démo")
     on = st.toggle("Activer le mode démo", value=DEMO,
-                   help="L'agent reçoit le résultat d'un vrai passage du skill, calculé à l'avance, au lieu d'attendre.")
+                   help="Flux API simulé : aucun appel, rien n'est facturé ; les résultats sont ceux d'un vrai passage "
+                        "de l'agent, calculés à l'avance.")
     if on != DEMO:
         settings.save(demo_mode=on)
         st.rerun()
     st.subheader("Moteur de l'agent")
-    engines = {"skill": "Skill Claude Code (local, échange de fichiers)", "api": "API Claude"}
+    engines = runner.ENGINES
     eng = st.radio("Quand le mode démo est désactivé, l'agent passe par :", list(engines), format_func=engines.get,
-                   index=list(engines).index(cfg["engine"]), disabled=DEMO)
+                   index=list(engines).index(cfg["engine"]), disabled=DEMO,
+                   help="L'API est le moteur par défaut. Sans clé, ou si l'API refuse la requête, l'outil se replie "
+                        "automatiquement sur le skill Claude Code local.")
     model = st.selectbox("Modèle (mode API)", list(api_agent.MODELS), format_func=api_agent.MODELS.get,
-                         index=list(api_agent.MODELS).index(MODEL) if MODEL in api_agent.MODELS else 0, disabled=DEMO)
+                         index=list(api_agent.MODELS).index(MODEL) if MODEL in api_agent.MODELS else 0)
     if (eng, model) != (cfg["engine"], MODEL):
         settings.save(engine=eng, api_model=model)
         st.rerun()
     if DEMO:
-        st.caption("Le mode démo est activé : il prime, et aucun appel d'API n'est fait.")
+        st.caption("Le mode démo est activé : il simule le flux API (coût estimé avec ce modèle), sans aucun appel.")
     key = api_agent.has_credentials()
     st.markdown(f"Clé API : **{'détectée' if key else 'absente'}** (jamais affichée ni enregistrée par l'application)."
                 + ("" if key else " Pour le mode API : définir `ANTHROPIC_API_KEY`, par exemple dans un fichier `.env` à la "

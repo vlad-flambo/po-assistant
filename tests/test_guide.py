@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 GUIDE = ROOT / "docs" / "guide-utilisateur.md"
-APP = (ROOT / "app.py").read_text(encoding="utf-8")
+APP = "\n".join((ROOT / f).read_text(encoding="utf-8") for f in ("app.py", "po_assist/runner.py"))
 
 
 def _cited_labels() -> list[str]:

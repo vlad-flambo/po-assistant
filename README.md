@@ -23,7 +23,7 @@ uv sync                                   # Python ≥ 3.12, dépendances : stre
 uv run streamlit run app.py               # interface du PO, sur http://localhost:8007 (.streamlit/config.toml)
 ```
 
-L'application démarre en **mode démo** : suivez le parcours depuis la page 🤖 Agent (« Lancer l'agent » sur l'analyse, puis la priorisation, puis la rédaction depuis ⚖️ Priorisation). À chaque lancement, l'agent reçoit le résultat d'un **vrai passage du skill, calculé à l'avance** (`handoff/demo/`), au lieu d'attendre plusieurs minutes. La vérification et l'import restent réels, et un bandeau signale le mode. **Réinitialiser** (barre latérale) repart de zéro.
+L'application démarre en **mode démo** : suivez le parcours depuis la page 🤖 Agent (« Lancer l'agent » sur l'analyse, puis la priorisation, puis la rédaction depuis ⚖️ Priorisation). Le parcours est celui de l'intégration API, **simulé** : coût estimé sur le bouton, envoi paquet par paquet, coût affiché, mais aucun appel et rien n'est facturé. Les résultats sont ceux d'un **vrai passage de l'agent, calculés à l'avance** (`handoff/demo/`). La vérification et l'import restent réels, et un bandeau signale le mode. **Réinitialiser** (barre latérale) repart de zéro.
 
 ```bash
 uv run pytest                             # tests, sans LLM ni réseau ni clé
@@ -31,27 +31,30 @@ uv run python -m po_assist status         # même chose en ligne de commande
 uv run python -m po_assist.evaluate       # qualité de l'agent contre la vérité terrain
 ```
 
-## Comment l'IA intervient : un skill Claude Code, ou l'API
+## Comment l'IA intervient : l'API par défaut, le skill en repli
 
-L'application **exporte** le travail d'IA dans des fichiers auto-suffisants (« packs »), un agent les traite, et l'application **vérifie puis importe** les résultats. Trois moteurs, au choix dans ⚙️ Réglages :
+L'application prépare le travail d'IA dans des lots auto-suffisants (« packs »), un agent les traite, et l'application **vérifie puis importe** les résultats. Le moteur se choisit dans ⚙️ Réglages :
 
 | Moteur | Ce qui traite le pack | Quand |
 |---|---|---|
-| **Mode démo** (par défaut) | Les résultats d'un vrai passage du skill, calculés à l'avance et révélés au fil du parcours | Démonstration, sans attente ni coût |
-| **Skill Claude Code** | Le skill `.claude/skills/po-agent/` : dans Claude Code, « traite les packs ». C'est l'architecture en production sur saxobeat | Sans clé API ; le PO garde la main sur chaque échange |
-| **API Claude** | L'application envoie le pack à l'API par paquets : sorties structurées, instructions et contexte en cache, coût estimé sur le bouton puis coût réel affiché | Sans geste manuel. Clé : `ANTHROPIC_API_KEY`, par exemple dans un `.env` à la racine (ignoré par git, chargé par le lanceur Mac) |
+| **API Claude** (par défaut) | L'application envoie le pack à l'API par paquets : sorties structurées, instructions et contexte en cache, repli serveur en cas de refus. Coût estimé sur le bouton, coût réel affiché ensuite | Usage normal, sans geste manuel. Clé : `ANTHROPIC_API_KEY`, par exemple dans un `.env` à la racine (ignoré par git, chargé par le lanceur Mac) |
+| **Skill Claude Code** (repli) | Le skill `.claude/skills/po-agent/` : dans Claude Code, « traite les packs ». C'est l'architecture en production sur saxobeat | **Automatiquement** quand il n'y a pas de clé ou que l'API refuse la requête ; ou par choix, pour travailler sans clé |
+| **Mode démo** (activé au démarrage) | Le flux API, simulé : aucun appel, rien n'est facturé ; les résultats sont ceux d'un vrai passage de l'agent, calculés à l'avance | Démonstration, sans attente ni coût |
 
-Dans les trois cas, le format des résultats et la vérification à l'import sont les mêmes.
+Dans tous les cas, le format des résultats et la vérification à l'import sont les mêmes.
 
 ```mermaid
 flowchart LR
   L[(Linear simulé<br/>data/linear.db)] -->|lecture| A[PO Assist<br/>Streamlit + Python]
-  A -->|1. export pack JSON| T[handoff/to-do/]
-  T -->|2. « traite les packs »| S[Skill Claude Code<br/>po-agent]
-  S -->|résultats JSON| T
-  T -->|3. vérification + aperçu<br/>puis import| A
+  A -->|1. pack JSON, par paquets| API[API Claude<br/>par défaut]
+  API -->|résultats JSON| A
+  A -.->|repli : pas de clé,<br/>clé refusée| T[handoff/to-do/]
+  T -.->|« traite les packs »| S[Skill Claude Code<br/>po-agent]
+  S -.->|résultats JSON| T
+  T -.-> A
+  A -->|2. vérification + aperçu<br/>puis import| A
   A -->|scores, plan, tendances<br/>calculés par le code| A
-  A -->|4. sur décision du PO :<br/>rattacher, créer l'issue| L
+  A -->|3. sur décision du PO :<br/>rattacher, créer l'issue| L
 ```
 
 | Pack | L'IA fait (jugement) | Le code fait (calcul, vérification) |

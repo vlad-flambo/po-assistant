@@ -135,14 +135,16 @@ def test_estimate_and_engine_setting(env):
     est = api_agent.estimate("analyse")
     assert est["tasks"] == 80 and est["batches"] == 4 and est["usd"] > 0
     assert api_agent.estimate("analyse", model="claude-haiku-5-5")["usd"] < est["usd"]
+    assert settings.load()["engine"] == "api"  # cycle 012 : l'API est le moteur par défaut
+    settings.save(engine="skill", api_model="claude-sonnet-5-5")
     assert settings.load()["engine"] == "skill"
-    settings.save(engine="api", api_model="claude-sonnet-5-5")
+    settings.save(engine="api")
     assert settings.load()["engine"] == "api" and settings.load()["api_model"] == "claude-sonnet-5-5"
 
 
 def test_ui_in_api_mode_shows_cost_on_the_button(env, monkeypatch):
     from streamlit.testing.v1 import AppTest
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "factice-pour-le-test")  # jamais utilisée : aucun clic de lancement ici
     settings.save(demo_mode=False, engine="api")
     for page in ["🤖 Agent", "⚙️ Réglages"]:
         at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60)
@@ -151,3 +153,58 @@ def test_ui_in_api_mode_shows_cost_on_the_button(env, monkeypatch):
         assert not at.exception, [e.value for e in at.exception]
         if page == "🤖 Agent":
             assert any("Lancer l'agent (API, ≈" in b.label for b in at.button)
+
+
+# ---------------------------------------------------------------- cycle 012 : API par défaut, skill en repli
+from po_assist import runner  # noqa: E402
+
+
+def _cfg(**kw):
+    return {**settings.DEFAULTS, **kw}
+
+
+def test_default_is_api_and_no_key_falls_back_to_skill(env, monkeypatch, tmp_path):
+    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("HOME", str(tmp_path / "home"))
+    cfg = _cfg(demo_mode=False)
+    assert cfg["engine"] == "api"
+    r = runner.resolve(cfg)
+    assert r["engine"] == "skill" and "repli" in r["fallback_reason"]
+    out = runner.run("analyse", cfg=cfg)
+    assert out["engine"] == "skill" and out["pack"].exists() and "repli" in out["fallback_reason"]
+
+
+def test_key_refused_on_first_batch_falls_back_to_skill(env):
+    out = runner.run("analyse", cfg=_cfg(demo_mode=False), client=FakeClient(lambda k, kw: _auth_error()))
+    assert out["engine"] == "skill" and "Repli sur le skill" in out["fallback_reason"]
+    assert out["pack"].exists() and handoff.status()["packs"]["analyse"]["exported"] == 80
+
+
+def test_api_engine_with_a_working_client_does_not_fall_back(env):
+    out = runner.run("analyse", cfg=_cfg(demo_mode=False), client=FakeClient())
+    assert out["engine"] == "api" and out["fallback_reason"] is None and out["batches"] == 4
+
+
+def test_demo_simulates_the_api_flow(env):
+    calls = []
+    out = runner.run("analyse", cfg=_cfg(demo_mode=True), on_progress=lambda k, n: calls.append((k, n)))
+    assert out["engine"] == "demo" and out["simulated"] and out["usd"] > 0
+    assert calls == [(1, 4), (2, 4), (3, 4), (4, 4)]  # paquet par paquet, comme l'API
+    assert json.loads(out["results"].read_text())["agent"].startswith("api simulée / claude-opus-5-5")
+    pv, _ = handoff.import_file(out["results"])
+    assert len(pv.accepted) == 80
+
+
+def test_ui_without_key_shows_the_fallback(env, monkeypatch, tmp_path):
+    from streamlit.testing.v1 import AppTest
+    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("HOME", str(tmp_path / "home"))
+    settings.save(demo_mode=False)
+    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60)
+    at.run()
+    at.sidebar.radio[0].set_value("🤖 Agent").run()
+    assert not at.exception
+    assert any("repli" in w.value for w in at.warning)
+    assert any(b.label == "Exporter" for b in at.button)

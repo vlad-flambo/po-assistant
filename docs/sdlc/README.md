@@ -64,3 +64,4 @@ docs/sdlc/
 | 009 | 4 | mode démo | Verify : 8/8, en attente de l'accord du PO |
 | 010 | 3 | option API | Verify : 8/10, reste l'essai réel avec la clé du PO |
 | 011 | 4 | guide utilisateur | Verify : 6/6, en attente de la relecture du PO |
+| 012 | 4 | API par defaut skill en repli | Intent: started 2026-11-17 |

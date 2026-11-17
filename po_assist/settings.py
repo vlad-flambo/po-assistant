@@ -7,7 +7,7 @@ from . import config
 
 DEFAULTS = {
     "demo_mode": True,          # cycle 009 : activé par défaut
-    "engine": "skill",          # cycle 010 : "skill" (fichiers + skill Claude Code) ou "api"
+    "engine": "api",            # cycle 012 : API par défaut ; "skill" (fichiers + skill Claude Code) en repli
     "api_model": "claude-opus-5-5",
 }
 

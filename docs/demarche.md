@@ -19,7 +19,7 @@
 | Le produit du PO est **saxobeat**, mon projet de suivi de recherche d'emploi, **projeté au printemps 2027** (offres Free / Plus / Business) | Vlad | Un vrai produit, documenté par 7 PRD et 33 cycles, rend les données crédibles. La projection fournit des clients payants, des segments et du volume, ce qu'attend le brief (« startup SaaS ») |
 | Le PO travaille dans **Linear**, et tous les canaux s'y déversent (file Triage, demandes clients) | Vlad | Outil courant des startups ; il relie nativement une demande client à une issue |
 | **Pas de vraie intégration** : une base SQLite au format Linear, versionnée | Vlad | Démo déterministe ; un seul module à remplacer pour passer au vrai Linear |
-| **Pas d'API de LLM** : un skill Claude Code traite des fichiers exportés | Vlad | Architecture éprouvée sur saxobeat. Zéro clé, zéro coût par appel, et le PO valide par construction |
+| D'abord **pas d'API de LLM** (un skill Claude Code traite des fichiers exportés), puis **l'API par défaut, le skill en repli** | Vlad | Le skill a permis de livrer vite, sans clé, sur une architecture éprouvée sur saxobeat. L'API est ensuite devenue le comportement par défaut, comme dans une vraie intégration ; le skill reste le repli sans clé |
 | Le PO pense en RICE et MoSCoW, avec des OKR trimestriels et une capacité de 20 points par sprint | Recommandation acceptée | Les frameworks cités par le brief, appliqués à un contexte crédible |
 
 ## 3. Le chemin suivi
@@ -41,7 +41,7 @@ Le travail a été mené en **cycles courts** (méthode `ai-sdlc` : intention �
 | Idée de départ | Pourquoi elle a été abandonnée | Ce qui l'a remplacée |
 |---|---|---|
 | Lire le code de saxobeat sur GitHub | Dépôt inaccessible depuis la session cloud | La documentation produit fournie par Vlad, synthétisée dans [analyse/02-contexte-saxobeat.md](analyse/02-contexte-saxobeat.md) |
-| Clé API Anthropic pour la démo en direct | Décision de Vlad : pas d'API | Skill Claude Code et échange de fichiers |
+| Clé API Anthropic pour la démo en direct | Décision de Vlad : pas d'API, pour tenir le délai | Skill Claude Code et échange de fichiers ; l'API est revenue ensuite comme moteur par défaut, le skill en repli, la démo simulant le flux API |
 | Un chat dans l'interface | Impossible sans API, et contraire au contrôle du PO | Des vues qui montrent les preuves ; la conversation a lieu dans Claude Code |
 | Générer les feedbacks par gabarits (Faker) ou par LLM au build | Textes répétitifs ; pas de clé ; résultat non déterministe | Matrice d'allocation, puis rédaction par des agents, figée dans des fichiers JSON |
 | Étiqueter à la main les « clients qui reviennent » | J'en avais oublié 19 sur 43 | Une règle calculée à partir des données, et testée |
@@ -74,7 +74,8 @@ Le travail a été mené en **cycles courts** (méthode `ai-sdlc` : intention �
 
 ## 6. Limites et suite
 
-- **Temps de traitement** : un pack de 80 feedbacks prend quelques minutes au skill. En démo, les résultats pré-calculés servent de filet ; un runner automatique (comme sur saxobeat) supprimerait le geste manuel.
+- **Moteur API jamais appelé pour de vrai** : il est testé avec un client simulé (découpage, cache, schémas, refus, erreurs, coût). Il reste à le confirmer avec une clé : réponse réelle au schéma imposé, qualité, coût exact. Le repli sur le skill protège l'usage si l'appel échoue.
+- **Temps de traitement** : avec le skill, un pack de 80 feedbacks prend quelques minutes ; en démo, le flux API simulé dure environ 8 secondes.
 - **Priorisation et rédaction sans vérité terrain** : leur qualité se juge sur pièces. La suite serait de comparer les classements de l'agent aux décisions réelles du PO.
 - **Reach** : le compter en personnes ou en clients est un vrai choix produit, laissé au PO. Une pondération par segment, fixée en équipe, serait plus juste.
 - **Passage au réel** : remplacer `LinearClient` par le client GraphQL de Linear, et brancher la file Triage sur les vrais canaux (Zendesk, e-mail, chat intégré).

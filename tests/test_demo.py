@@ -39,7 +39,7 @@ def test_demo_run_plays_the_real_pipeline_step_by_step(env):
     run = demo.run("analyse")
     assert run["tasks"] == 80 and not run["missing"] and 3 <= run["seconds"] <= 10
     doc = json.loads(run["results"].read_text())
-    assert doc["schema"] == "po-assist.results.v1" and "pré-calculés" in doc["agent"]
+    assert doc["schema"] == "po-assist.results.v1" and "calculés à l'avance" in doc["agent"]
     pv = handoff.check(run["results"])
     assert len(pv.accepted) == 80 and not pv.refused  # mêmes vérifications qu'en vrai
     handoff.apply(pv)

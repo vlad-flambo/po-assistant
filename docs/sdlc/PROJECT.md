@@ -8,10 +8,10 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
 | **Run Python / scripts with** | `uv run python` for project code (uv 0.11 installed); `python3` (3.13) for the ai-sdlc scripts |
 | **Shell** | bash (Linux cloud container) |
 | **Tests** | `uv run pytest` (11 tests verts au 2026-11-14, jeu de données) |
-| **Secrets live in** | aucun : pas d'API LLM (décision 002-D1, 2026-11-16). L'IA passe par un skill Claude Code et un échange de fichiers |
+| **Secrets live in** | `ANTHROPIC_API_KEY` dans un `.env` non versionné à la racine (chargé par le lanceur Mac), ou un profil `ant auth login`. Jamais dans le dépôt ni affichée par l'application. Moteur par défaut : l'API (décision 012-D1, 2026-11-17), le skill Claude Code en repli |
 | **Hosts and irreversible actions** | No hosted service. Push to GitHub on `main` only (Vlad, 2026-11-16). No real Linear API call, ever (the integration is simulated) |
 | **Project memory / status note** | `docs/sdlc/BOARD.md` + `docs/journal.md` (process log for the jury, see cycle 007) |
-| **Stack** | not on house-stack (no house-stack skill in this environment). Python, SQLite (tier 1, file committed to the repo), skill Claude Code via échange de fichiers (pas d'API), interface web légère |
+| **Stack** | not on house-stack (no house-stack skill in this environment). Python, SQLite (tier 1, file committed to the repo), API Claude par défaut (SDK anthropic), skill Claude Code en repli via échange de fichiers, interface Streamlit |
 | **Product docs that a cycle updates** | `README.md`, `docs/analyse/`, `docs/adr/` (technical decisions), `docs/journal.md` |
 | **Board data folder** | `docs/sdlc/board-data` (gitignored) |
 | **Live board** | none yet: `BOARD.md` is the board until one is created |
