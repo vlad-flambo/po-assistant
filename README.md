@@ -12,9 +12,13 @@ PO Assist aide Camille, Product Owner de **saxobeat** (un SaaS de suivi de reche
 
 ## Démarrer (2 minutes)
 
+**Sur Mac : double-cliquer sur `PO Assist.command`.** L'application s'ouvre dans le navigateur sur http://localhost:8007. Pour l'arrêter, fermer la fenêtre de Terminal. Prérequis : [uv](https://docs.astral.sh/uv/) ; le lanceur indique comment l'installer s'il manque.
+
+En ligne de commande :
+
 ```bash
 uv sync                                   # Python ≥ 3.12, dépendances : streamlit (+ pytest en dev)
-uv run streamlit run app.py               # interface du PO
+uv run streamlit run app.py               # interface du PO, sur http://localhost:8007 (.streamlit/config.toml)
 ```
 
 Dans la barre latérale, **Démo › Charger les résultats pré-calculés** rejoue les 3 étapes déjà traitées par l'agent. Pour refaire le parcours complet, utilisez **Réinitialiser**, puis suivez la page 🤖 Agent.

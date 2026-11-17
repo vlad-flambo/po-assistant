@@ -42,3 +42,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Biais découvert à l'usage** : compté en personnes (sièges Business), le Reach donne la priorité aux comptes Business ; compté en clients, ce sont les bugs B2C qui passent devant. Plutôt que de trancher dans le code, la bascule est laissée au PO. C'est un argument de démo.
 - **Erreurs rattrapées dans mes propres documents** : une assertion de test fausse (5 mentions et non 7) et 3 chiffres du script de démo, corrigés après recoupement avec les données.
 - **Clôture du cycle 001** : échantillon de 10 feedbacks relu et approuvé par Vlad. Le travail passe sur `main` (branche unique à partir de maintenant).
+
+### 2026-11-17 (mardi)
+
+- **Cycle 008, lanceur Mac** : `PO Assist.command` (double-clic, port 8007, cas « déjà lancé », « port pris » et « uv absent » traités). 4 scénarios testés sous Linux ; reste la vérification par Vlad sur son Mac.

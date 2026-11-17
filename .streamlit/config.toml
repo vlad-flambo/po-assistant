@@ -1,0 +1,6 @@
+# Port de PO Assist (8007 plutôt que 8501, le port par défaut de Streamlit) : cycle 008.
+[server]
+port = 8007
+
+[browser]
+gatherUsageStats = false

@@ -40,11 +40,11 @@ Un double-clic sur un fichier du dépôt ouvre PO Assist dans le navigateur du M
 ## Open questions (grilled one at a time)
 | # | Question | Recommended answer | Answer | Status |
 |---|----------|--------------------|--------|--------|
-| Q1 | Nom et emplacement du fichier ? | `PO Assist.command` à la racine du dépôt, visible et parlant | | open |
-| Q2 | Le port 8007 vaut-il aussi pour `uv run streamlit run app.py` ? | Oui : `.streamlit/config.toml` fixe le port 8007, une seule source de vérité, et le README ne cite plus qu'un port | | open |
-| Q3 | Si uv manque ? | Afficher la commande d'installation officielle et s'arrêter, sans rien installer à la place de Vlad | | open |
-| Q4 | Si le port 8007 est déjà pris ? | PO Assist y répond déjà : ouvrir le navigateur. Autre chose : le dire, avec le processus en cause, et s'arrêter | | open |
-| Q5 | Ouvrir le navigateur automatiquement ? | Oui, dès que l'application répond | | open |
+| Q1 | Nom et emplacement du fichier ? | `PO Assist.command` à la racine du dépôt, visible et parlant | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q2 | Le port 8007 vaut-il aussi pour `uv run streamlit run app.py` ? | Oui : `.streamlit/config.toml` fixe le port 8007, une seule source de vérité, et le README ne cite plus qu'un port | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q3 | Si uv manque ? | Afficher la commande d'installation officielle et s'arrêter, sans rien installer à la place de Vlad | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q4 | Si le port 8007 est déjà pris ? | PO Assist y répond déjà : ouvrir le navigateur. Autre chose : le dire, avec le processus en cause, et s'arrêter | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q5 | Ouvrir le navigateur automatiquement ? | Oui, dès que l'application répond | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
 
 Status: `open`, `answered`, `parked` (deliberately left for later).
 
@@ -53,5 +53,5 @@ Status: `open`, `answered`, `parked` (deliberately left for later).
 - **Pas de Mac dans cet environnement** : le script est testé sous Linux (bash, port, page servie), et le double-clic n'est vérifié que par Vlad.
 
 ## Gate
-- [ ] All open questions answered or parked
-- [ ] Goal and success measure confirmed by the owner
+- [x] All open questions answered or parked
+- [x] Goal and success measure confirmed by the owner (« je valide les recommandations, go », Vlad, 2026-11-17)

@@ -60,4 +60,4 @@ docs/sdlc/
 | 005 | 4 | bloc C formaliser les user stories | Verify : en attente de l'accord du PO |
 | 006 | 4 | interface web du PO | Verify : en attente de l'accord du PO |
 | 007 | 5 | restitution documentation et démo | Intent rempli, but à confirmer par le PO |
-| 008 | 3 | lanceur Mac (port 8007) | Intent : Q1 à Q5 à valider |
+| 008 | 3 | lanceur Mac (port 8007) | Verify : 7/8 critères, reste le double-clic sur le Mac |

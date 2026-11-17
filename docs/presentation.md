@@ -6,7 +6,7 @@
 
 ## Avant de commencer (J-0, 15 min avant)
 
-- [ ] `uv sync`, puis `uv run streamlit run app.py` : l'application s'ouvre sur 🤖 Agent.
+- [ ] Double-cliquer sur `PO Assist.command` (ou `uv sync` puis `uv run streamlit run app.py`) : l'application s'ouvre sur http://localhost:8007.
 - [ ] Barre latérale › Démo › **Réinitialiser**, puis **Charger les résultats pré-calculés** : les 3 étapes apparaissent comme faites.
 - [ ] Ouvrir à côté : un terminal Claude Code dans le dépôt, et l'onglet `handoff/demo/` (un pack et ses résultats).
 - [ ] Filet de sécurité : les captures dans `docs/captures/` si l'application ne démarre pas.
