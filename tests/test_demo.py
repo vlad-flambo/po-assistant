@@ -12,7 +12,7 @@ from po_assist.store import Store
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGES = ["🤖 Agent", "🏠 Tableau de bord", "📥 Feedbacks", "🧩 Demandes", "⚖️ Priorisation", "✍️ User stories",
-         "🎯 Qualité de l'agent", "⚙️ Réglages"]
+         "🎯 Qualité de l'agent", "⚙️ Réglages", "❓ Guide"]
 
 
 def _import(run):

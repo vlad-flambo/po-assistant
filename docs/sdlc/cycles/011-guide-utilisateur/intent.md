@@ -37,11 +37,11 @@ Un PO qui n'a jamais vu PO Assist va du double-clic sur le lanceur jusqu'à une 
 ## Open questions (grilled one at a time)
 | # | Question | Recommended answer | Answer | Status |
 |---|----------|--------------------|--------|--------|
-| Q1 | Format et emplacement ? | `docs/guide-utilisateur.md` (Markdown), lié depuis le README, et affiché dans l'application par une page « ❓ Guide » qui lit ce même fichier (une seule source) | | open |
-| Q2 | À qui s'adresse-t-il ? | Au PO, sans jargon technique. Une annexe pour l'installation, la ligne de commande et la clé API | | open |
-| Q3 | Plan ? | 1. Démarrer · 2. Vue d'ensemble (3 étapes, le PO valide entre chacune) · 3. Parcours pas à pas en mode démo, écran par écran · 4. Passer en mode réel : skill Claude Code, puis API · 5. Lire les résultats (score RICE, MoSCoW, citations, alertes) · 6. Réglages et remise à zéro · 7. Dépannage · 8. Glossaire | | open |
-| Q4 | Captures d'écran ? | Oui : une dizaine de captures neuves de l'interface actuelle, prises en suivant le parcours (`docs/guide/`) | | open |
-| Q5 | Langue ? | Français | | open |
+| Q1 | Format et emplacement ? | `docs/guide-utilisateur.md` (Markdown), lié depuis le README, et affiché dans l'application par une page « ❓ Guide » qui lit ce même fichier (une seule source) | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q2 | À qui s'adresse-t-il ? | Au PO, sans jargon technique. Une annexe pour l'installation, la ligne de commande et la clé API | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q3 | Plan ? | 1. Démarrer · 2. Vue d'ensemble (3 étapes, le PO valide entre chacune) · 3. Parcours pas à pas en mode démo, écran par écran · 4. Passer en mode réel : skill Claude Code, puis API · 5. Lire les résultats (score RICE, MoSCoW, citations, alertes) · 6. Réglages et remise à zéro · 7. Dépannage · 8. Glossaire | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q4 | Captures d'écran ? | Oui : une dizaine de captures neuves de l'interface actuelle, prises en suivant le parcours (`docs/guide/`) | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
+| Q5 | Langue ? | Français | Oui : « je valide les recommandations, go » (Vlad, 2026-11-17) | answered |
 
 Status: `open`, `answered`, `parked` (deliberately left for later).
 
@@ -50,5 +50,5 @@ Status: `open`, `answered`, `parked` (deliberately left for later).
 - **Taille des captures** : une dizaine d'images PNG versionnées (quelques Mo).
 
 ## Gate
-- [ ] All open questions answered or parked
-- [ ] Goal and success measure confirmed by the owner
+- [x] All open questions answered or parked
+- [x] Goal and success measure confirmed by the owner (« je valide les recommandations, go », Vlad, 2026-11-17)

@@ -1,6 +1,6 @@
 # Cycle board
 
-Generated 2026-11-17 17:35 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
+Generated 2026-11-17 17:47 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
 
 Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
@@ -17,7 +17,7 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 - 005 Bloc C formaliser les user stories: Accepter la vérification (verify.md) (due 2026-11-16)
 - 006 Interface web du PO: Accepter la vérification (verify.md) (due 2026-11-16)
 - 009 Mode démo: Accepter la vérification (verify.md) après un essai du parcours démo (due 2026-11-17)
-- 011 Guide utilisateur: Accepter ou amender Q1 à Q5, confirmer but et mesure de succès (due 2026-11-17)
+- 011 Guide utilisateur: Relire docs/guide-utilisateur.md (ou la page ❓ Guide) et accepter la vérification (due 2026-11-17)
 - 008 Lanceur Mac (port 8007): Après `git pull` : double-cliquer sur « PO Assist.command » sur le Mac et me dire ce qui s'affiche (critère 8) (due 2026-11-17)
 - 010 Option API: Essai réel avec sa clé : `uv run python -m po_assist run analyse --engine api --limit 5` (critère 10), puis accepter verify.md (due 2026-11-17)
 - 009 Mode démo: Relire les choix Q1 à Q6 de l'intent
@@ -27,7 +27,6 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
 - 007 Restitution documentation et démo: Tenir docs/journal.md à jour à chaque étape (registre de l'usage de l'IA inclus)
 - 007 Restitution documentation et démo: Après la présentation : verify.md (répétition, partage) et learn.md
-- 011 Guide utilisateur: Spec, plan, rédaction, captures, vérification
 
 ## Cycles
 
@@ -43,4 +42,4 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 | 008 | Lanceur Mac (port 8007) | 3/5 | Verify | x | x | x | x | o | . | 7/8 | 2026-11-17 |
 | 009 | Mode démo | 4/5 | Verify | x | x | x | x | o | . | 8/8 | 2026-11-17 |
 | 010 | Option API | 3/5 | Verify | x | x | x | x | o | . | 8/10 | 2026-11-17 |
-| 011 | Guide utilisateur | 4/5 | Intent | o | . | . | . | . | . |  | 2026-11-17 |
+| 011 | Guide utilisateur | 4/5 | Verify | x | x | x | x | o | . | 6/6 | 2026-11-17 |

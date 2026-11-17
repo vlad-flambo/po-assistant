@@ -45,7 +45,7 @@ cyc = linear.current_cycle() or {}
 st.sidebar.title("🧭 PO Assist")
 st.sidebar.caption(f"saxobeat · Linear (simulé) · {meta.get('reference_date')} · {cyc.get('name', '')}")
 PAGES = ["🤖 Agent", "🏠 Tableau de bord", "📥 Feedbacks", "🧩 Demandes", "⚖️ Priorisation", "✍️ User stories",
-         "🎯 Qualité de l'agent", "⚙️ Réglages"]
+         "🎯 Qualité de l'agent", "⚙️ Réglages", "❓ Guide"]
 cfg = settings.load()
 DEMO = cfg["demo_mode"]
 ENGINE = "demo" if DEMO else cfg["engine"]  # le mode démo prime : aucun appel d'API tant qu'il est activé
@@ -457,6 +457,32 @@ def page_settings():
                f"(`handoff/demo/`, vrais passages du skill po-agent).")
 
 
+# ------------------------------------------------------------------ ❓ Guide
+GUIDE = config.ROOT / "docs" / "guide-utilisateur.md"
+
+
+def page_guide():
+    """Affiche docs/guide-utilisateur.md (une seule source pour le dépôt et l'application), images comprises."""
+    import re
+    if not GUIDE.exists():
+        st.warning("Guide introuvable : docs/guide-utilisateur.md")
+        return
+    chunk = []
+    for line in GUIDE.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^!\[(.*?)\]\((.+?)\)\s*$", line.strip())
+        if m:
+            if chunk:
+                st.markdown("\n".join(chunk))
+                chunk = []
+            img = (GUIDE.parent / m.group(2)).resolve()
+            if img.exists():
+                st.image(str(img), caption=m.group(1))
+        else:
+            chunk.append(line)
+    if chunk:
+        st.markdown("\n".join(chunk))
+
+
 {"🤖 Agent": page_agent, "🏠 Tableau de bord": page_dashboard, "📥 Feedbacks": page_feedbacks, "🧩 Demandes": page_demands,
  "⚖️ Priorisation": page_prioritization, "✍️ User stories": page_stories, "🎯 Qualité de l'agent": page_quality,
- "⚙️ Réglages": page_settings}[page]()
+ "⚙️ Réglages": page_settings, "❓ Guide": page_guide}[page]()

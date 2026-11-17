@@ -63,4 +63,4 @@ docs/sdlc/
 | 008 | 3 | lanceur Mac (port 8007) | Verify : 7/8 critères, reste le double-clic sur le Mac |
 | 009 | 4 | mode démo | Verify : 8/8, en attente de l'accord du PO |
 | 010 | 3 | option API | Verify : 8/10, reste l'essai réel avec la clé du PO |
-| 011 | 4 | guide utilisateur | Intent : Q1 à Q5 à valider |
+| 011 | 4 | guide utilisateur | Verify : 6/6, en attente de la relecture du PO |

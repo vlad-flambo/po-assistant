@@ -1,0 +1,62 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /home/user/po-assist/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/po-assist
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0
+collecting ... collected 51 items
+
+tests/test_api.py::test_api_run_batches_caches_constrains_and_imports PASSED [  1%]
+tests/test_api.py::test_refusal_on_one_batch_skips_only_that_batch PASSED [  3%]
+tests/test_api.py::test_invalid_key_on_first_batch_stops_everything_cleanly PASSED [  5%]
+tests/test_api.py::test_error_after_paid_batches_keeps_their_results PASSED [  7%]
+tests/test_api.py::test_no_credentials_means_no_export_and_a_clear_message PASSED [  9%]
+tests/test_api.py::test_output_schemas_respect_structured_output_limits[analyse] PASSED [ 11%]
+tests/test_api.py::test_output_schemas_respect_structured_output_limits[priorisation] PASSED [ 13%]
+tests/test_api.py::test_output_schemas_respect_structured_output_limits[redaction] PASSED [ 15%]
+tests/test_api.py::test_estimate_and_engine_setting PASSED               [ 17%]
+tests/test_api.py::test_ui_in_api_mode_shows_cost_on_the_button PASSED   [ 19%]
+tests/test_blocks.py::test_prioritization_pack_covers_open_needs PASSED  [ 21%]
+tests/test_blocks.py::test_scores_are_computed_by_code_and_follow_po_overrides PASSED [ 23%]
+tests/test_blocks.py::test_cycle_proposal_respects_capacity PASSED       [ 25%]
+tests/test_blocks.py::test_redaction_then_push_to_linear_and_exports PASSED [ 27%]
+tests/test_blocks.py::test_story_validation_rejects_incomplete_output PASSED [ 29%]
+tests/test_dataset.py::test_build_is_deterministic_and_committed_db_is_current PASSED [ 31%]
+tests/test_dataset.py::test_schema_and_integrity PASSED                  [ 33%]
+tests/test_dataset.py::test_feedbacks PASSED                             [ 35%]
+tests/test_dataset.py::test_backlog PASSED                               [ 37%]
+tests/test_dataset.py::test_customers PASSED                             [ 39%]
+tests/test_dataset.py::test_context PASSED                               [ 41%]
+tests/test_dataset.py::test_languages PASSED                             [ 43%]
+tests/test_dataset.py::test_traps PASSED                                 [ 45%]
+tests/test_dataset.py::test_p9_matches_data PASSED                       [ 47%]
+tests/test_dataset.py::test_ground_truth PASSED                          [ 49%]
+tests/test_dataset.py::test_fiction_and_privacy PASSED                   [ 50%]
+tests/test_demo.py::test_demo_mode_is_on_by_default_and_survives_reset PASSED [ 52%]
+tests/test_demo.py::test_nothing_is_revealed_before_the_po_runs_the_agent PASSED [ 54%]
+tests/test_demo.py::test_demo_run_plays_the_real_pipeline_step_by_step PASSED [ 56%]
+tests/test_demo.py::test_every_prioritized_need_has_a_cached_story PASSED [ 58%]
+tests/test_demo.py::test_subject_missing_from_cache_is_skipped_never_invented PASSED [ 60%]
+tests/test_demo.py::test_demo_results_pass_strict_validation_on_a_fresh_workspace PASSED [ 62%]
+tests/test_demo.py::test_every_ui_page_renders_in_both_modes[True] PASSED [ 64%]
+tests/test_demo.py::test_every_ui_page_renders_in_both_modes[False] PASSED [ 66%]
+tests/test_guide.py::test_every_cited_label_exists_in_the_app PASSED     [ 68%]
+tests/test_guide.py::test_every_image_exists PASSED                      [ 70%]
+tests/test_guide.py::test_guide_follows_the_validated_outline PASSED     [ 72%]
+tests/test_guide.py::test_readme_links_to_the_guide PASSED               [ 74%]
+tests/test_guide.py::test_guide_page_renders_with_its_images PASSED      [ 76%]
+tests/test_handoff.py::test_linear_connector_reads_workspace PASSED      [ 78%]
+tests/test_handoff.py::test_export_is_self_contained_and_anonymous PASSED [ 80%]
+tests/test_handoff.py::test_valid_results_are_applied PASSED             [ 82%]
+tests/test_handoff.py::test_invalid_results_are_refused_with_reasons PASSED [ 84%]
+tests/test_handoff.py::test_unknown_export_or_garbage_is_fatal PASSED    [ 86%]
+tests/test_handoff.py::test_reimport_is_a_no_op PASSED                   [ 88%]
+tests/test_handoff.py::test_partial_and_skipped_results PASSED           [ 90%]
+tests/test_handoff.py::test_fenced_json_pasted_from_chat_is_accepted PASSED [ 92%]
+tests/test_handoff.py::test_link_and_create_in_linear PASSED             [ 94%]
+tests/test_insights.py::test_demands_count_distinct_customers_and_reach PASSED [ 96%]
+tests/test_insights.py::test_themes_and_alerts PASSED                    [ 98%]
+tests/test_insights.py::test_evaluation_of_a_perfect_agent PASSED        [100%]
+
+============================= 51 passed in 13.59s ==============================

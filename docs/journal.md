@@ -16,6 +16,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-16 | Diapositives de restitution (14) | Claude Code | Aperçu rendu et relu ; un titre raccourci ; chiffres repris des données vérifiées |
 | 2026-11-17 | 25 stories supplémentaires pour le cache du mode démo | Skill `po-agent` (sous-agent sans vérité terrain) | Dry-run strict : 25/25 ; structure validée ; contenu non relu en entier |
 | 2026-11-17 | Moteur API (référence officielle `claude-api` chargée avant d'écrire) | Claude Code | Signature du SDK vérifiée ; 10 tests avec client simulé ; aucun appel réel (pas de clé) |
+| 2026-11-17 | Guide utilisateur (texte et captures) | Claude Code | Test des 53 libellés cités contre l'interface ; parcours suivi dans un navigateur jusqu'à l'envoi dans Linear ; 3 captures relues |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -51,3 +52,4 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Cycle 009, mode démo (par défaut)** : le PO joue le vrai parcours ; à chaque « Lancer l'agent », le résultat d'un vrai passage du skill, calculé à l'avance, arrive en environ 8 s puis passe par la vérification et l'import habituels. 25 stories ajoutées au cache par le skill pour couvrir toute sélection. Un bandeau signale le mode, par honnêteté envers le jury.
 - **Défaut attrapé par le test navigateur** : la priorisation pouvait être lancée avant l'analyse ; elle est désormais conditionnée.
 - **Cycle 010, option API** : moteur au choix (skill local ou API). Même pack, envoyé par paquets avec instructions en cache et sorties structurées, coût estimé avant puis réel après. Aucun appel réel possible ici : l'essai revient à Vlad.
+- **Cycle 011, guide utilisateur** : `docs/guide-utilisateur.md`, aussi affiché dans l'application (page ❓ Guide, une seule source). Un test garantit que chaque bouton ou page cité existe à l'écran, pour que le guide ne se périme pas sans qu'on le sache.

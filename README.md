@@ -8,6 +8,8 @@ PO Assist aide Camille, Product Owner de **saxobeat** (un SaaS de suivi de reche
 2. **Arbitrer** : scorer les besoins (RICE, score pondéré réglable, MoSCoW), justifier chaque recommandation par ses preuves, proposer le contenu du sprint dans la limite de la capacité.
 3. **Formaliser** : rédiger des user stories (critères Gherkin, contrôle INVEST, estimation, découpage), puis les envoyer dans Linear.
 
+> **Guide utilisateur, pas à pas : [docs/guide-utilisateur.md](docs/guide-utilisateur.md)** (aussi dans l'application, page ❓ Guide).
+
 > Toutes les données sont fictives. Le PO travaille dans **Linear**, simulé par une base SQLite ([data/README.md](data/README.md)).
 
 ## Démarrer (2 minutes)
