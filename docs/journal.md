@@ -16,7 +16,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-16 | Diapositives de restitution (14) | Claude Code | Aperçu rendu et relu ; un titre raccourci ; chiffres repris des données vérifiées |
 | 2026-11-17 | 25 stories supplémentaires pour le cache du mode démo | Skill `po-agent` (sous-agent sans vérité terrain) | Dry-run strict : 25/25 ; structure validée ; contenu non relu en entier |
 | 2026-11-17 | Moteur API (référence officielle `claude-api` chargée avant d'écrire) | Claude Code | Signature du SDK vérifiée ; 10 tests avec client simulé ; aucun appel réel (pas de clé) |
-| 2026-11-17 | Guide utilisateur (texte et captures) | Claude Code | Test des 53 libellés cités contre l'interface ; parcours suivi dans un navigateur jusqu'à l'envoi dans Linear ; 3 captures relues |
+| 2026-11-17 | Guide utilisateur (texte et captures) | Claude Code | Test des 45 libellés distincts cités contre l'interface ; parcours suivi dans un navigateur jusqu'à l'envoi dans Linear ; 3 captures relues |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal

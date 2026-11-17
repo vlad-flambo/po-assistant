@@ -25,5 +25,5 @@ Supprimer la page et les fichiers ; rien d'autre n'est touché.
 |---|---|---|
 | 2026-11-17 | 1 | Page ❓ Guide : le Markdown est découpé aux lignes d'image (texte avec `st.markdown`, images avec `st.image`) |
 | 2026-11-17 | 2 | 12 captures prises en suivant le parcours jusqu'à l'envoi dans Linear (SAX-301). **Reprise** : la capture de l'aperçu d'import s'arrêtait au titre ; défilement corrigé |
-| 2026-11-17 | 3 | Guide rédigé avec 53 libellés cités tels qu'à l'écran ; lien depuis le README |
+| 2026-11-17 | 3 | Guide rédigé avec 45 libellés distincts (60 citations) tels qu'à l'écran ; décompte d'abord annoncé à 53 par erreur, corrigé après recomptage ; lien depuis le README |
 | 2026-11-17 | 4 | Test des libellés vert du premier coup ; test de rendu corrigé (type d'élément AppTest « image », pas « imgs ») ; 51 tests |
