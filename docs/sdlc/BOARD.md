@@ -1,6 +1,6 @@
 # Cycle board
 
-Generated 2026-11-17 17:47 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
+Generated 2026-11-17 18:39 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
 
 Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
@@ -21,6 +21,8 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 - 008 Lanceur Mac (port 8007): Après `git pull` : double-cliquer sur « PO Assist.command » sur le Mac et me dire ce qui s'affiche (critère 8) (due 2026-11-17)
 - 010 Option API: Essai réel avec sa clé : `uv run python -m po_assist run analyse --engine api --limit 5` (critère 10), puis accepter verify.md (due 2026-11-17)
 - 009 Mode démo: Relire les choix Q1 à Q6 de l'intent
+- 012 API par défaut, skill en repli: Relire les choix Q1 à Q4 de l'intent et accepter verify.md
+- 012 API par défaut, skill en repli: Essai réel de l'API avec sa clé (critère 10 du cycle 010)
 - 010 Option API: Relire les choix Q1 à Q6 de l'intent
 
 **My move (the agent)**
@@ -43,3 +45,4 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 | 009 | Mode démo | 4/5 | Verify | x | x | x | x | o | . | 8/8 | 2026-11-17 |
 | 010 | Option API | 3/5 | Verify | x | x | x | x | o | . | 8/10 | 2026-11-17 |
 | 011 | Guide utilisateur | 4/5 | Verify | x | x | x | x | o | . | 6/6 | 2026-11-17 |
+| 012 | API par défaut, skill en repli | 4/5 | Verify | x | x | x | x | o | . | 6/6 | 2026-11-17 |

@@ -1,6 +1,5 @@
-# Next: API par defaut skill en repli
+# Next: API par défaut, skill en repli
 
-Each line is one action: `- [ ] [owner|claude|both] <date, optional> text`. Tick it when it is done, add new ones as the cycle moves. This file is what the cycle board shows as "what next?".
-
-- [ ] [owner] Say your request in your own words (it goes in intent.md, unedited)
-- [ ] [claude] Gather the facts (code, docs, files), draft the open questions in intent.md and grill the owner one at a time
+- [x] [claude] 2026-11-17 Intent, construction, documentation, slides, vérification
+- [ ] [owner] Relire les choix Q1 à Q4 de l'intent et accepter verify.md
+- [ ] [owner] Essai réel de l'API avec sa clé (critère 10 du cycle 010)
