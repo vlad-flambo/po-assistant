@@ -53,12 +53,30 @@ OUTPUT_FORMAT = {
 }
 
 
+OUTPUT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "impact": {"type": "number", "enum": IMPACTS},
+        "confidence": {"type": "number", "enum": CONFIDENCES},
+        "effort_points": {"type": "integer", "enum": FIBONACCI},
+        "moscow": {"type": "string", "enum": MOSCOW},
+        "okr": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "rationale": {"type": "string"},
+        "risks": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+    },
+    "required": ["impact", "confidence", "effort_points", "moscow", "okr", "rationale", "risks"],
+    "additionalProperties": False,
+}
+
+
 class PriorisationPack:
     name = "priorisation"
     kind = "prioritization"
     version = 1
     instructions = INSTRUCTIONS
     output_format = OUTPUT_FORMAT
+    output_schema = OUTPUT_SCHEMA
+    batch_size = 20
 
     def _demands(self, linear, store):
         from .. import insights

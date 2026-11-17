@@ -21,17 +21,25 @@ uv sync                                   # Python ≥ 3.12, dépendances : stre
 uv run streamlit run app.py               # interface du PO, sur http://localhost:8007 (.streamlit/config.toml)
 ```
 
-Dans la barre latérale, **Démo › Charger les résultats pré-calculés** rejoue les 3 étapes déjà traitées par l'agent. Pour refaire le parcours complet, utilisez **Réinitialiser**, puis suivez la page 🤖 Agent.
+L'application démarre en **mode démo** : suivez le parcours depuis la page 🤖 Agent (« Lancer l'agent » sur l'analyse, puis la priorisation, puis la rédaction depuis ⚖️ Priorisation). À chaque lancement, l'agent reçoit le résultat d'un **vrai passage du skill, calculé à l'avance** (`handoff/demo/`), au lieu d'attendre plusieurs minutes. La vérification et l'import restent réels, et un bandeau signale le mode. **Réinitialiser** (barre latérale) repart de zéro.
 
 ```bash
-uv run pytest                             # 30 tests, sans LLM ni réseau
+uv run pytest                             # tests, sans LLM ni réseau ni clé
 uv run python -m po_assist status         # même chose en ligne de commande
 uv run python -m po_assist.evaluate       # qualité de l'agent contre la vérité terrain
 ```
 
-## Comment l'IA intervient : un skill Claude Code, pas d'API
+## Comment l'IA intervient : un skill Claude Code, ou l'API
 
-L'application n'appelle aucune API de LLM. Elle **exporte** le travail d'IA dans des fichiers auto-suffisants (« packs »), un **skill Claude Code** (`.claude/skills/po-agent/`) les traite comme le ferait l'API, et l'application **vérifie puis importe** les résultats. C'est l'architecture déjà en production sur saxobeat.
+L'application **exporte** le travail d'IA dans des fichiers auto-suffisants (« packs »), un agent les traite, et l'application **vérifie puis importe** les résultats. Trois moteurs, au choix dans ⚙️ Réglages :
+
+| Moteur | Ce qui traite le pack | Quand |
+|---|---|---|
+| **Mode démo** (par défaut) | Les résultats d'un vrai passage du skill, calculés à l'avance et révélés au fil du parcours | Démonstration, sans attente ni coût |
+| **Skill Claude Code** | Le skill `.claude/skills/po-agent/` : dans Claude Code, « traite les packs ». C'est l'architecture en production sur saxobeat | Sans clé API ; le PO garde la main sur chaque échange |
+| **API Claude** | L'application envoie le pack à l'API par paquets : sorties structurées, instructions et contexte en cache, coût estimé sur le bouton puis coût réel affiché | Sans geste manuel. Clé : `ANTHROPIC_API_KEY`, par exemple dans un `.env` à la racine (ignoré par git, chargé par le lanceur Mac) |
+
+Dans les trois cas, le format des résultats et la vérification à l'import sont les mêmes.
 
 ```mermaid
 flowchart LR

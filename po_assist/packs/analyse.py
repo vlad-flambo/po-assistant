@@ -79,12 +79,38 @@ OUTPUT_FORMAT = {
 }
 
 
+NULLABLE_STR = {"anyOf": [{"type": "string"}, {"type": "null"}]}
+
+# Schéma de sortie pour l'API (sorties structurées) : la forme est garantie par l'API, le fond vérifié à l'import.
+OUTPUT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "type": {"type": "string", "enum": TYPES},
+        "themes": {"type": "array", "items": {"type": "string", "enum": list(THEMES)}},
+        "sentiment": {"type": "string", "enum": SENTIMENTS},
+        "churn_risk": {"type": "boolean"},
+        "summary": {"type": "string"},
+        "requests": {"type": "array", "items": {
+            "type": "object",
+            "properties": {"summary": {"type": "string"}, "target": {"type": "string"},
+                           "target_status_note": NULLABLE_STR, "quote": {"type": "string"}},
+            "required": ["summary", "target", "target_status_note", "quote"],
+            "additionalProperties": False}},
+        "follow_up_question": NULLABLE_STR,
+    },
+    "required": ["type", "themes", "sentiment", "churn_risk", "summary", "requests", "follow_up_question"],
+    "additionalProperties": False,
+}
+
+
 class AnalysePack:
     name = "analyse"
     kind = "feedback_analysis"
     version = 1
     instructions = INSTRUCTIONS
     output_format = OUTPUT_FORMAT
+    output_schema = OUTPUT_SCHEMA
+    batch_size = 20
 
     @staticmethod
     def _customer(c: dict | None) -> dict | None:

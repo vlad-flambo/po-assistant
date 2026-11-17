@@ -1,6 +1,6 @@
 # Cycle board
 
-Generated 2026-11-17 10:15 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
+Generated 2026-11-17 11:11 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
 
 Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
@@ -17,11 +17,15 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 - 005 Bloc C formaliser les user stories: Accepter la vérification (verify.md) (due 2026-11-16)
 - 006 Interface web du PO: Accepter la vérification (verify.md) (due 2026-11-16)
 - 008 Lanceur Mac (port 8007): Après `git pull` : double-cliquer sur « PO Assist.command » sur le Mac et me dire ce qui s'affiche (critère 8) (due 2026-11-17)
+- 009 Mode démo: Relire les choix Q1 à Q6 de l'intent
+- 010 Option API: Say your request in your own words (it goes in intent.md, unedited)
 
 **My move (the agent)**
 
+- 009 Mode démo: Construire (réglages, moteur démo, interface), intégrer les 25 stories du skill, tests (due 2026-11-17)
 - 007 Restitution documentation et démo: Tenir docs/journal.md à jour à chaque étape (registre de l'usage de l'IA inclus)
 - 007 Restitution documentation et démo: Après la présentation : verify.md (répétition, partage) et learn.md
+- 010 Option API: Gather the facts (code, docs, files), draft the open questions in intent.md and grill the owner one at a time
 
 ## Cycles
 
@@ -35,3 +39,5 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 | 006 | Interface web du PO | 4/5 | Verify | x | x | x | x | o | . | 3/3 | 2026-11-16 |
 | 007 | Restitution documentation et démo | 5/5 | Intent | o | . | . | . | . | . |  | 2026-11-16 |
 | 008 | Lanceur Mac (port 8007) | 3/5 | Verify | x | x | x | x | o | . | 7/8 | 2026-11-17 |
+| 009 | Mode démo | 4/5 | Plan | x | x | - | . | . | . |  | 2026-11-17 |
+| 010 | Option API | 3/5 | Plan | x | x | - | . | . | . |  | 2026-11-17 |

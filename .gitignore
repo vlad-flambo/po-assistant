@@ -12,3 +12,6 @@ handoff/to-do/
 handoff/done/
 handoff/problems/
 data/workspace/
+
+# Secrets locaux (clé API) : jamais versionnés
+.env

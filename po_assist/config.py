@@ -28,6 +28,15 @@ def assist_db() -> Path:
     return Path(os.environ.get("PO_ASSIST_DB", WORKSPACE / "po_assist.db"))
 
 
+def settings_path() -> Path:
+    """Réglages de l'application : hors de po_assist.db, pour survivre à « Réinitialiser »."""
+    return Path(os.environ.get("PO_SETTINGS_FILE", WORKSPACE / "settings.json"))
+
+
+def demo_dir() -> Path:
+    return Path(os.environ.get("PO_DEMO_DIR", ROOT / "handoff" / "demo"))
+
+
 def handoff_dir() -> Path:
     return Path(os.environ.get("PO_HANDOFF_DIR", ROOT / "handoff"))
 

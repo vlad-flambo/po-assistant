@@ -4,15 +4,17 @@
 
 L'IA ne tourne pas ici : l'application exporte des lots de travail (packs), le skill Claude Code « po-agent »
 les traite, l'application importe les résultats après vérification. Tout le reste (comptes, scores, plan) est calculé.
+En mode démo (par défaut), le résultat d'un vrai passage du skill, calculé à l'avance, remplace l'attente du skill.
 """
 from __future__ import annotations
 
+import time
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
-from po_assist import actions, config, evaluate, handoff, insights, scoring
+from po_assist import actions, api_agent, config, demo, evaluate, handoff, insights, scoring, settings
 from po_assist.linear import LinearClient
 from po_assist.packs.analyse import THEMES
 from po_assist.scoring import CRITERIA, DEFAULT_WEIGHTS, REACH_MODES
@@ -42,36 +44,108 @@ meta = linear.meta()
 cyc = linear.current_cycle() or {}
 st.sidebar.title("🧭 PO Assist")
 st.sidebar.caption(f"saxobeat · Linear (simulé) · {meta.get('reference_date')} · {cyc.get('name', '')}")
-PAGES = ["🤖 Agent", "🏠 Tableau de bord", "📥 Feedbacks", "🧩 Demandes", "⚖️ Priorisation", "✍️ User stories", "🎯 Qualité de l'agent"]
+PAGES = ["🤖 Agent", "🏠 Tableau de bord", "📥 Feedbacks", "🧩 Demandes", "⚖️ Priorisation", "✍️ User stories",
+         "🎯 Qualité de l'agent", "⚙️ Réglages"]
+cfg = settings.load()
+DEMO = cfg["demo_mode"]
+ENGINE = "demo" if DEMO else cfg["engine"]  # le mode démo prime : aucun appel d'API tant qu'il est activé
+MODEL = cfg["api_model"]
 page = st.sidebar.radio("Navigation", PAGES, index=1 if store.results("feedback_analysis") else 0, label_visibility="collapsed")
 stt = handoff.status(linear=linear, store=store)
 st.sidebar.divider()
 for name, s in stt["packs"].items():
     st.sidebar.caption(f"{PACK_FR[name]} : {s['done']} faits · {s['exported']} chez l'agent · {s['to_do']} à exporter")
-with st.sidebar.expander("Démo"):
-    if st.button("Charger les résultats pré-calculés", width="stretch"):
-        for m in handoff.load_demo(store=store, linear=linear):
-            st.toast(m)
-        st.rerun()
-    if st.button("Réinitialiser (état initial)", width="stretch"):
-        config.reset_workspace()
-        st.rerun()
-st.sidebar.caption("Données fictives · aucune API de LLM")
+if st.sidebar.button("Réinitialiser (état initial)", width="stretch",
+                     help="Repart d'un espace Linear neuf, sans aucun résultat importé. Les réglages sont conservés."):
+    config.reset_workspace()
+    st.session_state.pop("last_results", None)
+    st.rerun()
+ENGINE_FR = {"demo": "mode démo : résultats d'un vrai passage du skill, calculés à l'avance",
+             "skill": "agent : skill Claude Code (échange de fichiers)",
+             "api": f"agent : API Claude ({api_agent.MODELS.get(MODEL, MODEL)})"}
+st.sidebar.caption("Données fictives · " + ENGINE_FR[ENGINE])
+if DEMO:
+    st.info("**Mode démo.** Chaque fois que vous lancez l'agent, il reçoit le résultat d'un **vrai passage du skill "
+            "po-agent, calculé à l'avance**, au lieu d'attendre plusieurs minutes. Vérification et import restent réels. "
+            "Désactivable dans ⚙️ Réglages.", icon="🎬")
+
+
+def launch_label(name: str, subjects: list[str] | None = None) -> str:
+    if ENGINE == "demo":
+        return "Lancer l'agent"
+    if ENGINE == "api":
+        est = api_agent.estimate(name, linear=linear, store=store, subjects=subjects, model=MODEL)
+        return f"Lancer l'agent (API, ≈ {est['usd']:.2f} $)".replace(".", ",")
+    return "Exporter"
+
+
+def launch(name: str, subjects: list[str] | None = None) -> None:
+    """Lance l'agent sur un pack : démo (résultat pré-calculé), API (appel réel) ou skill (export à traiter)."""
+    if ENGINE == "api":
+        bar = st.progress(0.0, text=f"Envoi à l'API ({MODEL})…")
+        try:
+            run = api_agent.run(name, subjects=subjects, model=MODEL, linear=linear, store=store,
+                                on_progress=lambda k, n: bar.progress(k / n, text=f"API : paquet {k}/{n} traité"))
+        except api_agent.ApiAgentError as e:
+            st.error(str(e))
+            return
+        if run is None:
+            st.warning("Rien à traiter : tout est déjà fait ou déjà chez l'agent.")
+            return
+        st.session_state["last_results"] = run["results"].name
+        u = run["usage"]
+        st.success(f"Résultats prêts : `{run['results'].name}` ({run['batches']} requête(s)). Coût réel : "
+                   f"**{str(round(run['usd'], 2)).replace('.', ',')} $** ({u['input_tokens'] + u['cache_creation_input_tokens'] + u['cache_read_input_tokens']} "
+                   f"jetons d'entrée dont {u['cache_read_input_tokens']} lus en cache, {u['output_tokens']} de sortie). "
+                   "Vérifiez-les et importez-les dans 🤖 Agent.")
+        for prob in run["problems"]:
+            st.warning(prob)
+        return
+    if DEMO:
+        run = demo.run(name, subjects=subjects, linear=linear, store=store)
+        if run is None:
+            st.warning("Rien à traiter : tout est déjà fait ou déjà chez l'agent.")
+            return
+        bar = st.progress(0.0, text=f"Le skill po-agent traite {run['tasks']} tâche(s)…")
+        steps = 20
+        for k in range(1, steps + 1):
+            time.sleep(run["seconds"] / steps)
+            bar.progress(k / steps, text=f"Le skill po-agent traite {run['tasks']} tâche(s)… "
+                                         f"{round(run['tasks'] * k / steps)}/{run['tasks']}")
+        st.session_state["last_results"] = run["results"].name
+        msg = f"Résultats prêts : `{run['results'].name}`. Vérifiez-les et importez-les dans 🤖 Agent."
+        if run["missing"]:
+            msg += f" {len(run['missing'])} sujet(s) sans résultat pré-calculé : ils reviennent « ignorés »."
+        st.success(msg)
+    else:
+        path = handoff.export(name, linear=linear, store=store, subjects=subjects)
+        if path is None:
+            st.warning("Rien à exporter : tout est déjà fait ou déjà chez l'agent.")
+            return
+        st.success(f"Pack écrit : `handoff/to-do/{path.name}`. Dans Claude Code, dites « traite les packs » "
+                   "(skill po-agent), puis importez le résultat dans 🤖 Agent.")
 
 
 def need_analysis() -> bool:
     if not store.results("feedback_analysis"):
-        st.info("Aucune analyse importée. Étape 1 dans 🤖 Agent : exporter le pack « analyse », le faire traiter par le "
-                "skill Claude Code, importer le résultat. Ou charger les résultats pré-calculés (barre latérale › Démo).")
+        st.info("Aucune analyse importée. Étape 1 dans 🤖 Agent : lancer l'agent sur l'analyse des feedbacks, "
+                "puis vérifier et importer le résultat.")
         return True
     return False
 
 
 # ------------------------------------------------------------------ 🤖 Agent
 def page_agent():
-    st.header("🤖 Agent : échange avec le skill Claude Code")
-    st.markdown("L'application **exporte** un lot de travail → dans Claude Code, dites **« traite les packs »** "
-                "(skill `po-agent`) → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
+    st.header("🤖 Agent")
+    if ENGINE == "api":
+        st.markdown(f"**Lancez l'agent** : le pack est envoyé à l'**API Claude** ({MODEL}) par paquets, le coût estimé "
+                    "est indiqué sur le bouton → l'application **vérifie puis importe** le résultat.")
+    elif DEMO:
+        st.markdown("**Lancez l'agent** sur une étape → le skill `po-agent` « travaille » (résultat réel, calculé à "
+                    "l'avance) → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
+    else:
+        st.markdown("L'application **exporte** un lot de travail → dans Claude Code, dites **« traite les packs »** "
+                    "(skill `po-agent`) → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
     cols = st.columns(3)
     for col, (name, s) in zip(cols, stt["packs"].items()):
         with col.container(border=True):
@@ -80,9 +154,10 @@ def page_agent():
             st.caption(f"{s['exported']} en cours chez l'agent · {s['to_do']} à exporter")
             if name == "redaction":
                 st.caption("Les stories se choisissent dans ⚖️ Priorisation.")
-            elif st.button("Exporter", key=f"exp_{name}", disabled=s["to_do"] == 0, width="stretch"):
-                path = handoff.export(name, linear=linear, store=store)
-                st.success(f"Pack écrit : `handoff/to-do/{path.name}`")
+            elif st.button(launch_label(name) if s["to_do"] else ("Lancer l'agent" if ENGINE != "skill" else "Exporter"),
+                           key=f"exp_{name}", disabled=s["to_do"] == 0,
+                           width="stretch", type="primary" if s["to_do"] else "secondary"):
+                launch(name)
     st.divider()
     st.subheader("Importer des résultats")
     todo = config.handoff_dir() / "to-do"
@@ -96,7 +171,9 @@ def page_agent():
     if not files:
         st.caption("Aucun fichier de résultats dans `handoff/to-do/`.")
         return
-    f = st.selectbox("Fichier", files, format_func=lambda p: p.name)
+    last = st.session_state.get("last_results")
+    default = next((k for k, p in enumerate(files) if p.name == last), len(files) - 1)
+    f = st.selectbox("Fichier", files, index=default, format_func=lambda p: p.name)
     pv = handoff.check(f, linear=linear, store=store)
     if pv.fatal or pv.already_imported:
         st.warning(pv.summary())
@@ -297,10 +374,11 @@ def page_prioritization():
     default = [r["target"] for r in rows if r["moscow"] in ("must", "should")][:5]
     chosen = st.multiselect("Besoins à formaliser", [r["target"] for r in rows], default=default,
                             format_func=lambda t: f"{t} · {next(r['title'] for r in rows if r['target'] == t)}")
-    if st.button("Exporter le pack « rédaction »", type="primary", disabled=not chosen):
-        path = handoff.export("redaction", linear=linear, store=store, subjects=chosen)
-        st.success(f"Pack écrit : `handoff/to-do/{path.name}` → à faire traiter par le skill, puis importer dans 🤖 Agent."
-                   if path else "Rien à exporter (déjà rédigé ou déjà chez l'agent).")
+    label = {"demo": "Lancer la rédaction (agent)", "skill": "Exporter le pack « rédaction »"}.get(ENGINE)
+    if ENGINE == "api":
+        label = launch_label("redaction", chosen).replace("Lancer l'agent", "Lancer la rédaction") if chosen else "Lancer la rédaction"
+    if st.button(label, type="primary", disabled=not chosen):
+        launch("redaction", chosen)
 
 
 # ------------------------------------------------------------------ ✍️ User stories
@@ -342,5 +420,41 @@ def page_quality():
     st.markdown(evaluate.report_markdown(m))
 
 
+# ------------------------------------------------------------------ ⚙️ Réglages
+def page_settings():
+    st.header("⚙️ Réglages")
+    st.subheader("Mode démo")
+    on = st.toggle("Activer le mode démo", value=DEMO,
+                   help="L'agent reçoit le résultat d'un vrai passage du skill, calculé à l'avance, au lieu d'attendre.")
+    if on != DEMO:
+        settings.save(demo_mode=on)
+        st.rerun()
+    st.subheader("Moteur de l'agent")
+    engines = {"skill": "Skill Claude Code (local, échange de fichiers)", "api": "API Claude"}
+    eng = st.radio("Quand le mode démo est désactivé, l'agent passe par :", list(engines), format_func=engines.get,
+                   index=list(engines).index(cfg["engine"]), disabled=DEMO)
+    model = st.selectbox("Modèle (mode API)", list(api_agent.MODELS), format_func=api_agent.MODELS.get,
+                         index=list(api_agent.MODELS).index(MODEL) if MODEL in api_agent.MODELS else 0, disabled=DEMO)
+    if (eng, model) != (cfg["engine"], MODEL):
+        settings.save(engine=eng, api_model=model)
+        st.rerun()
+    if DEMO:
+        st.caption("Le mode démo est activé : il prime, et aucun appel d'API n'est fait.")
+    key = api_agent.has_credentials()
+    st.markdown(f"Clé API : **{'détectée' if key else 'absente'}** (jamais affichée ni enregistrée par l'application)."
+                + ("" if key else " Pour le mode API : définir `ANTHROPIC_API_KEY`, par exemple dans un fichier `.env` à la "
+                                  "racine du dépôt (ignoré par git, chargé par le lanceur Mac), ou `ant auth login`."))
+    pin, pout = api_agent.PRICES[MODEL] if MODEL in api_agent.PRICES else api_agent.PRICES["claude-opus-5-5"]
+    st.caption(f"Tarif {MODEL} : {pin} $ / {pout} $ par million de jetons (entrée / sortie) ; instructions et contexte "
+               "mis en cache entre les paquets. Coût estimé affiché sur le bouton avant chaque lancement.")
+    st.divider()
+    st.subheader("Résultats pré-calculés (mode démo)")
+    cov = demo.coverage()
+    st.caption(f"Résultats pré-calculés disponibles : {cov.get('feedback_analysis', 0)} analyses, "
+               f"{cov.get('prioritization', 0)} estimations, {cov.get('user_story', 0)} user stories "
+               f"(`handoff/demo/`, vrais passages du skill po-agent).")
+
+
 {"🤖 Agent": page_agent, "🏠 Tableau de bord": page_dashboard, "📥 Feedbacks": page_feedbacks, "🧩 Demandes": page_demands,
- "⚖️ Priorisation": page_prioritization, "✍️ User stories": page_stories, "🎯 Qualité de l'agent": page_quality}[page]()
+ "⚖️ Priorisation": page_prioritization, "✍️ User stories": page_stories, "🎯 Qualité de l'agent": page_quality,
+ "⚙️ Réglages": page_settings}[page]()

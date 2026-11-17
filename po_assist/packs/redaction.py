@@ -71,12 +71,42 @@ OUTPUT_FORMAT = {
 }
 
 
+_STR_LIST = {"type": "array", "items": {"type": "string"}}
+OUTPUT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "title": {"type": "string"},
+        "user_story": {"type": "object", "properties": {k: {"type": "string"} for k in ("as_a", "i_want", "so_that")},
+                       "required": ["as_a", "i_want", "so_that"], "additionalProperties": False},
+        "context": {"type": "string"},
+        "acceptance_criteria": {"type": "array", "items": {
+            "type": "object", "properties": {k: {"type": "string"} for k in ("title", "given", "when", "then")},
+            "required": ["title", "given", "when", "then"], "additionalProperties": False}},
+        "non_functional": _STR_LIST,
+        "out_of_scope": _STR_LIST,
+        "invest": {"type": "object", "properties": {k: {
+            "type": "object", "properties": {"ok": {"type": "boolean"}, "note": {"type": "string"}},
+            "required": ["ok", "note"], "additionalProperties": False} for k in INVEST},
+            "required": INVEST, "additionalProperties": False},
+        "estimate_points": {"type": "integer", "enum": FIBONACCI},
+        "estimate_rationale": {"type": "string"},
+        "split_proposal": _STR_LIST,
+        "open_questions": _STR_LIST,
+    },
+    "required": ["title", "user_story", "context", "acceptance_criteria", "non_functional", "out_of_scope", "invest",
+                 "estimate_points", "estimate_rationale", "split_proposal", "open_questions"],
+    "additionalProperties": False,
+}
+
+
 class RedactionPack:
     name = "redaction"
     kind = "user_story"
     version = 1
     instructions = INSTRUCTIONS
     output_format = OUTPUT_FORMAT
+    output_schema = OUTPUT_SCHEMA
+    batch_size = 10
 
     def items(self, linear, store, subjects: list[str] | None = None) -> list[dict]:
         from .. import insights, scoring

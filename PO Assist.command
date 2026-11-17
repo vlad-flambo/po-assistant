@@ -27,6 +27,13 @@ open_browser() {
 echo "PO Assist · lancement sur $URL"
 echo
 
+# 0. Secrets locaux facultatifs (clé API pour le mode API) : fichier .env à côté de ce lanceur, ignoré par git
+if [ -f .env ]; then
+  set -a
+  . ./.env
+  set +a
+fi
+
 # 1. uv (une fenêtre ouverte depuis le Finder n'a pas toujours le PATH du terminal)
 if ! command -v uv >/dev/null 2>&1; then
   for dir in "$HOME/.local/bin" "$HOME/.cargo/bin" /opt/homebrew/bin /usr/local/bin; do

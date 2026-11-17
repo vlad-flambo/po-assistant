@@ -17,6 +17,12 @@ def main(argv: list[str] | None = None) -> int:
     ex.add_argument("pack")
     ex.add_argument("--limit", type=int)
     ex.add_argument("--subjects", nargs="*")
+    rn = sub.add_parser("run", help="lancer l'agent : exporter, traiter (démo ou API), écrire les résultats")
+    rn.add_argument("pack")
+    rn.add_argument("--engine", choices=["demo", "api"], required=True)
+    rn.add_argument("--model", default="claude-opus-5-5")
+    rn.add_argument("--limit", type=int)
+    rn.add_argument("--subjects", nargs="*")
     im = sub.add_parser("import", help="vérifier puis importer un ou plusieurs fichiers de résultats")
     im.add_argument("files", nargs="*", type=Path, help="par défaut : tous les *.results.json de handoff/to-do/")
     im.add_argument("--dry-run", action="store_true")
@@ -28,6 +34,21 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "export":
         path = handoff.export(a.pack, limit=a.limit, subjects=a.subjects)
         print(f"Pack écrit : {path}" if path else "Rien à exporter.")
+    elif a.cmd == "run":
+        if a.engine == "demo":
+            from . import demo
+            r = demo.run(a.pack, subjects=a.subjects)
+        else:
+            from . import api_agent
+            print(f"Estimation : {api_agent.estimate(a.pack, subjects=a.subjects, model=a.model)}")
+            r = api_agent.run(a.pack, subjects=a.subjects, model=a.model, limit=a.limit,
+                              on_progress=lambda k, n: print(f"  paquet {k}/{n}"))
+        if r is None:
+            print("Rien à traiter.")
+        else:
+            extra = f" · coût {r['usd']} $ · {r['usage']}" if "usd" in r else ""
+            print(f"Résultats écrits : {r['results']}{extra}")
+            print("Vérifier et importer : uv run python -m po_assist import")
     elif a.cmd == "import":
         from . import config
         files = a.files or sorted((config.handoff_dir() / "to-do").glob("*.results.json"))

@@ -14,4 +14,5 @@ def env(tmp_path, monkeypatch):
     monkeypatch.setenv("PO_LINEAR_DB", str(linear))
     monkeypatch.setenv("PO_ASSIST_DB", str(tmp_path / "po_assist.db"))
     monkeypatch.setenv("PO_HANDOFF_DIR", str(tmp_path / "handoff"))
+    monkeypatch.setenv("PO_SETTINGS_FILE", str(tmp_path / "settings.json"))
     return tmp_path
