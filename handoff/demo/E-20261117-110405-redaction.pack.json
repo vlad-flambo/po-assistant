@@ -1,0 +1,1302 @@
+{
+  "schema": "po-assist.pack.v1",
+  "export_id": "E-20261117-110405-redaction",
+  "pack": "redaction",
+  "instructions_version": 1,
+  "exported_at": "2026-11-17T11:04:05Z",
+  "reference_date": "2027-04-12",
+  "results_file": "E-20261117-110405-redaction.results.json",
+  "task_count": 25,
+  "agent_brief": "Tu es l'agent IA de PO Assist. Tu assistes Camille, Product Owner de saxobeat (un SaaS de suivi de recherche d'emploi),\nqui travaille dans Linear. Ce fichier est un lot de travail (« pack ») exporté par l'application : il contient tout ce dont\ntu as besoin. Tu joues le rôle qu'aurait une API de modèle de langage : tu lis les tâches, tu produis un résultat structuré\npar tâche, et l'application l'importe après vérification.\n\nRègles :\n1. Traite les tâches dans l'ordre, par paquets d'environ 20, sans en sauter. Si une tâche est impossible, renvoie-la avec\n   \"skipped\" et la raison, plutôt que d'inventer.\n2. N'invente jamais un fait, un chiffre, un client ou une demande qui n'est pas dans le fichier. Les citations (\"quote\")\n   sont copiées mot pour mot depuis le texte de la tâche : l'application vérifie qu'elles s'y trouvent.\n3. Respecte exactement le format de sortie décrit dans \"output_format\" (types, valeurs autorisées). Un résultat hors\n   format est refusé à l'import.\n4. Écris un seul fichier JSON, à côté de ce pack, nommé exactement comme indiqué dans \"results_file\". Si la session\n   risque de s'arrêter, écris les résultats déjà faits : un fichier partiel est importé, le reste repartira au prochain export.\n5. Avant de finir, relis la \"checklist\". Puis donne au PO un compte rendu en 3 lignes : nombre de tâches traitées,\n   ignorées, et ce qui t'a semblé incertain.\n6. Ne lis aucun autre fichier du dépôt pour répondre (en particulier pas data/ground_truth.json) : tout le contexte utile est ici.\n",
+  "instructions": "Pack « rédaction » : pour chaque besoin priorisé, rédige une user story prête à être discutée en affinage puis\npoussée dans Linear. Écris en français, pour une équipe produit (PO, développeurs, designer).\n\nPour chaque tâche :\n1. title : un titre d'issue Linear court, orienté résultat (moins de 80 caractères).\n2. user_story : {as_a, i_want, so_that}. Le persona est précis et vient des preuves (ex. « conseiller d'un cabinet\n   d'outplacement », « candidat en offre Free sur téléphone »), pas « utilisateur ».\n3. context : 2 à 4 phrases qui expliquent pourquoi maintenant, en citant les preuves de l'entrée (nombre de clients,\n   segments, ARR, citation). C'est ce qui relie la story aux feedbacks.\n4. acceptance_criteria : 3 à 7 critères au format Gherkin {title, given, when, then}, testables, couvrant le cas\n   nominal, au moins un cas limite ou d'erreur, et le mobile si l'usage est mobile.\n5. non_functional : exigences non fonctionnelles pertinentes (performance, confidentialité, accessibilité,\n   compatibilité) ; liste vide si aucune.\n6. out_of_scope : ce que la story ne fait pas (évite le glissement de périmètre).\n7. invest : pour chacun de independent, negotiable, valuable, estimable, small, testable : {ok: booléen, note}.\n8. estimate_points : estimation relative en points Fibonacci (1, 2, 3, 5, 8, 13), et estimate_rationale : ce qui\n   pèse dans l'estimation (complexité, inconnues, dépendances). Si l'équipe a déjà estimé, explique tout écart.\n9. split_proposal : si estimate_points ≥ 8 ou si « small » n'est pas respecté, 2 à 4 stories plus petites\n   (titres) livrables séparément ; sinon liste vide.\n10. open_questions : les questions à trancher avec le PO ou les clients avant le développement.\nN'invente pas de faits qui ne sont pas dans l'entrée : pour une hypothèse, formule-la en question ouverte.\n",
+  "output_format": {
+    "description": "Un objet par tâche, dans le champ output du fichier de résultats.",
+    "fields": {
+      "title": "chaîne (< 80 caractères)",
+      "user_story": "{as_a, i_want, so_that} : chaînes",
+      "context": "chaîne",
+      "acceptance_criteria": "liste de 3 à 7 objets {title, given, when, then}",
+      "non_functional": "liste de chaînes",
+      "out_of_scope": "liste de chaînes",
+      "invest": "objet avec les clés ['independent', 'negotiable', 'valuable', 'estimable', 'small', 'testable'], chacune {ok: booléen, note: chaîne}",
+      "estimate_points": "une valeur parmi [1, 2, 3, 5, 8, 13]",
+      "estimate_rationale": "chaîne",
+      "split_proposal": "liste de chaînes (titres), vide si inutile",
+      "open_questions": "liste de chaînes"
+    },
+    "example": {
+      "title": "Rappel e-mail quand une relance de candidature est due",
+      "user_story": {
+        "as_a": "candidat abonné Plus qui suit plusieurs candidatures",
+        "i_want": "recevoir un e-mail le jour où une relance est due",
+        "so_that": "je ne laisse plus une candidature s'endormir faute d'y avoir pensé"
+      },
+      "context": "5 clients l'ont demandé depuis février, dont un abonné Plus qui a résilié le 1er avril faute de rappels (« je retourne à mon tableur »).",
+      "acceptance_criteria": [
+        {
+          "title": "Rappel envoyé à échéance",
+          "given": "une candidature au statut Postulé avec une date de relance au 15/04",
+          "when": "le 15/04 à 8 h",
+          "then": "le candidat reçoit un e-mail qui nomme l'offre et l'employeur, avec un lien vers la candidature"
+        },
+        {
+          "title": "Pas de rappel si déjà relancé",
+          "given": "la candidature est passée en Entretien avant l'échéance",
+          "when": "la date de relance arrive",
+          "then": "aucun e-mail n'est envoyé"
+        },
+        {
+          "title": "Désactivation",
+          "given": "le candidat a coupé les rappels dans Réglages",
+          "when": "une relance est due",
+          "then": "aucun e-mail n'est envoyé et le rappel reste visible dans le Pipeline"
+        }
+      ],
+      "non_functional": [
+        "E-mail authentifié (SPF/DKIM) pour ne pas finir en spam"
+      ],
+      "out_of_scope": [
+        "Résumé hebdomadaire (story séparée)"
+      ],
+      "invest": {
+        "independent": {
+          "ok": true,
+          "note": ""
+        },
+        "negotiable": {
+          "ok": true,
+          "note": ""
+        },
+        "valuable": {
+          "ok": true,
+          "note": ""
+        },
+        "estimable": {
+          "ok": true,
+          "note": ""
+        },
+        "small": {
+          "ok": true,
+          "note": ""
+        },
+        "testable": {
+          "ok": true,
+          "note": ""
+        }
+      },
+      "estimate_points": 5,
+      "estimate_rationale": "Planificateur existant ; modèle d'e-mail et préférence à créer.",
+      "split_proposal": [],
+      "open_questions": [
+        "Heure d'envoi fixe ou selon le fuseau du candidat ?"
+      ]
+    }
+  },
+  "results_envelope": {
+    "schema": "po-assist.results.v1",
+    "export_id": "E-20261117-110405-redaction",
+    "pack": "redaction",
+    "agent": "<nom de l'agent>",
+    "results": [
+      {
+        "task": "T-001",
+        "kind": "user_story",
+        "output": "<objet décrit dans output_format>"
+      },
+      {
+        "task": "T-002",
+        "kind": "user_story",
+        "skipped": "<raison>"
+      }
+    ]
+  },
+  "context": {
+    "product": "saxobeat : suivi de recherche d'emploi. Collecte les offres sur les sites carrières des employeurs et les agrégateurs, les dédoublonne, leur donne un score explicable (mots-clés + similarité + séniorité) et suit les candidatures (Inbox, Pipeline, Entretiens). Web app pensée pour le téléphone, en français et en anglais, centrée sur Paris et l'Île-de-France.",
+    "plans": {
+      "business": {
+        "description": "Pour les cabinets d'outplacement, écoles et coachs : console conseiller, sièges candidats, reporting",
+        "price_eur_seat_month": 25
+      },
+      "free": {
+        "description": "Inbox limitée à 20 offres par jour, pas d'analyse IA",
+        "price_eur_month": 0
+      },
+      "plus": {
+        "description": "Inbox illimitée, analyse IA sous 24 h, relances, contacts",
+        "price_eur_month": 12
+      }
+    },
+    "estimate_scale": "Fibonacci (1, 2, 3, 5, 8, 13), en points",
+    "okrs": [
+      {
+        "id": "ini_conversion",
+        "name": "O1 · Conversion Free → Plus"
+      },
+      {
+        "id": "ini_activation",
+        "name": "O2 · Activation et rétention"
+      },
+      {
+        "id": "ini_b2b",
+        "name": "O3 · Lancement de l'offre Business"
+      }
+    ],
+    "backlog_titles": [
+      {
+        "identifier": "SAX-107",
+        "title": "Supprimer l'aide sur les raccourcis clavier dans l'Inbox",
+        "state": "Canceled"
+      },
+      {
+        "identifier": "SAX-109",
+        "title": "Ajouter les cabinets de conseil comme sources (Capgemini, Accenture, BCG…)",
+        "state": "In Progress"
+      },
+      {
+        "identifier": "SAX-129",
+        "title": "Postuler automatiquement aux offres au-dessus d'un score",
+        "state": "Canceled"
+      },
+      {
+        "identifier": "SAX-104",
+        "title": "Ne plus analyser les offres publiées il y a plus de 30 jours",
+        "state": "Done"
+      },
+      {
+        "identifier": "SAX-110",
+        "title": "Importer les alertes e-mail (LinkedIn, APEC, Welcome to the Jungle, Indeed)",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-119",
+        "title": "Contacts : demander une recommandation à un contact chez l'employeur",
+        "state": "Done"
+      },
+      {
+        "identifier": "SAX-101",
+        "title": "Score : les offres en français sont sous-notées",
+        "state": "Done"
+      },
+      {
+        "identifier": "SAX-115",
+        "title": "Rappels de relance par e-mail et résumé hebdomadaire",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-128",
+        "title": "Remplir automatiquement les formulaires de candidature (autofill)",
+        "state": "Canceled"
+      },
+      {
+        "identifier": "SAX-105",
+        "title": "Modifier ses villes de recherche en mode standard",
+        "state": "Done"
+      },
+      {
+        "identifier": "SAX-117",
+        "title": "Recherche plein texte dans l'Inbox et les archives",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-106",
+        "title": "Bloquer un employeur avec une icône, et gérer la liste dans Entreprises",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-111",
+        "title": "Rejet automatique d'une candidature après un mois sans réponse",
+        "state": "Done"
+      },
+      {
+        "identifier": "SAX-102",
+        "title": "Recalculer l'Inbox après une modification des mots-clés (aussi en mode standard)",
+        "state": "In Progress"
+      },
+      {
+        "identifier": "SAX-113",
+        "title": "Pipeline sur téléphone : changer le statut d'une candidature par un geste",
+        "state": "Todo"
+      },
+      {
+        "identifier": "SAX-103",
+        "title": "Explication du score : ce qui matche, ce qui manque, verdict",
+        "state": "Todo"
+      },
+      {
+        "identifier": "SAX-108",
+        "title": "Carte IA : explication « comment ça marche » repliée par défaut",
+        "state": "In Review"
+      },
+      {
+        "identifier": "SAX-112",
+        "title": "Offre republiée après candidature : la rattacher à la candidature existante",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-116",
+        "title": "Notification push quand l'analyse IA est prête",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-121",
+        "title": "Calibrage du score : qu'un 50 ait le même sens pour tous les candidats",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-120",
+        "title": "Analyse IA : lancer l'agent automatiquement pour tenir les 24 h",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-114",
+        "title": "Tester l'application sur de vrais téléphones (Safari iOS, Chrome Android)",
+        "state": "In Progress"
+      },
+      {
+        "identifier": "SAX-130",
+        "title": "Supprimer un compte expire au bout de 40 secondes",
+        "state": "In Review"
+      },
+      {
+        "identifier": "SAX-122",
+        "title": "Console Business : inviter des candidats en masse (import CSV)",
+        "state": "In Progress"
+      },
+      {
+        "identifier": "SAX-123",
+        "title": "Console Business : tableau de suivi des candidats par conseiller",
+        "state": "Todo"
+      },
+      {
+        "identifier": "SAX-118",
+        "title": "Onboarding : démarrer avec un intitulé de poste, sans CV",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-124",
+        "title": "Console Business : export du reporting pour les clients du cabinet",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-125",
+        "title": "SSO Google Workspace et Microsoft pour les comptes Business",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-127",
+        "title": "Facture au nom de la société, avec numéro de TVA intracommunautaire",
+        "state": "Backlog"
+      },
+      {
+        "identifier": "SAX-126",
+        "title": "Paywall : faire essayer Plus 14 jours avant de bloquer",
+        "state": "Todo"
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "task": "T-001",
+      "kind": "user_story",
+      "subject": "NEW:prolonger-validite-invitations",
+      "input": {
+        "target": "NEW:prolonger-validite-invitations",
+        "title": "Permettre aux invités de s'inscrire après 7 jours (validité plus longue ou renvoi de l'invitation)",
+        "state": "À créer",
+        "description": "Permettre aux invités de s'inscrire après 7 jours (validité plus longue ou renvoi de l'invitation)",
+        "project": null,
+        "prioritization": {
+          "rice": 75.0,
+          "reach": 300,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 2,
+          "moscow": "should",
+          "okr": "ini_b2b",
+          "rationale": "Un compte Business de 300 sièges (24 000 €) a perdu des inscriptions (« le code d'invitation avait expiré, au bout de 7 jours »). Le Reach compte tous les sièges alors que seuls les invités en retard sont gênés, d'où un impact moyen. Correctif peu coûteux (2 points) qui sert les invitations en masse d'O3.",
+          "risks": "Une invitation valable plus longtemps reste exploitable plus longtemps si elle est transférée : préférer le renvoi."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "arr_b2b_eur": 24000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2b/business"
+        ],
+        "quotes": [
+          "le code d'invitation avait expiré, au bout de 7 jours"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "user_story",
+      "subject": "SAX-103",
+      "input": {
+        "target": "SAX-103",
+        "title": "Explication du score : ce qui matche, ce qui manque, verdict",
+        "state": "Todo",
+        "description": "Afficher sur chaque offre une explication en un coup d'œil : compétences trouvées (« 22 sur 31 »), intitulé et séniorité compatibles, mots-clés manquants, et un verdict (« À postuler », « À regarder », « Peu pertinent »).\n\nC'est notre différenciant face aux concurrents dont le score IA est opaque.",
+        "project": "Score explicable v2",
+        "prioritization": {
+          "rice": 27.2,
+          "reach": 109,
+          "impact": 2,
+          "confidence": 1.0,
+          "effort": 8,
+          "moscow": "should",
+          "okr": "ini_activation",
+          "rationale": "6 clients (4 candidats, 2 comptes Business pour 39 000 €) demandent la même chose de façon convergente (« comprendre pk une offre a 48 et ce qui manque pour que ca monte »). C'est le levier direct du résultat clé d'O2 sur la confiance dans le score (4 utilisateurs sur 5 le jugent clair) et notre différenciant ; pas de churn, d'où un should, le premier à tirer après les musts. Le Reach de 109 est porté par les sièges des 2 comptes Business.",
+          "risks": "Le score doit être juste avant d'être expliqué : une explication qui expose des incohérences (voir SAX-121) peut faire baisser la confiance."
+        },
+        "evidence": {
+          "mentions": 5,
+          "customers": 6,
+          "b2c": 4,
+          "b2b": 2,
+          "plus": 2,
+          "arr_b2b_eur": 39000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2b/business",
+          "b2c/free",
+          "b2c/plus"
+        ],
+        "quotes": [
+          "comprendre pk une offre a 48 et ce qui manque pour que ca monte",
+          "ce serait génial de voir clairement les compétences demandées que je n'ai pas",
+          "show which skills im missing for a job, so i know if i should apply or not",
+          "they want to understand why a job scores high",
+          "explain the score. why 62 and not 80?"
+        ],
+        "team_estimate": 8
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "user_story",
+      "subject": "SAX-125",
+      "input": {
+        "target": "SAX-125",
+        "title": "SSO Google Workspace et Microsoft pour les comptes Business",
+        "state": "Backlog",
+        "description": "Les écoles et les grands cabinets veulent que leurs conseillers se connectent avec leur compte professionnel.",
+        "project": "Console conseiller (Business)",
+        "prioritization": {
+          "rice": 18.8,
+          "reach": 300,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 8,
+          "moscow": "could",
+          "okr": "ini_b2b",
+          "rationale": "Un seul compte Business (300 sièges, 24 000 €) l'exige pour sa politique de sécurité (« Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID) »). Le Reach de 300 compte les sièges d'un seul client, aucune mention récente et pas de churn signalé : à garder pour le trimestre suivant, sauf si ce compte en fait une condition de renouvellement.",
+          "risks": "Deux fournisseurs (Google Workspace, Microsoft Entra ID) à intégrer et à maintenir."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "arr_b2b_eur": 24000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2b/business"
+        ],
+        "quotes": [
+          "Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID)"
+        ],
+        "team_estimate": 8
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "user_story",
+      "subject": "NEW:recap-hebdo-impose-par-l-etablissement",
+      "input": {
+        "target": "NEW:recap-hebdo-impose-par-l-etablissement",
+        "title": "Permettre à l'école d'imposer le récapitulatif hebdomadaire à toute une promotion, sans désactivation possible par l'étudiant",
+        "state": "À créer",
+        "description": "Permettre à l'école d'imposer le récapitulatif hebdomadaire à toute une promotion, sans désactivation possible par l'étudiant",
+        "project": null,
+        "prioritization": {
+          "rice": 12.5,
+          "reach": 150,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 3,
+          "moscow": "could",
+          "okr": "ini_b2b",
+          "rationale": "Un seul compte Business (150 sièges, 9 000 €) le demande (« que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper »). Dépend du résumé hebdomadaire SAX-115, pas encore construit ; le Reach de 150 compte les sièges.",
+          "risks": "Juridique : imposer un e-mail que l'étudiant ne peut pas couper pose une question de consentement ; dépend de SAX-115."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "arr_b2b_eur": 9000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2b/business"
+        ],
+        "quotes": [
+          "que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "user_story",
+      "subject": "SAX-127",
+      "input": {
+        "target": "SAX-127",
+        "title": "Facture au nom de la société, avec numéro de TVA intracommunautaire",
+        "state": "Backlog",
+        "description": "Les factures ne portent que le nom de la personne. Les coachs indépendants et les cabinets ont besoin du nom de la société, de l'adresse et du numéro de TVA.",
+        "project": "Offre Plus et paywall",
+        "prioritization": {
+          "rice": 9.1,
+          "reach": 17,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 3,
+          "moscow": "must",
+          "okr": "ini_b2b",
+          "rationale": "2 comptes Business (17 sièges, 5 100 €), dont 1 en risque de départ pour 3 600 €, et 2 mentions sur les 4 dernières semaines (« Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société. »). Pour un client professionnel, une facture inutilisable bloque le paiement ; à 3 points, c'est un must peu coûteux qui protège la rétention visée par O3.",
+          "risks": "Mentions légales des factures (TVA intracommunautaire, SIRET) : faire valider par la comptabilité."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 2,
+          "b2c": 0,
+          "b2b": 2,
+          "plus": 0,
+          "arr_b2b_eur": 5100,
+          "arr_at_risk_eur": 3600
+        },
+        "customer_segments": [
+          "b2b/business"
+        ],
+        "quotes": [
+          "Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société.",
+          "elle ne mentionne ni mon numéro SIRET ni mon numéro de TVA intracommunautaire"
+        ],
+        "team_estimate": 3
+      }
+    },
+    {
+      "task": "T-006",
+      "kind": "user_story",
+      "subject": "SAX-110",
+      "input": {
+        "target": "SAX-110",
+        "title": "Importer les alertes e-mail (LinkedIn, APEC, Welcome to the Jungle, Indeed)",
+        "state": "Backlog",
+        "description": "Ces plateformes n'ont pas d'API ; leurs alertes e-mail sont la seule voie légale. L'utilisateur transfère ou dépose ses alertes, des parseurs par expéditeur en extraient les offres.\n\nGros chantier : un parseur par plateforme, formats qui changent sans prévenir.",
+        "project": "Couverture des sources",
+        "prioritization": {
+          "rice": 4.1,
+          "reach": 67,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 13,
+          "moscow": "could",
+          "okr": "ini_activation",
+          "rationale": "Besoin le plus cité côté B2C : 8 clients (7 candidats dont 5 Plus, 1 compte Business), qui recopient leurs alertes à la main (« je recopie tout a la main chaque matin »). Le Reach de 67 est gonflé par les sièges d'un seul compte Business (18 000 €), sans aucun churn, et la tendance est faible (1 mention sur 4 semaines). À 13 points, soit un cycle entier, ce n'est pas tenable ce trimestre à côté des musts : je propose de le découper (LinkedIn et Indeed d'abord) pour le trimestre suivant.",
+          "risks": "Maintenance continue : un parseur par plateforme, et des formats d'e-mail qui changent sans prévenir."
+        },
+        "evidence": {
+          "mentions": 5,
+          "customers": 8,
+          "b2c": 7,
+          "b2b": 1,
+          "plus": 5,
+          "arr_b2b_eur": 18000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free",
+          "b2c/plus"
+        ],
+        "quotes": [
+          "pouvoir importer mes alertes linkedin direct dans l'inbox, la je recopie tout a la main chaque matin",
+          "I get the Indeed alert e-mails every morning and then copy the interesting links into saxobeat by hand",
+          "j'aimerais que ces offres arrivent directement dans ma Inbox saxobeat, scorées comme les autres",
+          "je recois les alertes par mail. ce serait top de les avoir dans saxobeat",
+          "est ce que saxobeat peut recuperer les offres de mes alertes LinkedIn et Indeed ?"
+        ],
+        "team_estimate": 13
+      }
+    },
+    {
+      "task": "T-007",
+      "kind": "user_story",
+      "subject": "NEW:notes-conseiller-sur-offre",
+      "input": {
+        "target": "NEW:notes-conseiller-sur-offre",
+        "title": "Permettre au conseiller de laisser une note sur une offre, visible par le candidat",
+        "state": "À créer",
+        "description": "Permettre au conseiller de laisser une note sur une offre, visible par le candidat",
+        "project": null,
+        "prioritization": {
+          "rice": 3.0,
+          "reach": 60,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 5,
+          "moscow": "could",
+          "okr": "ini_b2b",
+          "rationale": "Un seul compte Business (60 sièges, 18 000 €) l'évoque (« ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat »). Le Reach de 60 compte ses sièges ; pas de risque de départ signalé. À reprendre une fois la console (SAX-123) livrée.",
+          "risks": "Dépend de la console conseiller SAX-123."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 0,
+          "b2b": 1,
+          "plus": 0,
+          "arr_b2b_eur": 18000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2b/business"
+        ],
+        "quotes": [
+          "ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-008",
+      "kind": "user_story",
+      "subject": "NEW:salaire-teletravail-offres",
+      "input": {
+        "target": "NEW:salaire-teletravail-offres",
+        "title": "Filtrer les offres par fourchette de salaire et nombre de jours de télétravail",
+        "state": "À créer",
+        "description": "Filtrer les offres par fourchette de salaire et nombre de jours de télétravail / Voir la fourchette de salaire et la politique de télétravail sans ouvrir l'offre",
+        "project": null,
+        "prioritization": {
+          "rice": 2.6,
+          "reach": 26,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 5,
+          "moscow": "could",
+          "okr": "ini_activation",
+          "rationale": "1 candidat et 1 compte Business (15 000 €) qui relaie la demande de ses candidats (« they want to see the salary range and the remote working policy at a glance »). Le Reach de 26 vient surtout des sièges de ce compte. Utile au tri mais signal mince ; effort estimé à 5 points.",
+          "risks": "Le salaire et le télétravail sont souvent absents ou en texte libre dans les annonces : extraction peu fiable."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 2,
+          "b2c": 1,
+          "b2b": 1,
+          "plus": 0,
+          "arr_b2b_eur": 15000,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2b/business",
+          "b2c/free"
+        ],
+        "quotes": [
+          "they want to see the salary range and the remote working policy at a glance",
+          "filter jobs by salary range and number of remote days"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-009",
+      "kind": "user_story",
+      "subject": "NEW:boutons-inbox-masques-android",
+      "input": {
+        "target": "NEW:boutons-inbox-masques-android",
+        "title": "Pouvoir toucher les boutons du bas de l'Inbox sur Android sans qu'ils soient masqués par la barre de navigation",
+        "state": "À créer",
+        "description": "Pouvoir toucher les boutons du bas de l'Inbox sur Android sans qu'ils soient masqués par la barre de navigation",
+        "project": null,
+        "prioritization": {
+          "rice": 1.6,
+          "reach": 2,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 2,
+          "moscow": "must",
+          "okr": "ini_activation",
+          "rationale": "2 candidats (dont 1 Plus) ne peuvent pas toucher les boutons du bas de l'Inbox sur Android (« the buttons at the bottom are hidden behind the navigation bar on my pixel »). Pour une web app pensée pour le téléphone, le tri est cassé sur ces appareils, ce qui bloque l'activation (O2). Correctif estimé à 2 points.",
+          "risks": "Tester sur plusieurs appareils Android réels (barre de navigation par gestes ou par boutons)."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free",
+          "b2c/plus"
+        ],
+        "quotes": [
+          "the buttons at the bottom of the Inbox overlap with the phone's navigation bar",
+          "the buttons at the bottom are hidden behind the navigation bar on my pixel"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-010",
+      "kind": "user_story",
+      "subject": "SAX-113",
+      "input": {
+        "target": "SAX-113",
+        "title": "Pipeline sur téléphone : changer le statut d'une candidature par un geste",
+        "state": "Todo",
+        "description": "Le Pipeline s'affiche en colonnes côte à côte ; déplacer une carte demande un glisser-déposer à la souris, impossible au doigt.\n\nAttendu : vue liste par statut sur téléphone, changement de statut par balayage ou menu.",
+        "project": "Expérience mobile",
+        "prioritization": {
+          "rice": 1.0,
+          "reach": 3,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 5,
+          "moscow": "should",
+          "okr": "ini_activation",
+          "rationale": "3 candidats (dont 2 Plus) ne peuvent pas changer le statut d'une candidature au doigt (« impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt »). Pour une web app pensée pour le téléphone, c'est une fonction cœur cassée sur mobile, dans le projet Expérience mobile de l'objectif O2.",
+          "risks": "Tester sur de vrais appareils (iOS et Android) : le balayage peut entrer en conflit avec les gestes du navigateur."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 2,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free",
+          "b2c/plus"
+        ],
+        "quotes": [
+          "impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt",
+          "je n'arrive pas a faire glisser une carte du Pipeline vers « Entretien »"
+        ],
+        "team_estimate": 5
+      }
+    },
+    {
+      "task": "T-011",
+      "kind": "user_story",
+      "subject": "NEW:dedoublonnage-offres-multi-sources",
+      "input": {
+        "target": "NEW:dedoublonnage-offres-multi-sources",
+        "title": "Ne voir qu'une fois une même offre publiée sur plusieurs sources",
+        "state": "À créer",
+        "description": "Ne voir qu'une fois une même annonce, même si son lieu est libellé différemment / Ne voir qu'une fois une même offre publiée sur plusieurs sources / Ne voir qu'une fois une même offre publiée sur plusieurs sources, avec un score unique",
+        "project": null,
+        "prioritization": {
+          "rice": 0.5,
+          "reach": 3,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 5,
+          "moscow": "should",
+          "okr": "ini_activation",
+          "rationale": "3 candidats, dont 2 sur les 4 dernières semaines, voient la même offre plusieurs fois (« une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna »). Le dédoublonnage est une promesse de base du produit : les doublons alourdissent le tri visé par O2. Effort estimé à 5 points, pas d'estimation d'équipe.",
+          "risks": "Risque de fusionner à tort deux offres proches ; à traiter avec SAX-112 (offre republiée)."
+        },
+        "evidence": {
+          "mentions": 3,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 0,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free"
+        ],
+        "quotes": [
+          "une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna",
+          "une fois avec le lieu « Paris » et une fois « Paris 9e ». C'est exactement la même annonce",
+          "once from the company's own site and once from Welcome to the Jungle"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-012",
+      "kind": "user_story",
+      "subject": "NEW:double-prelevement-abonnement",
+      "input": {
+        "target": "NEW:double-prelevement-abonnement",
+        "title": "Ne pas être prélevé deux fois pour l'abonnement, et être remboursé du doublon",
+        "state": "À créer",
+        "description": "Ne pas être prélevé deux fois pour l'abonnement, et être remboursé du doublon",
+        "project": null,
+        "prioritization": {
+          "rice": 0.5,
+          "reach": 1,
+          "impact": 3,
+          "confidence": 0.5,
+          "effort": 3,
+          "moscow": "must",
+          "okr": "ini_conversion",
+          "rationale": "Un abonné Plus a été prélevé deux fois (« J'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus ») et risque de partir (144 €). Une seule mention, mais un double prélèvement casse la confiance dans le paiement, au cœur d'O1, et peut toucher d'autres abonnés. Rembourser ce client tout de suite, puis chercher la cause ; effort estimé à 3 points.",
+          "risks": "Cause inconnue (relance de paiement, webhook rejoué) : vérifier si d'autres abonnés sont touchés."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 144
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "J'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-013",
+      "kind": "user_story",
+      "subject": "NEW:paiement-3d-secure-mobile",
+      "input": {
+        "target": "NEW:paiement-3d-secure-mobile",
+        "title": "Pouvoir payer l'abonnement Plus depuis un téléphone avec la validation 3D Secure",
+        "state": "À créer",
+        "description": "Pouvoir payer l'abonnement Plus depuis un téléphone avec la validation 3D Secure",
+        "project": null,
+        "prioritization": {
+          "rice": 0.5,
+          "reach": 1,
+          "impact": 3,
+          "confidence": 0.5,
+          "effort": 3,
+          "moscow": "must",
+          "okr": "ini_conversion",
+          "rationale": "Un seul abonné, sans mention récente, mais le paiement échoue sur téléphone (« La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué. »). Si c'est reproductible, chaque passage à Plus depuis le téléphone échoue, ce qui bloque O1 dans une app pensée pour le mobile. Reproduire d'abord sur de vrais appareils ; effort estimé à 3 points.",
+          "risks": "Dépend du prestataire de paiement et du comportement des navigateurs mobiles (fenêtres bloquées)."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué."
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-014",
+      "kind": "user_story",
+      "subject": "SAX-112",
+      "input": {
+        "target": "SAX-112",
+        "title": "Offre republiée après candidature : la rattacher à la candidature existante",
+        "state": "Backlog",
+        "description": "Quand un employeur republie une offre à laquelle le candidat a déjà postulé, elle réapparaît comme nouvelle dans l'Inbox.\n\nAttendu : la détecter, l'afficher comme « republiée » et la rattacher à la candidature au lieu de la proposer à nouveau.",
+        "project": null,
+        "prioritization": {
+          "rice": 0.5,
+          "reach": 3,
+          "impact": 1,
+          "confidence": 0.8,
+          "effort": 5,
+          "moscow": "could",
+          "okr": "ini_activation",
+          "rationale": "3 candidats, tous Plus, voient réapparaître comme nouvelle une offre à laquelle ils ont déjà postulé (« me prévenir que j'ai déjà candidaté »). Gêne réelle mais ponctuelle, 1 mention sur 4 semaines.",
+          "risks": "Même moteur de détection que le dédoublonnage multi-sources (NEW:dedoublonnage-offres-multi-sources) : à traiter ensemble."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 3,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "Est-ce que l'appli pourrait détecter ce genre de cas et me prévenir que j'ai déjà candidaté",
+          "Est-ce que vous pourriez m'avertir quand une offre correspond à une candidature que j'ai déjà envoyée ?"
+        ],
+        "team_estimate": 5
+      }
+    },
+    {
+      "task": "T-015",
+      "kind": "user_story",
+      "subject": "NEW:resilier-plus-depuis-reglages",
+      "input": {
+        "target": "NEW:resilier-plus-depuis-reglages",
+        "title": "Trouver facilement comment résilier son abonnement Plus dans Réglages",
+        "state": "À créer",
+        "description": "Trouver facilement comment résilier son abonnement Plus dans Réglages",
+        "project": null,
+        "prioritization": {
+          "rice": 0.4,
+          "reach": 1,
+          "impact": 0.5,
+          "confidence": 0.8,
+          "effort": 1,
+          "moscow": "should",
+          "okr": "ini_conversion",
+          "rationale": "Un abonné Plus ne trouve pas comment résilier (« how do I cancel my Plus subscription? I can't find it anywhere in Settings ») et part de toute façon (144 €). L'enjeu n'est pas la rétention mais la conformité et la confiance ; correctif d'1 point.",
+          "risks": "Juridique : la résiliation en ligne doit être simple et accessible ; une résiliation introuvable expose à des litiges et à des rétrofacturations."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 144
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "how do I cancel my Plus subscription? I can't find it anywhere in Settings"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-016",
+      "kind": "user_story",
+      "subject": "SAX-106",
+      "input": {
+        "target": "SAX-106",
+        "title": "Bloquer un employeur avec une icône, et gérer la liste dans Entreprises",
+        "state": "Backlog",
+        "description": "Le blocage d'un employeur existe mais passe par un lien texte peu visible, et la liste des employeurs bloqués est rangée dans Réglages.\n\nAttendu : une icône « bloquer » sur la carte et la page offre ; la liste et le déblocage dans la page Entreprises.",
+        "project": null,
+        "prioritization": {
+          "rice": 0.4,
+          "reach": 3,
+          "impact": 0.5,
+          "confidence": 0.8,
+          "effort": 3,
+          "moscow": "could",
+          "okr": "ini_activation",
+          "rationale": "3 candidats (dont 1 Plus), 1 mention sur les 4 dernières semaines : la fonction existe mais personne ne la trouve (« j'ai cherché longtemps »). Gain de tri utile à l'activation, pour un effort modéré de 3 points.",
+          "risks": null
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free",
+          "b2c/plus"
+        ],
+        "quotes": [
+          "un bouton bien visible pour ne plus voir une entreprise, j'ai cherché longtemps",
+          "Où est-ce qu'on bloque une boite ? j'ai 30 offres d'une ESN qui m'interesse pas"
+        ],
+        "team_estimate": 3
+      }
+    },
+    {
+      "task": "T-017",
+      "kind": "user_story",
+      "subject": "SAX-120",
+      "input": {
+        "target": "SAX-120",
+        "title": "Analyse IA : lancer l'agent automatiquement pour tenir les 24 h",
+        "state": "Backlog",
+        "description": "Les packs d'analyse IA sont encore lancés à la main. Les jours de forte charge, la promesse « sous 24 h » n'est pas tenue. Lancer l'agent automatiquement, avec un garde-fou de coût.",
+        "project": null,
+        "prioritization": {
+          "rice": 0.4,
+          "reach": 2,
+          "impact": 2,
+          "confidence": 0.8,
+          "effort": 8,
+          "moscow": "should",
+          "okr": "ini_conversion",
+          "rationale": "2 candidats Plus attendent leur analyse IA depuis 3 à 4 jours (« The AI analysis has been 'pending' for 4 days now on 12 jobs. »). L'analyse IA est un levier de valeur de Plus nommé dans O1 : une promesse payante non tenue fragilise la conversion. Peu de clients le signalent, mais le problème grossit avec la charge.",
+          "risks": "Coût : un lancement automatique sans plafond peut faire déraper la facture de LLM ; prévoir le garde-fou dès le départ."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "la carte IA affiche « Analyse sous 24 h » depuis 3 jours",
+          "The AI analysis has been 'pending' for 4 days now on 12 jobs."
+        ],
+        "team_estimate": 8
+      }
+    },
+    {
+      "task": "T-018",
+      "kind": "user_story",
+      "subject": "NEW:masquer-candidatures-au-conseiller",
+      "input": {
+        "target": "NEW:masquer-candidatures-au-conseiller",
+        "title": "Choisir quelles candidatures sont visibles par son conseiller",
+        "state": "À créer",
+        "description": "Choisir quelles candidatures sont visibles par son conseiller",
+        "project": null,
+        "prioritization": {
+          "rice": 0.2,
+          "reach": 1,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 3,
+          "moscow": "should",
+          "okr": "ini_b2b",
+          "rationale": "Un seul candidat, mais 2 mentions dont 1 récente (« pouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas »). C'est le revers du tableau de suivi SAX-123 : à concevoir avec lui pour que les candidats acceptent la console. Effort estimé à 3 points.",
+          "risks": "Juridique (RGPD) : base légale du partage des candidatures avec le cabinet ; à valider avant de livrer SAX-123."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 0,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free"
+        ],
+        "quotes": [
+          "que mon conseiller du cabinet voie pas toutes mes candidatures",
+          "pouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-019",
+      "kind": "user_story",
+      "subject": "NEW:synchro-agenda-entretiens",
+      "input": {
+        "target": "NEW:synchro-agenda-entretiens",
+        "title": "Synchroniser les entretiens avec son agenda (Outlook)",
+        "state": "À créer",
+        "description": "Ajouter automatiquement les entretiens dans Google Agenda / Synchroniser les entretiens avec son agenda (Outlook)",
+        "project": null,
+        "prioritization": {
+          "rice": 0.2,
+          "reach": 3,
+          "impact": 0.5,
+          "confidence": 0.8,
+          "effort": 5,
+          "moscow": "could",
+          "okr": null,
+          "rationale": "3 candidats (dont 1 Plus), 1 mention récente (« ajouter mes entretiens dans google agenda »). Confort apprécié mais non bloquant ; un export .ics serait une première étape à 2 points. Effort estimé à 5 points pour Google et Outlook.",
+          "risks": "Deux API d'agenda (Google, Microsoft) et des autorisations OAuth à gérer."
+        },
+        "evidence": {
+          "mentions": 3,
+          "customers": 3,
+          "b2c": 3,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free",
+          "b2c/plus"
+        ],
+        "quotes": [
+          "j'aimerais qu'il apparaisse automatiquement dans mon Google Agenda, avec le nom de l'entreprise et le lien vers la cheat sheet",
+          "ajouter mes entretiens dans google agenda",
+          "synchro des entretiens avec mon agenda outlook"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-020",
+      "kind": "user_story",
+      "subject": "NEW:preferences-emails-par-type",
+      "input": {
+        "target": "NEW:preferences-emails-par-type",
+        "title": "Choisir par type les e-mails reçus (garder les rappels d'entretien, couper le reste)",
+        "state": "À créer",
+        "description": "Choisir par type les e-mails reçus (garder les rappels d'entretien, couper le reste)",
+        "project": null,
+        "prioritization": {
+          "rice": 0.1,
+          "reach": 1,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 2,
+          "moscow": "could",
+          "okr": "ini_conversion",
+          "rationale": "Un seul candidat (« Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles. »). Le réglage par type est déjà prévu dans le périmètre de SAX-115 (e-mails désactivables par type) : à livrer avec lui plutôt que séparément.",
+          "risks": "Désinscription : chaque e-mail non essentiel doit pouvoir être coupé."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 1,
+          "b2c": 1,
+          "b2b": 0,
+          "plus": 0,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free"
+        ],
+        "quotes": [
+          "Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles."
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-021",
+      "kind": "user_story",
+      "subject": "NEW:temps-de-trajet-offre",
+      "input": {
+        "target": "NEW:temps-de-trajet-offre",
+        "title": "Voir sur chaque offre le temps de trajet depuis son domicile",
+        "state": "À créer",
+        "description": "Voir sur chaque offre le temps de trajet depuis son domicile / Voir sur chaque offre le temps de trajet en transports depuis son domicile",
+        "project": null,
+        "prioritization": {
+          "rice": 0.1,
+          "reach": 2,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 5,
+          "moscow": "could",
+          "okr": null,
+          "rationale": "2 candidats Plus, tous deux sur les 4 dernières semaines (« Ce serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi »). Confort, sans lien direct avec un objectif du trimestre ; effort estimé à 5 points.",
+          "risks": "Coût d'une API d'itinéraires par offre et par candidat ; l'adresse du domicile est une donnée personnelle."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "Ce serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi",
+          "Could saxobeat show the commute time from my home for each job?"
+        ],
+        "team_estimate": null
+      }
+    },
+    {
+      "task": "T-022",
+      "kind": "user_story",
+      "subject": "SAX-116",
+      "input": {
+        "target": "SAX-116",
+        "title": "Notification push quand l'analyse IA est prête",
+        "state": "Backlog",
+        "description": "L'analyse IA arrive « sous 24 h », mais le candidat ne le sait que s'il ouvre l'application. Notification push via l'application installée (PWA).",
+        "project": "Relances et notifications",
+        "prioritization": {
+          "rice": 0.1,
+          "reach": 2,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 5,
+          "moscow": "could",
+          "okr": "ini_conversion",
+          "rationale": "2 candidats Plus, aucune demande historique (« une notif sur mon tel quand l'analyse IA est prete »). Confort tant que la promesse des 24 h n'est pas tenue : SAX-120 passe avant.",
+          "risks": "Le push des applications installées (PWA) est limité sur iOS ; dépend aussi de SAX-120."
+        },
+        "evidence": {
+          "mentions": 2,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/plus"
+        ],
+        "quotes": [
+          "Could you send me a notification when the AI analysis is ready?",
+          "une notif sur mon tel quand l'analyse IA est prete"
+        ],
+        "team_estimate": 5
+      }
+    },
+    {
+      "task": "T-023",
+      "kind": "user_story",
+      "subject": "SAX-117",
+      "input": {
+        "target": "SAX-117",
+        "title": "Recherche plein texte dans l'Inbox et les archives",
+        "state": "Backlog",
+        "description": "La recherche actuelle ne porte que sur l'intitulé et l'employeur. Chercher aussi dans la description, les notes et les offres archivées.",
+        "project": null,
+        "prioritization": {
+          "rice": 0.1,
+          "reach": 2,
+          "impact": 0.5,
+          "confidence": 0.5,
+          "effort": 5,
+          "moscow": "wont",
+          "okr": null,
+          "rationale": "Aucune mention récente : seulement 2 demandes historiques de candidats Plus, et aucun compte Business. Confort pour les gros utilisateurs, sans lien avec un objectif du trimestre.",
+          "risks": null
+        },
+        "evidence": {
+          "mentions": 0,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 2,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [],
+        "quotes": [],
+        "team_estimate": 5
+      }
+    },
+    {
+      "task": "T-024",
+      "kind": "user_story",
+      "subject": "SAX-121",
+      "input": {
+        "target": "SAX-121",
+        "title": "Calibrage du score : qu'un 50 ait le même sens pour tous les candidats",
+        "state": "Backlog",
+        "description": "Un CV riche en mots-clés gonfle tous les scores. Suivre par candidat la part d'offres au-dessus de 50 et l'accord entre l'analyse IA et le score, puis recalibrer périodiquement.",
+        "project": "Score explicable v2",
+        "prioritization": {
+          "rice": 0.1,
+          "reach": 2,
+          "impact": 1,
+          "confidence": 0.5,
+          "effort": 8,
+          "moscow": "could",
+          "okr": "ini_activation",
+          "rationale": "Une seule mention récente, 2 candidats au total (« Mes scores ne dépassent jamais 40 »). Le signal est réel pour la confiance dans le score (O2), mais trop faible pour 8 points ce trimestre ; à instrumenter d'abord.",
+          "risks": "Recalibrer change tous les scores d'un coup : prévenir les utilisateurs pour ne pas casser la confiance."
+        },
+        "evidence": {
+          "mentions": 1,
+          "customers": 2,
+          "b2c": 2,
+          "b2b": 0,
+          "plus": 1,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [
+          "b2c/free"
+        ],
+        "quotes": [
+          "Mes scores ne dépassent jamais 40. Jamais. Pourtant je décroche des entretiens sur ces offres-là"
+        ],
+        "team_estimate": 8
+      }
+    },
+    {
+      "task": "T-025",
+      "kind": "user_story",
+      "subject": "SAX-118",
+      "input": {
+        "target": "SAX-118",
+        "title": "Onboarding : démarrer avec un intitulé de poste, sans CV",
+        "state": "Backlog",
+        "description": "L'import du CV est la première étape et fait abandonner une partie des inscrits (CV pas à jour, sur un autre appareil). Permettre de démarrer avec un intitulé de poste et une ville, et d'ajouter le CV plus tard.",
+        "project": null,
+        "prioritization": {
+          "rice": 0.0,
+          "reach": 0,
+          "impact": 2,
+          "confidence": 0.5,
+          "effort": 5,
+          "moscow": "should",
+          "okr": "ini_activation",
+          "rationale": "Aucun feedback ne le mentionne, ce qui est attendu : les inscrits qui abandonnent à l'import du CV n'écrivent pas. Le besoin sert directement les résultats clés d'O2 (onboarding en moins de 4 minutes, 70 % qui trient 10 offres en 7 jours). Confiance faible : vérifier d'abord le taux d'abandon à l'étape CV dans l'entonnoir avant d'engager.",
+          "risks": "Sans CV, le score repose sur l'intitulé seul et sera moins précis au départ."
+        },
+        "evidence": {
+          "mentions": 0,
+          "customers": 0,
+          "b2c": 0,
+          "b2b": 0,
+          "plus": 0,
+          "arr_b2b_eur": 0,
+          "arr_at_risk_eur": 0
+        },
+        "customer_segments": [],
+        "quotes": [],
+        "team_estimate": 5
+      }
+    }
+  ],
+  "checklist": [
+    "Une entrée dans results par tâche du pack (output ou skipped), avec le même identifiant de tâche et le même kind.",
+    "Toutes les valeurs énumérées sont dans les listes autorisées.",
+    "Chaque citation est copiée mot pour mot depuis le texte de la tâche.",
+    "Le fichier est du JSON valide, nommé comme results_file, à côté du pack."
+  ]
+}

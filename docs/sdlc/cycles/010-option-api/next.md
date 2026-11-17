@@ -1,6 +1,5 @@
 # Next: option API
 
-Each line is one action: `- [ ] [owner|claude|both] <date, optional> text`. Tick it when it is done, add new ones as the cycle moves. This file is what the cycle board shows as "what next?".
-
-- [ ] [owner] Say your request in your own words (it goes in intent.md, unedited)
-- [ ] [claude] Gather the facts (code, docs, files), draft the open questions in intent.md and grill the owner one at a time
+- [x] [claude] 2026-11-17 Intent, spec, construction, tests (client simulé)
+- [ ] [owner] Relire les choix Q1 à Q6 de l'intent
+- [ ] [owner] 2026-11-17 Essai réel avec sa clé : `uv run python -m po_assist run analyse --engine api --limit 5` (critère 10), puis accepter verify.md

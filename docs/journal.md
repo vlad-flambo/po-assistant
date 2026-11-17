@@ -14,6 +14,8 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-16 | Code de l'application (connecteur, packs, scores, interface, tests) | Claude Code | 30 tests ; chaque page de l'interface testée sans navigateur ; chiffres du script de démo recoupés avec les données (3 corrigés) |
 | 2026-11-16 | Travail de l'agent : analyse (80), priorisation (30), rédaction (5) | Skill `po-agent` exécuté par des sous-agents qui n'ont pas vu la vérité terrain | Validation automatique à l'import (0 refus) ; analyse mesurée contre la vérité terrain |
 | 2026-11-16 | Diapositives de restitution (14) | Claude Code | Aperçu rendu et relu ; un titre raccourci ; chiffres repris des données vérifiées |
+| 2026-11-17 | 25 stories supplémentaires pour le cache du mode démo | Skill `po-agent` (sous-agent sans vérité terrain) | Dry-run strict : 25/25 ; structure validée ; contenu non relu en entier |
+| 2026-11-17 | Moteur API (référence officielle `claude-api` chargée avant d'écrire) | Claude Code | Signature du SDK vérifiée ; 10 tests avec client simulé ; aucun appel réel (pas de clé) |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -46,3 +48,6 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 ### 2026-11-17 (mardi)
 
 - **Cycle 008, lanceur Mac** : `PO Assist.command` (double-clic, port 8007, cas « déjà lancé », « port pris » et « uv absent » traités). 4 scénarios testés sous Linux ; reste la vérification par Vlad sur son Mac.
+- **Cycle 009, mode démo (par défaut)** : le PO joue le vrai parcours ; à chaque « Lancer l'agent », le résultat d'un vrai passage du skill, calculé à l'avance, arrive en environ 8 s puis passe par la vérification et l'import habituels. 25 stories ajoutées au cache par le skill pour couvrir toute sélection. Un bandeau signale le mode, par honnêteté envers le jury.
+- **Défaut attrapé par le test navigateur** : la priorisation pouvait être lancée avant l'analyse ; elle est désormais conditionnée.
+- **Cycle 010, option API** : moteur au choix (skill local ou API). Même pack, envoyé par paquets avec instructions en cache et sorties structurées, coût estimé avant puis réel après. Aucun appel réel possible ici : l'essai revient à Vlad.

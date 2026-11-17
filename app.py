@@ -154,6 +154,8 @@ def page_agent():
             st.caption(f"{s['exported']} en cours chez l'agent · {s['to_do']} à exporter")
             if name == "redaction":
                 st.caption("Les stories se choisissent dans ⚖️ Priorisation.")
+            elif name == "priorisation" and not store.results("feedback_analysis"):
+                st.caption("Disponible après l'import de l'analyse des feedbacks.")
             elif st.button(launch_label(name) if s["to_do"] else ("Lancer l'agent" if ENGINE != "skill" else "Exporter"),
                            key=f"exp_{name}", disabled=s["to_do"] == 0,
                            width="stretch", type="primary" if s["to_do"] else "secondary"):

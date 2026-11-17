@@ -31,6 +31,8 @@ def test_demo_mode_is_on_by_default_and_survives_reset(env):
 def test_nothing_is_revealed_before_the_po_runs_the_agent(env):
     assert Store().results("feedback_analysis") == {}
     assert handoff.status()["packs"]["analyse"]["to_do"] == 80
+    assert handoff.status()["packs"]["priorisation"]["to_do"] == 0  # pas de priorisation sans analyse
+    assert demo.run("priorisation") is None
 
 
 def test_demo_run_plays_the_real_pipeline_step_by_step(env):

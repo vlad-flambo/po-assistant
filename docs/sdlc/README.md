@@ -61,5 +61,5 @@ docs/sdlc/
 | 006 | 4 | interface web du PO | Verify : en attente de l'accord du PO |
 | 007 | 5 | restitution documentation et démo | Intent rempli, but à confirmer par le PO |
 | 008 | 3 | lanceur Mac (port 8007) | Verify : 7/8 critères, reste le double-clic sur le Mac |
-| 009 | 4 | mode demo | Intent: started 2026-11-17 |
-| 010 | 3 | option API | Intent: started 2026-11-17 |
+| 009 | 4 | mode démo | Verify : 8/8, en attente de l'accord du PO |
+| 010 | 3 | option API | Verify : 8/10, reste l'essai réel avec la clé du PO |

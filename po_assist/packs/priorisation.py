@@ -83,6 +83,8 @@ class PriorisationPack:
         return insights.demands(insights.load(linear, store))
 
     def items(self, linear, store) -> list[dict]:
+        if not store.results("feedback_analysis"):
+            return []  # prioriser sans les preuves des feedbacks n'a pas de sens : l'analyse vient d'abord
         done = store.subjects_done(self.kind)
         demand = {d["target"]: d for d in self._demands(linear, store)}
         items = []

@@ -7,7 +7,8 @@
 ## Avant de commencer (J-0, 15 min avant)
 
 - [ ] Double-cliquer sur `PO Assist.command` (ou `uv sync` puis `uv run streamlit run app.py`) : l'application s'ouvre sur http://localhost:8007.
-- [ ] Barre latérale › Démo › **Réinitialiser**, puis **Charger les résultats pré-calculés** : les 3 étapes apparaissent comme faites.
+- [ ] Barre latérale › **Réinitialiser** ; vérifier dans ⚙️ Réglages que le **mode démo** est activé (par défaut).
+- [ ] Pendant la démo, jouer le parcours en direct : 🤖 Agent › **Lancer l'agent** (analyse, ~8 s) › **Importer** ; puis la priorisation ; puis ⚖️ Priorisation › **Lancer la rédaction**. Les résultats sont ceux de vrais passages du skill, calculés à l'avance : le dire au jury (le bandeau 🎬 le rappelle).
 - [ ] Ouvrir à côté : un terminal Claude Code dans le dépôt, et l'onglet `handoff/demo/` (un pack et ses résultats).
 - [ ] Filet de sécurité : les captures dans `docs/captures/` si l'application ne démarre pas.
 

@@ -1,0 +1,2390 @@
+{
+  "schema": "po-assist.results.v1",
+  "export_id": "E-20261117-110405-redaction",
+  "pack": "redaction",
+  "agent": "claude-code / po-agent",
+  "results": [
+    {
+      "task": "T-001",
+      "kind": "user_story",
+      "output": {
+        "title": "Renvoyer une invitation Business expirée pour que l'invité puisse s'inscrire",
+        "user_story": {
+          "as_a": "administrateur d'un compte Business qui invite ses candidats en masse",
+          "i_want": "voir les invitations expirées et les renvoyer, une par une ou en lot, avec un nouveau code",
+          "so_that": "les candidats qui n'ont pas ouvert l'invitation dans les 7 jours puissent quand même occuper leur siège"
+        },
+        "context": "Un compte Business de 300 sièges (24 000 € d'ARR) a perdu des inscriptions : « le code d'invitation avait expiré, au bout de 7 jours ». Avec l'invitation en masse par CSV (SAX-122, en cours) au cœur du lancement de l'offre Business (O3), chaque invité qui laisse passer le délai est un siège payé mais vide. La priorisation recommande le renvoi plutôt qu'une validité allongée, pour ne pas laisser un code transféré exploitable trop longtemps.",
+        "acceptance_criteria": [
+          {
+            "title": "Renvoi d'une invitation expirée",
+            "given": "une invitation envoyée il y a 8 jours, affichée « Expirée » dans la liste des invitations de la console",
+            "when": "l'administrateur clique sur « Renvoyer »",
+            "then": "l'invité reçoit un nouvel e-mail avec un nouveau code valable 7 jours, l'ancien code est invalidé et la ligne passe à « Envoyée » avec la date du renvoi"
+          },
+          {
+            "title": "Renvoi groupé",
+            "given": "40 invitations expirées issues d'un même import CSV",
+            "when": "l'administrateur filtre sur « Expirées », sélectionne tout et clique sur « Renvoyer »",
+            "then": "40 nouveaux e-mails partent, un message confirme « 40 invitations renvoyées » et les invitations déjà acceptées ne sont pas renvoyées"
+          },
+          {
+            "title": "Ancien lien après renvoi",
+            "given": "une invitation renvoyée dont l'invité ouvre l'ancien e-mail",
+            "when": "l'invité clique sur l'ancien lien",
+            "then": "aucun compte n'est créé et une page indique que ce lien n'est plus valable et qu'un lien plus récent lui a été envoyé"
+          },
+          {
+            "title": "Lien expiré sans renvoi",
+            "given": "une invitation expirée que l'administrateur n'a pas renvoyée",
+            "when": "l'invité ouvre le lien",
+            "then": "la page explique que l'invitation a expiré et lui indique de contacter son établissement ou son conseiller, sans exposer d'autre information sur le compte"
+          },
+          {
+            "title": "Invitation déjà acceptée",
+            "given": "un invité qui a déjà créé son compte avec son code",
+            "when": "le même lien est ouvert à nouveau",
+            "then": "aucun second compte n'est créé et l'utilisateur est redirigé vers la connexion"
+          },
+          {
+            "title": "Inscription depuis un téléphone",
+            "given": "un invité qui reçoit l'invitation renvoyée sur son téléphone",
+            "when": "il touche le lien dans l'e-mail",
+            "then": "le formulaire d'inscription s'ouvre avec le code prérempli et se remplit sans défilement horizontal sur un écran de 360 px de large"
+          }
+        ],
+        "non_functional": [
+          "Code d'invitation à usage unique ; tout renvoi invalide le code précédent",
+          "Journal des renvois (date, auteur) consultable par l'administrateur",
+          "E-mails d'invitation authentifiés (SPF/DKIM) pour limiter le classement en spam"
+        ],
+        "out_of_scope": [
+          "Durée de validité configurable par compte (à trancher, voir questions)",
+          "Relances automatiques des invités avant expiration",
+          "Refonte de l'import CSV (SAX-122)"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": "S'appuie sur les invitations existantes ; à coordonner avec SAX-122 en cours"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Renvoi ou validité allongée : le choix reste ouvert"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Débloque des sièges payés et non occupés sur un compte de 24 000 €"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": "Critères sur statuts et codes vérifiables"
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "La priorisation chiffrait l'effort à 2 points pour le seul renvoi unitaire ; le renvoi groupé et la page d'invitation expirée portent l'estimation à 3. Pas d'estimation d'équipe.",
+        "split_proposal": [],
+        "open_questions": [
+          "Faut-il garder 7 jours de validité et miser sur le renvoi, ou allonger la durée (et de combien), compte tenu du risque de code transféré ?",
+          "Combien d'invités de ce compte sont aujourd'hui bloqués par une invitation expirée ? Faut-il leur renvoyer l'invitation dès la livraison ?",
+          "L'invité doit-il pouvoir demander lui-même un nouveau lien depuis la page d'invitation expirée ?",
+          "Un rappel automatique quelques jours avant expiration est-il souhaité par les comptes Business ?"
+        ]
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "user_story",
+      "output": {
+        "title": "Expliquer le score de chaque offre : compétences trouvées, manques, verdict",
+        "user_story": {
+          "as_a": "candidat qui trie son Inbox sur téléphone et hésite à postuler à une offre au score moyen",
+          "i_want": "voir en un coup d'œil ce qui matche, ce qui manque et un verdict sur chaque offre",
+          "so_that": "je sache si je dois postuler et ce qui ferait monter le score"
+        },
+        "context": "6 clients convergent : 4 candidats (dont 2 Plus) et 2 comptes Business pour 39 000 € d'ARR, qui relaient la demande de leurs candidats (« they want to understand why a job scores high »). Un candidat le formule ainsi : « comprendre pk une offre a 48 et ce qui manque pour que ca monte ». C'est le levier direct du résultat clé d'O2 sur la confiance dans le score et notre différenciant face aux scores IA opaques.",
+        "acceptance_criteria": [
+          {
+            "title": "Explication sur la page offre",
+            "given": "une offre au score de 48 dont 22 des 31 compétences attendues figurent dans le profil",
+            "when": "le candidat ouvre l'offre",
+            "then": "il voit « 22 sur 31 » compétences trouvées, la compatibilité de l'intitulé et de la séniorité, la liste des mots-clés manquants et un verdict parmi À postuler, À regarder, Peu pertinent"
+          },
+          {
+            "title": "Verdict cohérent avec le score",
+            "given": "les seuils de verdict validés par le PO",
+            "when": "une offre a un score dans chacune des trois plages",
+            "then": "le verdict affiché correspond à la plage, sur la carte comme sur la page offre"
+          },
+          {
+            "title": "Aucun mot-clé manquant",
+            "given": "une offre dont tous les mots-clés attendus sont présents dans le profil",
+            "when": "le candidat ouvre l'explication",
+            "then": "un message indique qu'aucun mot-clé ne manque, au lieu d'un bloc vide"
+          },
+          {
+            "title": "Offre trop pauvre pour être expliquée",
+            "given": "une offre dont la description ne permet pas d'extraire de compétences",
+            "when": "le candidat ouvre l'explication",
+            "then": "l'explication indique que le détail n'est pas disponible pour cette offre et aucun verdict n'est inventé"
+          },
+          {
+            "title": "Mise à jour après changement de mots-clés",
+            "given": "un candidat qui ajoute un mot-clé manquant à son profil",
+            "when": "l'Inbox est recalculée (SAX-102)",
+            "then": "l'explication de l'offre reflète le nouveau mot-clé et le score affiché est cohérent avec elle"
+          },
+          {
+            "title": "Lecture sur téléphone",
+            "given": "un candidat sur un téléphone de 360 px de large",
+            "when": "il consulte une carte de l'Inbox puis touche l'explication",
+            "then": "le verdict est visible sur la carte, le détail s'ouvre sans défilement horizontal et se referme d'un geste"
+          },
+          {
+            "title": "Offre en anglais",
+            "given": "une interface en français et une offre rédigée en anglais",
+            "when": "le candidat ouvre l'explication",
+            "then": "les libellés sont en français et les mots-clés manquants sont affichés tels qu'ils apparaissent dans l'offre"
+          }
+        ],
+        "non_functional": [
+          "Le verdict n'est pas porté par la seule couleur (texte ou icône lisible par un lecteur d'écran)",
+          "L'explication est calculée avec le score : pas d'appel supplémentaire au chargement de la carte",
+          "Libellés disponibles en français et en anglais"
+        ],
+        "out_of_scope": [
+          "Recalibrage du score (SAX-121)",
+          "Conseils de réécriture du CV pour combler les manques",
+          "Explication générée par l'analyse IA"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": "Indépendante techniquement, mais exposée aux incohérences du score tant que SAX-121 n'est pas traité"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Seuils et présentation du verdict à discuter"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "6 clients dont 2 comptes Business ; différenciant produit"
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Les composantes du score existent déjà (mots-clés, similarité, séniorité)"
+          },
+          "small": {
+            "ok": false,
+            "note": "8 points : trop gros pour une itération, à découper"
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 8,
+        "estimate_rationale": "Estimation alignée sur celle de l'équipe (8). Elle pèse surtout sur l'extraction fiable des compétences de l'offre, le rendu compact sur la carte mobile et la cohérence des trois composantes du score.",
+        "split_proposal": [
+          "Explication détaillée sur la page offre : compétences trouvées et mots-clés manquants",
+          "Compatibilité de l'intitulé et de la séniorité dans l'explication",
+          "Verdict en trois niveaux sur la carte de l'Inbox"
+        ],
+        "open_questions": [
+          "Quels seuils de score pour À postuler, À regarder et Peu pertinent ?",
+          "Les conseillers Business doivent-ils voir la même explication dans la console ?",
+          "Faut-il livrer l'explication avant le calibrage (SAX-121), au risque d'exposer des incohérences, ou masquer le verdict pour les profils mal calibrés ?",
+          "L'explication est-elle disponible en Free, ou réservée à Plus ?"
+        ]
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "user_story",
+      "output": {
+        "title": "Connexion SSO Microsoft Entra ID et Google Workspace pour les comptes Business",
+        "user_story": {
+          "as_a": "conseiller d'une école cliente de l'offre Business, soumis à la politique de sécurité de son établissement",
+          "i_want": "me connecter à saxobeat avec mon compte professionnel Microsoft 365 ou Google Workspace",
+          "so_that": "mon école autorise l'outil et je n'aie pas de mot de passe de plus à gérer"
+        },
+        "context": "Un compte Business de 300 sièges (24 000 € d'ARR) l'exige : « Notre politique de sécurité impose que l'accès aux outils de l'école passe par les comptes Microsoft 365 (Entra ID) ». C'est un seul client, sans mention récente ni risque de départ signalé : priorisé en Could pour O3, à remonter si ce compte en fait une condition de renouvellement.",
+        "acceptance_criteria": [
+          {
+            "title": "Connexion Microsoft",
+            "given": "un conseiller dont l'école a activé le SSO Microsoft sur son compte Business",
+            "when": "il clique sur « Se connecter avec Microsoft » et s'authentifie chez Microsoft",
+            "then": "il arrive dans la console conseiller sans saisir de mot de passe saxobeat"
+          },
+          {
+            "title": "Rattachement au siège existant",
+            "given": "un conseiller déjà invité avec la même adresse e-mail professionnelle",
+            "when": "il se connecte pour la première fois par SSO",
+            "then": "la session est rattachée à son siège existant et aucun compte en double n'est créé"
+          },
+          {
+            "title": "Organisation non autorisée",
+            "given": "une adresse appartenant à un tenant Microsoft non déclaré pour ce compte Business",
+            "when": "l'utilisateur tente de se connecter par SSO",
+            "then": "la connexion est refusée avec un message explicite et aucun compte n'est créé"
+          },
+          {
+            "title": "SSO imposé",
+            "given": "un compte Business qui a rendu le SSO obligatoire pour son domaine",
+            "when": "un conseiller de ce domaine tente de se connecter par e-mail et mot de passe",
+            "then": "il est redirigé vers la connexion SSO"
+          },
+          {
+            "title": "Compte désactivé par l'école",
+            "given": "un conseiller dont le compte a été désactivé dans Entra ID",
+            "when": "il tente de se reconnecter",
+            "then": "l'accès à saxobeat est refusé"
+          },
+          {
+            "title": "Connexion Google Workspace",
+            "given": "un établissement qui a activé le SSO Google Workspace",
+            "when": "un conseiller choisit « Se connecter avec Google »",
+            "then": "le même parcours s'applique : rattachement au siège, refus des domaines non autorisés"
+          },
+          {
+            "title": "Connexion depuis un téléphone",
+            "given": "un conseiller sur Safari iOS ou Chrome Android",
+            "when": "il se connecte par SSO",
+            "then": "après l'authentification chez le fournisseur, il revient dans saxobeat connecté, sans rester bloqué sur une page intermédiaire"
+          }
+        ],
+        "non_functional": [
+          "Protocoles standards (OpenID Connect ou SAML), sans stockage des mots de passe de l'établissement",
+          "Journal des connexions SSO consultable pour un audit de sécurité",
+          "Configuration du SSO réservée à l'administrateur du compte Business"
+        ],
+        "out_of_scope": [
+          "Provisionnement automatique des comptes (SCIM)",
+          "Autres fournisseurs d'identité (Okta, etc.)",
+          "SSO pour les comptes B2C"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Ordre des fournisseurs et caractère obligatoire négociables"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Condition d'accès posée par un compte de 24 000 €"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": false,
+            "note": "Deux fournisseurs à intégrer : 8 points"
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 8,
+        "estimate_rationale": "Estimation alignée sur l'équipe (8) : deux fournisseurs d'identité, le rattachement aux sièges existants et l'option SSO obligatoire. Microsoft seul tiendrait probablement en 5.",
+        "split_proposal": [
+          "SSO Microsoft Entra ID pour les conseillers Business",
+          "SSO Google Workspace pour les conseillers Business",
+          "Rendre le SSO obligatoire pour un domaine"
+        ],
+        "open_questions": [
+          "Le SSO doit-il couvrir seulement les conseillers ou aussi les étudiants de l'école ?",
+          "Ce compte en fait-il une condition de renouvellement, et à quelle date ?",
+          "Microsoft seul suffit-il pour ce client, Google pouvant attendre une autre demande ?",
+          "Quelle durée de session après désactivation côté école est acceptable pour leur sécurité ?"
+        ]
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "user_story",
+      "output": {
+        "title": "Récapitulatif hebdomadaire imposé par l'école à toute une promotion",
+        "user_story": {
+          "as_a": "responsable d'une école cliente Business qui accompagne une promotion d'étudiants",
+          "i_want": "activer le récapitulatif hebdomadaire pour toute la promotion, sans que l'étudiant puisse le couper",
+          "so_that": "chaque étudiant garde un point régulier sur sa recherche, même s'il décroche"
+        },
+        "context": "Un compte Business de 150 sièges (9 000 € d'ARR) le demande : « que l'école puisse l'activer pour l'ensemble de la promotion, sans que l'étudiant puisse le couper ». La story dépend du résumé hebdomadaire de SAX-115, pas encore construit. Elle soulève une question de consentement : imposer un e-mail non désactivable doit être validé juridiquement avant le développement.",
+        "acceptance_criteria": [
+          {
+            "title": "Activation pour la promotion",
+            "given": "le récapitulatif hebdomadaire de SAX-115 disponible et un administrateur d'école dans la console",
+            "when": "il active « Récapitulatif obligatoire » pour une promotion",
+            "then": "tous les étudiants de cette promotion reçoivent le récapitulatif à la fréquence prévue par SAX-115"
+          },
+          {
+            "title": "Réglage verrouillé côté étudiant",
+            "given": "un étudiant d'une promotion où le récapitulatif est obligatoire",
+            "when": "il ouvre Réglages > E-mails",
+            "then": "le récapitulatif apparaît activé et verrouillé, avec la mention « Imposé par votre école », et ses autres e-mails restent réglables"
+          },
+          {
+            "title": "Transparence dans l'e-mail",
+            "given": "un récapitulatif envoyé au titre de l'obligation",
+            "when": "l'étudiant le lit",
+            "then": "l'e-mail indique qu'il est envoyé à la demande de son école et nomme l'établissement"
+          },
+          {
+            "title": "Nouvel étudiant ajouté",
+            "given": "une promotion où le récapitulatif est obligatoire",
+            "when": "un nouvel étudiant est invité dans cette promotion",
+            "then": "il hérite du réglage verrouillé dès son inscription"
+          },
+          {
+            "title": "Fin de l'accompagnement",
+            "given": "un étudiant dont le siège est libéré par l'école",
+            "when": "il ouvre Réglages > E-mails",
+            "then": "le verrou est levé et il peut couper le récapitulatif"
+          },
+          {
+            "title": "Désactivation par l'école",
+            "given": "une promotion où le récapitulatif est obligatoire",
+            "when": "l'administrateur désactive l'obligation",
+            "then": "les étudiants retrouvent leur choix précédent et le verrou disparaît"
+          },
+          {
+            "title": "Réglage verrouillé sur téléphone",
+            "given": "un étudiant sur téléphone",
+            "when": "il ouvre Réglages > E-mails",
+            "then": "la mention du verrou est lisible sans défilement horizontal et l'interrupteur ne réagit pas au toucher"
+          }
+        ],
+        "non_functional": [
+          "Validation juridique du caractère obligatoire avant mise en production",
+          "Le récapitulatif ne contient que des informations déjà visibles par l'école dans la console"
+        ],
+        "out_of_scope": [
+          "Construction du récapitulatif hebdomadaire lui-même (SAX-115)",
+          "Choix du contenu du récapitulatif par l'école",
+          "Obligation appliquée à d'autres types d'e-mails"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "Dépend de SAX-115, pas encore construit"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Le caractère non désactivable est à confirmer après avis juridique"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Demandé par un compte de 9 000 € ; valeur limitée à ce client à ce stade"
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Estimable une fois SAX-115 conçu"
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "3 points, comme l'effort de la priorisation, à condition que SAX-115 et la notion de promotion existent déjà dans la console ; sinon l'estimation est à revoir.",
+        "split_proposal": [],
+        "open_questions": [
+          "Un e-mail que l'étudiant ne peut pas couper est-il conforme (consentement, lien de désinscription) ? Avis juridique requis.",
+          "Que se passe-t-il si l'étudiant clique sur le lien de désinscription d'un récapitulatif imposé ?",
+          "La notion de « promotion » existe-t-elle dans la console, ou faut-il la créer ?",
+          "Le récapitulatif inclut-il les candidatures que l'étudiant a rendues privées vis-à-vis de son conseiller ?"
+        ]
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "user_story",
+      "output": {
+        "title": "Factures au nom de la société, avec SIRET et TVA intracommunautaire",
+        "user_story": {
+          "as_a": "coach indépendant ou cabinet client Business qui passe ses factures saxobeat en comptabilité",
+          "i_want": "renseigner la raison sociale, l'adresse, le SIRET et le numéro de TVA qui figureront sur mes factures",
+          "so_that": "mes factures soient acceptées par ma comptabilité et que je puisse payer et déduire l'abonnement"
+        },
+        "context": "2 comptes Business (17 sièges, 5 100 € d'ARR), dont 1 en risque de départ pour 3 600 €, en parlent sur les 4 dernières semaines : « Vos factures sont inutilisables pour notre comptabilité : pas de TVA, pas le nom de notre société. » Pour un client professionnel, une facture inutilisable bloque le paiement : c'est un must à 3 points qui protège la rétention visée par O3.",
+        "acceptance_criteria": [
+          {
+            "title": "Saisie des informations de facturation",
+            "given": "le propriétaire d'un compte Business dans Réglages > Facturation",
+            "when": "il renseigne raison sociale, adresse, SIRET et numéro de TVA intracommunautaire puis enregistre",
+            "then": "les informations sont enregistrées et un aperçu montre l'en-tête de la prochaine facture"
+          },
+          {
+            "title": "Facture conforme",
+            "given": "des informations de facturation complètes",
+            "when": "la facture suivante est émise",
+            "then": "le PDF porte la raison sociale, l'adresse, le SIRET, le numéro de TVA du client, ainsi que les montants HT, TVA et TTC"
+          },
+          {
+            "title": "Numéro de TVA mal formé",
+            "given": "un numéro de TVA qui ne respecte pas le format attendu",
+            "when": "le propriétaire enregistre",
+            "then": "un message d'erreur indique le champ en cause et rien n'est enregistré"
+          },
+          {
+            "title": "Champs société non renseignés",
+            "given": "un client qui n'a pas renseigné de société",
+            "when": "une facture est émise",
+            "then": "la facture porte son nom comme aujourd'hui, sans champ vide affiché"
+          },
+          {
+            "title": "Factures déjà émises",
+            "given": "des factures émises avant la saisie des informations",
+            "when": "le propriétaire consulte l'historique",
+            "then": "les factures passées restent inchangées et le parcours de réémission validé par la comptabilité est proposé"
+          },
+          {
+            "title": "Droits de modification",
+            "given": "un conseiller du compte qui n'en est pas le propriétaire",
+            "when": "il ouvre Réglages > Facturation",
+            "then": "il ne peut pas modifier les informations de facturation"
+          }
+        ],
+        "non_functional": [
+          "Mentions légales des factures validées par la comptabilité avant livraison",
+          "Données de facturation visibles et modifiables par le seul propriétaire du compte"
+        ],
+        "out_of_scope": [
+          "Gestion de plusieurs entités de facturation par compte",
+          "Paiement par virement ou bon de commande",
+          "Factures des abonnés Plus particuliers"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Liste exacte des mentions à valider avec la comptabilité"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Bloque le paiement d'un compte en risque de départ (3 600 €)"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "Alignée sur l'estimation de l'équipe (3) : champs de facturation, gabarit du PDF et validation de format. L'autoliquidation de TVA pour des clients hors de France pourrait l'alourdir.",
+        "split_proposal": [],
+        "open_questions": [
+          "Faut-il réémettre les factures déjà payées du compte en risque de départ (avoir puis nouvelle facture) ?",
+          "Doit-on vérifier le numéro de TVA auprès du service européen VIES, ou un contrôle de format suffit-il ?",
+          "Des clients hors de France relèvent-ils de l'autoliquidation de TVA, avec une mention spécifique ?",
+          "Les coachs indépendants sans numéro de TVA doivent-ils avoir une mention particulière ?"
+        ]
+      }
+    },
+    {
+      "task": "T-006",
+      "kind": "user_story",
+      "output": {
+        "title": "Importer dans l'Inbox les offres des alertes e-mail LinkedIn et Indeed",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui reçoit chaque matin des alertes e-mail LinkedIn ou Indeed",
+          "i_want": "transférer mes alertes à saxobeat pour que leurs offres arrivent dans mon Inbox, scorées comme les autres",
+          "so_that": "je ne recopie plus les liens à la main chaque matin"
+        },
+        "context": "C'est le besoin le plus cité côté candidats : 8 clients (7 candidats dont 5 Plus, et 1 compte Business de 18 000 € d'ARR), sans churn. « pouvoir importer mes alertes linkedin direct dans l'inbox, la je recopie tout a la main chaque matin » ; « I get the Indeed alert e-mails every morning and then copy the interesting links into saxobeat by hand ». Ces plateformes n'ont pas d'API : les alertes e-mail sont la seule voie légale, mais l'effort (13 points) impose un découpage, LinkedIn et Indeed d'abord.",
+        "acceptance_criteria": [
+          {
+            "title": "Import d'une alerte LinkedIn",
+            "given": "un candidat qui dispose de son adresse d'import personnelle",
+            "when": "il transfère une alerte LinkedIn qui contient 5 offres",
+            "then": "les 5 offres apparaissent dans son Inbox, scorées comme les autres, avec la source « Alerte LinkedIn »"
+          },
+          {
+            "title": "Import d'une alerte Indeed",
+            "given": "un candidat qui a configuré le transfert de ses alertes Indeed",
+            "when": "une alerte Indeed arrive",
+            "then": "ses offres sont importées avec la source « Alerte Indeed »"
+          },
+          {
+            "title": "Offre déjà présente",
+            "given": "une offre d'alerte déjà collectée depuis le site de l'employeur",
+            "when": "l'alerte est importée",
+            "then": "l'offre n'apparaît qu'une fois dans l'Inbox, avec les deux sources"
+          },
+          {
+            "title": "Format non reconnu",
+            "given": "une alerte d'un expéditeur non pris en charge ou dont le format a changé",
+            "when": "elle arrive sur l'adresse d'import",
+            "then": "aucune offre n'est inventée, le candidat voit « Alerte non reconnue » dans son historique d'import et l'équipe est alertée"
+          },
+          {
+            "title": "Expéditeur non rattaché au compte",
+            "given": "un e-mail envoyé à l'adresse d'import depuis une adresse que le candidat n'a pas déclarée",
+            "when": "il est reçu",
+            "then": "il est ignoré et aucune offre n'est ajoutée"
+          },
+          {
+            "title": "Transfert depuis le téléphone",
+            "given": "un candidat qui lit son alerte dans l'application mail de son téléphone",
+            "when": "il la transfère à son adresse d'import",
+            "then": "les offres apparaissent dans son Inbox mobile après traitement, sans autre manipulation"
+          }
+        ],
+        "non_functional": [
+          "Adresse d'import personnelle et non devinable",
+          "Les e-mails reçus ne sont conservés que le temps de l'extraction, sauf échec d'analyse",
+          "Suivi du taux d'échec par plateforme pour détecter un changement de format"
+        ],
+        "out_of_scope": [
+          "Connexion directe aux comptes LinkedIn ou Indeed",
+          "Alertes APEC et Welcome to the Jungle (stories suivantes)",
+          "Transfert des alertes vers les conseillers Business"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Ordre des plateformes et mode de transfert négociables"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Besoin le plus cité côté candidats (8 clients)"
+          },
+          "estimable": {
+            "ok": true,
+            "note": "Estimable plateforme par plateforme"
+          },
+          "small": {
+            "ok": false,
+            "note": "13 points, un cycle entier : à découper"
+          },
+          "testable": {
+            "ok": true,
+            "note": "Jeux d'e-mails d'alerte réels comme cas de test"
+          }
+        },
+        "estimate_points": 13,
+        "estimate_rationale": "Estimation alignée sur l'équipe (13) : un parseur par plateforme, l'adresse d'import, le rattachement des expéditeurs et une maintenance continue des formats. Chaque story issue du découpage tient en 3 à 5 points.",
+        "split_proposal": [
+          "Adresse d'import personnelle et parseur des alertes LinkedIn",
+          "Parseur des alertes Indeed",
+          "Parseurs des alertes APEC et Welcome to the Jungle",
+          "Supervision des échecs d'analyse des alertes"
+        ],
+        "open_questions": [
+          "Transfert manuel de chaque alerte, ou règle de transfert automatique guidée dans la messagerie ?",
+          "Les offres importées comptent-elles dans la limite de 20 offres par jour de l'offre Free ?",
+          "Quelle place pour le compte Business qui relaie ce besoin : ses conseillers doivent-ils voir les offres importées ?",
+          "Que faire des e-mails dont l'analyse échoue : les conserver pour corriger le parseur, avec quel consentement ?"
+        ]
+      }
+    },
+    {
+      "task": "T-007",
+      "kind": "user_story",
+      "output": {
+        "title": "Note du conseiller sur une offre, visible par le candidat",
+        "user_story": {
+          "as_a": "conseiller d'un compte Business qui suit ses candidats dans la console",
+          "i_want": "laisser une note sur une offre d'un candidat que j'accompagne",
+          "so_that": "mon candidat ait mon avis au moment où il regarde l'offre, sans passer par un autre canal"
+        },
+        "context": "Un compte Business de 60 sièges (18 000 € d'ARR) l'évoque : « ils aimeraient pouvoir laisser une note directement sur une offre, visible par le candidat ». Pas de risque de départ signalé ; la story dépend du tableau de suivi conseiller (SAX-123) et doit respecter la confidentialité demandée par les candidats sur leurs candidatures.",
+        "acceptance_criteria": [
+          {
+            "title": "Ajout d'une note",
+            "given": "un conseiller qui consulte une offre de l'Inbox d'un candidat qu'il accompagne",
+            "when": "il écrit une note et l'enregistre",
+            "then": "la note est enregistrée avec son nom et la date"
+          },
+          {
+            "title": "Lecture par le candidat",
+            "given": "une offre annotée par son conseiller",
+            "when": "le candidat ouvre l'offre",
+            "then": "il voit la note, identifiée comme venant de son conseiller, avec la date"
+          },
+          {
+            "title": "Candidat non accompagné",
+            "given": "un conseiller qui n'est pas affecté à ce candidat",
+            "when": "il tente d'ajouter une note sur une de ses offres",
+            "then": "l'action est refusée et aucune note n'est créée"
+          },
+          {
+            "title": "Candidature privée",
+            "given": "une candidature que le candidat a rendue privée vis-à-vis de son conseiller",
+            "when": "le conseiller consulte le suivi du candidat",
+            "then": "l'offre n'apparaît pas et ne peut pas être annotée"
+          },
+          {
+            "title": "Modification et suppression",
+            "given": "une note existante",
+            "when": "son auteur la modifie ou la supprime",
+            "then": "le candidat voit la version à jour, ou plus de note"
+          },
+          {
+            "title": "Note lue sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il ouvre une offre annotée depuis l'Inbox",
+            "then": "la note est visible sans défilement horizontal, et un indicateur sur la carte signale qu'une note existe"
+          }
+        ],
+        "non_functional": [
+          "La note n'est visible que par le candidat et le conseiller (et son cabinet, selon la réponse aux questions)",
+          "Longueur de note bornée et texte échappé à l'affichage"
+        ],
+        "out_of_scope": [
+          "Réponse du candidat à la note (fil de discussion)",
+          "Notification push ou e-mail à l'ajout d'une note",
+          "Suggestion d'offres par le conseiller"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "Dépend de la console conseiller SAX-123"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Demandé par un compte de 18 000 €, mais un seul client"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "5 points, comme l'effort de la priorisation : modèle de note, droits d'accès conseiller/candidat, affichage dans la console et sur l'offre côté candidat. Hypothèse : SAX-123 est livré.",
+        "split_proposal": [],
+        "open_questions": [
+          "La note est-elle visible par les autres conseillers du même cabinet ?",
+          "Le candidat doit-il être notifié d'une nouvelle note, et par quel canal ?",
+          "Le candidat peut-il masquer ou signaler une note ?",
+          "Le conseiller peut-il annoter une offre déjà passée en candidature, ou seulement celles de l'Inbox ?"
+        ]
+      }
+    },
+    {
+      "task": "T-008",
+      "kind": "user_story",
+      "output": {
+        "title": "Voir et filtrer les offres par salaire et jours de télétravail",
+        "user_story": {
+          "as_a": "candidat en offre Free qui trie son Inbox selon sa rémunération et son rythme de télétravail",
+          "i_want": "voir la fourchette de salaire et le nombre de jours de télétravail sur chaque carte, et filtrer sur ces critères",
+          "so_that": "j'écarte sans les ouvrir les offres qui ne me conviennent pas"
+        },
+        "context": "2 clients : 1 candidat en Free et 1 compte Business (15 000 € d'ARR) qui relaie la demande de ses candidats : « they want to see the salary range and the remote working policy at a glance ». Le candidat demande aussi de « filter jobs by salary range and number of remote days ». Signal mince, et le salaire comme le télétravail sont souvent absents ou en texte libre dans les annonces.",
+        "acceptance_criteria": [
+          {
+            "title": "Affichage sur la carte",
+            "given": "une offre qui indique une fourchette de 45 à 55 k€ et 2 jours de télétravail par semaine",
+            "when": "le candidat la voit dans l'Inbox",
+            "then": "la carte affiche la fourchette et « 2 j de télétravail »"
+          },
+          {
+            "title": "Information absente",
+            "given": "une offre sans salaire ni politique de télétravail",
+            "when": "le candidat la voit dans l'Inbox",
+            "then": "la carte indique « Salaire non précisé » et aucune valeur n'est estimée"
+          },
+          {
+            "title": "Télétravail non chiffré",
+            "given": "une offre qui mentionne seulement « télétravail possible »",
+            "when": "le candidat filtre sur 2 jours minimum",
+            "then": "l'offre est classée « télétravail non chiffré », ni comptée comme 0 ni comme 5 jours"
+          },
+          {
+            "title": "Filtre de salaire",
+            "given": "un filtre de salaire minimum à 50 k€",
+            "when": "le candidat l'applique",
+            "then": "les offres dont le haut de fourchette est inférieur à 50 k€ sont masquées, et les offres sans salaire sont traitées selon l'option choisie"
+          },
+          {
+            "title": "Filtre de télétravail",
+            "given": "un filtre « au moins 2 jours de télétravail »",
+            "when": "le candidat l'applique",
+            "then": "seules les offres à 2 jours ou plus, et celles sans information si l'option est cochée, restent affichées"
+          },
+          {
+            "title": "Filtres sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il ouvre les filtres de l'Inbox",
+            "then": "les filtres s'ouvrent dans un panneau utilisable au pouce et le nombre d'offres restantes est affiché"
+          }
+        ],
+        "non_functional": [
+          "Extraction mesurée : part des offres dont salaire et télétravail sont détectés, suivie par source",
+          "Montants affichés dans un format homogène (annuel brut), avec la valeur d'origine accessible"
+        ],
+        "out_of_scope": [
+          "Estimation du salaire quand l'annonce ne l'indique pas",
+          "Tri de l'Inbox par salaire",
+          "Pondération du score par le salaire ou le télétravail"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Affichage seul d'abord, filtres ensuite si la donnée est fiable"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Utile au tri, mais signal mince (2 clients)"
+          },
+          "estimable": {
+            "ok": false,
+            "note": "La fiabilité de l'extraction est inconnue"
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "5 points, comme l'effort de la priorisation. L'inconnue principale est la qualité de l'extraction du salaire et du télétravail dans des annonces en texte libre ; un échantillon d'offres réelles permettrait de confirmer.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quelle part des offres collectées indique un salaire et un rythme de télétravail ? À mesurer avant d'engager les filtres.",
+          "Les offres sans information doivent-elles être incluses ou exclues par défaut quand un filtre est actif ?",
+          "Comment normaliser les salaires mensuels, journaliers (missions) ou en devise étrangère ?",
+          "Les conseillers du compte Business doivent-ils voir ces informations dans la console ?"
+        ]
+      }
+    },
+    {
+      "task": "T-009",
+      "kind": "user_story",
+      "output": {
+        "title": "Boutons du bas de l'Inbox toujours accessibles sur Android",
+        "user_story": {
+          "as_a": "candidat qui trie son Inbox sur un téléphone Android (par exemple un Pixel)",
+          "i_want": "que les boutons du bas de l'Inbox restent au-dessus de la barre de navigation du téléphone",
+          "so_that": "je puisse trier mes offres au doigt sans toucher la barre système par erreur"
+        },
+        "context": "2 candidats (dont 1 Plus) ne peuvent pas toucher les boutons du bas de l'Inbox : « the buttons at the bottom are hidden behind the navigation bar on my pixel ». Pour une web app pensée pour le téléphone, le tri est cassé sur ces appareils, ce qui bloque l'activation (O2) : c'est un must à 2 points.",
+        "acceptance_criteria": [
+          {
+            "title": "Navigation par gestes",
+            "given": "un Pixel sous Chrome avec la navigation par gestes",
+            "when": "le candidat ouvre l'Inbox",
+            "then": "les boutons du bas sont entièrement visibles au-dessus de la zone de geste et chacun réagit au toucher"
+          },
+          {
+            "title": "Navigation à trois boutons",
+            "given": "un téléphone Android avec la barre de navigation à trois boutons",
+            "when": "le candidat ouvre l'Inbox",
+            "then": "aucun bouton de l'Inbox n'est recouvert par la barre système"
+          },
+          {
+            "title": "Application installée",
+            "given": "saxobeat installée sur l'écran d'accueil et ouverte en plein écran",
+            "when": "le candidat trie une offre avec les boutons du bas",
+            "then": "les boutons restent au-dessus de la barre de navigation"
+          },
+          {
+            "title": "Orientation paysage",
+            "given": "un téléphone Android tourné en paysage",
+            "when": "le candidat ouvre l'Inbox",
+            "then": "les boutons restent accessibles, sans chevauchement avec la barre système"
+          },
+          {
+            "title": "Non-régression iPhone",
+            "given": "un iPhone sous Safari avec la barre d'accueil",
+            "when": "le candidat ouvre l'Inbox",
+            "then": "les boutons restent au-dessus de la barre d'accueil, comme avant le correctif"
+          }
+        ],
+        "non_functional": [
+          "Zones tactiles d'au moins 48 px de haut",
+          "Validation sur de vrais appareils Android (navigation par gestes et par boutons), en lien avec SAX-114"
+        ],
+        "out_of_scope": [
+          "Refonte de la barre d'actions de l'Inbox",
+          "Autres écrans que l'Inbox (à vérifier séparément si touchés)"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Débloque le geste principal du produit sur les appareils touchés"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": "Testable sur appareils réels"
+          }
+        },
+        "estimate_points": 2,
+        "estimate_rationale": "2 points, comme l'effort de la priorisation : correctif de mise en page (marges de zone sûre) ; l'essentiel du temps va aux tests sur appareils réels.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quels modèles, versions d'Android et navigateurs utilisent les 2 candidats ? Seul « pixel » est connu.",
+          "D'autres écrans avec des boutons en bas (Pipeline, Entretiens) sont-ils touchés ?",
+          "Faut-il prévenir les 2 candidats une fois le correctif livré ?"
+        ]
+      }
+    },
+    {
+      "task": "T-010",
+      "kind": "user_story",
+      "output": {
+        "title": "Pipeline sur téléphone : changer le statut d'une candidature au doigt",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui met à jour ses candidatures depuis son téléphone",
+          "i_want": "voir mon Pipeline en liste par statut et changer le statut d'une candidature par un menu ou un balayage",
+          "so_that": "mon suivi reste à jour sans attendre d'être devant un ordinateur"
+        },
+        "context": "3 candidats (dont 2 Plus) ne peuvent pas changer le statut d'une candidature au doigt : « impossible de faire passer une candidature d'une colonne à l'autre du Pipeline avec le doigt ». Un autre écrit : « je n'arrive pas a faire glisser une carte du Pipeline vers « Entretien » ». Pour une web app pensée pour le téléphone, c'est une fonction cœur cassée sur mobile, dans le projet Expérience mobile d'O2.",
+        "acceptance_criteria": [
+          {
+            "title": "Vue liste sur téléphone",
+            "given": "un candidat sur un écran de téléphone",
+            "when": "il ouvre le Pipeline",
+            "then": "les candidatures sont groupées par statut dans une liste verticale, sans colonnes côte à côte ni défilement horizontal"
+          },
+          {
+            "title": "Changement de statut par menu",
+            "given": "une candidature au statut Postulé",
+            "when": "le candidat touche la carte puis « Changer de statut » et choisit Entretien",
+            "then": "la carte passe dans le groupe Entretien et le changement est enregistré"
+          },
+          {
+            "title": "Changement de statut par balayage",
+            "given": "une candidature dans la liste",
+            "when": "le candidat la balaie horizontalement",
+            "then": "les actions de statut s'affichent, sans déclencher le retour arrière du navigateur depuis le bord de l'écran"
+          },
+          {
+            "title": "Annulation",
+            "given": "un statut qui vient d'être changé",
+            "when": "le candidat touche « Annuler » dans le message de confirmation",
+            "then": "la candidature revient à son statut précédent"
+          },
+          {
+            "title": "Échec d'enregistrement",
+            "given": "une connexion perdue au moment du changement",
+            "when": "le candidat change un statut",
+            "then": "un message signale l'échec, la carte reste ou revient à son statut d'origine et le candidat peut réessayer"
+          },
+          {
+            "title": "Ordinateur inchangé",
+            "given": "un candidat sur un écran d'ordinateur",
+            "when": "il ouvre le Pipeline",
+            "then": "la vue en colonnes et le glisser-déposer à la souris fonctionnent comme aujourd'hui"
+          }
+        ],
+        "non_functional": [
+          "Changement de statut possible sans geste (menu), pour l'accessibilité",
+          "Tests sur vrais appareils Safari iOS et Chrome Android (SAX-114)",
+          "Zones tactiles d'au moins 44 px"
+        ],
+        "out_of_scope": [
+          "Réorganisation des statuts du Pipeline",
+          "Glisser-déposer tactile entre colonnes",
+          "Vue liste sur ordinateur"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Balayage ou menu seul : à arbitrer"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Fonction cœur cassée sur mobile pour 3 candidats dont 2 Plus"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Alignée sur l'estimation de l'équipe (5) : nouvelle vue liste mobile, menu de statut, balayage et gestion d'échec. Le balayage concentre le risque (conflit avec les gestes du navigateur) ; le menu seul tiendrait en 3.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quel statut un balayage applique-t-il : le suivant dans l'ordre, ou un choix dans un menu ?",
+          "Le passage en Entretien doit-il créer l'entretien dans l'onglet Entretiens, comme sur ordinateur ?",
+          "Le balayage est-il nécessaire dès la première version, ou le menu suffit-il ?"
+        ]
+      }
+    },
+    {
+      "task": "T-011",
+      "kind": "user_story",
+      "output": {
+        "title": "Ne voir qu'une fois une même offre publiée sur plusieurs sources",
+        "user_story": {
+          "as_a": "candidat en offre Free qui trie chaque jour les offres de son Inbox",
+          "i_want": "qu'une offre publiée sur plusieurs sites, ou avec un lieu libellé différemment, n'apparaisse qu'une fois avec un score unique",
+          "so_that": "je ne perde pas de temps à trier plusieurs fois la même annonce"
+        },
+        "context": "3 candidats, dont 2 sur les 4 dernières semaines, voient la même offre plusieurs fois : « une fois venant du site de l'employeur, une fois de Welcome to the Jungle et une fois d'Adzuna ». Un autre cite « une fois avec le lieu « Paris » et une fois « Paris 9e ». C'est exactement la même annonce ». Le dédoublonnage est une promesse de base du produit ; pour un candidat Free limité à 20 offres par jour, chaque doublon prend la place d'une offre utile.",
+        "acceptance_criteria": [
+          {
+            "title": "Même offre sur trois sources",
+            "given": "une offre collectée sur le site de l'employeur, Welcome to the Jungle et Adzuna",
+            "when": "le candidat ouvre son Inbox",
+            "then": "une seule carte apparaît, avec un score unique et la mention des 3 sources"
+          },
+          {
+            "title": "Lieu libellé différemment",
+            "given": "la même annonce collectée avec le lieu « Paris » et le lieu « Paris 9e »",
+            "when": "les offres sont dédoublonnées",
+            "then": "une seule carte apparaît"
+          },
+          {
+            "title": "Offres proches mais distinctes",
+            "given": "deux offres du même employeur avec le même intitulé mais des contrats ou des villes différents",
+            "when": "les offres sont dédoublonnées",
+            "then": "elles restent deux cartes distinctes"
+          },
+          {
+            "title": "Doublon d'une offre déjà triée",
+            "given": "une offre archivée ou passée dans le Pipeline",
+            "when": "un doublon de cette offre arrive d'une autre source",
+            "then": "il n'est pas reproposé comme nouveau dans l'Inbox"
+          },
+          {
+            "title": "Limite de l'offre Free",
+            "given": "un candidat Free dont l'Inbox est limitée à 20 offres par jour",
+            "when": "une même offre arrive de 3 sources",
+            "then": "elle ne compte qu'une fois dans la limite"
+          },
+          {
+            "title": "Fusion erronée",
+            "given": "deux offres fusionnées à tort",
+            "when": "le candidat choisit « Ce ne sont pas les mêmes offres »",
+            "then": "les deux offres sont séparées et chacune retrouve son score"
+          },
+          {
+            "title": "Sources sur téléphone",
+            "given": "une carte fusionnée sur téléphone",
+            "when": "le candidat touche la mention des sources",
+            "then": "la liste des sources s'affiche avec un lien vers chacune, le site de l'employeur en premier"
+          }
+        ],
+        "non_functional": [
+          "Taux de fusion et de séparation manuelle suivis pour détecter les fusions à tort",
+          "Dédoublonnage à la collecte, sans ralentir l'affichage de l'Inbox"
+        ],
+        "out_of_scope": [
+          "Rattachement d'une offre republiée à une candidature existante (SAX-112, même moteur)",
+          "Dédoublonnage entre comptes de candidats différents"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": "Partage le moteur de détection avec SAX-112 : à planifier ensemble"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Règles de rapprochement à ajuster"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Promesse de base du produit"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": "Jeu de paires d'offres réelles (doublons et faux amis)"
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "5 points, comme l'effort de la priorisation ; pas d'estimation d'équipe. L'essentiel est la règle de rapprochement (normalisation du lieu, similarité du texte) et la séparation manuelle.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quels critères de rapprochement : employeur, intitulé, lieu normalisé, similarité de description ? Avec quel seuil ?",
+          "Quelle source sert de lien principal et de description pour le score : le site de l'employeur en priorité ?",
+          "Faut-il appliquer la fusion rétroactivement aux offres déjà présentes dans les Inbox ?"
+        ]
+      }
+    },
+    {
+      "task": "T-012",
+      "kind": "user_story",
+      "output": {
+        "title": "Empêcher le double prélèvement de l'abonnement Plus et rembourser le doublon",
+        "user_story": {
+          "as_a": "abonné Plus prélevé deux fois pour le même mois",
+          "i_want": "n'être prélevé qu'une fois par période et être remboursé automatiquement si un doublon survient",
+          "so_that": "je garde confiance dans le paiement et je ne résilie pas"
+        },
+        "context": "Un abonné Plus a été prélevé deux fois et risque de partir (144 € d'ARR) : « J'ai été prélevé deux fois ce mois-ci pour mon abonnement Plus ». Une seule mention, mais un double prélèvement casse la confiance dans le paiement, au cœur d'O1, et peut toucher d'autres abonnés ; la cause est inconnue (relance de paiement, webhook rejoué).",
+        "acceptance_criteria": [
+          {
+            "title": "Événement de paiement rejoué",
+            "given": "le paiement du mois déjà enregistré pour un abonné",
+            "when": "le prestataire de paiement renvoie le même événement",
+            "then": "aucun second prélèvement ni seconde facture n'est créé"
+          },
+          {
+            "title": "Relance après échec",
+            "given": "une première tentative de paiement échouée puis une relance réussie",
+            "when": "la période est facturée",
+            "then": "l'abonné n'est prélevé qu'une fois et ne reçoit qu'une facture"
+          },
+          {
+            "title": "Doublon détecté",
+            "given": "deux prélèvements réussis sur le même abonnement et la même période",
+            "when": "le contrôle quotidien s'exécute",
+            "then": "le second prélèvement est remboursé, l'abonné reçoit un e-mail de confirmation et l'équipe est alertée"
+          },
+          {
+            "title": "Contrôle rétroactif",
+            "given": "l'historique des paiements depuis l'ouverture de Plus",
+            "when": "le contrôle est lancé une fois sur cet historique",
+            "then": "la liste des abonnés doublement prélevés est produite et chacun est remboursé"
+          },
+          {
+            "title": "Historique visible",
+            "given": "un abonné remboursé d'un doublon",
+            "when": "il ouvre Réglages > Abonnement, y compris sur téléphone",
+            "then": "il voit le prélèvement, le doublon et le remboursement avec leurs dates"
+          }
+        ],
+        "non_functional": [
+          "Clés d'idempotence sur la création des paiements et le traitement des webhooks",
+          "Aucune donnée de carte stockée par saxobeat",
+          "Alerte à l'équipe à chaque doublon détecté"
+        ],
+        "out_of_scope": [
+          "Remboursement immédiat du client signalé (action opérationnelle à faire tout de suite, hors story)",
+          "Changement de prestataire de paiement",
+          "Geste commercial au-delà du remboursement"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Remboursement automatique ou validé à la main"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Confiance dans le paiement et churn évité"
+          },
+          "estimable": {
+            "ok": false,
+            "note": "Cause inconnue : l'estimation suppose qu'elle se trouve dans le traitement des événements de paiement"
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": "Rejeu d'événements en environnement de test du prestataire"
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "3 points, comme l'effort de la priorisation, sous l'hypothèse que la cause est un événement rejoué ou une relance mal gérée. Si l'enquête révèle autre chose, réestimer.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quelle est la cause du doublon : relance de paiement, webhook rejoué, double clic ? Enquête à mener avant le développement.",
+          "D'autres abonnés ont-ils été prélevés deux fois ?",
+          "Remboursement automatique ou validation manuelle par l'équipe ?",
+          "Faut-il un geste commercial pour l'abonné touché, qui risque de partir ?"
+        ]
+      }
+    },
+    {
+      "task": "T-013",
+      "kind": "user_story",
+      "output": {
+        "title": "Payer Plus depuis un téléphone avec la validation 3D Secure",
+        "user_story": {
+          "as_a": "candidat qui passe à Plus depuis son téléphone avec une carte soumise à 3D Secure",
+          "i_want": "que la validation 3D Secure de ma banque s'affiche et aboutisse sur mon téléphone",
+          "so_that": "mon passage à Plus réussisse du premier coup"
+        },
+        "context": "Un seul abonné, sans mention récente, mais le paiement échoue sur téléphone : « La fenêtre 3D Secure de ma banque ne s'affiche jamais, ça tourne puis ça me dit que le paiement a échoué. » Si c'est reproductible, chaque passage à Plus depuis un téléphone échoue, ce qui bloque O1 dans une app pensée pour le mobile : reproduire d'abord sur de vrais appareils.",
+        "acceptance_criteria": [
+          {
+            "title": "3D Secure sur Safari iOS",
+            "given": "un candidat Free sur Safari iOS avec une carte soumise à 3D Secure",
+            "when": "il valide le paiement de Plus",
+            "then": "l'écran de validation de sa banque s'affiche, et après validation il revient dans saxobeat avec Plus actif"
+          },
+          {
+            "title": "3D Secure sur Chrome Android",
+            "given": "un candidat sur Chrome Android avec une carte soumise à 3D Secure",
+            "when": "il valide le paiement de Plus",
+            "then": "le même parcours aboutit"
+          },
+          {
+            "title": "Application installée",
+            "given": "saxobeat installée sur l'écran d'accueil et ouverte en plein écran",
+            "when": "le candidat paie Plus",
+            "then": "la validation 3D Secure s'ouvre sans dépendre d'une fenêtre pop-up bloquée"
+          },
+          {
+            "title": "Validation dans l'application bancaire",
+            "given": "une banque qui demande la validation dans son application",
+            "when": "le candidat valide puis revient dans le navigateur",
+            "then": "le statut du paiement est mis à jour sans qu'il ait à payer de nouveau"
+          },
+          {
+            "title": "Abandon ou refus",
+            "given": "un candidat qui annule la validation ou que la banque refuse",
+            "when": "le paiement échoue",
+            "then": "un message clair indique que la banque n'a pas validé, aucun montant n'est prélevé et il peut réessayer"
+          },
+          {
+            "title": "Pas d'attente infinie",
+            "given": "une validation qui ne revient pas",
+            "when": "le délai d'attente du prestataire est dépassé",
+            "then": "l'indicateur de chargement s'arrête et un message propose de réessayer"
+          }
+        ],
+        "non_functional": [
+          "Tests sur appareils réels iOS et Android, navigateur et application installée (SAX-114)",
+          "Aucune donnée de carte ne transite par les serveurs de saxobeat"
+        ],
+        "out_of_scope": [
+          "Nouveaux moyens de paiement (Apple Pay, Google Pay)",
+          "Refonte de la page de paiement"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Bloque la conversion O1 si le défaut est reproductible"
+          },
+          "estimable": {
+            "ok": false,
+            "note": "Non reproduit à ce stade"
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": "Cartes de test 3D Secure du prestataire"
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "3 points, comme l'effort de la priorisation, à condition que le défaut soit reproduit et que le prestataire propose un mode de validation par redirection ou intégré à la page.",
+        "split_proposal": [],
+        "open_questions": [
+          "Le défaut est-il reproductible ? Sur quel appareil, navigateur et banque l'abonné a-t-il payé ?",
+          "Le paiement passe-t-il par une fenêtre pop-up aujourd'hui ?",
+          "Combien de tentatives de paiement Plus échouent sur mobile par rapport à l'ordinateur ?"
+        ]
+      }
+    },
+    {
+      "task": "T-014",
+      "kind": "user_story",
+      "output": {
+        "title": "Rattacher une offre republiée à la candidature déjà envoyée",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui suit ses candidatures dans le Pipeline",
+          "i_want": "être prévenu quand une offre de mon Inbox correspond à une candidature déjà envoyée",
+          "so_that": "je ne postule pas deux fois et je sache que le poste est toujours ouvert"
+        },
+        "context": "3 candidats, tous Plus, voient réapparaître comme nouvelle une offre à laquelle ils ont déjà postulé : « Est-ce que l'appli pourrait détecter ce genre de cas et me prévenir que j'ai déjà candidaté ». Gêne réelle mais ponctuelle (1 mention sur 4 semaines). La détection partage le moteur du dédoublonnage multi-sources : à traiter ensemble.",
+        "acceptance_criteria": [
+          {
+            "title": "Offre republiée après candidature",
+            "given": "une candidature au statut Postulé sur une offre",
+            "when": "l'employeur republie la même offre",
+            "then": "elle n'apparaît pas comme nouvelle dans l'Inbox et la candidature porte la mention « Offre republiée le JJ/MM »"
+          },
+          {
+            "title": "Accès à la nouvelle annonce",
+            "given": "une candidature marquée « Offre republiée »",
+            "when": "le candidat ouvre la candidature",
+            "then": "il accède au lien de la nouvelle annonce"
+          },
+          {
+            "title": "Candidature rejetée",
+            "given": "une candidature au statut Rejeté, y compris par le rejet automatique après un mois (SAX-111)",
+            "when": "l'offre est republiée",
+            "then": "elle apparaît dans l'Inbox avec l'avertissement « Vous avez déjà candidaté le JJ/MM »"
+          },
+          {
+            "title": "Faux rapprochement",
+            "given": "une offre rattachée à tort à une candidature",
+            "when": "le candidat choisit « Ce n'est pas la même offre »",
+            "then": "l'offre est détachée et apparaît dans l'Inbox comme nouvelle"
+          },
+          {
+            "title": "Mention sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il consulte le Pipeline",
+            "then": "la mention « Offre republiée » est visible sur la carte de la candidature"
+          }
+        ],
+        "non_functional": [
+          "Même moteur et mêmes règles de rapprochement que le dédoublonnage multi-sources",
+          "Rapprochement calculé à la collecte, sans ralentir l'Inbox"
+        ],
+        "out_of_scope": [
+          "Relance automatique de l'employeur",
+          "Dédoublonnage des offres sans candidature (story de dédoublonnage multi-sources)"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "Partage le moteur de détection avec le dédoublonnage multi-sources"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Traitement des candidatures rejetées à arbitrer"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Évite les doubles candidatures pour 3 abonnés Plus"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Alignée sur l'équipe (5). Si le moteur du dédoublonnage multi-sources est livré avant, cette story pourrait descendre à 3 points.",
+        "split_proposal": [],
+        "open_questions": [
+          "Une offre rejetée puis republiée doit-elle réapparaître dans l'Inbox avec un avertissement, ou rester masquée ?",
+          "Au-delà de quel délai une republication est-elle traitée comme une nouvelle offre ?",
+          "Faut-il notifier le candidat qu'une offre à laquelle il a postulé a été republiée ?"
+        ]
+      }
+    },
+    {
+      "task": "T-015",
+      "kind": "user_story",
+      "output": {
+        "title": "Résilier son abonnement Plus en quelques gestes depuis Réglages",
+        "user_story": {
+          "as_a": "abonné Plus qui veut résilier depuis son téléphone",
+          "i_want": "trouver directement dans Réglages comment résilier mon abonnement",
+          "so_that": "je puisse arrêter Plus sans chercher ni écrire au support"
+        },
+        "context": "Un abonné Plus ne trouve pas comment résilier et part de toute façon (144 € d'ARR) : « how do I cancel my Plus subscription? I can't find it anywhere in Settings ». L'enjeu n'est pas la rétention mais la conformité et la confiance : une résiliation introuvable expose à des litiges et à des rétrofacturations. Correctif d'1 point.",
+        "acceptance_criteria": [
+          {
+            "title": "Entrée visible",
+            "given": "un abonné Plus connecté",
+            "when": "il ouvre Réglages",
+            "then": "une section Abonnement affiche son offre, la date de prochain prélèvement et « Résilier mon abonnement »"
+          },
+          {
+            "title": "Résiliation confirmée",
+            "given": "un abonné dans la section Abonnement",
+            "when": "il touche « Résilier mon abonnement » puis confirme",
+            "then": "la résiliation est enregistrée, l'écran indique la date jusqu'à laquelle Plus reste actif et un e-mail de confirmation est envoyé"
+          },
+          {
+            "title": "Déjà résilié",
+            "given": "un abonnement déjà résilié et encore actif jusqu'à la fin de la période",
+            "when": "l'abonné ouvre la section Abonnement",
+            "then": "il voit « Résilié, actif jusqu'au JJ/MM » et peut réactiver"
+          },
+          {
+            "title": "Interface en anglais",
+            "given": "un abonné dont l'interface est en anglais",
+            "when": "il ouvre Settings",
+            "then": "l'option est libellée « Cancel subscription »"
+          },
+          {
+            "title": "Sur téléphone",
+            "given": "un abonné sur téléphone",
+            "when": "il cherche à résilier",
+            "then": "le bouton de résiliation est atteint depuis Réglages sans défilement horizontal et la confirmation tient sur un écran"
+          }
+        ],
+        "non_functional": [
+          "Parcours conforme aux exigences légales de résiliation en ligne (à valider)",
+          "Aucun parcours dissuasif : une éventuelle offre de rétention se passe en un geste"
+        ],
+        "out_of_scope": [
+          "Questionnaire de motif de départ obligatoire",
+          "Offres de rétention (remise, pause)",
+          "Résiliation des comptes Business"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Conformité et confiance plutôt que revenu"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 1,
+        "estimate_rationale": "1 point, comme l'effort de la priorisation, si la résiliation existe déjà côté prestataire de paiement et qu'il s'agit surtout de l'exposer dans Réglages.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quelles exigences légales s'appliquent au parcours de résiliation en ligne ? À valider avec le juridique.",
+          "Où la résiliation se fait-elle aujourd'hui, si elle existe ?",
+          "Faut-il demander un motif de départ, de façon facultative ?"
+        ]
+      }
+    },
+    {
+      "task": "T-016",
+      "kind": "user_story",
+      "output": {
+        "title": "Bloquer un employeur d'un geste et gérer la liste dans Entreprises",
+        "user_story": {
+          "as_a": "candidat en offre Free qui reçoit beaucoup d'offres d'un employeur qui ne l'intéresse pas",
+          "i_want": "bloquer un employeur avec une icône visible sur la carte ou la page offre, et retrouver ma liste dans Entreprises",
+          "so_that": "je ne voie plus ses offres et je libère mon Inbox pour les offres utiles"
+        },
+        "context": "3 candidats (dont 1 Plus), 1 mention sur les 4 dernières semaines : la fonction existe mais personne ne la trouve. « Où est-ce qu'on bloque une boite ? j'ai 30 offres d'une ESN qui m'interesse pas » ; « un bouton bien visible pour ne plus voir une entreprise, j'ai cherché longtemps ». Gain de tri utile à l'activation (O2), pour 3 points.",
+        "acceptance_criteria": [
+          {
+            "title": "Blocage depuis la carte",
+            "given": "une offre d'un employeur dans l'Inbox",
+            "when": "le candidat touche l'icône « Bloquer » puis confirme",
+            "then": "toutes les offres de cet employeur disparaissent de l'Inbox et un message propose « Annuler »"
+          },
+          {
+            "title": "Blocage depuis la page offre",
+            "given": "un candidat sur la page d'une offre",
+            "when": "il touche l'icône « Bloquer »",
+            "then": "le même comportement s'applique"
+          },
+          {
+            "title": "Liste dans Entreprises",
+            "given": "trois employeurs bloqués",
+            "when": "le candidat ouvre la page Entreprises",
+            "then": "il voit la liste des employeurs bloqués et peut débloquer chacun"
+          },
+          {
+            "title": "Reprise de la liste existante",
+            "given": "un candidat qui avait bloqué des employeurs depuis Réglages",
+            "when": "la nouvelle version est livrée",
+            "then": "ses blocages existants apparaissent dans Entreprises"
+          },
+          {
+            "title": "Candidature en cours",
+            "given": "un employeur auprès duquel le candidat a une candidature dans le Pipeline",
+            "when": "il bloque cet employeur",
+            "then": "un avertissement le signale et la candidature reste dans le Pipeline"
+          },
+          {
+            "title": "Geste sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il touche l'icône « Bloquer » par erreur",
+            "then": "rien n'est bloqué sans confirmation, ou le blocage s'annule depuis le message"
+          }
+        ],
+        "non_functional": [
+          "Icône d'au moins 44 px avec un libellé accessible",
+          "Le blocage s'applique aux offres déjà présentes et futures, sans recalcul visible de l'Inbox"
+        ],
+        "out_of_scope": [
+          "Blocage par secteur ou par type d'entreprise (ex. toutes les ESN)",
+          "Masquage d'une offre isolée"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Fonction existante rendue trouvable"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "Alignée sur l'équipe (3) : la logique de blocage existe déjà ; il s'agit de l'icône, du déplacement de la liste vers Entreprises et de la confirmation.",
+        "split_proposal": [],
+        "open_questions": [
+          "Un même employeur publié sous des libellés différents (agrégateurs) doit-il être bloqué d'un coup ?",
+          "Au déblocage, les offres passées réapparaissent-elles, ou seulement les nouvelles ?",
+          "Confirmation avant blocage ou annulation après coup : laquelle sur téléphone ?"
+        ]
+      }
+    },
+    {
+      "task": "T-017",
+      "kind": "user_story",
+      "output": {
+        "title": "Lancer l'analyse IA automatiquement pour tenir la promesse des 24 h",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui attend l'analyse IA promise sous 24 h",
+          "i_want": "que l'analyse IA de mes offres soit lancée automatiquement et livrée sous 24 h",
+          "so_that": "le service payé par mon abonnement soit tenu"
+        },
+        "context": "2 candidats Plus attendent leur analyse IA depuis 3 à 4 jours : « The AI analysis has been 'pending' for 4 days now on 12 jobs. » ; « la carte IA affiche « Analyse sous 24 h » depuis 3 jours ». Les packs d'analyse sont encore lancés à la main ; l'analyse IA est un levier de valeur de Plus nommé dans O1, et le problème grossit avec la charge. Le coût doit être plafonné dès le départ.",
+        "acceptance_criteria": [
+          {
+            "title": "Lancement automatique",
+            "given": "des offres en attente d'analyse pour des abonnés Plus",
+            "when": "le planificateur s'exécute",
+            "then": "les analyses sont lancées sans action manuelle et leur statut passe à « En cours »"
+          },
+          {
+            "title": "Délai tenu",
+            "given": "une analyse demandée à une heure H",
+            "when": "le traitement se déroule normalement",
+            "then": "le résultat est disponible avant H + 24 h et le délai réel est enregistré"
+          },
+          {
+            "title": "Rattrapage du stock",
+            "given": "des offres en attente depuis plus de 24 h",
+            "when": "le lancement automatique démarre",
+            "then": "les plus anciennes sont traitées en premier"
+          },
+          {
+            "title": "Plafond de coût atteint",
+            "given": "le plafond de coût quotidien atteint",
+            "when": "de nouvelles analyses sont en attente",
+            "then": "aucune nouvelle analyse n'est lancée, l'équipe est alertée et la carte IA n'affiche plus « sous 24 h » mais un délai honnête"
+          },
+          {
+            "title": "Échec d'analyse",
+            "given": "une analyse qui échoue",
+            "when": "les nouvelles tentatives prévues échouent aussi",
+            "then": "l'offre est marquée en échec, l'équipe est alertée et la carte n'affiche plus « En attente »"
+          },
+          {
+            "title": "Offre Free exclue",
+            "given": "un candidat en offre Free",
+            "when": "le planificateur s'exécute",
+            "then": "aucune analyse n'est lancée pour ses offres"
+          },
+          {
+            "title": "Statut sur téléphone",
+            "given": "un abonné Plus sur téléphone",
+            "when": "il ouvre une offre en cours d'analyse",
+            "then": "la carte IA affiche le statut réel (en attente, en cours, prête, en échec)"
+          }
+        ],
+        "non_functional": [
+          "Plafond de coût quotidien configurable, avec alerte avant d'être atteint",
+          "Suivi du délai réel d'analyse (médiane et part au-delà de 24 h)",
+          "Reprise possible après une panne sans relancer deux fois la même analyse"
+        ],
+        "out_of_scope": [
+          "Notification push quand l'analyse est prête (SAX-116)",
+          "Amélioration du contenu de l'analyse IA",
+          "Analyse IA pour l'offre Free"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Niveau du plafond et règles de priorité à négocier"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Promesse payante de Plus"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": false,
+            "note": "8 points : à découper"
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 8,
+        "estimate_rationale": "Alignée sur l'équipe (8) : planification, garde-fou de coût, gestion des échecs et affichage d'un statut honnête. Le plafond de coût est la partie la moins connue.",
+        "split_proposal": [
+          "Lancement automatique planifié des analyses en attente",
+          "Plafond de coût quotidien et alerte à l'équipe",
+          "Statut honnête et suivi du délai sur la carte IA"
+        ],
+        "open_questions": [
+          "Quel plafond de coût quotidien est acceptable ?",
+          "Quand le plafond est atteint, qui est servi en priorité : les plus anciennes demandes, ou certains abonnés ?",
+          "Faut-il prévenir les abonnés touchés par les retards actuels, et leur proposer un geste ?"
+        ]
+      }
+    },
+    {
+      "task": "T-018",
+      "kind": "user_story",
+      "output": {
+        "title": "Choisir quelles candidatures son conseiller peut voir",
+        "user_story": {
+          "as_a": "candidat suivi par un conseiller de cabinet sur saxobeat",
+          "i_want": "rendre certaines candidatures privées pour que mon conseiller ne les voie pas",
+          "so_that": "j'accepte d'être suivi sans exposer toute ma recherche"
+        },
+        "context": "Un seul candidat, mais 2 mentions dont 1 récente : « pouvoir mettre certaines candidatures en privé pour que mon conseiller les voie pas ». C'est le revers du tableau de suivi des conseillers (SAX-123) : à concevoir avec lui pour que les candidats acceptent la console, en arbitrant entre la confidentialité du candidat et la visibilité attendue par les cabinets clients. La base légale du partage des candidatures avec le cabinet (RGPD) est à valider avant de livrer SAX-123.",
+        "acceptance_criteria": [
+          {
+            "title": "Rendre une candidature privée",
+            "given": "une candidature visible par le conseiller",
+            "when": "le candidat choisit « Masquer à mon conseiller »",
+            "then": "la candidature n'apparaît plus dans le tableau de suivi du conseiller et porte un indicateur « Privée » côté candidat"
+          },
+          {
+            "title": "Information du candidat",
+            "given": "un candidat rattaché pour la première fois à un conseiller",
+            "when": "il ouvre son Pipeline",
+            "then": "un message explique ce que le conseiller voit, ce qu'il ne voit pas et comment masquer une candidature"
+          },
+          {
+            "title": "Rendre de nouveau visible",
+            "given": "une candidature privée",
+            "when": "le candidat choisit « Rendre visible à mon conseiller »",
+            "then": "elle réapparaît dans le tableau de suivi du conseiller"
+          },
+          {
+            "title": "Aucun détail dans les exports",
+            "given": "une candidature privée",
+            "when": "le cabinet exporte le reporting (SAX-124)",
+            "then": "ni l'employeur, ni l'intitulé, ni les notes de cette candidature n'apparaissent"
+          },
+          {
+            "title": "Pas de note du conseiller",
+            "given": "une candidature privée",
+            "when": "le conseiller consulte le suivi du candidat",
+            "then": "il ne peut ni la voir ni l'annoter"
+          },
+          {
+            "title": "Réglage sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il ouvre une candidature du Pipeline",
+            "then": "l'option de masquage est accessible depuis la carte en deux gestes au plus"
+          }
+        ],
+        "non_functional": [
+          "Contrôle d'accès appliqué côté serveur, pas seulement à l'affichage",
+          "Base légale et information des candidats validées (RGPD) avant mise en production"
+        ],
+        "out_of_scope": [
+          "Masquage de l'Inbox ou des offres non candidatées",
+          "Paramétrage par le cabinet de ce que les candidats peuvent masquer"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "À concevoir et livrer avec le tableau de suivi SAX-123"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Visibilité par défaut et comptage dans les agrégats à arbitrer"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Condition d'acceptation de la console par les candidats ; signal porté par un seul candidat"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 3,
+        "estimate_rationale": "3 points, comme l'effort de la priorisation : un attribut de visibilité, son application dans la console et l'export. Pas d'estimation d'équipe.",
+        "split_proposal": [],
+        "open_questions": [
+          "Par défaut, une nouvelle candidature est-elle visible ou privée pour le conseiller ?",
+          "Une candidature privée compte-t-elle dans les indicateurs agrégés du conseiller (nombre de candidatures) ?",
+          "Les cabinets clients acceptent-ils que des candidatures leur soient masquées ? Aucun compte Business ne s'est exprimé sur ce point.",
+          "Quelle base légale couvre le partage des candidatures avec le cabinet ?"
+        ]
+      }
+    },
+    {
+      "task": "T-019",
+      "kind": "user_story",
+      "output": {
+        "title": "Ajouter ses entretiens dans Google Agenda ou Outlook",
+        "user_story": {
+          "as_a": "candidat qui organise ses entretiens dans Google Agenda ou Outlook",
+          "i_want": "que chaque entretien saisi dans saxobeat apparaisse dans mon agenda, avec l'entreprise et le lien vers la cheat sheet",
+          "so_that": "je n'aie pas à le recopier et que je ne rate aucun rendez-vous"
+        },
+        "context": "3 candidats (dont 1 Plus), 1 mention récente : « j'aimerais qu'il apparaisse automatiquement dans mon Google Agenda, avec le nom de l'entreprise et le lien vers la cheat sheet » ; un autre demande la « synchro des entretiens avec mon agenda outlook ». Confort apprécié mais non bloquant, sans objectif du trimestre ; un export .ics serait une première étape moins coûteuse.",
+        "acceptance_criteria": [
+          {
+            "title": "Ajout dans Google Agenda",
+            "given": "un candidat qui a connecté son Google Agenda",
+            "when": "il enregistre un entretien le 15/04 à 10 h",
+            "then": "un événement est créé à cette date avec le nom de l'entreprise et le lien vers la cheat sheet de l'entretien"
+          },
+          {
+            "title": "Ajout dans Outlook",
+            "given": "un candidat qui a connecté son agenda Outlook",
+            "when": "il enregistre un entretien",
+            "then": "l'événement est créé dans Outlook avec les mêmes informations"
+          },
+          {
+            "title": "Modification et annulation",
+            "given": "un entretien déjà synchronisé",
+            "when": "le candidat change l'heure ou supprime l'entretien",
+            "then": "l'événement est mis à jour ou supprimé dans l'agenda"
+          },
+          {
+            "title": "Accès révoqué",
+            "given": "un candidat qui a retiré l'accès de saxobeat à son agenda",
+            "when": "il enregistre un entretien",
+            "then": "un message l'informe que la synchronisation est coupée et l'entretien reste enregistré dans saxobeat"
+          },
+          {
+            "title": "Fuseau horaire",
+            "given": "un entretien saisi à 10 h heure de Paris",
+            "when": "l'événement est créé",
+            "then": "il apparaît à 10 h heure de Paris dans l'agenda"
+          },
+          {
+            "title": "Sur téléphone",
+            "given": "un candidat qui saisit un entretien sur téléphone",
+            "when": "il enregistre",
+            "then": "l'événement apparaît dans l'application agenda de son téléphone liée au même compte"
+          }
+        ],
+        "non_functional": [
+          "Autorisations limitées à la création et la modification des événements créés par saxobeat",
+          "Jetons d'accès stockés chiffrés et révocables depuis Réglages"
+        ],
+        "out_of_scope": [
+          "Synchronisation dans l'autre sens (importer des événements de l'agenda)",
+          "Détection des conflits d'agenda",
+          "Agendas autres que Google et Outlook"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Export .ics d'abord, synchronisation ensuite"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Confort, 3 candidats"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": "5 points ; un export .ics ferait une première livraison plus petite"
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "5 points, comme l'effort de la priorisation, pour Google et Outlook : deux API, l'autorisation OAuth et la mise à jour des événements. Un export .ics seul tiendrait en 2 points.",
+        "split_proposal": [],
+        "open_questions": [
+          "Commencer par un export .ics (2 points) avant la synchronisation ?",
+          "Sur un agenda professionnel partagé, l'événement doit-il être privé pour ne pas révéler une recherche d'emploi à des collègues ?",
+          "Fonction réservée à Plus, ou ouverte à tous ?"
+        ]
+      }
+    },
+    {
+      "task": "T-020",
+      "kind": "user_story",
+      "output": {
+        "title": "Choisir par type les e-mails reçus, en gardant les rappels d'entretien",
+        "user_story": {
+          "as_a": "candidat en offre Free qui ne veut garder que les rappels d'entretien",
+          "i_want": "activer ou couper chaque type d'e-mail séparément",
+          "so_that": "je reçoive les rappels utiles sans le reste"
+        },
+        "context": "Un seul candidat le demande : « Je voudrais tout couper sauf les rappels d'entretien, ceux-là sont utiles. » Le réglage par type est déjà prévu dans le périmètre de SAX-115 (e-mails désactivables par type) : à livrer avec lui. Chaque e-mail non essentiel doit pouvoir être coupé.",
+        "acceptance_criteria": [
+          {
+            "title": "Liste des types",
+            "given": "un candidat dans Réglages > E-mails",
+            "when": "il ouvre la page",
+            "then": "chaque type d'e-mail (rappels d'entretien, rappels de relance, résumé hebdomadaire, etc.) a son interrupteur et une courte description"
+          },
+          {
+            "title": "Tout couper sauf les rappels d'entretien",
+            "given": "un candidat qui coupe tous les types sauf les rappels d'entretien",
+            "when": "un entretien approche et un résumé hebdomadaire est dû",
+            "then": "il reçoit le rappel d'entretien et pas le résumé"
+          },
+          {
+            "title": "Lien de désinscription",
+            "given": "un e-mail de résumé hebdomadaire",
+            "when": "le candidat clique sur « Se désabonner de ce type d'e-mail »",
+            "then": "seul ce type est coupé, sans connexion requise, et une page confirme le changement avec un lien vers les réglages"
+          },
+          {
+            "title": "E-mails essentiels",
+            "given": "les e-mails de sécurité, de réinitialisation du mot de passe et de facturation",
+            "when": "le candidat ouvre Réglages > E-mails",
+            "then": "ils sont signalés comme toujours envoyés et ne peuvent pas être coupés"
+          },
+          {
+            "title": "Type imposé par l'école",
+            "given": "un étudiant dont l'école impose le récapitulatif hebdomadaire",
+            "when": "il ouvre Réglages > E-mails",
+            "then": "ce type est verrouillé avec la mention de l'école, les autres restent réglables"
+          },
+          {
+            "title": "Sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il change un interrupteur",
+            "then": "le choix est enregistré immédiatement et confirmé à l'écran"
+          }
+        ],
+        "non_functional": [
+          "Lien de désinscription en un clic dans chaque e-mail non essentiel",
+          "Préférences appliquées avant chaque envoi, sans délai de prise en compte"
+        ],
+        "out_of_scope": [
+          "Création des e-mails eux-mêmes (rappels et résumé de SAX-115)",
+          "Réglage de la fréquence ou de l'heure d'envoi",
+          "Préférences des notifications push"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "À livrer avec SAX-115"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Évite les désinscriptions totales ; un seul demandeur"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 2,
+        "estimate_rationale": "2 points, comme l'effort de la priorisation, si SAX-115 pose le modèle des types d'e-mails : il reste l'écran de réglages et le lien de désinscription par type.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quels types d'e-mails existent aujourd'hui, et lesquels sont essentiels ?",
+          "Un nouveau type d'e-mail ajouté plus tard est-il activé ou coupé par défaut ?",
+          "Faut-il intégrer cette story à SAX-115 plutôt que la garder séparée ?"
+        ]
+      }
+    },
+    {
+      "task": "T-021",
+      "kind": "user_story",
+      "output": {
+        "title": "Afficher sur chaque offre le temps de trajet en transports depuis chez soi",
+        "user_story": {
+          "as_a": "candidat abonné Plus en Île-de-France qui se déplace en RER",
+          "i_want": "voir sur chaque offre le temps de trajet en transports en commun depuis mon domicile",
+          "so_that": "j'écarte vite les postes trop loin de chez moi"
+        },
+        "context": "2 candidats Plus, tous deux sur les 4 dernières semaines : « Ce serait top de voir pour chaque offre le temps de trajet en RER depuis chez moi » ; « Could saxobeat show the commute time from my home for each job? ». Confort sans lien direct avec un objectif du trimestre ; le coût d'une API d'itinéraires et le caractère personnel de l'adresse sont les deux points d'attention.",
+        "acceptance_criteria": [
+          {
+            "title": "Saisie du point de départ",
+            "given": "un abonné Plus dans Réglages",
+            "when": "il renseigne son adresse ou sa commune de départ",
+            "then": "elle est enregistrée et utilisée pour le calcul des trajets"
+          },
+          {
+            "title": "Affichage sur l'offre",
+            "given": "un point de départ renseigné et une offre localisée à une adresse précise",
+            "when": "le candidat voit l'offre dans l'Inbox",
+            "then": "la carte affiche la durée du trajet en transports en commun"
+          },
+          {
+            "title": "Pas de point de départ",
+            "given": "un candidat sans adresse renseignée",
+            "when": "il consulte une offre",
+            "then": "aucune durée n'est affichée et un lien l'invite à renseigner son point de départ"
+          },
+          {
+            "title": "Lieu imprécis ou télétravail complet",
+            "given": "une offre localisée « Île-de-France » ou en télétravail complet",
+            "when": "le candidat la consulte",
+            "then": "la carte indique « Trajet non calculable » au lieu d'une durée"
+          },
+          {
+            "title": "Suppression de l'adresse",
+            "given": "un candidat qui supprime son point de départ",
+            "when": "il enregistre",
+            "then": "l'adresse est effacée et les durées disparaissent des offres"
+          },
+          {
+            "title": "Lecture sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il fait défiler l'Inbox",
+            "then": "la durée de trajet tient sur la carte sans la faire déborder"
+          }
+        ],
+        "non_functional": [
+          "L'adresse du domicile n'est jamais visible par un conseiller ni dans un export",
+          "Durées mises en cache par offre et point de départ pour maîtriser le coût de l'API d'itinéraires",
+          "Calcul en arrière-plan, sans ralentir l'affichage de l'Inbox"
+        ],
+        "out_of_scope": [
+          "Trajets en voiture ou à vélo",
+          "Filtre ou tri par durée de trajet",
+          "Itinéraire détaillé"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Précision de l'adresse et heure de référence à arbitrer"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Confort pour 2 abonnés Plus"
+          },
+          "estimable": {
+            "ok": false,
+            "note": "Coût et fournisseur d'API d'itinéraires inconnus"
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "5 points, comme l'effort de la priorisation : choix et intégration d'une API d'itinéraires, cache, saisie et suppression de l'adresse. Le choix du fournisseur peut faire varier l'estimation.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quel fournisseur d'itinéraires, et quel coût par calcul ?",
+          "Adresse exacte ou commune seulement, pour limiter la donnée personnelle collectée ?",
+          "Pour quelle heure de départ calculer le trajet (heure de pointe du matin en semaine) ?",
+          "Fonction réservée à Plus ?"
+        ]
+      }
+    },
+    {
+      "task": "T-022",
+      "kind": "user_story",
+      "output": {
+        "title": "Notification push sur téléphone quand l'analyse IA est prête",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui a installé saxobeat sur son téléphone",
+          "i_want": "recevoir une notification quand l'analyse IA d'une offre est prête",
+          "so_that": "je la consulte tout de suite sans rouvrir l'application pour vérifier"
+        },
+        "context": "2 candidats Plus, sans demande historique : « une notif sur mon tel quand l'analyse IA est prete » ; « Could you send me a notification when the AI analysis is ready? ». Confort tant que la promesse des 24 h n'est pas tenue : SAX-120 passe avant. Le push des applications installées (PWA) est limité sur iOS.",
+        "acceptance_criteria": [
+          {
+            "title": "Autorisation",
+            "given": "un abonné Plus qui demande une analyse IA depuis l'application installée",
+            "when": "saxobeat lui propose les notifications et il accepte",
+            "then": "l'autorisation est enregistrée pour cet appareil"
+          },
+          {
+            "title": "Notification d'analyse prête",
+            "given": "un abonné qui a autorisé les notifications",
+            "when": "l'analyse IA d'une offre est terminée",
+            "then": "il reçoit une notification qui nomme l'offre et l'employeur ; la toucher ouvre l'analyse"
+          },
+          {
+            "title": "Plusieurs analyses prêtes",
+            "given": "12 analyses terminées dans le même lot",
+            "when": "les résultats sont disponibles",
+            "then": "une seule notification annonce « 12 analyses prêtes » et ouvre la liste"
+          },
+          {
+            "title": "Notifications refusées ou non prises en charge",
+            "given": "un abonné qui a refusé les notifications ou dont le navigateur ne les gère pas",
+            "when": "une analyse est prête",
+            "then": "aucune notification n'est envoyée et un badge signale l'analyse prête dans l'application"
+          },
+          {
+            "title": "Désactivation",
+            "given": "un abonné dans Réglages",
+            "when": "il coupe les notifications d'analyse",
+            "then": "il n'en reçoit plus sur aucun de ses appareils"
+          }
+        ],
+        "non_functional": [
+          "Aucune donnée personnelle sensible dans le texte de la notification au-delà de l'offre et de l'employeur",
+          "Compatibilité vérifiée sur Chrome Android et Safari iOS en application installée"
+        ],
+        "out_of_scope": [
+          "Lancement automatique de l'analyse (SAX-120)",
+          "Notifications pour d'autres événements (relances, entretiens)",
+          "Application native"
+        ],
+        "invest": {
+          "independent": {
+            "ok": false,
+            "note": "N'a de valeur qu'une fois SAX-120 livré"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Repli par e-mail possible"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Confort pour 2 abonnés Plus"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Alignée sur l'équipe (5) : infrastructure push à créer (abonnements par appareil, envoi, regroupement) et limites d'iOS à vérifier.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quelles versions d'iOS prennent en charge le push des applications installées chez nos abonnés ?",
+          "Faut-il un repli par e-mail pour les abonnés sans push ?",
+          "Faut-il des heures calmes (pas de notification la nuit) ?"
+        ]
+      }
+    },
+    {
+      "task": "T-023",
+      "kind": "user_story",
+      "output": {
+        "title": "Rechercher dans la description, les notes et les archives",
+        "user_story": {
+          "as_a": "candidat abonné Plus qui a accumulé beaucoup d'offres et d'archives",
+          "i_want": "que la recherche porte aussi sur la description des offres, mes notes et les offres archivées",
+          "so_that": "je retrouve une offre dont je ne me rappelle ni l'intitulé ni l'employeur"
+        },
+        "context": "Aucune mention récente : seulement 2 demandes historiques de candidats Plus, et aucun compte Business. Confort pour les gros utilisateurs, sans lien avec un objectif du trimestre : priorisé en Won't pour ce trimestre, la story est rédigée pour le jour où le signal remonte.",
+        "acceptance_criteria": [
+          {
+            "title": "Recherche dans la description",
+            "given": "une offre dont seul le texte de description contient « Kubernetes »",
+            "when": "le candidat cherche « Kubernetes »",
+            "then": "l'offre figure dans les résultats, avec l'extrait où le mot apparaît"
+          },
+          {
+            "title": "Recherche dans les notes",
+            "given": "une note du candidat contenant « recommandé par Julie »",
+            "when": "il cherche « Julie »",
+            "then": "l'offre annotée figure dans les résultats"
+          },
+          {
+            "title": "Offres archivées",
+            "given": "une offre archivée qui correspond à la recherche",
+            "when": "le candidat lance la recherche",
+            "then": "l'offre apparaît, marquée « Archivée »"
+          },
+          {
+            "title": "Accents et majuscules",
+            "given": "une offre intitulée « Développeur »",
+            "when": "le candidat cherche « developpeur »",
+            "then": "l'offre est trouvée"
+          },
+          {
+            "title": "Aucun résultat",
+            "given": "une recherche sans correspondance",
+            "when": "le candidat lance la recherche",
+            "then": "un message indique qu'aucune offre ne correspond, sans page vide"
+          },
+          {
+            "title": "Recherche sur téléphone",
+            "given": "un candidat sur téléphone",
+            "when": "il tape sa recherche",
+            "then": "les résultats s'affichent sous le champ, lisibles sans défilement horizontal"
+          }
+        ],
+        "non_functional": [
+          "Temps de réponse perçu comme immédiat sur téléphone (seuil à fixer avec l'équipe)",
+          "Recherche limitée aux données du candidat connecté"
+        ],
+        "out_of_scope": [
+          "Recherche avancée (opérateurs, filtres combinés)",
+          "Recherche dans les offres non collectées par saxobeat"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": false,
+            "note": "Signal faible : 2 demandes historiques, aucune récente ; Won't ce trimestre"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Alignée sur l'équipe (5) : index plein texte sur trois sources (description, notes, archives) et insensibilité aux accents.",
+        "split_proposal": [],
+        "open_questions": [
+          "Le signal justifie-t-il de reprendre cette story un prochain trimestre ? Quel seuil de demandes ?",
+          "Combien d'offres et d'archives un gros utilisateur accumule-t-il ? À mesurer pour dimensionner l'index.",
+          "La recherche doit-elle couvrir les contacts et les entretiens ?"
+        ]
+      }
+    },
+    {
+      "task": "T-024",
+      "kind": "user_story",
+      "output": {
+        "title": "Calibrer le score pour qu'un 50 ait le même sens pour tous les candidats",
+        "user_story": {
+          "as_a": "candidat dont le score reste bas alors qu'il décroche des entretiens",
+          "i_want": "qu'un même score signifie la même chose quel que soit mon CV",
+          "so_that": "je puisse me fier au score pour trier, sans écarter des offres où j'ai mes chances"
+        },
+        "context": "Une seule mention récente, 2 candidats au total : « Mes scores ne dépassent jamais 40. Jamais. Pourtant je décroche des entretiens sur ces offres-là ». Un CV riche en mots-clés gonfle tous les scores, un CV sobre les écrase : le signal est réel pour la confiance dans le score (O2), mais trop faible pour 8 points ce trimestre ; il faut instrumenter d'abord.",
+        "acceptance_criteria": [
+          {
+            "title": "Indicateur par candidat",
+            "given": "les scores calculés de la semaine",
+            "when": "l'indicateur est calculé",
+            "then": "l'équipe voit, par candidat, la part d'offres au-dessus de 50"
+          },
+          {
+            "title": "Accord entre analyse IA et score",
+            "given": "des offres analysées par l'IA pour des abonnés Plus",
+            "when": "l'indicateur est calculé",
+            "then": "l'équipe voit le taux d'accord entre le verdict de l'analyse IA et le score, par candidat"
+          },
+          {
+            "title": "Profils atypiques signalés",
+            "given": "un candidat dont aucune offre ne dépasse 50 sur une période",
+            "when": "l'indicateur est calculé",
+            "then": "il apparaît dans la liste des profils à examiner"
+          },
+          {
+            "title": "Recalibrage",
+            "given": "un recalibrage validé par le PO",
+            "when": "il est appliqué",
+            "then": "la part d'offres au-dessus de 50 se rapproche, pour les candidats concernés, de la cible définie, et tous les scores d'un candidat changent en même temps"
+          },
+          {
+            "title": "Information des candidats",
+            "given": "un recalibrage qui va changer les scores",
+            "when": "le candidat ouvre l'Inbox après l'application, y compris sur téléphone",
+            "then": "un bandeau explique que les scores ont été recalibrés, sans mélange d'anciens et de nouveaux scores"
+          },
+          {
+            "title": "Cohérence avec l'explication",
+            "given": "un score recalibré",
+            "when": "le candidat ouvre l'explication du score (SAX-103)",
+            "then": "l'explication correspond au nouveau score"
+          }
+        ],
+        "non_functional": [
+          "Calcul des indicateurs hors ligne, sans impact sur l'Inbox",
+          "Possibilité de revenir à la calibration précédente"
+        ],
+        "out_of_scope": [
+          "Refonte des composantes du score (mots-clés, similarité, séniorité)",
+          "Affichage des indicateurs aux candidats"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": "Lien fort avec SAX-103, qui expose le score"
+          },
+          "negotiable": {
+            "ok": true,
+            "note": "Méthode de calibrage et cible à définir"
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Confiance dans le score (O2), signal encore faible"
+          },
+          "estimable": {
+            "ok": false,
+            "note": "Méthode de recalibrage inconnue tant que les indicateurs n'existent pas"
+          },
+          "small": {
+            "ok": false,
+            "note": "8 points : à découper, en commençant par l'instrumentation"
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 8,
+        "estimate_rationale": "Alignée sur l'équipe (8), avec une forte incertitude sur le recalibrage lui-même. L'instrumentation seule tient en 3 points et réduirait l'inconnue.",
+        "split_proposal": [
+          "Indicateurs par candidat : part d'offres au-dessus de 50 et accord avec l'analyse IA",
+          "Recalibrage périodique du score",
+          "Information des candidats lors d'un recalibrage"
+        ],
+        "open_questions": [
+          "Quelle cible de distribution des scores par candidat (par exemple part d'offres au-dessus de 50) ?",
+          "Peut-on utiliser les statuts du Pipeline (entretiens obtenus) comme signal de calibrage ?",
+          "À quelle fréquence recalibrer, et faut-il prévenir les candidats à chaque fois ?"
+        ]
+      }
+    },
+    {
+      "task": "T-025",
+      "kind": "user_story",
+      "output": {
+        "title": "Démarrer l'onboarding avec un intitulé de poste, sans CV",
+        "user_story": {
+          "as_a": "nouvel inscrit sur téléphone qui n'a pas de CV à jour sous la main",
+          "i_want": "commencer avec un intitulé de poste et une ville, et ajouter mon CV plus tard",
+          "so_that": "je voie des offres scorées dès ma première visite au lieu d'abandonner à l'étape du CV"
+        },
+        "context": "Aucun feedback ne le mentionne (0 client, 0 mention), ce qui est attendu : les inscrits qui abandonnent à l'import du CV n'écrivent pas. Le besoin sert directement les résultats clés d'O2 (onboarding en moins de 4 minutes, 70 % qui trient 10 offres en 7 jours), mais la confiance est faible : vérifier d'abord le taux d'abandon à l'étape CV dans l'entonnoir.",
+        "acceptance_criteria": [
+          {
+            "title": "Démarrer sans CV",
+            "given": "un nouvel inscrit à l'étape d'import du CV",
+            "when": "il choisit « Commencer sans CV », saisit un intitulé de poste et une ville",
+            "then": "il arrive dans une Inbox remplie d'offres scorées"
+          },
+          {
+            "title": "Champ obligatoire",
+            "given": "un inscrit qui n'a pas saisi d'intitulé",
+            "when": "il veut continuer",
+            "then": "un message indique que l'intitulé est nécessaire et il reste sur l'étape"
+          },
+          {
+            "title": "Score moins précis signalé",
+            "given": "un candidat sans CV",
+            "when": "il ouvre l'explication d'un score",
+            "then": "elle indique que le score repose sur l'intitulé seul et invite à ajouter un CV"
+          },
+          {
+            "title": "Ajout du CV plus tard",
+            "given": "un candidat sans CV qui importe son CV depuis Réglages",
+            "when": "l'import se termine",
+            "then": "l'Inbox est recalculée avec le CV (comme SAX-102) et l'invitation disparaît"
+          },
+          {
+            "title": "Parcours sur téléphone",
+            "given": "un inscrit sur téléphone",
+            "when": "il suit le parcours sans CV",
+            "then": "chaque étape tient sur l'écran, le clavier ne masque pas le bouton Continuer, et il atteint l'Inbox"
+          },
+          {
+            "title": "Mesure de l'entonnoir",
+            "given": "le parcours livré",
+            "when": "des inscrits passent par l'étape CV",
+            "then": "l'équipe voit combien choisissent « Commencer sans CV », importent un CV ou abandonnent"
+          }
+        ],
+        "non_functional": [
+          "Suggestions de villes centrées sur Paris et l'Île-de-France",
+          "Événements d'entonnoir sans donnée personnelle (ni intitulé saisi ni CV)"
+        ],
+        "out_of_scope": [
+          "Mesure préalable du taux d'abandon actuel (à faire avant d'engager la story)",
+          "Import du CV depuis un autre appareil ou un service de stockage",
+          "Refonte des autres étapes de l'onboarding"
+        ],
+        "invest": {
+          "independent": {
+            "ok": true,
+            "note": ""
+          },
+          "negotiable": {
+            "ok": true,
+            "note": ""
+          },
+          "valuable": {
+            "ok": true,
+            "note": "Valeur supposée sur O2, à confirmer par la mesure de l'abandon"
+          },
+          "estimable": {
+            "ok": true,
+            "note": ""
+          },
+          "small": {
+            "ok": true,
+            "note": ""
+          },
+          "testable": {
+            "ok": true,
+            "note": ""
+          }
+        },
+        "estimate_points": 5,
+        "estimate_rationale": "Alignée sur l'équipe (5) : nouvelle branche d'onboarding, score sur l'intitulé seul, recalcul à l'ajout du CV et événements d'entonnoir.",
+        "split_proposal": [],
+        "open_questions": [
+          "Quel est le taux d'abandon actuel à l'étape CV ? À mesurer avant d'engager les 5 points.",
+          "Intitulé en texte libre ou choisi dans un référentiel de métiers ?",
+          "Faut-il relancer par e-mail les inscrits sans CV pour qu'ils l'ajoutent ?"
+        ]
+      }
+    }
+  ]
+}
