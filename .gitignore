@@ -15,3 +15,6 @@ data/workspace/
 
 # Secrets locaux (clé API) : jamais versionnés
 .env
+
+# macOS Finder metadata
+.DS_Store
