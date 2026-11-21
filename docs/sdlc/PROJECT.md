@@ -6,7 +6,7 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
 |---|---|
 | **Owner** | Vlad (VP Customer Operations), decides at every gate |
 | **Run Python / scripts with** | `uv run python` for project code (uv 0.11 installed); `python3` (3.13) for the ai-sdlc scripts |
-| **Shell** | bash (Linux cloud container) |
+| **Shell** | zsh on macOS (local Mac, since the 2026-11-21 account migration; earlier cycles ran in a Linux cloud container) |
 | **Tests** | `uv run pytest` (11 tests verts au 2026-11-14, jeu de données) |
 | **Secrets live in** | `ANTHROPIC_API_KEY` dans un `.env` non versionné à la racine (chargé par le lanceur Mac), ou un profil `ant auth login`. Jamais dans le dépôt ni affichée par l'application. Moteur par défaut : l'API (décision 012-D1, 2026-11-17), le skill Claude Code en repli |
 | **Hosts and irreversible actions** | No hosted service. Push to GitHub on `main` only (Vlad, 2026-11-16). No real Linear API call, ever (the integration is simulated) |
@@ -27,3 +27,4 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
   - The synthetic dataset is **based on the owner's GitHub project `Vlad-Flambo/saxobeat`** (not reachable from this session on 2026-11-14, see cycle 001).
 - **Decisions already taken (owner, 2026-11-14):** web app interface, French first (some English feedbacks), RICE + MoSCoW (WSJF optional), no real Jira/Linear integration (Markdown/CSV export), project run as ai-sdlc cycles.
 - **AI use must be traceable:** the brief scores the process (20 %). Every piece of work delegated to an AI assistant is logged with how it was checked.
+- **Account migration (2026-11-21):** the project moved from another Claude and GitHub account to this Mac (git identity `vlad-flambo`). The `origin` remote still points to the old repository `vs-sk/po-assist`, which this machine has no credentials for; set the new remote before pushing. The ported `.venv` points to the old user's Python, so recreate it with `uv sync` once uv is installed.
