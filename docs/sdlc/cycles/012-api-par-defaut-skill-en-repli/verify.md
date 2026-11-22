@@ -22,5 +22,5 @@
 - Les slides n'ont été vérifiées qu'en aperçu (captures d'écran non chargées dans l'aperçu, comme prévu par l'outil).
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)

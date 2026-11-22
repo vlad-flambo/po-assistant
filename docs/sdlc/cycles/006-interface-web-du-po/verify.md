@@ -15,5 +15,5 @@
 | 3 | Aucune erreur | pass | `test_every_ui_page_renders` (AppTest, sans navigateur) |
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)

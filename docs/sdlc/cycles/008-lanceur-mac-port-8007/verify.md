@@ -17,7 +17,7 @@
 | 5 | uv introuvable : commandes d'installation, code 1 | pass | Scénario D (HOME vide, PATH sans uv) : code 1, message et commande `astral.sh` |
 | 6 | `.streamlit/config.toml` : port 8007, pas de statistiques | pass | `uv run streamlit run app.py` sans option : santé « ok » sur 8007 |
 | 7 | README et script de démo à jour | pass | `README.md` (« Démarrer »), `docs/presentation.md` (liste d'avant démo) |
-| 8 | Double-clic sur le Mac de Vlad | pending | À faire par Vlad |
+| 8 | Double-clic sur le Mac de Vlad | pass | Vlad, 2026-11-22 : « works, tested successfully » (Mac, après la migration de compte) |
 
 ## Tests
 - Suite complète : `uv run pytest` : 30 passed (la configuration Streamlit ne change rien aux tests).
@@ -27,5 +27,5 @@
 - **Le PATH d'une fenêtre ouverte depuis le Finder** : la recherche de uv dans `~/.local/bin`, `~/.cargo/bin` et Homebrew couvre les installations habituelles, sans avoir été vérifiée sur le Mac.
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « 008 -> works, tested successfully »)
 - [ ] Sent back (what, to which stage)

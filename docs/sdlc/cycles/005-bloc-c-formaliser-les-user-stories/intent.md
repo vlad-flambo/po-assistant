@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 005 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-14 |
 | **Owner** | Vlad |
 | **Importance** | 4/5 (claude, 2026-11-14): bloc obligatoire du brief ; derniere etape de la chaine de valeur |

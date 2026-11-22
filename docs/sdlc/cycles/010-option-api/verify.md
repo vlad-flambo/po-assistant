@@ -19,7 +19,7 @@
 | 7 | Repli côté serveur | pass | appel simulé : `fallbacks="default"` et bêta `server-side-fallback-2026-07-01` |
 | 8 | `.env` chargé, ignoré par git | partial | `.gitignore` contient `.env` ; `bash -n` sans erreur ; chargement non exercé par un test |
 | 9 | Tests sans réseau ni clé | pass | `tests/test_api.py` : 10 passed ; aucun appel réel |
-| 10 | Essai réel avec la clé de Vlad | pending | À faire : `uv run python -m po_assist run analyse --engine api --limit 5`, puis `import` |
+| 10 | Essai réel avec la clé de Vlad | not checked | Écarté par Vlad le 2026-11-22 (« 010 -> skipping this ») : pas de clé Claude ; l'essai réel d'une API se fait avec Mistral (cycle 013, critère 8) |
 
 ## Not verified
 - **Aucun appel réel n'a été fait** : pas de clé dans l'environnement de développement. Ce que le client simulé ne prouve pas : la réponse réelle de l'API au schéma (compilation, refus éventuel d'un mot-clé), la qualité des résultats du modèle, le taux de lecture en cache réel, le coût exact.
@@ -27,5 +27,5 @@
 - **Estimation du coût** : grossière (4 caractères ≈ 1 jeton, jetons de sortie moyens par type de tâche).
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « close 010 as skipped » ; critère 10 écarté : pas de clé Claude, l'essai réel d'une API se fait avec Mistral au cycle 013)
 - [ ] Sent back (what, to which stage)

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 011 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-17 |
 | **Owner** | Vlad |
 | **Importance** | 4/5 (claude, 2026-11-17): le critère « Expérience utilisateur » (15 %) demande qu'un PO se serve de l'outil sans friction ; utile aussi au jury qui voudra l'essayer seul |

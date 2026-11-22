@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 009 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-17 |
 | **Owner** | Vlad |
 | **Importance** | 4/5 (claude, 2026-11-17): la démo devant le jury doit montrer le parcours réel du PO sans attendre le skill (3 à 4 min pour 80 feedbacks) ni tout révéler d'un coup |

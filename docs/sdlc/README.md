@@ -54,15 +54,15 @@ docs/sdlc/
 | Cycle | Imp. | Topic | Stage |
 |-------|------|-------|-------|
 | 001 | 5 | jeu de données synthétique | Closed 2026-11-16 (verify accepted, learn done) |
-| 002 | 5 | socle agent et faux connecteur Linear | Verify : en attente de l'accord du PO (plan reconstitué après coup) |
-| 003 | 4 | bloc A comprendre les feedbacks | Verify : en attente de l'accord du PO |
-| 004 | 4 | bloc B arbitrer la priorisation | Verify : en attente de l'accord du PO |
-| 005 | 4 | bloc C formaliser les user stories | Verify : en attente de l'accord du PO |
-| 006 | 4 | interface web du PO | Verify : en attente de l'accord du PO |
+| 002 | 5 | socle agent et faux connecteur Linear | Closed 2026-11-22 (verify accepted, learn done) |
+| 003 | 4 | bloc A comprendre les feedbacks | Closed 2026-11-22 (verify accepted, learn done) |
+| 004 | 4 | bloc B arbitrer la priorisation | Closed 2026-11-22 (verify accepted, learn done) |
+| 005 | 4 | bloc C formaliser les user stories | Closed 2026-11-22 (verify accepted, learn done) |
+| 006 | 4 | interface web du PO | Closed 2026-11-22 (verify accepted, learn done) |
 | 007 | 5 | restitution documentation et démo | Intent rempli, but à confirmer par le PO |
-| 008 | 3 | lanceur Mac (port 8007) | Verify : 7/8 critères, reste le double-clic sur le Mac |
-| 009 | 4 | mode démo | Verify : 8/8, en attente de l'accord du PO |
-| 010 | 3 | option API | Verify : 8/10, reste l'essai réel avec la clé du PO |
-| 011 | 4 | guide utilisateur | Verify : 6/6, en attente de la relecture du PO |
-| 012 | 4 | API par défaut, skill en repli | Verify : 6/6, en attente de l'accord du PO |
+| 008 | 3 | lanceur Mac (port 8007) | Closed 2026-11-22 (verify accepted, learn done) |
+| 009 | 4 | mode démo | Closed 2026-11-22 (verify accepted, learn done) |
+| 010 | 3 | option API | Closed 2026-11-22 (verify accepted, criterion 10 skipped by the owner: no Claude key; learn done) |
+| 011 | 4 | guide utilisateur | Closed 2026-11-22 (verify accepted, learn done) |
+| 012 | 4 | API par défaut, skill en repli | Closed 2026-11-22 (verify accepted, learn done) |
 | 013 | 4 | Moteur API Mistral | Closed 2026-11-22 : 8 critères sur 8 ; essai réel 5 analyses Mistral Large, import 5/5, 0,03 $, schéma strict accepté ; verify accepté par Vlad |

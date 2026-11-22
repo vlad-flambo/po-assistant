@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 012 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-17 |
 | **Owner** | Vlad |
 | **Importance** | 4/5 (claude, 2026-11-17): change le comportement par défaut de l'outil, la démo et le discours de restitution (architecture, slides, guide) |

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 010 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-17 |
 | **Owner** | Vlad |
 | **Importance** | 3/5 (claude, 2026-11-17): rend l'agent utilisable sans geste manuel ; alternative au skill local, au choix dans les réglages |

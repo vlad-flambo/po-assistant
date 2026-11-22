@@ -15,13 +15,13 @@ Goal: every cycle 002–013 closed (verify accepted by Vlad, learn written), the
 ## Steps
 
 ### 1. Get the work onto `main` (Vlad, 2 min)
-- [ ] On the Mac, merge the session branch into `main` and push:
+- [x] On the Mac, merge the session branch into `main` and push:
   `git fetch origin && git checkout main && git merge origin/claude/ecstatic-albattani-xad8g6 && git push`
-  (Or ask Claude to open a pull request instead.)
+  (Done 2026-11-22 via vlad-flambo/po-assistant#1.)
 
 ### 2. Real-world checks on the Mac (Vlad, about 30 min, one sitting)
-- [ ] `uv sync` (rebuilds the `.venv` ported from the old machine).
-- [ ] **008:** double-click `PO Assist.command` in Finder. Note what the Terminal window says and whether the browser opens on localhost:8007.
+- [x] `uv sync` (rebuilds the `.venv` ported from the old machine).
+- [x] **008:** (« works, tested successfully », 2026-11-22) double-click `PO Assist.command` in Finder. Note what the Terminal window says and whether the browser opens on localhost:8007.
 - [x] **013:** (done 2026-11-22, see 013 verify.md) add `MISTRAL_API_KEY=...` to `.env` at the repo root, then:
   `uv run python -m po_assist run analyse --engine api --limit 5` and `uv run python -m po_assist import`.
   Keep the full terminal output (cost, accepted, refused, ignored).
@@ -35,22 +35,22 @@ Goal: every cycle 002–013 closed (verify accepted by Vlad, learn written), the
 Paste in one message: the launcher output, the Mistral run output, the Qualité numbers (or screenshot), the rehearsal time, and anything that looked wrong in the deck or the guide.
 
 ### 4. Record the evidence (Claude)
-- [ ] 008, 013 (and 010 if decided in step 5): results and dated evidence files in `verify.md`. Anything that failed goes back to its cycle's build stage instead.
+- [x] (2026-11-22: 008 on Vlad's word, 013 by Vlad's evidence file, 010 criterion 10 skipped) 008, 013 (and 010 if decided in step 5): results and dated evidence files in `verify.md`. Anything that failed goes back to its cycle's build stage instead.
 - [ ] Mistral cost and quality written into the deck (slides 5 and 11), `docs/demarche.md` §6 and the README.
-- [ ] Refresh `docs/captures/6-agent.png` (it still shows "API Claude"); it's the fallback if the app does not start.
+- [x] Refresh `docs/captures/6-agent.png` (also guide captures 02 and 03, 2026-11-22) (it still shows "API Claude"); it's the fallback if the app does not start.
 
 ### 5. Owner decisions (Vlad, one message)
-- [ ] Accept verify for 002, 003, 004, 005, 006, 009, 011, 012.
-- [ ] Accept verify for 008 and 013 (after step 4). 013 accepted 2026-11-22; 008 still open.
-- [ ] 010 criterion 10: accept as "covered by 013's real Mistral run" (recommended), or keep it open until a Claude key exists.
+- [x] Accept verify for 002, 003, 004, 005, 006, 009, 011, 012 (« I accept », 2026-11-22).
+- [x] Accept verify for 008 and 013 (008: « works, tested successfully »; 013: accepted by Vlad; both 2026-11-22).
+- [x] 010 criterion 10: skipped, cycle closed (Vlad: « close 010 as skipped », 2026-11-22). Original options: accept as "covered by 013's real Mistral run" (recommended), or keep it open until a Claude key exists.
 - [ ] 007: confirm the goal and success measure in its `intent.md` (the four measures listed there).
 
 Claude ticks these boxes only on your words, quoting them with the date.
 
 ### 6. Close the cycles (Claude)
-- [ ] One `learn.md` per cycle 002–006 and 008–013: outcome against the success measure, findings, and where each one moves (README, guide, démarche, journal), every row ticked.
-- [ ] README status table: each cycle set to Closed; `next.md` lines all ticked or moved.
-- [ ] Board regenerated, one commit, push.
+- [x] (2026-11-22, all of 002–006 and 008–013) One `learn.md` per cycle 002–006 and 008–013: outcome against the success measure, findings, and where each one moves (README, guide, démarche, journal), every row ticked.
+- [x] README status table: each cycle set to Closed; `next.md` lines all ticked or moved.
+- [x] Board regenerated, one commit, push.
 
 ### 7. Before the presentation (Vlad)
 - [ ] Deck: Share › Export as PDF; keep a copy offline. Share the link with the jury if they should have it.

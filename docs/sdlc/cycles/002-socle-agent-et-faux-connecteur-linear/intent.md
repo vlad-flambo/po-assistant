@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 002 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-16 |
 | **Owner** | Vlad |
 | **Importance** | 5/5 (claude, 2026-11-16): les cycles 003 à 006 reposent sur ce socle ; l'échéance est ce soir |
