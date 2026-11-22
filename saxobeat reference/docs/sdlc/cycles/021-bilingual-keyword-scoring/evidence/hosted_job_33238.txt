@@ -1,5 +1,0 @@
-
-status: interviewing | stored deterministic: 33.1 | language: fr
-scored now with the current code: keyword 39.8 | similarity 43.0 | level +3 | deterministic 43.7 | floor 35
-found: ['remote', 'télétravail'] | through the glossary: {'remote': 'teletravail'}
-found as (page words): {'remote': 'télétravail'}

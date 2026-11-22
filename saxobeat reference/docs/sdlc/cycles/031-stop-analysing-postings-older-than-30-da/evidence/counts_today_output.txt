@@ -1,7 +1,0 @@
-Pager usage is off.
- candidate | visible_new_in_dump | dated_over_30_days | undated_imported_over_30_days_ago 
------------+---------------------+--------------------+-----------------------------------
-         1 |                1632 |                840 |                               106
-         3 |                8781 |               3508 |                              1009
-(2 rows)
-

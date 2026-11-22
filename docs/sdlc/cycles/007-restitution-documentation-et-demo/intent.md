@@ -39,7 +39,7 @@ Vlad présente PO Assist en 20 minutes sans accroc, s'appuie sur une démonstrat
 | # | Question | Recommended answer | Answer | Status |
 |---|----------|--------------------|--------|--------|
 | Q1 | Support de présentation ? | Diapositives, avec démonstration dans l'application | Diapositives : « oui, fais les slides » (Vlad, 2026-11-16) | answered |
-| Q2 | Charte graphique ? | Neutre : le design system Skaleet (défaut de l'organisation) ne convient pas pour un test destiné à une autre entreprise | Neutre, appliquée par défaut ; Vlad peut demander autre chose | parked |
+| Q2 | Charte graphique ? | Neutre : le design system par défaut de l'organisation (celui de l'employeur actuel) ne convient pas pour un test destiné à une autre entreprise | Neutre, appliquée par défaut ; Vlad peut demander autre chose | parked |
 
 Status: `open`, `answered`, `parked` (deliberately left for later).
 

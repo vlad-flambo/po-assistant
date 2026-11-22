@@ -190,5 +190,10 @@ def test_fiction_and_privacy(db):
     text = "\n".join(db.iterdump()).lower()
     for addr in re.findall(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", text):
         assert addr.endswith(".example"), addr
-    for forbidden in ["skaleet", "stoyanov", "doctolib", "exalt"]:
-        assert forbidden not in text, forbidden
+    # Termes personnels interdits (employeurs, nom), stockés en empreintes SHA-256 pour ne pas les publier
+    forbidden = {"bdeadc4a9972526d070a899df19f30b42f297086b36d523ae44866618eefcb80",
+                 "4b6f06d9bd2c9d5ca10302c4703a13c815fbaacd23f97bb7750122889737ffc7",
+                 "578d179a488febf486ab9fc00c84924100515271e2278e8ef0152eec6360a500",
+                 "1b8d4aa083095b5fe68b6fdbd72fe301036e3bc35df3862843a554b3a02a8659"}
+    for word in set(re.findall(r"[a-z0-9]+", text)):
+        assert hashlib.sha256(word.encode()).hexdigest() not in forbidden, word

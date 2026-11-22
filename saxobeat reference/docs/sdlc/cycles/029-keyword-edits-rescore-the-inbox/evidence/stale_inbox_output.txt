@@ -1,8 +1,0 @@
-['meta', 'rows'] ['job', 'lang', 'title', 'company', 'status', 'kw', 'sim', 'adj', 'det', 'key_found', 'key_total', 'hits', 'missing', 'via', 'stored_kw', 'stored_sim', 'stored_adj', 'stored_det', 'stored_version', 'ai', 'stored_hits']
-inbox v5 rows 1634
-det delta mean 2.54 median 2.40 max 16.0 min -0.4
-rise>=1: 1063 fall<=-1: 0 within1: 571
-rise>=5: 210 rise>=10: 10
-cross up (under->at/above floor): 218 cross down: 0
-top50 overlap stored vs replay: 50
-top100 overlap: 92

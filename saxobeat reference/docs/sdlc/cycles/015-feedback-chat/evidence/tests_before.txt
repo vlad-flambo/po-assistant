@@ -1,7 +1,0 @@
-HEAD 99459c42a493fb40b3182a22569270565f4928a0; code paths with uncommitted changes: 0; run 2026-10-29T15:54:01+01:00; SQLite (DATABASE_URL empty)
-  Enable tracemalloc to get traceback where the object was allocated.
-  See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
-    warnings.warn(pytest.PytestUnhandledThreadExceptionWarning(msg))
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1192 passed, 464 warnings in 58.81s

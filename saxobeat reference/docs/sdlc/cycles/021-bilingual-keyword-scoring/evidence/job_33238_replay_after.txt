@@ -1,9 +1,0 @@
-42 objects imported automatically (use -v 2 for details).
-
-eXalt postings in the dump: 0 | boilerplate terms for eXalt: []
-[with eXalt boilerplate rule] keyword 39.8 | similarity 63.1 | seniority +3 | deterministic 49.8 | floor 35
-   hits: ['hybrid', 'remote', 'télétravail', 'product management'] | key found 0 of 37
-   missing: ['AI Delivery', 'AI Transformation', 'chef de produit', 'customer operations', 'Product Manager', 'AI Adoption Lead', 'AI Builder', 'AI Delivery Lead']
-[without it] keyword 39.8 | similarity 63.1 | seniority +3 | deterministic 49.8 | floor 35
-   hits: ['hybrid', 'remote', 'télétravail', 'product management'] | key found 0 of 37
-   missing: ['AI Delivery', 'AI Transformation', 'chef de produit', 'customer operations', 'Product Manager', 'AI Adoption Lead', 'AI Builder', 'AI Delivery Lead']

@@ -28,7 +28,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Choix de méthode** : cycles `ai-sdlc` (intent → spec → plan → build → verify → learn) pour garder une trace décision par décision.
 - **Obstacle** : le dépôt `Vlad-Flambo/saxobeat` n'est pas accessible depuis la session cloud. En attente d'un accès ou d'une description.
 - **Point d'attention** : des indices (non vérifiés) suggèrent que saxobeat est un outil de recherche d'emploi, alors que le brief parle d'une plateforme de gestion de projet. Arbitrage demandé (cycle 001, Q1).
-- **Déblocage** : Vlad ajoute la documentation de saxobeat (`saxobeat reference/`), qui remplace l'accès au code. La branche `main` ayant divergé, elle a été fusionnée dans la branche de travail (pas de réécriture d'historique).
+- **Déblocage** : Vlad ajoute la documentation de saxobeat (`saxobeat reference/`, retiré du dépôt public le 2026-11-22, voir plus bas), qui remplace l'accès au code. La branche `main` ayant divergé, elle a été fusionnée dans la branche de travail (pas de réécriture d'historique).
 - **Constat** : saxobeat est un suivi de recherche d'emploi (alpha, 10 à 30 candidats), pas une plateforme de gestion de projet. Il faut décider comment le présenter (Q8 du cycle 001).
 - **Décisions** : saxobeat projeté au printemps 2027 (Free / Plus / B2B) pour coller au brief ; lot Q2 à Q7 validé ; intent du cycle 001 fermé.
 - **Choix de conception** : les feedbacks entrent dans la file Triage de Linear, reliés à leur client (mécanique réelle des « Customer Requests »). 9 types de pièges sont injectés pour tester l'agent, et la vérité terrain reste hors de la base.
