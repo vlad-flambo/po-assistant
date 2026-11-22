@@ -74,7 +74,7 @@ Le travail a été mené en **cycles courts** (méthode `ai-sdlc` : intention �
 
 ## 6. Limites et suite
 
-- **Moteur API pas encore appelé pour de vrai** : les deux fournisseurs (Mistral, Claude) sont testés avec un client simulé (découpage, schémas, refus, erreurs, essais, coût). L'essai réel se fait avec la clé Mistral de Vlad (cycle 013) : réponse réelle au schéma imposé, qualité, coût exact. Les tarifs Mistral affichés sont des estimations jusque-là. Le repli sur le skill protège l'usage si l'appel échoue.
+- **Moteur API essayé pour de vrai sur un petit lot seulement** : les deux fournisseurs (Mistral, Claude) sont testés avec un client simulé (découpage, schémas, refus, erreurs, essais, coût). Essai réel le 2026-11-22 avec la clé Mistral de Vlad (cycle 013) : 5 analyses par Mistral Large, schéma imposé accepté en mode strict, import sans refus, 0,03 $, 1 min 15 s. Pas encore mesurés : la qualité de Mistral, un lot complet, le moteur Claude en réel (pas de clé). Les tarifs Mistral affichés restent des estimations. Le repli sur le skill protège l'usage si l'appel échoue.
 - **Temps de traitement** : avec le skill, un pack de 80 feedbacks prend quelques minutes ; en démo, le flux API simulé dure environ 8 secondes.
 - **Priorisation et rédaction sans vérité terrain** : leur qualité se juge sur pièces. La suite serait de comparer les classements de l'agent aux décisions réelles du PO.
 - **Reach** : le compter en personnes ou en clients est un vrai choix produit, laissé au PO. Une pondération par segment, fixée en équipe, serait plus juste.

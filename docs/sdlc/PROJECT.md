@@ -5,7 +5,7 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
 | | |
 |---|---|
 | **Owner** | Vlad (VP Customer Operations), decides at every gate |
-| **Run Python / scripts with** | `uv run python` for project code (uv 0.11 installed); `python3` (3.13) for the ai-sdlc scripts |
+| **Run Python / scripts with** | `uv run python` for project code (uv 0.13.9 via Homebrew on the Mac since 2026-11-22); `python3` (3.13) for the ai-sdlc scripts |
 | **Shell** | zsh on macOS (Vlad's Mac, since the 2026-11-21 account migration) or bash in a Linux cloud container (Claude Code sessions; no access to `api.mistral.ai` there) |
 | **Tests** | `uv run pytest` (71 tests verts au 2026-11-22) |
 | **Secrets live in** | `MISTRAL_API_KEY` (modèle par défaut, décision 013-D1) ou `ANTHROPIC_API_KEY` dans un `.env` non versionné à la racine (chargé par le lanceur Mac). Jamais dans le dépôt ni affichée par l'application. Moteur par défaut : l'API (décision 012-D1, 2026-11-17), le skill Claude Code en repli |
@@ -27,4 +27,4 @@ What the ai-sdlc skill needs to know about this repository. Everything in the sk
   - The synthetic dataset is **based on the owner's GitHub project `Vlad-Flambo/saxobeat`** (not reachable from this session on 2026-11-14, see cycle 001).
 - **Decisions already taken (owner, 2026-11-14):** web app interface, French first (some English feedbacks), RICE + MoSCoW (WSJF optional), no real Jira/Linear integration (Markdown/CSV export), project run as ai-sdlc cycles.
 - **AI use must be traceable:** the brief scores the process (20 %). Every piece of work delegated to an AI assistant is logged with how it was checked.
-- **Account migration (2026-11-21):** the project moved from another Claude and GitHub account to this Mac (git identity `vlad-flambo`). `origin` is now `vlad-flambo/po-assistant` (public). The ported `.venv` pointed to the old user's Python: recreate it with `uv sync`. The slide deck lived only as an artifact on the old Claude account and was lost; rebuilt on 2026-11-22 (see `docs/presentation.md`).
+- **Account migration (2026-11-21):** the project moved from another Claude and GitHub account to this Mac (git identity `vlad-flambo`). `origin` is now `vlad-flambo/po-assistant` (public). The ported `.venv` pointed to the old user's Python: rebuilt with `uv sync` on 2026-11-22. Files copied over carried the macOS quarantine flag: Vlad cleared it on `PO Assist.command` the same day. The slide deck lived only as an artifact on the old Claude account and was lost; rebuilt on 2026-11-22 (see `docs/presentation.md`).

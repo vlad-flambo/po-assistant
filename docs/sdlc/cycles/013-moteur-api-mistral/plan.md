@@ -13,7 +13,7 @@
 | 2 | Défaut Mistral, repli et message par fournisseur, interface et CLI | `settings.py`, `runner.py`, `app.py` | Tests du repli, AppTest Réglages | 1, 6 | done |
 | 3 | Tests Claude réglés explicitement, suite complète | `tests/test_api.py`, `tests/test_mistral.py` | `uv run pytest` | 7 | done |
 | 4 | Documentation (README, guide, démarche, présentation, PROJECT.md) | `docs/`, `README.md` | Test des libellés du guide | 1, 6 | done |
-| 5 | Essai réel (Vlad, sur son Mac) | aucun fichier | 5 analyses importées | 8 | todo |
+| 5 | Essai réel (Vlad, sur son Mac) | aucun fichier | 5 analyses importées | 8 | done |
 
 Rollback : un seul commit de code ; le remettre à l'état précédent rend le moteur Claude seul.
 
@@ -27,3 +27,4 @@ Rollback : un seul commit de code ; le remettre à l'état précédent rend le m
 | 2026-11-22 | 2 | Défaut `mistral-large-latest` ; message de repli et indication de clé par fournisseur ; libellés Agent, Réglages, barre latérale ; `--model` documenté. Barre d'outils Streamlit réduite (plus de bouton « Deploy » en démo) |
 | 2026-11-22 | 3 | 9 tests Claude cassés par le nouveau défaut, attendu : modèle Claude fixé explicitement. 15 tests Mistral ajoutés. Suite : 71 verts |
 | 2026-11-22 | 4 | README, guide (texte + captures 01 et 11 refaites), présentation. Pages officielles Mistral inaccessibles depuis la session (proxy) : tarifs marqués « estimation » |
+| 2026-11-22 | 5 | Sur le Mac, session Claude Code locale, clé de Vlad dans `.env`. Les 80 analyses de l'espace réel étant faites, essai dans un espace jetable (variables `PO_*`). 5 analyses, 1 paquet, 1 min 15 s, 0,0312 $, import 5/5. Sonde à part : schéma strict accepté. Prérequis réglés avant : `uv` installé (Homebrew), `.venv` refait, quarantaine macOS levée sur le lanceur |

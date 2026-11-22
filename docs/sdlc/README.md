@@ -65,4 +65,4 @@ docs/sdlc/
 | 010 | 3 | option API | Verify : 8/10, reste l'essai réel avec la clé du PO |
 | 011 | 4 | guide utilisateur | Verify : 6/6, en attente de la relecture du PO |
 | 012 | 4 | API par défaut, skill en repli | Verify : 6/6, en attente de l'accord du PO |
-| 013 | 4 | Moteur API Mistral | Verify 2026-11-22 : moteur Mistral construit (défaut `mistral-large-latest`, 15 tests, 71 verts) ; essai réel avec la clé de Vlad en attente (critère 8) |
+| 013 | 4 | Moteur API Mistral | Closed 2026-11-22 : 8 critères sur 8 ; essai réel 5 analyses Mistral Large, import 5/5, 0,03 $, schéma strict accepté ; verify accepté par Vlad |

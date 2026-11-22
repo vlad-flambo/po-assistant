@@ -1,0 +1,124 @@
+{
+  "schema": "po-assist.results.v1",
+  "export_id": "E-20261122-214642-analyse",
+  "pack": "analyse",
+  "agent": "api / mistral-large-latest",
+  "results": [
+    {
+      "task": "T-001",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T2"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client recopie chaque matin ses alertes LinkedIn à la main et voudrait les importer directement dans l'Inbox.",
+        "requests": [
+          {
+            "summary": "Importer automatiquement les alertes e-mail LinkedIn dans l'Inbox",
+            "target": "SAX-110",
+            "target_status_note": null,
+            "quote": "je recopie tout a la main chaque matin"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-002",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T10"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client Business (Transitio Conseil, 60 sièges, 18 000 € d'ARR) demande l'import en masse des candidats par CSV et un tableau de suivi de l'activité des candidats par conseiller.",
+        "requests": [
+          {
+            "summary": "Importer en masse les candidats dans la console Business depuis un fichier CSV ou Excel",
+            "target": "SAX-122",
+            "target_status_note": null,
+            "quote": "importer la liste en une seule fois, par exemple à partir d'un fichier Excel ou CSV"
+          },
+          {
+            "summary": "Consulter l'activité de chaque candidat regroupée par conseiller (offres consultées, candidatures envoyées, entretiens à venir)",
+            "target": "SAX-123",
+            "target_status_note": null,
+            "quote": "consulter l'activité de chaque candidat, regroupée par conseiller : offres consultées, candidatures envoyées, entretiens à venir"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-003",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "question",
+        "themes": [
+          "T11"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "Le client Free constate que son Inbox se bloque après environ 20 offres par jour sans aucun message, et le prend pour un bug alors que c'est la limite de son offre.",
+        "requests": [
+          {
+            "summary": "Expliquer la limite des 20 offres par jour sur l'offre Free et montrer ce que Plus apporte au moment où elle est atteinte",
+            "target": "SAX-126",
+            "target_status_note": null,
+            "quote": "toujours vers 20 offres ca s'arrete"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-004",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "feature_request",
+        "themes": [
+          "T1"
+        ],
+        "sentiment": "positive",
+        "churn_risk": false,
+        "summary": "Le client trouve les offres de banques nombreuses et pertinentes, mais aimerait comprendre pourquoi une offre affiche un score de 48 et ce qui manque pour qu'il monte.",
+        "requests": [
+          {
+            "summary": "Expliquer le score d'une offre : ce qui matche, ce qui manque et le verdict",
+            "target": "SAX-103",
+            "target_status_note": null,
+            "quote": "comprendre pk une offre a 48 et ce qui manque pour que ca monte"
+          }
+        ],
+        "follow_up_question": null
+      }
+    },
+    {
+      "task": "T-005",
+      "kind": "feedback_analysis",
+      "output": {
+        "type": "bug",
+        "themes": [
+          "T7"
+        ],
+        "sentiment": "negative",
+        "churn_risk": false,
+        "summary": "La cliente n'a pas reçu l'e-mail de réinitialisation de mot de passe, le retrouvant deux jours plus tard dans ses spams, et n'a pas pu accéder à son compte entre-temps.",
+        "requests": [
+          {
+            "summary": "Faire arriver les e-mails transactionnels de saxobeat (réinitialisation du mot de passe) dans la boîte de réception plutôt que dans les spams",
+            "target": "NEW:delivrabilite-des-emails-transactionnels",
+            "target_status_note": null,
+            "quote": "Je viens de le retrouver dans les spams de ma boîte iCloud... deux jours après"
+          }
+        ],
+        "follow_up_question": null
+      }
+    }
+  ]
+}

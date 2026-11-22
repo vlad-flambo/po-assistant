@@ -22,7 +22,7 @@ Goal: every cycle 002–013 closed (verify accepted by Vlad, learn written), the
 ### 2. Real-world checks on the Mac (Vlad, about 30 min, one sitting)
 - [ ] `uv sync` (rebuilds the `.venv` ported from the old machine).
 - [ ] **008:** double-click `PO Assist.command` in Finder. Note what the Terminal window says and whether the browser opens on localhost:8007.
-- [ ] **013:** add `MISTRAL_API_KEY=...` to `.env` at the repo root, then:
+- [x] **013:** (done 2026-11-22, see 013 verify.md) add `MISTRAL_API_KEY=...` to `.env` at the repo root, then:
   `uv run python -m po_assist run analyse --engine api --limit 5` and `uv run python -m po_assist import`.
   Keep the full terminal output (cost, accepted, refused, ignored).
 - [ ] **013, recommended:** measure Mistral's quality. In the app: Réinitialiser, Réglages › demo mode off, Agent › Lancer l'agent (≈ 0,35 $ for 80 feedbacks), Importer, then 🎯 Qualité. A screenshot of that page lets the deck say "measured on Mistral" next to the skill's 84 / 96 / 98 %.
@@ -41,7 +41,7 @@ Paste in one message: the launcher output, the Mistral run output, the Qualité 
 
 ### 5. Owner decisions (Vlad, one message)
 - [ ] Accept verify for 002, 003, 004, 005, 006, 009, 011, 012.
-- [ ] Accept verify for 008 and 013 (after step 4).
+- [ ] Accept verify for 008 and 013 (after step 4). 013 accepted 2026-11-22; 008 still open.
 - [ ] 010 criterion 10: accept as "covered by 013's real Mistral run" (recommended), or keep it open until a Claude key exists.
 - [ ] 007: confirm the goal and success measure in its `intent.md` (the four measures listed there).
 
