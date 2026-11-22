@@ -16,5 +16,5 @@
 | 4 | Proposition de sprint | pass | `test_cycle_proposal_respects_capacity` ; données réelles : 9,5 pts disponibles sur 20, 3 issues Todo du cycle 8 non retenues |
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)

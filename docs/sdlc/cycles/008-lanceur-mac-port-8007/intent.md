@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 008 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-16 |
 | **Owner** | Vlad |
 | **Importance** | 3/5 (claude, 2026-11-16): utile pour la répétition et la démo du soir sur le Mac de Vlad ; rien ne casse sans (la commande uv fonctionne déjà) |

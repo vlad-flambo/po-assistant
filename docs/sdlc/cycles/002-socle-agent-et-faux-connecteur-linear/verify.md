@@ -23,5 +23,5 @@
 - Le dry-run du skill a échoué une fois parce qu'un module était en cours d'écriture ; le skill a fait sa propre vérification, puis l'import réel est passé sans refus.
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)

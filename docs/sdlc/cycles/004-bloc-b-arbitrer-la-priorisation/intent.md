@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 004 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-14 |
 | **Owner** | Vlad |
 | **Importance** | 4/5 (claude, 2026-11-14): bloc obligatoire ; coeur de la valeur metier (aider le PO a decider) |

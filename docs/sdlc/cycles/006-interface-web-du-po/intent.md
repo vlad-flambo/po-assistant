@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Cycle** | 006 |
-| **Stage** | Intent |
+| **Stage** | Closed 2026-11-22 |
 | **Date** | 2026-11-14 |
 | **Owner** | Vlad |
 | **Importance** | 4/5 (claude, 2026-11-14): experience utilisateur = 15 % de la note ; support de la demo (10 min) |

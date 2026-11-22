@@ -17,5 +17,5 @@
 | 5 | Évaluation | pass | [evidence/evaluation_analyse_2026-11-16.md](evidence/evaluation_analyse_2026-11-16.md) : types 84 %, thème principal 96 %, rattachements 98 % / 95 %, besoins nouveaux 22/22, churn 78 % / 100 %, aucune demande inventée 8/8 |
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)

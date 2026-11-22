@@ -26,5 +26,5 @@
 - 9 captures sur 12 n'ont été vérifiées que par le script (pas d'erreur, bonne page), sans relecture à l'œil.
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)

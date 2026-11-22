@@ -16,5 +16,5 @@
 | 4 | Exports | pass | même test |
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « I accept »)
 - [ ] Sent back (what, to which stage)
