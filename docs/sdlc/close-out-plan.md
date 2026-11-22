@@ -22,7 +22,7 @@ Goal: every cycle 002–013 closed (verify accepted by Vlad, learn written), the
 ### 2. Real-world checks on the Mac (Vlad, about 30 min, one sitting)
 - [x] `uv sync` (rebuilds the `.venv` ported from the old machine).
 - [x] **008:** (« works, tested successfully », 2026-11-22) double-click `PO Assist.command` in Finder. Note what the Terminal window says and whether the browser opens on localhost:8007.
-- [ ] **013:** add `MISTRAL_API_KEY=...` to `.env` at the repo root, then:
+- [x] **013:** (done 2026-11-22, see 013 verify.md) add `MISTRAL_API_KEY=...` to `.env` at the repo root, then:
   `uv run python -m po_assist run analyse --engine api --limit 5` and `uv run python -m po_assist import`.
   Keep the full terminal output (cost, accepted, refused, ignored).
 - [ ] **013, recommended:** measure Mistral's quality. In the app: Réinitialiser, Réglages › demo mode off, Agent › Lancer l'agent (≈ 0,35 $ for 80 feedbacks), Importer, then 🎯 Qualité. A screenshot of that page lets the deck say "measured on Mistral" next to the skill's 84 / 96 / 98 %.
@@ -35,22 +35,22 @@ Goal: every cycle 002–013 closed (verify accepted by Vlad, learn written), the
 Paste in one message: the launcher output, the Mistral run output, the Qualité numbers (or screenshot), the rehearsal time, and anything that looked wrong in the deck or the guide.
 
 ### 4. Record the evidence (Claude)
-- [ ] 008, 013 (and 010 if decided in step 5): results and dated evidence files in `verify.md`. Anything that failed goes back to its cycle's build stage instead.
+- [x] (2026-11-22: 008 on Vlad's word, 013 by Vlad's evidence file, 010 criterion 10 skipped) 008, 013 (and 010 if decided in step 5): results and dated evidence files in `verify.md`. Anything that failed goes back to its cycle's build stage instead.
 - [ ] Mistral cost and quality written into the deck (slides 5 and 11), `docs/demarche.md` §6 and the README.
 - [x] Refresh `docs/captures/6-agent.png` (also guide captures 02 and 03, 2026-11-22) (it still shows "API Claude"); it's the fallback if the app does not start.
 
 ### 5. Owner decisions (Vlad, one message)
 - [x] Accept verify for 002, 003, 004, 005, 006, 009, 011, 012 (« I accept », 2026-11-22).
-- [ ] Accept verify for 008 and 013 (after step 4).
+- [x] Accept verify for 008 and 013 (008: « works, tested successfully »; 013: accepted by Vlad; both 2026-11-22).
 - [x] 010 criterion 10: skipped, cycle closed (Vlad: « close 010 as skipped », 2026-11-22). Original options: accept as "covered by 013's real Mistral run" (recommended), or keep it open until a Claude key exists.
 - [ ] 007: confirm the goal and success measure in its `intent.md` (the four measures listed there).
 
 Claude ticks these boxes only on your words, quoting them with the date.
 
 ### 6. Close the cycles (Claude)
-- [x] (2026-11-22, 002–006, 008, 009, 011, 012; 010 closed after; 013 still open) One `learn.md` per cycle 002–006 and 008–013: outcome against the success measure, findings, and where each one moves (README, guide, démarche, journal), every row ticked.
-- [ ] README status table: each cycle set to Closed; `next.md` lines all ticked or moved.
-- [ ] Board regenerated, one commit, push.
+- [x] (2026-11-22, all of 002–006 and 008–013) One `learn.md` per cycle 002–006 and 008–013: outcome against the success measure, findings, and where each one moves (README, guide, démarche, journal), every row ticked.
+- [x] README status table: each cycle set to Closed; `next.md` lines all ticked or moved.
+- [x] Board regenerated, one commit, push.
 
 ### 7. Before the presentation (Vlad)
 - [ ] Deck: Share › Export as PDF; keep a copy offline. Share the link with the jury if they should have it.

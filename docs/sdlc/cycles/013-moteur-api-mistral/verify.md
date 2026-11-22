@@ -16,11 +16,12 @@
 | 5 | 429/5xx/réseau : essais puis paquet ignoré ; tronqué / illisible : paquet ignoré | pass | `test_one_bad_batch_skips_only_that_batch` (×4), `test_client_retries_rate_limits_then_succeeds_and_never_leaks_the_key` |
 | 6 | Sans `MISTRAL_API_KEY` : repli nommant la variable ; clé jamais affichée | pass | `test_no_mistral_key_falls_back_with_the_right_variable_name`, `test_settings_page_names_the_mistral_key` ; l'erreur HTTP ne contient pas la clé |
 | 7 | Moteur Claude inchangé, suite verte | pass | 15 tests Claude verts (modèle fixé), 71 au total : [evidence/pytest_2026-11-22.txt](evidence/pytest_2026-11-22.txt) |
-| 8 | Essai réel avec la clé de Vlad | pending | À faire sur le Mac (la session ne peut pas joindre `api.mistral.ai`) |
+| 8 | Essai réel avec la clé de Vlad | pass | 2026-11-22, sur le Mac, dans un espace de test isolé : 5 analyses envoyées à `mistral-large-latest` en 1 paquet, coût réel 0,0312 $, import « 5 prêts, 0 refusés, 0 ignorés, 0 sans résultat ». Schéma strict accepté (avec `anyOf`), sans reprise `json_object` : [evidence/mistral-live_2026-11-22.md](evidence/mistral-live_2026-11-22.md) |
 
 ## Not verified
-- Aucun appel réel à Mistral : forme exacte des réponses, prise en charge de `anyOf` en mode strict, alias des modèles et tarifs ne sont vérifiés que par recherche web (pages officielles bloquées par le proxy de la session). La reprise `json_object` et la vérification à l'import limitent le risque ; le critère 8 tranche.
+- Vérifié par l'essai réel du 2026-11-22 : forme des réponses, `json_schema` strict avec `anyOf`, alias `mistral-large-latest`. Pas vérifié : Medium et Small, un lot complet (80 tâches, 4 paquets), les 429 et 5xx en vrai, et les tarifs officiels (le coût réel est calculé avec les tarifs estimés du code, pas lu sur une facture Mistral).
+- La qualité des analyses de Mistral n'est pas mesurée (page 🎯 Qualité) : l'essai prouve que le moteur fonctionne, rien de plus (demande de Vlad, 2026-11-22).
 - Le cache de prompt Mistral n'est pas exploité (`cached_tokens` est seulement compté s'il est renvoyé).
 
 ## Verdict
-- [ ] Accepted by the owner (after criterion 8)
+- [x] Accepted by the owner (after criterion 8) : « Yes, accept and commit » (Vlad, 2026-11-22)

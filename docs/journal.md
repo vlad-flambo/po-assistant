@@ -20,6 +20,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-22 | Audit après migration de compte (fichiers, historique, tests, application) | Claude Code | 56 tests verts, parcours démo joué dans un navigateur ; perte des diapositives constatée (lien 404 depuis le nouveau compte) |
 | 2026-11-22 | Diapositives reconstruites (15) depuis `docs/presentation.md`, README et démarche | Claude Code | Chiffres repris des documents vérifiés ; aperçu rendu des 15 diapositives (aucun débordement) ; source versionnée cette fois |
 | 2026-11-22 | Moteur API Mistral (cycle 013) | Claude Code | 15 tests avec client simulé ; pages officielles Mistral inaccessibles depuis la session : tarifs marqués « estimation », essai réel par Vlad |
+| 2026-11-22 | Essai réel Mistral : 5 analyses (cycle 013, critère 8) | Claude Code sur le Mac de Vlad, sa clé | Import vérifié 5/5, 0 refus ; sonde : schéma strict accepté ; espace de test isolé ; résultats versionnés dans `evidence/` |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -63,6 +64,6 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Migration** : le projet passe sur un autre compte GitHub et Claude (dépôt `vlad-flambo/po-assistant`, public). Audit complet : code, données, captures et historique intacts ; tests verts ; application et parcours démo fonctionnels.
 - **Perte** : les diapositives n'existaient que sous forme d'artefact sur l'ancien compte Claude. Elles sont reconstruites (15) à partir du script de présentation, et leur source est désormais versionnée (`docs/presentation/deck/`). Leçon : un livrable qui n'est pas dans le dépôt n'existe pas.
 - **Confidentialité** : le dépôt étant public, la documentation interne de saxobeat (`saxobeat reference/`, qui contenait une adresse e-mail réelle et des détails d'hébergement) et les mentions de l'employeur actuel sont retirées. L'historique git n'est pas réécrit (risque accepté par Vlad). La synthèse `docs/analyse/02-contexte-saxobeat.md` tient lieu de source.
-- **Cycle 013, moteur Mistral** : la seule clé disponible est une clé Mistral ; le moteur API n'avait jamais tourné en réel. Le fournisseur suit désormais le modèle (Mistral Large par défaut, Claude au choix), avec le même pack, la même vérification et le même repli. Essai réel à faire par Vlad sur son Mac (la session cloud ne joint pas l'API Mistral).
+- **Cycle 013, moteur Mistral** : la seule clé disponible est une clé Mistral ; le moteur API n'avait jamais tourné en réel. Le fournisseur suit désormais le modèle (Mistral Large par défaut, Claude au choix), avec le même pack, la même vérification et le même repli. Essai réel fait le 2026-11-22 sur le Mac : 5 analyses par Mistral Large, importées sans refus, 0,03 $ ; le schéma strict est accepté, la reprise `json_object` n'a pas servi.
 - **Mises à jour** : nombre de tests (71), profil du projet (dépôt, secrets, règles de push), configuration de lancement, bouton « Deploy » masqué pendant la démo.
 
