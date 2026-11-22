@@ -1,0 +1,31 @@
+<section id="qualite" class="dark">
+<div class="head">
+<p class="eyebrow">Garde-fous et qualité mesurée</p>
+<h2>On ne dit pas « ça marche » : on le mesure</h2>
+</div>
+<div style="display:flex;gap:64px">
+<div style="width:640px;display:flex;flex-direction:column;gap:20px">
+<h3 style="font-size:32px">Garde-fous</h3>
+<ul style="font-size:28px;line-height:1.45">
+<li>Citations vérifiées mot pour mot</li>
+<li>Résultat hors format refusé, avec sa raison</li>
+<li>Import idempotent, fichier partiel accepté</li>
+<li>La PO seule écrit dans Linear</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<h3 style="font-size:32px">Contre une vérité terrain que l’agent n’a jamais vue</h3>
+<table style="font-size:26px;color:#C3CCDA">
+<tr><th style="width:70%">Mesure (80 feedbacks)</th><th style="width:30%;text-align:right">Résultat</th></tr>
+<tr><td>Type correct</td><td style="text-align:right">84 %</td></tr>
+<tr><td>Thème principal correct</td><td style="text-align:right">96 %</td></tr>
+<tr><td>Rattachement au backlog (précision / rappel)</td><td style="text-align:right">98 % / 95 %</td></tr>
+<tr><td>Besoins nouveaux repérés</td><td style="text-align:right">22 / 22</td></tr>
+<tr><td>Risque de départ (précision / rappel)</td><td style="text-align:right">78 % / 100 %</td></tr>
+<tr><td>Aucune demande inventée (éloges, bruit, vague)</td><td style="text-align:right">8 / 8</td></tr>
+</table>
+</div>
+</div>
+<div class="footer"><span>Erreur la plus fréquente : des bugs classés en améliorations (5 cas)</span><span class="num"></span></div>
+<aside>2:00. Vrai passage du skill sur les 80 feedbacks, en un seul passage, sans voir la vérité terrain (data/ground_truth.json). L’erreur la plus fréquente : des bugs classés en améliorations (5 cas). La priorisation et la rédaction n’ont pas de vérité terrain : leur qualité se juge sur pièces ; la suite serait de comparer aux décisions passées de la PO. Ces mesures viennent du skill ; l’essai réel de l’API Mistral se fait avec la clé de Vlad.</aside>
+</section>

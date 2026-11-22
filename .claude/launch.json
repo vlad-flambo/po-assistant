@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "saxobeat",
+      "name": "po-assist",
       "runtimeExecutable": "uv",
-      "runtimeArgs": ["run", "python", "scripts/dev_server.py"],
-      "port": 8765,
+      "runtimeArgs": ["run", "streamlit", "run", "app.py", "--server.headless", "true"],
+      "port": 8007,
       "autoPort": false
     }
   ]
