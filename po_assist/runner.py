@@ -1,7 +1,7 @@
 """Choix du moteur de l'agent (cycle 012) : API par défaut, skill Claude Code en repli, démo = API simulée.
 
 - mode démo activé : flux API simulé (po_assist.demo), aucun appel, rien n'est facturé ;
-- moteur « api » : appel réel (po_assist.api_agent). Sans identifiants, ou si l'API refuse la requête dès le premier
+- moteur « api » : appel réel (po_assist.api_agent), à Mistral ou à Claude selon le modèle (cycle 013). Sans identifiants, ou si l'API refuse la requête dès le premier
   paquet (clé invalide, modèle inaccessible), repli automatique sur le skill : le pack est exporté pour Claude Code ;
 - moteur « skill » choisi explicitement : export du pack pour le skill local.
 """
@@ -11,9 +11,13 @@ from . import api_agent, demo, handoff, settings
 from .linear import LinearClient
 from .store import Store
 
-ENGINES = {"api": "API Claude (recommandé)", "skill": "Skill Claude Code, en local (repli)"}
-NO_KEY = ("Aucune clé API détectée : repli sur le skill Claude Code local. Pour utiliser l'API, définissez "
-          "ANTHROPIC_API_KEY (fichier .env à la racine du dépôt, chargé par le lanceur) ou `ant auth login`.")
+ENGINES = {"api": "API Mistral ou Claude, selon le modèle (recommandé)", "skill": "Skill Claude Code, en local (repli)"}
+
+
+def no_key_message(model: str) -> str:
+    prov = api_agent.PROVIDERS[api_agent.provider_of(model)]
+    return (f"Aucune clé API {prov} détectée : repli sur le skill Claude Code local. Pour utiliser l'API, "
+            f"{api_agent.missing_key_hint(model)}.")
 
 
 def resolve(cfg: dict | None = None) -> dict:
@@ -21,8 +25,8 @@ def resolve(cfg: dict | None = None) -> dict:
     cfg = cfg or settings.load()
     if cfg["demo_mode"]:
         return {"engine": "demo", "fallback_reason": None}
-    if cfg["engine"] == "api" and not api_agent.has_credentials():
-        return {"engine": "skill", "fallback_reason": NO_KEY}
+    if cfg["engine"] == "api" and not api_agent.has_credentials(cfg["api_model"]):
+        return {"engine": "skill", "fallback_reason": no_key_message(cfg["api_model"])}
     return {"engine": cfg["engine"], "fallback_reason": None}
 
 

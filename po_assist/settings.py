@@ -8,7 +8,7 @@ from . import config
 DEFAULTS = {
     "demo_mode": True,          # cycle 009 : activé par défaut
     "engine": "api",            # cycle 012 : API par défaut ; "skill" (fichiers + skill Claude Code) en repli
-    "api_model": "claude-opus-5-5",
+    "api_model": "mistral-large-latest",  # cycle 013 : Mistral par défaut ; les modèles Claude restent au choix
 }
 
 

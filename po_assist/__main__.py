@@ -20,7 +20,8 @@ def main(argv: list[str] | None = None) -> int:
     rn = sub.add_parser("run", help="lancer l'agent : exporter, traiter (démo ou API), écrire les résultats")
     rn.add_argument("pack")
     rn.add_argument("--engine", choices=["demo", "api", "skill"], help="par défaut : selon les réglages (API, repli skill)")
-    rn.add_argument("--model")
+    rn.add_argument("--model", help="mistral-large-latest (défaut), mistral-medium-latest, mistral-small-latest, "
+                                    "claude-opus-5-5…")
     rn.add_argument("--limit", type=int)
     rn.add_argument("--subjects", nargs="*")
     im = sub.add_parser("import", help="vérifier puis importer un ou plusieurs fichiers de résultats")

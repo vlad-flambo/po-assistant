@@ -37,7 +37,7 @@ L'application prépare le travail d'IA dans des lots auto-suffisants (« packs �
 
 | Moteur | Ce qui traite le pack | Quand |
 |---|---|---|
-| **API Claude** (par défaut) | L'application envoie le pack à l'API par paquets : sorties structurées, instructions et contexte en cache, repli serveur en cas de refus. Coût estimé sur le bouton, coût réel affiché ensuite | Usage normal, sans geste manuel. Clé : `ANTHROPIC_API_KEY`, par exemple dans un `.env` à la racine (ignoré par git, chargé par le lanceur Mac) |
+| **API Mistral ou Claude** (par défaut, Mistral Large) | L'application envoie le pack à l'API par paquets, avec des sorties structurées (schéma JSON imposé). Le fournisseur suit le modèle choisi dans ⚙️ Réglages. Côté Claude : instructions et contexte en cache, repli serveur en cas de refus. Coût estimé sur le bouton, coût réel affiché ensuite | Usage normal, sans geste manuel. Clé : `MISTRAL_API_KEY` (ou `ANTHROPIC_API_KEY` pour un modèle Claude), par exemple dans un `.env` à la racine (ignoré par git, chargé par le lanceur Mac) |
 | **Skill Claude Code** (repli) | Le skill `.claude/skills/po-agent/` : dans Claude Code, « traite les packs ». C'est l'architecture en production sur saxobeat | **Automatiquement** quand il n'y a pas de clé ou que l'API refuse la requête ; ou par choix, pour travailler sans clé |
 | **Mode démo** (activé au démarrage) | Le flux API, simulé : aucun appel, rien n'est facturé ; les résultats sont ceux d'un vrai passage de l'agent, calculés à l'avance | Démonstration, sans attente ni coût |
 
@@ -46,7 +46,7 @@ Dans tous les cas, le format des résultats et la vérification à l'import sont
 ```mermaid
 flowchart LR
   L[(Linear simulé<br/>data/linear.db)] -->|lecture| A[PO Assist<br/>Streamlit + Python]
-  A -->|1. pack JSON, par paquets| API[API Claude<br/>par défaut]
+  A -->|1. pack JSON, par paquets| API[API Mistral ou Claude<br/>par défaut]
   API -->|résultats JSON| A
   A -.->|repli : pas de clé,<br/>clé refusée| T[handoff/to-do/]
   T -.->|« traite les packs »| S[Skill Claude Code<br/>po-agent]

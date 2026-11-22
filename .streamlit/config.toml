@@ -4,3 +4,7 @@ port = 8007
 
 [browser]
 gatherUsageStats = false
+
+[client]
+# Barre d'outils réduite : pas de bouton « Deploy » pendant la démo
+toolbarMode = "minimal"

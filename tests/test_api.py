@@ -1,4 +1,7 @@
-"""Cycle 010 : moteur API, testé avec un client simulé (aucun appel réseau, aucune clé, aucune dépense)."""
+"""Cycle 010 : moteur API Claude, testé avec un client simulé (aucun appel réseau, aucune clé, aucune dépense).
+
+Depuis le cycle 013, le modèle par défaut est Mistral : ces tests choisissent un modèle Claude explicitement
+(le moteur Mistral a les siens, tests/test_mistral.py)."""
 from __future__ import annotations
 
 import json
@@ -15,6 +18,7 @@ from po_assist.store import Store
 from tests.test_handoff import perfect_output
 
 ROOT = Path(__file__).resolve().parent.parent
+CLAUDE = "claude-opus-5-5"
 
 
 def _tasks_of(kwargs) -> list[dict]:
@@ -65,7 +69,7 @@ def _auth_error():
 
 def test_api_run_batches_caches_constrains_and_imports(env):
     client = FakeClient()
-    run = api_agent.run("analyse", client=client)
+    run = api_agent.run("analyse", model=CLAUDE, client=client)
     assert run["batches"] == 4 and len(client.calls) == 4
     systems = [c["system"] for c in client.calls]
     assert all(s == systems[0] for s in systems), "le préfixe mis en cache doit être identique d'un paquet à l'autre"
@@ -82,7 +86,7 @@ def test_api_run_batches_caches_constrains_and_imports(env):
 
 
 def test_refusal_on_one_batch_skips_only_that_batch(env):
-    run = api_agent.run("analyse", client=FakeClient(lambda k, kw: "refusal" if k == 2 else "ok"))
+    run = api_agent.run("analyse", model=CLAUDE, client=FakeClient(lambda k, kw: "refusal" if k == 2 else "ok"))
     pv = handoff.check(run["results"])
     assert len(pv.accepted) == 60 and len(pv.skipped) == 20
     assert all("refus du modèle sur le paquet 2 (cyber)" in s["reason"] for s in pv.skipped)
@@ -90,24 +94,24 @@ def test_refusal_on_one_batch_skips_only_that_batch(env):
 
 def test_invalid_key_on_first_batch_stops_everything_cleanly(env):
     with pytest.raises(api_agent.ApiAgentError, match="vérifiez la clé"):
-        api_agent.run("analyse", client=FakeClient(lambda k, kw: _auth_error()))
+        api_agent.run("analyse", model=CLAUDE, client=FakeClient(lambda k, kw: _auth_error()))
     assert handoff.status()["packs"]["analyse"] == {"to_do": 80, "exported": 0, "done": 0}
     assert not list((env / "handoff" / "to-do").glob("*.json"))
 
 
 def test_error_after_paid_batches_keeps_their_results(env):
-    run = api_agent.run("analyse", client=FakeClient(lambda k, kw: _auth_error() if k == 3 else "ok"))
+    run = api_agent.run("analyse", model=CLAUDE, client=FakeClient(lambda k, kw: _auth_error() if k == 3 else "ok"))
     pv = handoff.check(run["results"])
     assert len(pv.accepted) == 60 and len(pv.skipped) == 20 and run["problems"]
 
 
 def test_no_credentials_means_no_export_and_a_clear_message(env, monkeypatch, tmp_path):
-    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "MISTRAL_API_KEY"):
         monkeypatch.delenv(var, raising=False)
     monkeypatch.setenv("HOME", str(tmp_path / "home"))
-    assert api_agent.has_credentials() is False
+    assert api_agent.has_credentials(CLAUDE) is False
     with pytest.raises(api_agent.ApiAgentError, match="Aucune clé API"):
-        api_agent.run("analyse")
+        api_agent.run("analyse", model=CLAUDE)
     assert handoff.status()["packs"]["analyse"]["exported"] == 0
 
 
@@ -144,7 +148,7 @@ def test_estimate_and_engine_setting(env):
 
 def test_ui_in_api_mode_shows_cost_on_the_button(env, monkeypatch):
     from streamlit.testing.v1 import AppTest
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "factice-pour-le-test")  # jamais utilisée : aucun clic de lancement ici
+    monkeypatch.setenv("MISTRAL_API_KEY", "factice-pour-le-test")  # jamais utilisée : aucun clic de lancement ici
     settings.save(demo_mode=False, engine="api")
     for page in ["🤖 Agent", "⚙️ Réglages"]:
         at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60)
@@ -160,11 +164,11 @@ from po_assist import runner  # noqa: E402
 
 
 def _cfg(**kw):
-    return {**settings.DEFAULTS, **kw}
+    return {**settings.DEFAULTS, "api_model": CLAUDE, **kw}
 
 
 def test_default_is_api_and_no_key_falls_back_to_skill(env, monkeypatch, tmp_path):
-    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "MISTRAL_API_KEY"):
         monkeypatch.delenv(var, raising=False)
     monkeypatch.setenv("HOME", str(tmp_path / "home"))
     cfg = _cfg(demo_mode=False)
@@ -198,7 +202,7 @@ def test_demo_simulates_the_api_flow(env):
 
 def test_ui_without_key_shows_the_fallback(env, monkeypatch, tmp_path):
     from streamlit.testing.v1 import AppTest
-    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "MISTRAL_API_KEY"):
         monkeypatch.delenv(var, raising=False)
     monkeypatch.setenv("HOME", str(tmp_path / "home"))
     settings.save(demo_mode=False)

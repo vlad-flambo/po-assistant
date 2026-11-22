@@ -65,3 +65,4 @@ docs/sdlc/
 | 010 | 3 | option API | Verify : 8/10, reste l'essai réel avec la clé du PO |
 | 011 | 4 | guide utilisateur | Verify : 6/6, en attente de la relecture du PO |
 | 012 | 4 | API par défaut, skill en repli | Verify : 6/6, en attente de l'accord du PO |
+| 013 | 4 | Moteur API Mistral | Verify 2026-11-22 : moteur Mistral construit (défaut `mistral-large-latest`, 15 tests, 71 verts) ; essai réel avec la clé de Vlad en attente (critère 8) |

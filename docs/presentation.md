@@ -19,7 +19,7 @@
 | 1 | 0:30 | **Le lundi matin de Camille** : 80 feedbacks en 10 semaines, 3 canaux, 30 issues au backlog, un sprint qui démarre aujourd'hui | Le problème n'est pas de lire, c'est de **décider vite et de pouvoir le justifier** |
 | 2 | 0:30 | **Ce que fait PO Assist** : Comprendre → Arbitrer → Formaliser, avec Camille qui valide entre chaque étape | Un fil rouge : de la citation client à la story |
 | — | **10:00** | **Démonstration** (script ci-dessous) | |
-| 3 | 1:30 | **Architecture** : schéma du README (Linear simulé → pack → API Claude, ou skill en repli → import vérifié → Linear) | L'API par défaut, le skill en repli. Le même pack pour les deux : le format et la vérification ne dépendent pas du moteur |
+| 3 | 1:30 | **Architecture** : schéma du README (Linear simulé → pack → API Mistral ou Claude, ou skill en repli → import vérifié → Linear) | L'API par défaut, le skill en repli. Le même pack pour les deux : le format et la vérification ne dépendent pas du moteur |
 | 4 | 1:30 | **L'IA estime, le code calcule** : tableau des rôles IA / code par pack | Tout chiffre est exact et rejouable ; tout jugement est justifié |
 | 5 | 2:00 | **Garde-fous et qualité mesurée** : citations vérifiées, refus avec raison, import idempotent ; puis le tableau 84 % / 96 % / 98 % / 22 sur 22 / 100 % | On ne dit pas « ça marche », on le mesure contre une vérité terrain que l'agent n'a jamais vue |
 | 6 | 1:30 | **La démarche** : cycles courts avec portes de validation, journal tenu au fil de l'eau | La trace est dans le dépôt (`docs/sdlc/`) |
