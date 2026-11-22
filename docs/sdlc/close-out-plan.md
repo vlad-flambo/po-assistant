@@ -36,7 +36,7 @@ Paste in one message: the launcher output, the Mistral run output, the Qualité 
 
 ### 4. Record the evidence (Claude)
 - [x] (2026-11-22: 008 on Vlad's word, 013 by Vlad's evidence file, 010 criterion 10 skipped) 008, 013 (and 010 if decided in step 5): results and dated evidence files in `verify.md`. Anything that failed goes back to its cycle's build stage instead.
-- [ ] Mistral cost and quality written into the deck (slides 5 and 11), `docs/demarche.md` §6 and the README.
+- [x] (cost, 2026-11-22; quality on 80 feedbacks not measured yet) Mistral cost and quality written into the deck (slides 5 and 11), `docs/demarche.md` §6 and the README.
 - [x] Refresh `docs/captures/6-agent.png` (also guide captures 02 and 03, 2026-11-22) (it still shows "API Claude"); it's the fallback if the app does not start.
 
 ### 5. Owner decisions (Vlad, one message)

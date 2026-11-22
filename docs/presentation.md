@@ -22,7 +22,7 @@
 | 2 | 0:30 | **Le lundi matin de Camille** : 80 feedbacks en 10 semaines, 3 canaux, 30 issues au backlog, un sprint qui démarre aujourd'hui | Le problème n'est pas de lire, c'est de **décider vite et de pouvoir le justifier** |
 | 3 | 0:30 | **Ce que fait PO Assist** : Comprendre → Arbitrer → Formaliser, Camille valide entre chaque étape | Un fil rouge : de la citation client à la story |
 | 4 | **10:00** | **Démonstration** (intercalaire ; script complet dans les notes et ci-dessous) | |
-| 5 | (démo) | **Démo · Lancer l'agent** : bouton avec coût estimé, paquets, import vérifié | API par défaut (Mistral ou Claude), simulée en démo, skill en repli |
+| 5 | (démo) | **Démo · Lancer l'agent** : bouton avec coût estimé (≈ 0,35 $ pour 80), coût réel mesuré avec Mistral Large (0,031 $ pour 5 feedbacks, contre 0,028 $ estimés), paquets, import vérifié | API par défaut (Mistral ou Claude), simulée en démo, skill en repli ; l'estimation tient (+11 %) |
 | 6–8 | (secours) | **Captures de secours** : tableau de bord, priorisation, user story | À montrer seulement si l'application ne démarre pas |
 | 9 | 1:30 | **Architecture** : Linear simulé → pack → API Mistral ou Claude (skill en repli) → vérification → import → Linear | Le même pack pour tous les moteurs : changer de moteur ne change que le transport |
 | 10 | 1:30 | **L'IA estime, le code calcule** : rôles IA / code par pack | Tout chiffre est exact et rejouable ; tout jugement est justifié |
