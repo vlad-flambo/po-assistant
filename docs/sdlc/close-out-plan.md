@@ -42,13 +42,13 @@ Paste in one message: the launcher output, the Mistral run output, the Qualité 
 ### 5. Owner decisions (Vlad, one message)
 - [x] Accept verify for 002, 003, 004, 005, 006, 009, 011, 012 (« I accept », 2026-11-22).
 - [ ] Accept verify for 008 and 013 (after step 4).
-- [ ] 010 criterion 10 (Vlad: « skipping this », 2026-11-22; recorded as not checked, cycle left open until you say close): accept as "covered by 013's real Mistral run" (recommended), or keep it open until a Claude key exists.
+- [x] 010 criterion 10: skipped, cycle closed (Vlad: « close 010 as skipped », 2026-11-22). Original options: accept as "covered by 013's real Mistral run" (recommended), or keep it open until a Claude key exists.
 - [ ] 007: confirm the goal and success measure in its `intent.md` (the four measures listed there).
 
 Claude ticks these boxes only on your words, quoting them with the date.
 
 ### 6. Close the cycles (Claude)
-- [x] (2026-11-22, 002–006, 008, 009, 011, 012; 010 and 013 still open) One `learn.md` per cycle 002–006 and 008–013: outcome against the success measure, findings, and where each one moves (README, guide, démarche, journal), every row ticked.
+- [x] (2026-11-22, 002–006, 008, 009, 011, 012; 010 closed after; 013 still open) One `learn.md` per cycle 002–006 and 008–013: outcome against the success measure, findings, and where each one moves (README, guide, démarche, journal), every row ticked.
 - [ ] README status table: each cycle set to Closed; `next.md` lines all ticked or moved.
 - [ ] Board regenerated, one commit, push.
 

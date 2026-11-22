@@ -27,5 +27,5 @@
 - **Estimation du coût** : grossière (4 caractères ≈ 1 jeton, jetons de sortie moyens par type de tâche).
 
 ## Verdict
-- [ ] Accepted by owner
+- [x] Accepted by owner (Vlad, 2026-11-22 : « close 010 as skipped » ; critère 10 écarté : pas de clé Claude, l'essai réel d'une API se fait avec Mistral au cycle 013)
 - [ ] Sent back (what, to which stage)

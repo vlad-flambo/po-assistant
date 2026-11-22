@@ -62,7 +62,7 @@ docs/sdlc/
 | 007 | 5 | restitution documentation et démo | Intent rempli, but à confirmer par le PO |
 | 008 | 3 | lanceur Mac (port 8007) | Closed 2026-11-22 (verify accepted, learn done) |
 | 009 | 4 | mode démo | Closed 2026-11-22 (verify accepted, learn done) |
-| 010 | 3 | option API | Verify : 9/10 ; essai réel Claude écarté par le PO le 2026-11-22 (pas de clé) ; clôture à décider |
+| 010 | 3 | option API | Closed 2026-11-22 (verify accepted, criterion 10 skipped by the owner: no Claude key; learn done) |
 | 011 | 4 | guide utilisateur | Closed 2026-11-22 (verify accepted, learn done) |
 | 012 | 4 | API par défaut, skill en repli | Closed 2026-11-22 (verify accepted, learn done) |
 | 013 | 4 | Moteur API Mistral | Verify 2026-11-22 : moteur Mistral construit (défaut `mistral-large-latest`, 15 tests, 71 verts) ; essai réel avec la clé de Vlad en attente (critère 8) |

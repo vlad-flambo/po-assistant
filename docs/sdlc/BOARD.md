@@ -1,6 +1,6 @@
 # Cycle board
 
-Generated 2026-11-22 21:53 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
+Generated 2026-11-22 21:57 by the ai-sdlc skill from `cycles/*/`. Do not edit by hand: change the cycle's files and run the script again.
 
 Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 
@@ -13,8 +13,6 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 - 007 Restitution documentation et démo: Relire les diapositives reconstruites, puis les partager avec le jury (menu Partager) ou les exporter en PDF
 - 013 Moteur API Mistral: Sur le Mac : `git pull`, `uv sync`, ajouter `MISTRAL_API_KEY=...` dans `.env`, puis `uv run python -m po_assist run analyse --engine api --limit 5` et `uv run python -m po_assist import` ; me dire la sortie (critère 8)
 - 013 Moteur API Mistral: Accepter verify.md après l'essai
-- 010 Option API: Relire les choix Q1 à Q6 de l'intent
-- 010 Option API: Décider : clore 010 avec le critère 10 écarté, ou le laisser ouvert (« skipping this », Vlad, 2026-11-22)
 
 **My move (the agent)**
 
@@ -35,7 +33,7 @@ Stages: `x` done, `o` in progress, `-` up next, `.` later, `~` dismissed.
 | 007 | Restitution documentation et démo | 5/5 | Intent | o | . | . | . | . | . |  | 2026-11-22 |
 | 008 | Lanceur Mac (port 8007) | 3/5 | Closed | x | x | x | x | x | x | 8/8 | 2026-11-22 |
 | 009 | Mode démo | 4/5 | Closed | x | x | x | x | x | x | 8/8 | 2026-11-22 |
-| 010 | Option API | 3/5 | Verify | x | x | x | x | o | . | 8/10 | 2026-11-22 |
+| 010 | Option API | 3/5 | Closed | x | x | x | x | x | x | 8/10 | 2026-11-22 |
 | 011 | Guide utilisateur | 4/5 | Closed | x | x | x | x | x | x | 6/6 | 2026-11-22 |
 | 012 | API par défaut, skill en repli | 4/5 | Closed | x | x | x | x | x | x | 6/6 | 2026-11-22 |
 | 013 | Moteur API Mistral | 4/5 | Verify | x | x | x | x | o | . | 7/8 | 2026-11-22 |
