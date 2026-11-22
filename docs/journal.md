@@ -17,6 +17,9 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 | 2026-11-17 | 25 stories supplémentaires pour le cache du mode démo | Skill `po-agent` (sous-agent sans vérité terrain) | Dry-run strict : 25/25 ; structure validée ; contenu non relu en entier |
 | 2026-11-17 | Moteur API (référence officielle `claude-api` chargée avant d'écrire) | Claude Code | Signature du SDK vérifiée ; 10 tests avec client simulé ; aucun appel réel (pas de clé) |
 | 2026-11-17 | Guide utilisateur (texte et captures) | Claude Code | Test des 45 libellés distincts cités contre l'interface ; parcours suivi dans un navigateur jusqu'à l'envoi dans Linear ; 3 captures relues |
+| 2026-11-22 | Audit après migration de compte (fichiers, historique, tests, application) | Claude Code | 56 tests verts, parcours démo joué dans un navigateur ; perte des diapositives constatée (lien 404 depuis le nouveau compte) |
+| 2026-11-22 | Diapositives reconstruites (15) depuis `docs/presentation.md`, README et démarche | Claude Code | Chiffres repris des documents vérifiés ; aperçu rendu des 15 diapositives (aucun débordement) ; source versionnée cette fois |
+| 2026-11-22 | Moteur API Mistral (cycle 013) | Claude Code | 15 tests avec client simulé ; pages officielles Mistral inaccessibles depuis la session : tarifs marqués « estimation », essai réel par Vlad |
 | 2026-11-14 | Mise en place du pilotage en cycles `ai-sdlc` (7 cycles) | Claude Code | Découpage issu de la WBS validée par Vlad |
 
 ## Journal
@@ -28,7 +31,7 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Choix de méthode** : cycles `ai-sdlc` (intent → spec → plan → build → verify → learn) pour garder une trace décision par décision.
 - **Obstacle** : le dépôt `Vlad-Flambo/saxobeat` n'est pas accessible depuis la session cloud. En attente d'un accès ou d'une description.
 - **Point d'attention** : des indices (non vérifiés) suggèrent que saxobeat est un outil de recherche d'emploi, alors que le brief parle d'une plateforme de gestion de projet. Arbitrage demandé (cycle 001, Q1).
-- **Déblocage** : Vlad ajoute la documentation de saxobeat (`saxobeat reference/`), qui remplace l'accès au code. La branche `main` ayant divergé, elle a été fusionnée dans la branche de travail (pas de réécriture d'historique).
+- **Déblocage** : Vlad ajoute la documentation de saxobeat (`saxobeat reference/`, retiré du dépôt public le 2026-11-22, voir plus bas), qui remplace l'accès au code. La branche `main` ayant divergé, elle a été fusionnée dans la branche de travail (pas de réécriture d'historique).
 - **Constat** : saxobeat est un suivi de recherche d'emploi (alpha, 10 à 30 candidats), pas une plateforme de gestion de projet. Il faut décider comment le présenter (Q8 du cycle 001).
 - **Décisions** : saxobeat projeté au printemps 2027 (Free / Plus / B2B) pour coller au brief ; lot Q2 à Q7 validé ; intent du cycle 001 fermé.
 - **Choix de conception** : les feedbacks entrent dans la file Triage de Linear, reliés à leur client (mécanique réelle des « Customer Requests »). 9 types de pièges sont injectés pour tester l'agent, et la vérité terrain reste hors de la base.
@@ -54,3 +57,12 @@ Trace chronologique pour la restitution (critère « Démarche », 20 %) : hypot
 - **Cycle 010, option API** : moteur au choix (skill local ou API). Même pack, envoyé par paquets avec instructions en cache et sorties structurées, coût estimé avant puis réel après. Aucun appel réel possible ici : l'essai revient à Vlad.
 - **Cycle 011, guide utilisateur** : `docs/guide-utilisateur.md`, aussi affiché dans l'application (page ❓ Guide, une seule source). Un test garantit que chaque bouton ou page cité existe à l'écran, pour que le guide ne se périme pas sans qu'on le sache.
 - **Cycle 012, API par défaut** (demande de Vlad) : l'API devient le moteur par défaut, le skill Claude Code le repli automatique (pas de clé, clé refusée), et la démo simule le flux API (coût annoncé, paquets, coût simulé, rien n'est facturé). Décision 002-D1 remplacée par 012-D1. Guide, README, démarche, script de présentation et slides réécrits en conséquence ; une erreur rattrapée dans le guide (exemple de coût à 0,38 $ au lieu de 1,53 $).
+
+### 2026-11-21 et 22 (week-end) : migration de compte
+
+- **Migration** : le projet passe sur un autre compte GitHub et Claude (dépôt `vlad-flambo/po-assistant`, public). Audit complet : code, données, captures et historique intacts ; tests verts ; application et parcours démo fonctionnels.
+- **Perte** : les diapositives n'existaient que sous forme d'artefact sur l'ancien compte Claude. Elles sont reconstruites (15) à partir du script de présentation, et leur source est désormais versionnée (`docs/presentation/deck/`). Leçon : un livrable qui n'est pas dans le dépôt n'existe pas.
+- **Confidentialité** : le dépôt étant public, la documentation interne de saxobeat (`saxobeat reference/`, qui contenait une adresse e-mail réelle et des détails d'hébergement) et les mentions de l'employeur actuel sont retirées. L'historique git n'est pas réécrit (risque accepté par Vlad). La synthèse `docs/analyse/02-contexte-saxobeat.md` tient lieu de source.
+- **Cycle 013, moteur Mistral** : la seule clé disponible est une clé Mistral ; le moteur API n'avait jamais tourné en réel. Le fournisseur suit désormais le modèle (Mistral Large par défaut, Claude au choix), avec le même pack, la même vérification et le même repli. Essai réel à faire par Vlad sur son Mac (la session cloud ne joint pas l'API Mistral).
+- **Mises à jour** : nombre de tests (71), profil du projet (dépôt, secrets, règles de push), configuration de lancement, bouton « Deploy » masqué pendant la démo.
+

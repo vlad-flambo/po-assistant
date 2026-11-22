@@ -34,7 +34,7 @@ Par défaut, PO Assist se comporte comme une intégration API : « Lancer l'agen
 - **Moteur API** déjà construit et testé avec un client simulé (cycle 010, `po_assist/api_agent.py`) ; aucun appel réel fait (pas de clé ici).
 - **Mode démo** (cycle 009, `po_assist/demo.py`) : rejoue de vrais résultats du skill, en une seule « progression », au nom du skill.
 - **Décision 002-D1** (2026-11-16, « pas d'API ») : remplacée par celle-ci, à consigner.
-- **Slides** : 14 diapositives (https://claude.ai/artifact/Uvou3wJVtTvQHdhBGFSJSk). À revoir : 8 (architecture), 12 (ce qui a changé), notes de 4 et 9.
+- **Slides** : 14 diapositives (https://claude.ai/artifact/Uvou3wJVtTvQHdhBGFSJSk, lien mort depuis la migration du 2026-11-21). À revoir : 8 (architecture), 12 (ce qui a changé), notes de 4 et 9.
 - **Guide** : sections 1, 3, 4, 6, 7, 8 et 3 captures de la page Agent ; un test vérifie les libellés cités.
 
 ## Open questions (grilled one at a time)

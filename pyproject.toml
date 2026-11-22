@@ -5,6 +5,7 @@ description = "Agent IA au service d'un Product Owner (test technique) : jeu de 
 requires-python = ">=3.12"
 dependencies = [
     "anthropic>=2.9.0",
+    "httpx2>=2.16",  # appel direct de l'API Mistral (cycle 013)
     "streamlit>=1.67.0",
 ]
 

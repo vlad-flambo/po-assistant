@@ -1,5 +1,0 @@
-HEAD c0fa74a plus uncommitted slices 6-7; Postgres (the local Docker container on localhost:5432; migrations incl. 0041 applied to a fresh test database); run 2026-10-30T10:21:54+01:00
-    warnings.warn(pytest.PytestUnhandledThreadExceptionWarning(msg))
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1264 passed, 496 warnings in 102.48s (0:01:42)

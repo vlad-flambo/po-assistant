@@ -37,7 +37,7 @@ Disposer d'une base SQLite versionnée, structurée comme un espace Linear, qui 
 
 ## Not doing (this cycle)
 - Aucun appel à l'API Linear réelle, aucun compte Linear.
-- Aucune donnée réelle de client (Skaleet ou autre).
+- Aucune donnée réelle de client (employeur actuel ou autre).
 - Le code de l'agent (cycle 002 et suivants).
 
 ## What we already know (facts, with where they came from)

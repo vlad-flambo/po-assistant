@@ -50,7 +50,7 @@ def simulated_seconds(task_count: int) -> float:
 
 
 def run(pack_name: str, *, subjects: list[str] | None = None, linear: LinearClient | None = None,
-        store: Store | None = None, model: str = "claude-opus-5-5", pace: float = 0.0,
+        store: Store | None = None, model: str = api_agent.DEFAULT_MODEL, pace: float = 0.0,
         on_progress=None) -> dict | None:
     """Simule le mode API : export, paquets traités un à un (`pace` secondes au total), coût estimé, résultats."""
     linear, store = linear or LinearClient(), store or Store()

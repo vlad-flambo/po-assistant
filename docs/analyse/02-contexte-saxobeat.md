@@ -1,6 +1,6 @@
 # Contexte produit : saxobeat
 
-> **Sources :** `saxobeat reference/docs/` (7 PRD et études, 33 cycles sdlc) · **Date :** 2026-11-14 · **Usage :** contexte de l'application et base d'exemples pour le jeu de données (cycle 001, décision D6)
+> **Sources :** documentation interne de saxobeat (7 PRD et études, 33 cycles sdlc), retirée du dépôt public le 2026-11-22 pour confidentialité : cette synthèse en tient lieu, les noms de fichiers cités sont ceux de cette documentation · **Date :** 2026-11-14 · **Usage :** contexte de l'application et base d'exemples pour le jeu de données (cycle 001, décision D6)
 > Les PRD ont été lus directement ; les cycles ont été synthétisés par un sous-agent, et ses citations ont été vérifiées par sondage (cycles 017, 021, 015).
 
 ---
@@ -84,7 +84,7 @@
 
 ## 4. Backlog existant (base des issues Linear)
 
-- **33 cycles** avec type, importance (1 à 5) et statut : un modèle direct pour des issues avec priorité et état (catalogue complet dans `saxobeat reference/docs/sdlc/README.md` et `BOARD.md`).
+- **33 cycles** avec type, importance (1 à 5) et statut : un modèle direct pour des issues avec priorité et état.
 - **`backlog.md` et registres des PRD** : lancement automatique de l'agent, fraîcheur des fiches entreprises, dossier de candidature, choix du mode par le candidat, recherche plein texte, vue trajet domicile-travail, connecteur MCP, pré-remplissage assisté, etc.
 - **18 fonctionnalités repérées chez les concurrents** avec leur effort estimé en S / M / L (`COMPETITION.md` §7) : une base pour les estimations de complexité.
 

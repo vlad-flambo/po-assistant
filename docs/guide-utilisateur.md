@@ -2,7 +2,7 @@
 
 PO Assist est un assistant pour Product Owner. Il lit les feedbacks clients arrivés dans Linear, vous aide à décider quoi faire en priorité, puis rédige les user stories et les envoie dans Linear. **C'est toujours vous qui validez** : l'agent propose, vous importez, vous corrigez, vous envoyez.
 
-L'agent fonctionne par défaut par **l'API Claude**. Sans clé API, l'outil se **replie** sur le skill Claude Code local.
+L'agent fonctionne par défaut par **une API de modèle de langage** : Mistral (modèle par défaut) ou Claude, au choix dans les Réglages. Sans clé API, l'outil se **replie** sur le skill Claude Code local.
 
 > Les données de démonstration sont fictives : saxobeat, un suivi de recherche d'emploi, projeté au printemps 2027, avec 80 feedbacks, 30 issues au backlog et 60 clients. Linear est simulé.
 
@@ -62,7 +62,7 @@ La barre latérale de gauche donne accès aux 9 pages. Sous les pages, elle indi
 ![Page Agent au départ : seule l'analyse peut être lancée](guide/01-agent-depart.jpg)
 
 **1.2. Lancez l'agent**
-- Sur la carte **« 1 · Analyse des feedbacks »**, cliquez sur **« Lancer l'agent »**. Le bouton affiche le coût estimé de l'appel à l'API, par exemple « Lancer l'agent (API, ≈ 1,53 $) » pour les 80 feedbacks avec Claude Opus 5.5. En mode démo, ce coût est simulé.
+- Sur la carte **« 1 · Analyse des feedbacks »**, cliquez sur **« Lancer l'agent »**. Le bouton affiche le coût estimé de l'appel à l'API, par exemple « Lancer l'agent (API, ≈ 0,35 $) » pour les 80 feedbacks avec Mistral Large. En mode démo, ce coût est simulé.
 - Une barre de progression montre l'envoi à l'API paquet par paquet (« API : paquet 1/4 traité »), en 8 secondes environ en mode démo.
 - Un message vert annonce « Résultats prêts », avec le coût : simulé en mode démo, réel sinon.
 
@@ -186,13 +186,13 @@ Pour un usage hors de l'application, téléchargez toutes les stories avec **« 
 
 Ouvrez **« ⚙️ Réglages »** et désactivez **« Activer le mode démo »**. Le parcours reste le même que dans le § 3 ; seul change ce qui se passe quand vous lancez l'agent.
 
-### 4.1. API Claude (par défaut)
+### 4.1. API Mistral ou Claude (par défaut)
 
 L'application envoie elle-même le travail à l'API : vous n'avez aucun geste manuel à faire.
 
-1. **Prérequis :** une clé API Anthropic. Mettez-la dans un fichier `.env` à la racine du dépôt, sur une ligne `ANTHROPIC_API_KEY=...`. Le lanceur Mac lit ce fichier, git l'ignore, et l'application n'enregistre ni n'affiche jamais la clé. **« ⚙️ Réglages »** indique si une clé est détectée.
-2. Dans **« ⚙️ Réglages »**, le **« Moteur de l'agent »** est réglé sur **« API Claude (recommandé) »**. Choisissez le modèle dans **« Modèle (mode API) »** ; Claude Opus 5.5 est recommandé.
-3. Sur **« 🤖 Agent »**, le bouton annonce le coût estimé, par exemple « Lancer l'agent (API, ≈ 1,53 $) ». Le clic vaut confirmation.
+1. **Prérequis :** une clé API du fournisseur du modèle choisi. Mettez-la dans un fichier `.env` à la racine du dépôt, sur une ligne `MISTRAL_API_KEY=...` pour Mistral (modèle par défaut), ou `ANTHROPIC_API_KEY=...` pour Claude. Le lanceur Mac lit ce fichier, git l'ignore, et l'application n'enregistre ni n'affiche jamais la clé. **« ⚙️ Réglages »** indique si la clé du modèle choisi est détectée.
+2. Dans **« ⚙️ Réglages »**, le **« Moteur de l'agent »** est réglé sur **« API Mistral ou Claude, selon le modèle (recommandé) »**. Choisissez le modèle dans **« Modèle (mode API) »** : Mistral Large par défaut, Mistral Medium ou Small, ou un modèle Claude. Le tarif affiché pour Mistral est une estimation.
+3. Sur **« 🤖 Agent »**, le bouton annonce le coût estimé, par exemple « Lancer l'agent (API, ≈ 0,35 $) ». Le clic vaut confirmation.
 4. Une progression s'affiche paquet par paquet, puis le **coût réel** apparaît. Vérifiez l'aperçu et importez, comme au § 3.
 
 > Si l'API refuse une partie du travail (refus du modèle, erreur réseau), seules les tâches concernées reviennent « ignorées », avec la raison. Elles repartiront au prochain lancement.
@@ -251,7 +251,7 @@ Pour l'étape 3, le bouton de la page Priorisation exporte le pack de rédaction
 | « Rien à traiter : tout est déjà fait ou déjà chez l'agent » | Tout est déjà importé ou un fichier attend dans « Importer des résultats ». Pour recommencer : **« Réinitialiser (état initial) »** |
 | L'aperçu affiche des refusés | Lisez la raison de chaque refus (citation absente, valeur hors liste…). Importez les résultats valides ; les refusés repartiront au prochain lancement |
 | « Déjà importé le … : rien à faire » | Ce fichier a déjà été importé ; le réimporter ne change rien |
-| Bandeau ↩️ « Aucune clé API détectée : repli sur le skill… » | L'outil fonctionne avec le skill (§ 4.2). Pour utiliser l'API : ajoutez `ANTHROPIC_API_KEY=...` dans `.env`, puis relancez avec le lanceur ; ou connectez-vous avec `ant auth login` |
+| Bandeau ↩️ « Aucune clé API Mistral détectée : repli sur le skill… » (ou « Claude ») | L'outil fonctionne avec le skill (§ 4.2). Pour utiliser l'API : ajoutez `MISTRAL_API_KEY=...` (ou `ANTHROPIC_API_KEY=...` pour un modèle Claude) dans `.env`, puis relancez avec le lanceur |
 | Bandeau ↩️ « L'API refuse la requête… Repli sur le skill » | Le pack a été exporté pour le skill (§ 4.2). Vérifiez la clé et le modèle dans **« ⚙️ Réglages »** |
 
 ## 8. Glossaire
@@ -261,7 +261,7 @@ Pour l'étape 3, le bouton de la page Priorisation exporte le pack de rédaction
 | **Linear** | L'outil de gestion de backlog du PO, simulé ici par une base SQLite |
 | **Triage** | La file d'entrée de Linear, où arrivent tickets, e-mails et messages du chat |
 | **Pack** | Lot de travail exporté pour l'agent. Il contient tout ce dont l'agent a besoin : instructions, contexte, tâches |
-| **API Claude** | Le moteur par défaut : l'application envoie elle-même les packs au modèle |
+| **API (Mistral ou Claude)** | Le moteur par défaut : l'application envoie elle-même les packs au modèle choisi |
 | **Skill `po-agent`** | Le moteur de repli : la compétence Claude Code qui traite les packs en local, sans clé API |
 | **Mode démo** | Le flux API simulé : aucun appel, rien n'est facturé ; les résultats sont ceux d'un vrai passage de l'agent, calculés à l'avance. Vérification et import restent réels |
 | **ARR** | Revenu annuel récurrent d'un compte Business |

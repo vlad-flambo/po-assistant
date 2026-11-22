@@ -1,3 +1,0 @@
-Database: postgresql database saxobeat-prod1 on a remote server
-Candidate 1: 2980 jobs scored again
-2980 jobs scored again in all.

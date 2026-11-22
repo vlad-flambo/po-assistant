@@ -1,6 +1,6 @@
 # Données : espace Linear fictif « saxobeat · printemps 2027 »
 
-> **Données entièrement fictives.** saxobeat est un vrai projet personnel (un suivi de recherche d'emploi, documenté dans `saxobeat reference/`). Sa projection au printemps 2027 est inventée pour ce test : offres Free, Plus et Business, clients, équipe, chiffres. Les noms de personnes et d'entreprises clientes sont inventés, et toutes les adresses utilisent le domaine réservé `.example`. Les employeurs cités comme *sources d'offres* (Capgemini, Accenture, LinkedIn…) ne sont pas des clients.
+> **Données entièrement fictives.** saxobeat est un vrai projet personnel (un suivi de recherche d'emploi, synthèse de sa documentation dans `docs/analyse/02-contexte-saxobeat.md`). Sa projection au printemps 2027 est inventée pour ce test : offres Free, Plus et Business, clients, équipe, chiffres. Les noms de personnes et d'entreprises clientes sont inventés, et toutes les adresses utilisent le domaine réservé `.example`. Les employeurs cités comme *sources d'offres* (Capgemini, Accenture, LinkedIn…) ne sont pas des clients.
 
 ## Ce que contient la base
 

@@ -31,7 +31,7 @@ Vlad présente PO Assist en 20 minutes sans accroc, s'appuie sur une démonstrat
 
 ## What we already know (facts, with where they came from)
 - **Documentation** : `README.md` (démarrage, architecture, qualité mesurée), `docs/demarche.md` (livrable 2 : problème, hypothèses, chemin, abandons, usage de l'IA, choix techniques, limites), `docs/journal.md` (journal et registre de l'usage de l'IA), `docs/sdlc/` (cycles).
-- **Présentation** : `docs/presentation.md` (déroulé, script de démonstration minuté, 10 questions probables) ; 14 diapositives avec notes : https://claude.ai/artifact/Uvou3wJVtTvQHdhBGFSJSk (privées).
+- **Présentation** : `docs/presentation.md` (déroulé, script de démonstration minuté, 10 questions probables) ; 14 diapositives avec notes : https://claude.ai/artifact/Uvou3wJVtTvQHdhBGFSJSk (privées ; perdues à la migration de compte, reconstruites le 2026-11-22 : https://claude.ai/artifact/SnLtghS49Mfa2x2hSKPSxD, source dans `docs/presentation/deck/`).
 - **Démonstration** : rejeu des résultats réels de l'agent (`handoff/demo/`), réinitialisation sans toucher aux données versionnées, 7 captures dans `docs/captures/`.
 - **Chiffres du script recoupés avec les données** le 2026-11-16 : 3 corrigés (38 besoins, canaux de la délivrabilité, thèmes dominants).
 
@@ -39,7 +39,7 @@ Vlad présente PO Assist en 20 minutes sans accroc, s'appuie sur une démonstrat
 | # | Question | Recommended answer | Answer | Status |
 |---|----------|--------------------|--------|--------|
 | Q1 | Support de présentation ? | Diapositives, avec démonstration dans l'application | Diapositives : « oui, fais les slides » (Vlad, 2026-11-16) | answered |
-| Q2 | Charte graphique ? | Neutre : le design system Skaleet (défaut de l'organisation) ne convient pas pour un test destiné à une autre entreprise | Neutre, appliquée par défaut ; Vlad peut demander autre chose | parked |
+| Q2 | Charte graphique ? | Neutre : le design system par défaut de l'organisation (celui de l'employeur actuel) ne convient pas pour un test destiné à une autre entreprise | Neutre, appliquée par défaut ; Vlad peut demander autre chose | parked |
 
 Status: `open`, `answered`, `parked` (deliberately left for later).
 

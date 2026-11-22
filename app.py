@@ -63,7 +63,7 @@ if st.sidebar.button("Réinitialiser (état initial)", width="stretch",
     st.rerun()
 ENGINE_FR = {"demo": "mode démo : flux API simulé, résultats d'un vrai passage de l'agent calculés à l'avance",
              "skill": "agent : skill Claude Code, en local (repli)",
-             "api": f"agent : API Claude ({api_agent.MODELS.get(MODEL, MODEL)})"}
+             "api": f"agent : API {api_agent.PROVIDERS[api_agent.provider_of(MODEL)]} ({api_agent.MODELS.get(MODEL, MODEL)})"}
 st.sidebar.caption("Données fictives · " + ENGINE_FR[ENGINE])
 if DEMO:
     st.info("**Mode démo.** Le parcours est celui de l'intégration API, **simulé** : aucun appel n'est fait et rien "
@@ -128,7 +128,7 @@ def need_analysis() -> bool:
 def page_agent():
     st.header("🤖 Agent")
     if ENGINE in ("api", "demo"):
-        st.markdown(f"**Lancez l'agent** : le pack est envoyé à l'**API Claude** ({MODEL}) par paquets"
+        st.markdown(f"**Lancez l'agent** : le pack est envoyé à l'**API {api_agent.PROVIDERS[api_agent.provider_of(MODEL)]}** ({MODEL}) par paquets"
                     + (" (simulé en mode démo)" if ENGINE == "demo" else "") + ", le coût estimé est indiqué sur le "
                     "bouton → l'application **vérifie puis importe** le résultat. Vous validez entre chaque étape.")
     else:
@@ -431,13 +431,19 @@ def page_settings():
         st.rerun()
     if DEMO:
         st.caption("Le mode démo est activé : il simule le flux API (coût estimé avec ce modèle), sans aucun appel.")
-    key = api_agent.has_credentials()
-    st.markdown(f"Clé API : **{'détectée' if key else 'absente'}** (jamais affichée ni enregistrée par l'application)."
-                + ("" if key else " Pour le mode API : définir `ANTHROPIC_API_KEY`, par exemple dans un fichier `.env` à la "
-                                  "racine du dépôt (ignoré par git, chargé par le lanceur Mac), ou `ant auth login`."))
-    pin, pout = api_agent.PRICES[MODEL] if MODEL in api_agent.PRICES else api_agent.PRICES["claude-opus-5-5"]
-    st.caption(f"Tarif {MODEL} : {pin} $ / {pout} $ par million de jetons (entrée / sortie) ; instructions et contexte "
-               "mis en cache entre les paquets. Coût estimé affiché sur le bouton avant chaque lancement.")
+    prov = api_agent.PROVIDERS[api_agent.provider_of(MODEL)]
+    key = api_agent.has_credentials(MODEL)
+    st.markdown(f"Clé API {prov} : **{'détectée' if key else 'absente'}** (jamais affichée ni enregistrée par "
+                "l'application)." + ("" if key else f" Pour le mode API : {api_agent.missing_key_hint(MODEL)} ; le "
+                                     "fichier `.env` est ignoré par git."))
+    pin, pout = api_agent.PRICES.get(MODEL, api_agent.PRICES[api_agent.DEFAULT_MODEL])
+    if MODEL in api_agent.PRICES_ESTIMATED:
+        st.caption(f"Tarif {MODEL} : ≈ {pin} $ / {pout} $ par million de jetons (entrée / sortie), **estimation** à "
+                   "vérifier sur mistral.ai/pricing. Coût estimé affiché sur le bouton avant chaque lancement ; coût "
+                   "réel calculé après, à partir des jetons comptés par l'API.")
+    else:
+        st.caption(f"Tarif {MODEL} : {pin} $ / {pout} $ par million de jetons (entrée / sortie) ; instructions et "
+                   "contexte mis en cache entre les paquets. Coût estimé affiché sur le bouton avant chaque lancement.")
     st.divider()
     st.subheader("Résultats pré-calculés (mode démo)")
     cov = demo.coverage()

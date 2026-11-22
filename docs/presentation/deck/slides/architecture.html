@@ -1,0 +1,23 @@
+<section id="architecture">
+<div class="head">
+<p class="eyebrow">Architecture</p>
+<h2>Un même pack, quel que soit le moteur</h2>
+</div>
+<div class="flow">
+<div class="node rise" style="--i:0"><p class="n-title">Linear simulé</p><p class="n-sub">SQLite au format Linear, un seul module à remplacer</p></div>
+<x-connector class="link" head="end"></x-connector>
+<div class="node rise" style="--i:1"><p class="n-title">Pack JSON</p><p class="n-sub">Instructions, format de sortie, contexte, tâches</p></div>
+<x-connector class="link" head="end"></x-connector>
+<div class="node key rise" style="--i:2"><p class="n-title">API Mistral ou Claude</p><p class="n-sub">Par défaut ; par paquets, sortie JSON imposée</p></div>
+<x-connector class="link" head="end"></x-connector>
+<div class="node rise" style="--i:3"><p class="n-title">Vérification</p><p class="n-sub">Format, cibles, citations mot pour mot</p></div>
+<x-connector class="link" head="end"></x-connector>
+<div class="node rise" style="--i:4"><p class="n-title">Import, puis Linear</p><p class="n-sub">Sur décision de la PO</p></div>
+</div>
+<div class="fallback rise" style="--i:5">
+<div class="node"><p class="n-title">Repli : skill Claude Code</p><p class="n-sub">Pas de clé ou clé refusée : même pack, même vérification</p></div>
+</div>
+<p style="max-width:1500px">Le format et la vérification ne dépendent pas du moteur : changer de moteur ne change que le transport.</p>
+<div class="footer"><span>Python · SQLite · Streamlit</span><span class="num"></span></div>
+<aside>1:30. L’API par défaut, le skill en repli. Le fournisseur suit le modèle choisi dans les Réglages : Mistral Large par défaut (la clé disponible), Claude au choix. Le pack est auto-suffisant (« le fichier est le skill ») : n’importe quel agent peut le traiter. Le skill est l’architecture qui tourne en production sur saxobeat (257 tâches sur 258 traitées). La démo simule le flux API : aucun appel, rien n’est facturé, et le bandeau le dit.</aside>
+</section>
